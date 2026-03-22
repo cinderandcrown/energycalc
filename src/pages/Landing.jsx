@@ -78,6 +78,27 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground">
 
+      {/* Oil pour entrance animation */}
+      <motion.div
+        className="fixed inset-0 z-[200] pointer-events-none"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.4, delay: 0.7 }}
+      >
+        <motion.div
+          className="absolute inset-x-0 top-0 bg-gradient-to-b from-[#1a0f00] via-[#2a1800]/90 to-transparent"
+          initial={{ height: "100vh" }}
+          animate={{ height: "0vh" }}
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        />
+        <motion.div
+          className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-transparent via-crude-gold/60 to-transparent"
+          initial={{ top: "100%", opacity: 1 }}
+          animate={{ top: "-5%", opacity: 0 }}
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        />
+      </motion.div>
+
       {/* ═══════ NAVIGATION ═══════ */}
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
