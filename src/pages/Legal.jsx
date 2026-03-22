@@ -405,7 +405,7 @@ ASSIGNMENT
 You may not assign or transfer this Agreement or any rights hereunder without the prior written consent of ${COMPANY_ENTITY}. ${COMPANY_ENTITY} may assign this Agreement without restriction.
 
 FORCE MAJEURE
-${COMPANY_ENTITY} shall not be liable for any failure or delay in performance resulting from causes beyond its reasonable control, including but not limited to acts of God, natural disasters, pandemic, war, terrorism, government actions, power failures, internet disruptions, or third-party service provider failures.
+${COMPANY_ENTITY} shall not be liable for any failure or delay in performance resulting from causes beyond its reasonable control, including but not limited to acts of God, natural disasters, pandemic, epidemic, war, terrorism, civil unrest, sanctions, embargoes, government actions or orders, regulatory changes, power failures, internet or telecommunications disruptions, cyberattacks, commodity price disruptions, OPEC+ production decisions, refinery outages, pipeline disruptions, environmental events, or third-party service provider failures.
 
 NOTICES
 All legal notices to ${COMPANY_ENTITY} must be sent to ${CONTACT_LEGAL}. Notices to you will be sent to the email address associated with your account.
@@ -419,8 +419,14 @@ Section headings are for convenience only and shall not affect the interpretatio
 NO THIRD-PARTY BENEFICIARIES
 This Agreement does not create any third-party beneficiary rights in any person or entity, except as expressly stated herein.
 
+NO FIDUCIARY DUTY
+Nothing in this Agreement or on the Platform shall be construed to create a fiduciary relationship, joint venture, partnership, employment relationship, agency relationship, or relationship of trust or confidence between you and ${COMPANY_ENTITY}. ${COMPANY_ENTITY} owes no fiduciary duty, duty of loyalty, duty of care, or any other duty to any user of the Platform.
+
 CONSTRUCTION
-This Agreement shall not be construed against ${COMPANY_ENTITY} merely because ${COMPANY_ENTITY} drafted it. Both parties have had the opportunity to review these terms.`
+This Agreement shall not be construed against ${COMPANY_ENTITY} merely because ${COMPANY_ENTITY} drafted it. Both parties have had the opportunity to review these terms and have been advised to seek independent legal counsel.
+
+CUMULATIVE REMEDIES
+All rights and remedies provided in this Agreement are cumulative and not exclusive of any other rights or remedies available at law or in equity.`
   },
 ];
 
