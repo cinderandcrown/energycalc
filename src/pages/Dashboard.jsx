@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
@@ -66,10 +66,11 @@ const typePaths = {
   rate_of_return: "/calc/rate-of-return",
 };
 
-const priceData = [
-  { label: "WTI Crude", price: "70.14", unit: "/bbl", change: "+0.83%", up: true },
-  { label: "Brent Crude", price: "74.28", unit: "/bbl", change: "+0.61%", up: true },
-  { label: "Henry Hub Gas", price: "3.42", unit: "/MMBtu", change: "-1.24%", up: false },
+const defaultPriceData = [
+  { label: "WTI Crude", price: 70.14, unit: "/bbl", changePct: 0.83 },
+  { label: "Brent Crude", price: 74.28, unit: "/bbl", changePct: 0.61 },
+  { label: "Henry Hub Gas", price: 3.42, unit: "/MMBtu", changePct: -1.24 },
+  { label: "LNG (Japan/Korea)", price: 14.50, unit: "/MMBtu", changePct: 0.35 },
 ];
 
 const taxAdvantages = [
