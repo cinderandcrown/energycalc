@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap } from "lucide-react";
+import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { Link } from "react-router-dom";
 
 export default function Settings() {
   const [user, setUser] = useState(null);
@@ -131,17 +132,23 @@ export default function Settings() {
       <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
         <div className="flex items-center gap-2 pb-2 border-b border-border mb-2">
           <Shield className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-foreground">Legal</h2>
+          <h2 className="text-sm font-semibold text-foreground">Legal & Compliance</h2>
         </div>
-        {["Terms of Service", "Privacy Policy", "Disclaimer"].map((item) => (
-          <button key={item} className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
-            {item}
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          </button>
-        ))}
+        <Link to="/legal" className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+          Privacy Policy
+          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+        </Link>
+        <Link to="/legal" className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+          Terms of Use
+          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+        </Link>
+        <Link to="/legal" className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+          Full Legal Disclosures
+          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+        </Link>
         <div className="pt-3 border-t border-border mt-3">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            EnergyCalc Pro is for informational purposes only. Results do not constitute tax, legal, or investment advice. Always consult a qualified CPA or financial advisor.
+            <strong className="text-foreground">EnergyCalc Pro is not a registered broker-dealer, investment advisor, or FINRA member.</strong> All calculations are illustrative estimates only and do not constitute investment advice, tax advice, or a securities solicitation. Oil &amp; gas investments involve substantial risk including loss of principal. Always consult a licensed CPA, securities attorney, or registered investment advisor.
           </p>
         </div>
       </div>
