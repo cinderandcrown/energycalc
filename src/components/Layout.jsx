@@ -79,6 +79,8 @@ export default function Layout() {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(true);
   const [mobileCalcOpen, setMobileCalcOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerCalcOpen, setDrawerCalcOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('energycalc-theme');
@@ -87,8 +89,22 @@ export default function Layout() {
     document.documentElement.classList.toggle('dark', isDark);
   }, []);
 
+  // Close drawer on route change
+  useEffect(() => {
+    setDrawerOpen(false);
+    setMobileCalcOpen(false);
+  }, [location.pathname]);
+
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
   const isCalcActive = calcPaths.some(p => location.pathname === p);
+
+  // Primary mobile tabs (5 most important for small screens)
+  const mobileTabItems = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Home' },
+    { path: '/markets', icon: BarChart3, label: 'Markets' },
+    { path: '/portfolio', icon: PieChart, label: 'Portfolio' },
+    { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
+  ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -104,12 +120,12 @@ export default function Layout() {
               <span className="font-bold text-sm tracking-tight">
                 <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
               </span>
-              <span className="block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Commodity Energy Intelligence</span>
+              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Commodity Energy Intelligence</span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          {/* Desktop Nav (lg and up) */}
+          <nav className="hidden lg:flex items-center gap-1">
             <Link
               to="/dashboard"
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
@@ -150,18 +166,121 @@ export default function Layout() {
               </Link>
             ))}
           </nav>
+
+          {/* Tablet hamburger (sm to lg) */}
+          <button
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            className="hidden sm:flex lg:hidden items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+          >
+            {drawerOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </header>
 
+      {/* Tablet Drawer Overlay */}
+      {drawerOpen && (
+        <div className="hidden sm:block lg:hidden fixed inset-0 z-40" onClick={() => setDrawerOpen(false)}>
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        </div>
+      )}
+
+      {/* Tablet Slide-out Drawer */}
+      <div className={`hidden sm:flex lg:hidden fixed top-14 right-0 bottom-0 z-40 w-72 flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+          {/* Main nav items */}
+          <Link
+            to="/dashboard"
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              isActive('/dashboard')
+                ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+            }`}
+          >
+            <LayoutDashboard className="w-4.5 h-4.5" />
+            Dashboard
+          </Link>
+          <Link
+            to="/markets"
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              isActive('/markets')
+                ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+            }`}
+          >
+            <BarChart3 className="w-4.5 h-4.5" />
+            Markets
+          </Link>
+
+          {/* Calculators expandable */}
+          <div>
+            <button
+              onClick={() => setDrawerCalcOpen(!drawerCalcOpen)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                isCalcActive
+                  ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              <Calculator className="w-4.5 h-4.5" />
+              <span className="flex-1 text-left">Calculators</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${drawerCalcOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {drawerCalcOpen && (
+              <div className="ml-4 mt-1 space-y-0.5 border-l-2 border-border pl-3">
+                {calcItems.map(({ path, icon: Icon, label, desc }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
+                      isActive(path)
+                        ? 'text-primary dark:text-accent font-medium'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <div>
+                      <p className="text-sm leading-tight">{label}</p>
+                      <p className="text-[10px] text-muted-foreground">{desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Remaining nav */}
+          {navItems.slice(2).map(({ path, icon: Icon, label }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                isActive(path)
+                  ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              <Icon className="w-4.5 h-4.5" />
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Drawer footer */}
+        <div className="border-t border-border px-4 py-3 space-y-1">
+          <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2 block">Legal & Privacy</Link>
+          <p className="text-[10px] text-muted-foreground">© {new Date().getFullYear()} EnergyCalc Pro</p>
+        </div>
+      </div>
+
       {/* Main Content */}
-      <main className="flex-1 pb-20 md:pb-0">
+      <main className="flex-1 pb-20 sm:pb-0">
         <OilPourTransition>
           <Outlet />
         </OilPourTransition>
       </main>
 
-      {/* Desktop Legal Footer */}
-      <footer className="hidden md:block border-t border-border bg-card/50 py-2 px-4">
+      {/* Desktop/Tablet Legal Footer */}
+      <footer className="hidden sm:block border-t border-border bg-card/50 py-2 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-2">
           <p className="text-[10px] text-muted-foreground">
             © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
@@ -173,8 +292,8 @@ export default function Layout() {
         </div>
       </footer>
 
-      {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
+      {/* Mobile Bottom Nav (phones only, < sm/640px) */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
         {/* Mobile Calc Sub-menu */}
         {mobileCalcOpen && (
           <div className="border-b border-border bg-card grid grid-cols-2 gap-px bg-border">
@@ -194,23 +313,18 @@ export default function Layout() {
           </div>
         )}
 
-        <div className="grid grid-cols-10">
-          {/* Dashboard */}
-          <Link
-            to="/dashboard"
-            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive('/dashboard') ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
-          >
-            <LayoutDashboard className="w-5 h-5" />
-            <span className="text-[10px]">Home</span>
-          </Link>
-          {/* Markets */}
-          <Link
-            to="/markets"
-            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive('/markets') ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
-          >
-            <BarChart3 className="w-5 h-5" />
-            <span className="text-[10px]">Markets</span>
-          </Link>
+        <div className="grid grid-cols-6">
+          {/* Primary tabs */}
+          {mobileTabItems.map(({ path, icon: Icon, label }) => (
+            <Link
+              key={path}
+              to={path}
+              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+            >
+              <Icon className="w-5 h-5" />
+              <span className="text-[10px]">{label}</span>
+            </Link>
+          ))}
           {/* Calculators toggle */}
           <button
             onClick={() => setMobileCalcOpen(!mobileCalcOpen)}
@@ -219,19 +333,66 @@ export default function Layout() {
             <Calculator className="w-5 h-5" />
             <span className="text-[10px]">Calc</span>
           </button>
-          {/* Rest */}
-          {navItems.slice(2).map(({ path, icon: Icon, label }) => (
+          {/* More menu - opens drawer on phone */}
+          <button
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${drawerOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+          >
+            <Menu className="w-5 h-5" />
+            <span className="text-[10px]">More</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Phone drawer (reuse same drawer for "More" on phones) */}
+      {drawerOpen && (
+        <div className="sm:hidden fixed inset-0 z-40" onClick={() => setDrawerOpen(false)}>
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        </div>
+      )}
+      <div className={`sm:hidden fixed top-0 right-0 bottom-0 z-40 w-72 flex flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex items-center justify-between px-4 h-14 border-b border-border">
+          <span className="font-bold text-sm text-foreground">Menu</span>
+          <button onClick={() => setDrawerOpen(false)} className="p-1.5 text-muted-foreground hover:text-foreground">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
+          {[{ path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' }, { path: '/markets', icon: BarChart3, label: 'Markets' }, ...navItems.slice(2)].map(({ path, icon: Icon, label }) => (
             <Link
               key={path}
               to={path}
-              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-all duration-200 ${isActive(path) ? 'text-primary dark:text-accent scale-105' : 'text-muted-foreground active:scale-95'}`}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                isActive(path)
+                  ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="text-[10px]">{label}</span>
+              <Icon className="w-4.5 h-4.5" />
+              {label}
             </Link>
           ))}
+          {/* Calculators */}
+          <div className="pt-2 border-t border-border mt-2">
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold px-3 mb-1">Calculators</p>
+            {calcItems.map(({ path, icon: Icon, label }) => (
+              <Link
+                key={path}
+                to={path}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  isActive(path) ? 'text-primary dark:text-accent font-medium' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                {label}
+              </Link>
+            ))}
+          </div>
         </div>
-      </nav>
+        <div className="border-t border-border px-4 py-3">
+          <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2 block">Legal & Privacy</Link>
+        </div>
+      </div>
     </div>
   );
 }
