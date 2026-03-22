@@ -11,20 +11,25 @@ const calcItems = [
   { path: '/calc/rate-of-return', icon: Percent, label: 'Rate of Return', desc: 'IRR & payout analysis' },
 ];
 
-const navItems = [
+const primaryNav = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/markets', icon: BarChart3, label: 'Markets' },
   { path: '/intelligence', icon: Activity, label: 'Intelligence' },
   { path: '/portfolio', icon: PieChart, label: 'Portfolio' },
-  { path: '/honest-guide', icon: Scale, label: 'Honest Guide' },
   { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
-  { path: '/operator-screener', icon: Search, label: 'Vet' },
-  { path: '/tax-strategies', icon: Landmark, label: 'Tax' },
+];
+
+const moreNav = [
+  { path: '/honest-guide', icon: Scale, label: 'Honest Guide' },
+  { path: '/operator-screener', icon: Search, label: 'Vet Operator' },
+  { path: '/tax-strategies', icon: Landmark, label: 'Tax Strategies' },
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/web3', icon: Blocks, label: 'Web3' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
+
+const navItems = [...primaryNav, ...moreNav];
 
 const calcPaths = calcItems.map(c => c.path);
 
