@@ -99,7 +99,7 @@ export default function Layout() {
               <span className="font-bold text-sm tracking-tight">
                 <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
               </span>
-              <span className="block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Oil &amp; Gas Intelligence</span>
+              <span className="block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Commodity Energy Intelligence</span>
             </div>
           </Link>
 

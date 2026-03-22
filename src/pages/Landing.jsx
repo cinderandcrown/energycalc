@@ -72,12 +72,12 @@ const CONSULTING = [
 ];
 
 const FEATURES = [
-  { icon: Calculator, title: "4 Specialized Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, and Rate of Return — purpose-built for oil & gas deal structures." },
-  { icon: ShieldAlert, title: "Investor Protection Center", desc: "AI-powered PPM red flag analyzer, fraud pattern library, due diligence checklists, and reporting resources." },
-  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time WTI, Brent, and Henry Hub pricing with AI-generated market commentary and sector sentiment." },
-  { icon: BookOpen, title: "Complete Knowledge Base", desc: "57 defined industry terms, 26 expert FAQs — from IDCs and depletion to basin geology and Reg D compliance." },
-  { icon: TrendingUp, title: "Scenario Management", desc: "Save, compare, and favorite calculations. Model best-case, base-case, and worst-case deal outcomes." },
-  { icon: Zap, title: "Tax Optimization Tools", desc: "Instantly model your after-tax cost with IDC deductions, percentage depletion, and MACRS depreciation schedules." },
+  { icon: Calculator, title: "4 Specialized Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, and Rate of Return — purpose-built for commodity energy deal structures." },
+  { icon: ShieldAlert, title: "Investor Protection Center", desc: "AI-powered PPM red flag analyzer, fraud pattern library, due diligence checklists, and reporting resources for all energy sectors." },
+  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, uranium, solar index, and more — with AI-generated market commentary and sector sentiment." },
+  { icon: BookOpen, title: "Complete Knowledge Base", desc: "57+ defined industry terms, 26+ expert FAQs — from IDCs and depletion to renewables, uranium, and Reg D compliance." },
+  { icon: TrendingUp, title: "Scenario Management", desc: "Save, compare, and favorite calculations. Model best-case, base-case, and worst-case deal outcomes across energy sectors." },
+  { icon: Zap, title: "Tax Optimization Tools", desc: "Instantly model your after-tax cost with IDC deductions, percentage depletion, ITC/PTC credits, and MACRS depreciation." },
 ];
 
 const CALCS = [
@@ -127,7 +127,7 @@ export default function Landing() {
               <span className="font-bold text-base tracking-tight">
                 <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
               </span>
-              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Pro · Oil &amp; Gas Intelligence</span>
+              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Pro · Commodity Energy Intelligence</span>
             </div>
           </Link>
 
@@ -176,7 +176,7 @@ export default function Landing() {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-center">
             <Badge className="bg-crude-gold/15 text-crude-gold border-crude-gold/25 mb-6 text-xs font-semibold px-4 py-1.5">
-              Built for Oil &amp; Gas Investors
+              Built for Commodity Energy Investors
             </Badge>
           </motion.div>
 
@@ -196,7 +196,7 @@ export default function Landing() {
             transition={{ delay: 0.22 }}
             className="text-center text-white/65 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
           >
-            Professional investment intelligence for oil &amp; gas operators, working interest investors, and energy fund managers. Model tax benefits, analyze PPMs, and protect your capital.
+            Professional investment intelligence for oil, gas, solar, wind, uranium, and commodity-driven energy operators, working interest investors, and fund managers. Model tax benefits, analyze PPMs, and protect your capital.
           </motion.p>
 
           <motion.div
@@ -223,10 +223,10 @@ export default function Landing() {
             className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
           >
             {[
-              { value: "$10B+", label: "Annual oil & gas fraud (FBI)" },
+              { value: "$10B+", label: "Annual energy investment fraud (FBI)" },
               { value: "65–80%", label: "Year-1 tax deduction (typical WI)" },
-              { value: "25–40%", label: "Avg IRR on producing wells" },
-              { value: "57+", label: "Industry terms defined" },
+              { value: "25–40%", label: "Avg IRR on producing assets" },
+              { value: "6+", label: "Commodity sectors covered" },
             ].map((s) => (
               <div key={s.label} className="text-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-3 py-4">
                 <p className="font-mono font-bold text-xl text-crude-gold">{s.value}</p>
@@ -242,7 +242,7 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">4 Calculators. Every Deal Angle.</h2>
-            <p className="text-muted-foreground text-sm">Built around how oil &amp; gas deals actually work.</p>
+            <p className="text-muted-foreground text-sm">Built around how commodity energy deals actually work — oil, gas, and beyond.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {CALCS.map((c, i) => {
@@ -271,7 +271,7 @@ export default function Landing() {
       <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Everything You Need to Invest Smarter</h2>
-          <p className="text-muted-foreground text-sm max-w-xl mx-auto">A full intelligence suite purpose-built for the complexity of oil &amp; gas private placements.</p>
+          <p className="text-muted-foreground text-sm max-w-xl mx-auto">A full intelligence suite purpose-built for commodity-driven energy investments — oil, gas, solar, wind, uranium, and more.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f, i) => {
@@ -417,7 +417,7 @@ export default function Landing() {
       <footer className="border-t border-border bg-card/50 py-6 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[10px] text-muted-foreground text-center sm:text-left leading-relaxed max-w-lg">
-            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Not affiliated with FINRA, SEC, or any regulatory body.
+            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
           </p>
           <div className="flex items-center gap-4">
             <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal &amp; Privacy</Link>
