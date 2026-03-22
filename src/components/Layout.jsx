@@ -1,9 +1,10 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const navItems = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { path: '/markets', icon: BarChart3, label: 'Markets' },
   { path: '/calc/net-investment', icon: Calculator, label: 'Calculators' },
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
@@ -73,7 +74,7 @@ export default function Layout() {
 
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-6">
           {navItems.map(({ path, icon: Icon, label }) => (
             <Link
               key={path}
