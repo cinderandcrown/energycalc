@@ -153,7 +153,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
             <Clock className="w-3 h-3" />
             Updated {lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
             <span className="text-border">·</span>
-            Sourced from OilPrice.com
+            Prices scraped live from OilPrice.com
           </p>
         </div>
         <Button
@@ -241,18 +241,25 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
                     <p className="text-[10px] text-muted-foreground">{item.symbol} · {item.category}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono font-bold text-sm text-foreground">${item.price?.toFixed(2)}</p>
+                    <p className="font-mono font-bold text-sm text-foreground">
+                      {item.price != null ? `$${item.price.toFixed(2)}` : <span className="text-muted-foreground">Loading...</span>}
+                    </p>
                     <p className="text-[10px] text-muted-foreground">{item.unit}</p>
                   </div>
-                  <div className={`flex items-center gap-1 justify-end ${up ? "text-drill-green" : "text-flare-red"}`}>
-                    {up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                    <span className="font-mono text-xs font-semibold">
-                      {up ? "+" : ""}{item.change?.toFixed(3)}
-                    </span>
-                  </div>
-                  <div className={`text-right hidden sm:block font-mono text-xs font-bold px-2 py-0.5 rounded ${up ? "bg-drill-green/10 text-drill-green" : "bg-flare-red/10 text-flare-red"}`}>
-                    {up ? "+" : ""}{item.changePct?.toFixed(2)}%
-                  </div>
+                  {item.price != null && (
+                    <div className={`flex items-center gap-1 justify-end ${up ? "text-drill-green" : "text-flare-red"}`}>
+                      {up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                      <span className="font-mono text-xs font-semibold">
+                        {up ? "+" : ""}{item.change?.toFixed(3)}
+                      </span>
+                    </div>
+                  )}
+                  {item.price == null && <div />}
+                  {item.price != null ? (
+                    <div className={`text-right hidden sm:block font-mono text-xs font-bold px-2 py-0.5 rounded ${up ? "bg-drill-green/10 text-drill-green" : "bg-flare-red/10 text-flare-red"}`}>
+                      {up ? "+" : ""}{item.changePct?.toFixed(2)}%
+                    </div>
+                  ) : <div className="hidden sm:block" />}
                 </motion.div>
               );
             })}
