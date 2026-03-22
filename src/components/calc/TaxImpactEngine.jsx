@@ -92,8 +92,6 @@ export function computeMultiYearModel(params, taxRate) {
     const taxSavings = totalDeductions * taxRate;
     cumulativeTaxSavings += taxSavings;
 
-    // Net income after tax benefit
-    const netIncomeAfterTax = netOperatingIncome + taxSavings;
     cumulativeNetIncome += netOperatingIncome;
 
     // Net cost = total invested - total tax savings - total net income
