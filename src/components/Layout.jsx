@@ -1,21 +1,78 @@
+import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent } from 'lucide-react';
+
+const calcItems = [
+  { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
+  { path: '/calc/barrels-to-cash', icon: BarChart2, label: 'Barrels to Cash', desc: 'Oil production revenue' },
+  { path: '/calc/natgas-to-cash', icon: Flame, label: 'Nat Gas to Cash', desc: 'Gas & NGL income' },
+  { path: '/calc/rate-of-return', icon: Percent, label: 'Rate of Return', desc: 'IRR & payout analysis' },
+];
 
 const navItems = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/markets', icon: BarChart3, label: 'Markets' },
-  { path: '/calc/net-investment', icon: Calculator, label: 'Calculators' },
   { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
-const calcPaths = ['/calc/net-investment', '/calc/barrels-to-cash', '/calc/natgas-to-cash', '/calc/rate-of-return'];
+const calcPaths = calcItems.map(c => c.path);
+
+function CalcDropdown({ isCalcActive }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+          isCalcActive
+            ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
+            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+        }`}
+      >
+        <Calculator className="w-4 h-4" />
+        Calculators
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div className="absolute top-full left-0 mt-1.5 w-56 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden">
+          {calcItems.map(({ path, icon: Icon, label, desc }) => (
+            <Link
+              key={path}
+              to={path}
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 px-3 py-2.5 hover:bg-muted/50 transition-colors"
+            >
+              <div className="w-7 h-7 rounded-lg bg-primary/10 dark:bg-accent/10 flex items-center justify-center mt-0.5 shrink-0">
+                <Icon className="w-3.5 h-3.5 text-primary dark:text-accent" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-foreground">{label}</p>
+                <p className="text-xs text-muted-foreground">{desc}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Layout() {
   const location = useLocation();
   const [darkMode, setDarkMode] = useState(true);
+  const [mobileCalcOpen, setMobileCalcOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('energycalc-theme');
@@ -24,12 +81,8 @@ export default function Layout() {
     document.documentElement.classList.toggle('dark', isDark);
   }, []);
 
-  const isActive = (path) => {
-    if (path === '/calc/net-investment') {
-      return calcPaths.some(p => location.pathname === p);
-    }
-    return location.pathname === path || location.pathname.startsWith(path + '/');
-  };
+  const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
+  const isCalcActive = calcPaths.some(p => location.pathname === p);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -47,9 +100,35 @@ export default function Layout() {
               <span className="block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Oil &amp; Gas Intelligence</span>
             </div>
           </Link>
+
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {navItems.map(({ path, icon: Icon, label }) => (
+            <Link
+              to="/dashboard"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                isActive('/dashboard')
+                  ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              Dashboard
+            </Link>
+            <Link
+              to="/markets"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                isActive('/markets')
+                  ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4" />
+              Markets
+            </Link>
+
+            <CalcDropdown isCalcActive={isCalcActive} />
+
+            {navItems.slice(2).map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
                 to={path}
@@ -74,16 +153,56 @@ export default function Layout() {
 
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
+        {/* Mobile Calc Sub-menu */}
+        {mobileCalcOpen && (
+          <div className="border-b border-border bg-card grid grid-cols-2 gap-px bg-border">
+            {calcItems.map(({ path, icon: Icon, label }) => (
+              <Link
+                key={path}
+                to={path}
+                onClick={() => setMobileCalcOpen(false)}
+                className={`flex items-center gap-2 px-3 py-2.5 bg-card transition-colors ${
+                  isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'
+                }`}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                <span className="text-xs font-medium">{label}</span>
+              </Link>
+            ))}
+          </div>
+        )}
+
         <div className="grid grid-cols-7">
-          {navItems.map(({ path, icon: Icon, label }) => (
+          {/* Dashboard */}
+          <Link
+            to="/dashboard"
+            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive('/dashboard') ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+          >
+            <LayoutDashboard className="w-5 h-5" />
+            <span className="text-[10px]">Home</span>
+          </Link>
+          {/* Markets */}
+          <Link
+            to="/markets"
+            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive('/markets') ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+          >
+            <BarChart3 className="w-5 h-5" />
+            <span className="text-[10px]">Markets</span>
+          </Link>
+          {/* Calculators toggle */}
+          <button
+            onClick={() => setMobileCalcOpen(!mobileCalcOpen)}
+            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isCalcActive || mobileCalcOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+          >
+            <Calculator className="w-5 h-5" />
+            <span className="text-[10px]">Calc</span>
+          </button>
+          {/* Rest */}
+          {navItems.slice(2).map(({ path, icon: Icon, label }) => (
             <Link
               key={path}
               to={path}
-              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${
-                isActive(path)
-                  ? 'text-primary dark:text-accent'
-                  : 'text-muted-foreground'
-              }`}
+              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
             >
               <Icon className="w-5 h-5" />
               <span className="text-[10px]">{label}</span>
