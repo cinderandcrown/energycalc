@@ -94,9 +94,7 @@ export default function Layout() {
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-petroleum to-[#1a3a6b] border border-crude-gold/30 flex items-center justify-center shrink-0">
-              <span className="text-crude-gold text-sm font-bold leading-none">⚡</span>
-            </div>
+            <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-8 h-8 rounded-lg shrink-0 object-contain" />
             <div className="leading-none">
               <span className="font-bold text-sm tracking-tight">
                 <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
