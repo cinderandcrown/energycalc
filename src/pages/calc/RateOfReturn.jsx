@@ -82,11 +82,12 @@ export default function RateOfReturn() {
     const simpleROI = ((totalRevenue - netInvestment) / netInvestment) * 100;
     // Cash-on-cash uses initial month income (before decline) as a snapshot metric
     const monthlyCashOnCash = (combinedMonthly / netInvestment) * 100;
-    // Simple annualized total return (lump-sum approximation — not time-weighted)
-    // This treats total revenue as if received as a single future value. For true time-weighted
-    // return, use IRR above. This metric is kept for quick comparison purposes only.
+    // Simple annualized return: total net profit / investment / years × 100
+    // This is an average annual return on invested capital (not compounded).
+    // For compounded return, use IRR above.
     const years = timeHorizon / 12;
-    const annualizedReturn = years > 0 ? (Math.pow(totalRevenue / netInvestment, 1 / years) - 1) * 100 : 0;
+    const netProfit = totalRevenue - netInvestment;
+    const annualizedReturn = years > 0 && netInvestment > 0 ? (netProfit / netInvestment / years) * 100 : 0;
 
     // IRR (monthly, annualize)
     let monthlyIRR = null;
@@ -208,7 +209,7 @@ export default function RateOfReturn() {
           <div className="grid grid-cols-2 gap-3">
             <ResultCard label="Total Revenue" value={results.totalRevenue} positive={results.totalRevenue > inputs.netInvestment} />
             <ResultCard label="Monthly Cash-on-Cash" value={results.monthlyCashOnCash} prefix="" suffix="%" />
-            <ResultCard label="Simple Annualized Return" value={results.annualizedReturn} prefix="" suffix="%" positive={results.annualizedReturn > 0} />
+            <ResultCard label="Avg. Annual Return" value={results.annualizedReturn} prefix="" suffix="%" positive={results.annualizedReturn > 0} />
             <ResultCard
               label="IRR (Annual)"
               value={results.annualIRR ?? 0}
