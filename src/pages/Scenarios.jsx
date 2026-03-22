@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus, GitCompareArrows } from "lucide-react";
+import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus, GitCompareArrows, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
+import DealAnalysis from "../components/scenarios/DealAnalysis";
 
 const typeLabels = {
   net_investment: "Net Investment",
@@ -144,7 +145,7 @@ export default function Scenarios() {
   );
 }
 
-function CalcList({ items, onToggleFav, onDelete }) {
+function CalcList({ items, onToggleFav, onDelete, analyzingId, onAnalyze }) {
   return (
     <div className="space-y-2">
       <AnimatePresence>
@@ -185,9 +186,12 @@ function CalcList({ items, onToggleFav, onDelete }) {
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="w-7 h-7 text-muted-foreground hover:text-destructive">
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </Button>
+                    <Button variant="ghost" size="icon" className="w-7 h-7 text-crude-gold" onClick={() => onAnalyze(analyzingId === calc.id ? null : calc.id)} title="AI Deal Analysis">
+                           <Zap className="w-3.5 h-3.5" />
+                         </Button>
+                         <Button variant="ghost" size="icon" className="w-7 h-7 text-muted-foreground hover:text-destructive">
+                           <Trash2 className="w-3.5 h-3.5" />
+                         </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
