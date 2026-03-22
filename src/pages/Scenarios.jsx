@@ -185,14 +185,14 @@ function CalcList({ items, onToggleFav, onDelete, analyzingId, onAnalyze }) {
                 <Button variant="ghost" size="icon" className="w-7 h-7" onClick={() => onToggleFav(calc)}>
                   <Star className={`w-3.5 h-3.5 ${calc.is_favorite ? "text-crude-gold fill-crude-gold" : "text-muted-foreground"}`} />
                 </Button>
+                <Button variant="ghost" size="icon" className="w-7 h-7 text-crude-gold" onClick={() => onAnalyze(analyzingId === calc.id ? null : calc.id)} title="AI Deal Analysis">
+                  <Zap className="w-3.5 h-3.5" />
+                </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="w-7 h-7 text-crude-gold" onClick={() => onAnalyze(analyzingId === calc.id ? null : calc.id)} title="AI Deal Analysis">
-                           <Zap className="w-3.5 h-3.5" />
-                         </Button>
-                         <Button variant="ghost" size="icon" className="w-7 h-7 text-muted-foreground hover:text-destructive">
-                           <Trash2 className="w-3.5 h-3.5" />
-                         </Button>
+                    <Button variant="ghost" size="icon" className="w-7 h-7 text-muted-foreground hover:text-destructive">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
