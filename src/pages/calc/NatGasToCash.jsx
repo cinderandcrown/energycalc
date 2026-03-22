@@ -7,6 +7,8 @@ import { ResultCard, HeroResultCard } from "@/components/ui/ResultCard";
 import CalcActionBar from "@/components/CalcActionBar";
 import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
+import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 
 const DEFAULTS = {
   workingInterest: 0.01,
