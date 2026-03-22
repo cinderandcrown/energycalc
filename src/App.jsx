@@ -18,6 +18,7 @@ import BarrelsToCash from './pages/calc/BarrelsToCash';
 import NatGasToCash from './pages/calc/NatGasToCash';
 import RateOfReturn from './pages/calc/RateOfReturn';
 import Scenarios from './pages/Scenarios';
+import Compare from './pages/Compare';
 import Learn from './pages/Learn';
 import Settings from './pages/Settings';
 import Markets from './pages/Markets';
@@ -70,6 +71,7 @@ function App() {
               <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
               <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
               <Route path="/scenarios" element={<Scenarios />} />
+              <Route path="/compare" element={<Compare />} />
               <Route path="/learn" element={<Learn />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/investor-protection" element={<InvestorProtection />} />

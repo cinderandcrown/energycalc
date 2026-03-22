@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus } from "lucide-react";
+import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -94,12 +94,22 @@ export default function Scenarios() {
           <h1 className="text-xl font-bold text-foreground">My Scenarios</h1>
           <p className="text-sm text-muted-foreground mt-0.5">{calculations.length} saved calculation{calculations.length !== 1 ? "s" : ""}</p>
         </div>
-        <Link to="/calc/net-investment">
-          <Button size="sm" className="gap-1.5">
-            <FolderPlus className="w-4 h-4" />
-            New Calc
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          {calculations.length >= 2 && (
+            <Link to="/compare">
+              <Button size="sm" variant="outline" className="gap-1.5">
+                <GitCompareArrows className="w-4 h-4" />
+                Compare
+              </Button>
+            </Link>
+          )}
+          <Link to="/calc/net-investment">
+            <Button size="sm" className="gap-1.5">
+              <FolderPlus className="w-4 h-4" />
+              New Calc
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {calculations.length === 0 && (
