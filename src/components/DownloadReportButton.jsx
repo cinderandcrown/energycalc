@@ -3,7 +3,6 @@ import { base44 } from "@/api/base44Client";
 import { FileDown, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { appParams } from "@/lib/app-params";
 
 export default function DownloadReportButton({ calcType, inputs, results, size = "sm" }) {
   const [loading, setLoading] = useState(false);
@@ -15,32 +14,19 @@ export default function DownloadReportButton({ calcType, inputs, results, size =
     delete cleanResults.months;
     delete cleanResults.chartData;
 
-    // Use direct fetch for binary PDF response
-    const response = await base44.functions.invoke("generateReport", {
-      calcType,
-      inputs,
-      results: cleanResults,
-    });
-
-    // The response.data may be base64 or text - let's use a workaround
-    // Re-fetch the function URL directly with blob response
-    const funcUrl = `${appParams.appBaseUrl || ''}/api/functions/generateReport`;
-    const fetchRes = await fetch(funcUrl, {
+    const response = await base44.functions.fetch("generateReport", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${appParams.token}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ calcType, inputs, results: cleanResults }),
     });
 
-    if (!fetchRes.ok) {
-      toast({ title: "Error", description: "Failed to generate report. Please try again.", variant: "destructive" });
+    if (!response.ok) {
+      toast({ title: "Error", description: "Failed to generate report.", variant: "destructive" });
       setLoading(false);
       return;
     }
 
-    const blob = await fetchRes.blob();
+    const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
