@@ -67,10 +67,10 @@ const typePaths = {
 };
 
 const defaultPriceData = [
-  { label: "WTI Crude", price: 70.14, unit: "/bbl", changePct: 0.83 },
-  { label: "Brent Crude", price: 74.28, unit: "/bbl", changePct: 0.61 },
-  { label: "Henry Hub Gas", price: 3.42, unit: "/MMBtu", changePct: -1.24 },
-  { label: "LNG (Japan/Korea)", price: 14.50, unit: "/MMBtu", changePct: 0.35 },
+  { label: "WTI Crude", price: null, unit: "/bbl", changePct: 0 },
+  { label: "Brent Crude", price: null, unit: "/bbl", changePct: 0 },
+  { label: "Natural Gas", price: null, unit: "/MMBtu", changePct: 0 },
+  { label: "Heating Oil", price: null, unit: "/gal", changePct: 0 },
 ];
 
 const taxAdvantages = [
