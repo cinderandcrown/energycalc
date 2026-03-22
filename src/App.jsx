@@ -16,6 +16,7 @@ import RateOfReturn from './pages/calc/RateOfReturn';
 import Scenarios from './pages/Scenarios';
 import Learn from './pages/Learn';
 import Settings from './pages/Settings';
+import Markets from './pages/Markets';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -45,6 +46,7 @@ const AuthenticatedApp = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/markets" element={<Markets />} />
         <Route path="/calc/net-investment" element={<NetInvestment />} />
         <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
         <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
