@@ -238,6 +238,8 @@ export default function NatGasToCash() {
         </table>
       </div>
 
+      <GeoDueDiligence calcType="natgas_to_cash" />
+      <AIWellEvaluator />
       <DisclaimerFooter />
 
       <SaveCalcModal

@@ -237,6 +237,8 @@ export default function RateOfReturn() {
         </ResponsiveContainer>
       </div>
 
+      <GeoDueDiligence calcType="rate_of_return" />
+      <AIWellEvaluator />
       <DisclaimerFooter />
 
       <SaveCalcModal

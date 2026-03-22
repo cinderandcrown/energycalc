@@ -189,6 +189,8 @@ export default function BarrelsToCash() {
         </table>
       </div>
 
+      <GeoDueDiligence calcType="barrels_to_cash" />
+      <AIWellEvaluator />
       <DisclaimerFooter />
 
       <SaveCalcModal

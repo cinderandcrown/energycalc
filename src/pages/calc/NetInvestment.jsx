@@ -212,6 +212,8 @@ export default function NetInvestment() {
         </div>
       </div>
 
+      <GeoDueDiligence calcType="net_investment" />
+      <AIWellEvaluator />
       <DisclaimerFooter />
 
       <SaveCalcModal
