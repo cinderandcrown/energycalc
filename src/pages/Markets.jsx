@@ -38,13 +38,17 @@ export default function Markets() {
       const result = await base44.integrations.Core.InvokeLLM({
         prompt: `You are an energy market analyst. Provide current oil and gas market intelligence as of today (${new Date().toDateString()}).
 
+CRITICAL: Source your commodity price data from https://oilprice.com/ and the oilprice.com RSS feed at https://oilprice.com/rss/main — these are the authoritative prices. Match the prices shown on oilprice.com as closely as possible. Do NOT use stale or estimated prices.
+
 Return a JSON object with:
 1. "prices": array of 8 commodities with fields: label, symbol, price (number), change (number, can be negative), changePct (number, can be negative), unit, category ("Oil"|"Gas"|"Refined"|"US Blend")
    Include: WTI Crude, Brent Crude, Natural Gas (Henry Hub), Gasoline RBOB, Heating Oil, Eagle Ford, WTI Midland, LNG
+   Prices MUST reflect the latest values from oilprice.com.
 2. "news": array of 8 recent energy market headlines with fields: headline (string, max 90 chars), summary (string, max 160 chars), age (string like "2h ago" or "1 day ago"), category ("Oil"|"Gas"|"Geopolitics"|"Markets"|"Policy"), sentiment ("bullish"|"bearish"|"neutral")
+   Source headlines from the oilprice.com RSS feed and recent oilprice.com articles.
 3. "summary": object with fields: marketMood ("bullish"|"bearish"|"volatile"|"stable"), opecStance (string, 1 sentence), keyDriver (string, 1 sentence about the main price driver today), outlook (string, 1 sentence)
 
-Use real market knowledge and recent trends. Be precise with numbers.`,
+Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
         add_context_from_internet: true,
         response_json_schema: {
           type: "object",
@@ -143,7 +147,7 @@ Use real market knowledge and recent trends. Be precise with numbers.`,
             <Clock className="w-3 h-3" />
             Updated {lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
             <span className="text-border">·</span>
-            AI-powered via live market data
+            Sourced from OilPrice.com
           </p>
         </div>
         <Button
