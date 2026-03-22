@@ -563,7 +563,7 @@ export default function Legal() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {[
               { name: "SEC — Investor Education", url: "https://www.sec.gov/investor" },
-              { name: "SEC EDGAR — Company Filings", url: "https://efts.sec.gov/LATEST/search-index?q=%22oil%20and%20gas%22&dateRange=custom" },
+              { name: "SEC EDGAR — Company Filings", url: "https://efts.sec.gov/LATEST/search-index?q=&dateRange=custom" },
               { name: "FINRA — Investor Education", url: "https://www.finra.org/investors" },
               { name: "FINRA BrokerCheck", url: "https://brokercheck.finra.org/" },
               { name: "NASAA — State Securities Regulators", url: "https://www.nasaa.org/" },
