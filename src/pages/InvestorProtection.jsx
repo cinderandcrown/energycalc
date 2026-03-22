@@ -24,6 +24,30 @@ const ppmRedFlags = [
       { label: "Promote fee exceeds 20% of total deal", critical: false, explanation: "A 20–25% promote is standard. Anything above means the operator is taking an excessive override before investors see returns." },
       { label: "AFE (Authorization for Expenditure) is vague or absent", critical: true, explanation: "Without a line-item AFE, the operator can charge whatever they want to the well. This is how cost overruns become theft." },
       { label: "Payout structure favors operator before investor return of capital", critical: true, explanation: "Investors should receive 100% of net revenue until capital is returned. If the operator takes distributions before payout, run." },
+      { label: "Turnkey price significantly exceeds AFE line-item total (JV deals)", critical: true, explanation: "In JV turnkey deals, compare the turnkey price to actual drilling costs. A >20% markup means the operator is profiting upfront before any production." },
+      { label: "GP total fee load exceeds 25% of invested capital (LP deals)", critical: true, explanation: "Add up ALL GP fees: management, acquisition, drilling supervision, overhead, disposition, and carry. If total GP take exceeds 25% before LP payout, the economics are stacked against you." },
+    ]
+  },
+  {
+    category: "LP-Specific Red Flags",
+    icon: Users,
+    flags: [
+      { label: "'Blind pool' — wells not identified at time of investment", critical: true, explanation: "If the GP hasn't identified specific prospects, you're giving them a blank check. Demand prospect details, target formations, and offset well data before committing." },
+      { label: "Open-ended capital call provisions with no cap", critical: true, explanation: "An uncapped capital call means the GP can demand more money for 'completion costs' or 'workovers' with no limit. Your exposure is theoretically unlimited." },
+      { label: "GP defines 'payout' to include their own fees and overhead", critical: true, explanation: "If GP overhead is included in the payout calculation, LPs must cover the GP's costs before seeing returns. Payout should be based on LP invested capital only." },
+      { label: "No LP advisory committee or investor vote on major decisions", critical: false, explanation: "Best-practice LP agreements include an advisory committee that must approve wells, dispositions, and expenditures above a threshold. Without one, the GP has unchecked authority." },
+      { label: "GP retains >25% carried interest through completion", critical: false, explanation: "A 15–20% GP carry is standard in drilling programs. Above 25% means the GP has significant free upside on your capital with no proportional risk." },
+    ]
+  },
+  {
+    category: "JV-Specific Red Flags",
+    icon: Scale,
+    flags: [
+      { label: "No audit rights on operator books and JIBs", critical: true, explanation: "Without audit rights, you can't verify what the operator is actually spending. Industry-standard JOAs include annual audit rights for non-operators." },
+      { label: "Operator uses affiliated service companies with no disclosure", critical: true, explanation: "If the operator's drilling company, SWD company, or pipeline company are related parties, all billings should be at arm's-length market rates, disclosed, and auditable." },
+      { label: "Non-consent penalty exceeds 300%", critical: false, explanation: "Standard AAPL non-consent penalty is 200–300%. Anything above 300% is designed to punish investors who don't participate in every new well the operator proposes." },
+      { label: "Operator has sole authority on all expenditures, no AFE approval process", critical: true, explanation: "The JOA should require investor approval (or at least notification) for expenditures above $25K–$50K. Sole operator discretion is a blank check." },
+      { label: "No provision for operator replacement or removal by investors", critical: false, explanation: "If the operator performs poorly or commits fraud, investors should have a mechanism to vote for operator removal. Without it, you're locked in." },
     ]
   },
   {
