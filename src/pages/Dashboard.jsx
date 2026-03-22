@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   Calculator, Droplets, Flame, TrendingUp, Star,
   ChevronRight, RefreshCw, Zap, Shield, DollarSign,
-  BarChart3, ArrowUpRight, BookOpen
+  BarChart3, ArrowUpRight, BookOpen, ShieldAlert, Search, AlertTriangle
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -144,6 +144,45 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
+
+      {/* Fraud Alert Banner */}
+      <Link to="/investor-protection">
+        <div className="rounded-xl border-2 border-flare-red/40 bg-flare-red/5 dark:bg-flare-red/10 p-4 hover:bg-flare-red/10 dark:hover:bg-flare-red/15 transition-colors">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-flare-red/20 flex items-center justify-center shrink-0">
+              <ShieldAlert className="w-5 h-5 text-flare-red" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <p className="text-sm font-bold text-foreground">Protect Yourself First</p>
+                <Badge className="bg-flare-red/10 text-flare-red border-0 text-[10px] font-bold">IMPORTANT</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Oil & gas fraud costs investors <strong className="text-foreground">$10B+ annually</strong>. Before you invest a dollar, vet the operator, analyze the PPM, and know the red flags. Tap here to access our full protection toolkit.
+              </p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-2" />
+          </div>
+        </div>
+      </Link>
+
+      {/* Quick Protection Tools */}
+      <div className="grid grid-cols-2 gap-3">
+        <Link to="/operator-screener" className="rounded-xl border border-border bg-card p-4 hover:bg-muted/30 transition-colors">
+          <div className="w-9 h-9 rounded-xl bg-crude-gold/10 flex items-center justify-center mb-3">
+            <Search className="w-4.5 h-4.5 text-crude-gold" />
+          </div>
+          <p className="text-sm font-semibold text-foreground">Vet an Operator</p>
+          <p className="text-xs text-muted-foreground mt-0.5">AI background check on any operator</p>
+        </Link>
+        <Link to="/investor-protection" className="rounded-xl border border-border bg-card p-4 hover:bg-muted/30 transition-colors">
+          <div className="w-9 h-9 rounded-xl bg-flare-red/10 flex items-center justify-center mb-3">
+            <AlertTriangle className="w-4.5 h-4.5 text-flare-red" />
+          </div>
+          <p className="text-sm font-semibold text-foreground">Analyze a PPM</p>
+          <p className="text-xs text-muted-foreground mt-0.5">AI red flag scanner for documents</p>
+        </Link>
+      </div>
 
       {/* Live Commodity Ticker */}
       <div className="rounded-xl border border-border bg-card overflow-hidden">

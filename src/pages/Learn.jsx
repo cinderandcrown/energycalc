@@ -320,7 +320,7 @@ export default function Learn() {
       {/* Header */}
       <div>
         <h1 className="text-xl font-bold text-foreground">Learn</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">Oil & gas investing — fully demystified</p>
+        <p className="text-sm text-muted-foreground mt-0.5">Oil & gas investing — fully demystified. Knowledge is your best protection.</p>
       </div>
 
       {/* Stats */}

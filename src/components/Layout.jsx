@@ -188,7 +188,7 @@ export default function Layout() {
           </div>
         )}
 
-        <div className="grid grid-cols-7">
+        <div className="grid grid-cols-8">
           {/* Dashboard */}
           <Link
             to="/dashboard"
