@@ -90,12 +90,12 @@ export default function RateOfReturnExplainers({ inputs, results }) {
         icon={ShieldCheck}
         iconBg="bg-drill-green/10"
         iconColor="text-drill-green"
-        title="Annualized Return"
+        title="Simple Annualized Return"
         value={fmtPct(results.annualizedReturn)}
         positive={results.annualizedReturn > 0}
         negative={results.annualizedReturn < 0}
       >
-        Annualized return converts your total {years.toFixed(0)}-year return into an equivalent annual percentage: <strong>(Total Revenue / Investment)^(1/years) − 1</strong>. This gives you an apples-to-apples comparison with annual returns quoted for stocks, bonds, and real estate. Note: this is a simplified measure that doesn't weight the timing of cash flows (IRR does). If your annualized return is below 10%, you may be better off in index funds with far less risk.
+        This is a <strong>simplified approximation</strong>: <strong>(Total Revenue / Investment)^(1/years) − 1</strong>. It treats your total revenue as if it were a single lump-sum payment at the end — which overstates returns when cash flows are front-loaded (as they are with declining wells). <strong>For the true time-weighted return, always use IRR above</strong>, which properly discounts each monthly payment. This metric is included only for quick, rough comparison with annual return figures quoted for stocks and bonds. Do not use it as the primary basis for investment decisions.
       </ExplainerCard>
     </div>
   );

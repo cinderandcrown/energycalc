@@ -75,7 +75,7 @@ export default function NatGasToCashExplainers({ inputs, results }) {
         negative
         valueLabel="/mo"
       >
-        State production tax at <strong>{(inputs.severanceTaxRate * 100).toFixed(1)}%</strong> applied to your WI share of gross wellhead revenue. Natural gas severance taxes vary widely: Texas 7.5%, Oklahoma 7%, Louisiana 12.5%, Pennsylvania 0% (impact fee instead), West Virginia 5%. This is levied on the gross value <em>before</em> royalty deductions and gathering fees are applied.
+        State production tax at <strong>{(inputs.severanceTaxRate * 100).toFixed(1)}%</strong> applied to your WI share of gross wellhead revenue. Natural gas severance taxes vary widely: Texas 7.5%, Oklahoma 7%, Pennsylvania 0% (impact fee instead), West Virginia 5%, Louisiana charges a per-MCF excise rather than ad valorem. This is levied on the gross value <em>before</em> royalty deductions and gathering fees are applied.
       </ExplainerCard>
 
       <ExplainerCard
