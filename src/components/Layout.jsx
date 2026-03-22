@@ -181,32 +181,7 @@ export default function Layout() {
 
           {/* Desktop Nav (lg and up) */}
           <nav className="hidden lg:flex items-center gap-1">
-            <Link
-              to="/dashboard"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isActive('/dashboard')
-                  ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              Dashboard
-            </Link>
-            <Link
-              to="/markets"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isActive('/markets')
-                  ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-            >
-              <BarChart3 className="w-4 h-4" />
-              Markets
-            </Link>
-
-            <CalcDropdown isCalcActive={isCalcActive} />
-
-            {navItems.slice(2).map(({ path, icon: Icon, label }) => (
+            {primaryNav.map(({ path, icon: Icon, label }) => (
               <Link
                 key={path}
                 to={path}
@@ -220,6 +195,13 @@ export default function Layout() {
                 {label}
               </Link>
             ))}
+
+            <CalcDropdown isCalcActive={isCalcActive} />
+
+            <MoreDropdown
+              isMoreActive={moreNav.some(n => location.pathname === n.path)}
+              location={location}
+            />
           </nav>
 
           {/* Tablet hamburger (sm to lg) */}
