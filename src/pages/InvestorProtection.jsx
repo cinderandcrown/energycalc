@@ -1,0 +1,569 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { base44 } from "@/api/base44Client";
+import {
+  ShieldAlert, AlertTriangle, CheckCircle2, XCircle, ChevronDown, ChevronUp,
+  Search, FileText, Scale, Eye, DollarSign, Users, Phone, Globe,
+  Siren, BookOpen, ClipboardCheck, HelpCircle, ArrowRight, Zap
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+
+// ─── PPM Red Flag Checklist ───────────────────────────────────────────────
+const ppmRedFlags = [
+  {
+    category: "Ownership & Economics",
+    icon: DollarSign,
+    flags: [
+      { label: "WI vs NRI spread is wider than 25%", critical: true, explanation: "A 75% WI with only 50% NRI means the operator is keeping an unusually large override. Industry standard is ~80% NRI on a 100% WI." },
+      { label: "No stated gross WI/NRI — only 'net profits interest'", critical: true, explanation: "Net profits interests are easily manipulated. If costs never go to zero, you never see a dime. Demand working interest, not NPI." },
+      { label: "Promote fee exceeds 20% of total deal", critical: false, explanation: "A 20–25% promote is standard. Anything above means the operator is taking an excessive override before investors see returns." },
+      { label: "AFE (Authorization for Expenditure) is vague or absent", critical: true, explanation: "Without a line-item AFE, the operator can charge whatever they want to the well. This is how cost overruns become theft." },
+      { label: "Payout structure favors operator before investor return of capital", critical: true, explanation: "Investors should receive 100% of net revenue until capital is returned. If the operator takes distributions before payout, run." },
+    ]
+  },
+  {
+    category: "Operator Transparency",
+    icon: Eye,
+    flags: [
+      { label: "No third-party engineering report or reserve estimate", critical: true, explanation: "Any legitimate offering should have an independent petroleum engineer's report validating reserves and production estimates." },
+      { label: "Operator is also the marketer, gatherer, and transporter", critical: false, explanation: "When the operator controls all midstream, they can inflate deductions against your royalty checks with no transparency." },
+      { label: "Monthly statements are not guaranteed in writing", critical: true, explanation: "If monthly production and revenue statements aren't contractually required, you have no visibility into what the well is producing." },
+      { label: "No audited financials or CPA-reviewed statements", critical: false, explanation: "Small operators may not have audited books but should at minimum have CPA-reviewed financial statements." },
+      { label: "Operator refuses to provide state regulatory well records", critical: true, explanation: "All wells are registered with state oil & gas boards (e.g., TX RRC, OK OCC, MS OGB). An operator who won't share these is hiding something." },
+    ]
+  },
+  {
+    category: "Legal & Regulatory",
+    icon: Scale,
+    flags: [
+      { label: "PPM is not filed with or exempt from SEC regulations", critical: true, explanation: "Offerings must either be registered with the SEC or qualify for an exemption (Reg D 506(b) or 506(c)). Ask for the Form D filing number." },
+      { label: "Subscription agreement waives your right to sue", critical: true, explanation: "Mandatory arbitration clauses are common and legal, but outright liability waivers are a red flag in any investment." },
+      { label: "No mention of operator's prior litigation or regulatory actions", critical: true, explanation: "Check PACER (federal courts), state court records, and the state oil & gas board for disciplinary actions or investor complaints." },
+      { label: "Offering uses 'promissory note' structure instead of equity", critical: true, explanation: "Promissory notes are debt instruments. They're easier to hide, harder to enforce, and frequently used in oil & gas fraud schemes." },
+      { label: "Operating agreement gives operator sole discretion on all expenses", critical: false, explanation: "Look for language like 'operator's reasonable judgment' on costs — this is a blank check. Costs should be capped or require investor approval above a threshold." },
+    ]
+  },
+  {
+    category: "Sales & Marketing Tactics",
+    icon: Siren,
+    flags: [
+      { label: "High-pressure sales with limited-time urgency", critical: true, explanation: "Legitimate operators don't need to pressure you. 'This deal closes Friday' is a classic fraud tactic to prevent you from doing due diligence." },
+      { label: "Cold call or unsolicited approach (not a pre-existing relationship)", critical: true, explanation: "Rule 506(b) exemptions require a pre-existing, substantive relationship with investors. Cold calling strangers is often a regulatory violation." },
+      { label: "Returns promised as 'guaranteed' or 'risk-free'", critical: true, explanation: "Oil & gas is inherently speculative. Any guarantee of returns is either a lie or a violation of securities law. Period." },
+      { label: "Testimonials and lifestyle marketing dominate (jets, ranches, trucks)", critical: false, explanation: "This is a psychological sales tactic. Legitimate operators lead with geology, engineering, and track record — not flex culture." },
+      { label: "Website uses stock photos instead of actual well/field photos", critical: false, explanation: "Ask for GPS coordinates of the drill site and verify on Google Earth. If the photos are stock art, question what's real." },
+    ]
+  },
+];
+
+// ─── Due Diligence Checklist ──────────────────────────────────────────────
+const ddChecklist = [
+  { id: "dd1", label: "Run operator name through SEC EDGAR (sec.gov/cgi-bin/browse-edgar)", link: "https://www.sec.gov/cgi-bin/browse-edgar" },
+  { id: "dd2", label: "Search FINRA BrokerCheck for the broker/promoter selling the deal", link: "https://brokercheck.finra.org/" },
+  { id: "dd3", label: "Request the Form D filing number and verify on SEC.gov", link: "https://efts.sec.gov/LATEST/search-index?q=%22form+D%22&dateRange=custom" },
+  { id: "dd4", label: "Verify well permits on the state oil & gas board website (TX RRC, OK OCC, MS OGB, etc.)", link: "https://www.rrc.texas.gov/" },
+  { id: "dd5", label: "Search operator in your state's court records for investor lawsuits" },
+  { id: "dd6", label: "Request the independent petroleum engineer's reserve report" },
+  { id: "dd7", label: "Verify the operator's lease holdings with county deed records" },
+  { id: "dd8", label: "Ask for audited or CPA-reviewed financials from the last 3 years" },
+  { id: "dd9", label: "Request references from 3+ existing investors and actually call them" },
+  { id: "dd10", label: "Confirm the offering is Reg D 506(b) or (c) and get the exemption number" },
+  { id: "dd11", label: "Have an independent oil & gas attorney review the JOA and subscription agreement" },
+  { id: "dd12", label: "Request monthly production reports from existing wells — verify against state records" },
+];
+
+// ─── Common Fraud Patterns ────────────────────────────────────────────────
+const fraudPatterns = [
+  {
+    name: "The Promissory Note Trap",
+    severity: "critical",
+    description: "Operator offers a 'promissory note' paying 12–24% annual interest instead of equity ownership. Sounds like a bond — it's not. These are often unregistered securities, unsecured against any asset, and nearly impossible to collect on. When the operator goes under, note holders are last in line after everyone else.",
+    warning: "Any oil & gas investment structured as a promissory note should be reviewed by a securities attorney before signing."
+  },
+  {
+    name: "The Overriding Royalty Scheme",
+    severity: "critical",
+    description: "Operator sells working interest to investors, then layers multiple overriding royalty interests (ORRIs) off the top — to himself, family members, or shell companies. By the time production revenue flows to investors, it's been bled dry by hidden royalty burdens not disclosed in the PPM.",
+    warning: "Demand a complete title opinion showing all royalty burdens on the leasehold before committing capital."
+  },
+  {
+    name: "The 'Proven Formation' Bait-and-Switch",
+    severity: "high",
+    description: "Operator shows you production data from a successful nearby well to imply your well will match it. The PPM vaguely references 'proven formations' but contains no engineering report. The nearby well may be in a different zone, different lease, or owned by someone else entirely.",
+    warning: "Insist on an independent 3rd-party engineering report specific to your lease and target formation."
+  },
+  {
+    name: "The Cost Stuffing Operation",
+    severity: "high",
+    description: "Operator controls affiliated service companies (drilling contractor, saltwater disposal, pipeline transport). All costs are billed to the joint account at inflated rates through these related-party entities. Investor's revenue is consumed by these manufactured expenses. Completely legal if disclosed — criminal if hidden.",
+    warning: "JOA should require competitive bidding or market-rate caps on all affiliated-party transactions."
+  },
+  {
+    name: "The Dry Hole Rollover",
+    severity: "high",
+    description: "Well comes in dry or is plugged early. Operator immediately approaches investors with a 'new opportunity' to recover losses in another deal. Each new deal generates more upfront fees. The cycle repeats. Investors throw good money after bad chasing sunk costs.",
+    warning: "A dry hole is part of oil & gas risk. An operator who immediately pivots to selling you another deal may be fee-farming."
+  },
+  {
+    name: "The Regulation D Misuse",
+    severity: "medium",
+    description: "Operator claims Reg D exemption (no SEC registration required) but solicits investors via cold calls, social media, or public advertising — which is only allowed under 506(c) with verified accredited investors. Most small operators use 506(b) which strictly prohibits general solicitation.",
+    warning: "Ask whether the offering is 506(b) or 506(c) and whether you were cold-solicited. If yes, report to your state securities regulator."
+  },
+];
+
+// ─── Accreditation Guide ──────────────────────────────────────────────────
+const accredReqs = [
+  { label: "Income Test", value: "$200K+ individual income ($300K joint) for past 2 years, with expectation of same" },
+  { label: "Net Worth Test", value: "$1M+ net worth, excluding primary residence" },
+  { label: "Professional Test", value: "Series 7, 65, or 82 license holder in good standing" },
+  { label: "Entity Test", value: "Entity with $5M+ in assets, or all equity owners are accredited" },
+];
+
+// ─── PPM Analyzer ─────────────────────────────────────────────────────────
+function PPMAnalyzer() {
+  const [ppmText, setPpmText] = useState("");
+  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const analyze = async () => {
+    if (!ppmText.trim()) return;
+    setLoading(true);
+    setAnalysis(null);
+    const result = await base44.integrations.Core.InvokeLLM({
+      prompt: `You are a securities attorney and oil & gas fraud expert. Analyze this PPM/JV/offering document text for red flags and investor risks.
+
+PPM Text:
+"""
+${ppmText}
+"""
+
+Return a JSON object with:
+- "riskScore": number 1-10 (10 = extremely high risk / likely fraud)
+- "riskLevel": "low" | "medium" | "high" | "critical"  
+- "summary": 2-sentence plain-English summary of what this is offering
+- "redFlags": array of objects { flag: string (specific clause or issue found), severity: "low"|"medium"|"high"|"critical", explanation: string }
+- "greenFlags": array of strings (positive indicators found, if any)
+- "missingItems": array of strings (critical items that should be in any legitimate PPM but are absent)
+- "verdict": string (1-2 sentences final verdict on whether to proceed and what to do next)
+
+Be specific. Quote actual language from the text when citing red flags. Be harsh and direct — this protects real investor money.`,
+      response_json_schema: {
+        type: "object",
+        properties: {
+          riskScore: { type: "number" },
+          riskLevel: { type: "string" },
+          summary: { type: "string" },
+          redFlags: { type: "array", items: { type: "object", properties: { flag: { type: "string" }, severity: { type: "string" }, explanation: { type: "string" } } } },
+          greenFlags: { type: "array", items: { type: "string" } },
+          missingItems: { type: "array", items: { type: "string" } },
+          verdict: { type: "string" }
+        }
+      }
+    });
+    setAnalysis(result);
+    setLoading(false);
+  };
+
+  const riskColor = {
+    low: "text-drill-green border-drill-green/40 bg-drill-green/10",
+    medium: "text-crude-gold border-crude-gold/40 bg-crude-gold/10",
+    high: "text-orange-500 border-orange-500/40 bg-orange-500/10",
+    critical: "text-flare-red border-flare-red/40 bg-flare-red/10",
+  };
+
+  const sevColor = {
+    low: "bg-muted text-muted-foreground",
+    medium: "bg-crude-gold/10 text-crude-gold",
+    high: "bg-orange-500/10 text-orange-500",
+    critical: "bg-flare-red/10 text-flare-red",
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-xl border border-flare-red/30 bg-flare-red/5 p-4">
+        <div className="flex gap-2 items-start">
+          <ShieldAlert className="w-4 h-4 text-flare-red mt-0.5 shrink-0" />
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            <strong className="text-foreground">AI PPM Analyzer:</strong> Paste text from a PPM, JV agreement, subscription agreement, or promissory note. Our AI will flag investor risks, missing disclosures, and fraud patterns. <strong className="text-foreground">This does not constitute legal advice.</strong> Always consult a licensed securities attorney before investing.
+          </p>
+        </div>
+      </div>
+
+      <Textarea
+        placeholder={`Paste your PPM, JV agreement, or offering document text here...\n\nExample: "Investor agrees to contribute $50,000 for a 5% working interest in the XYZ #1 well located in Jasper County, Mississippi, operated by ABC Energy LLC. Returns are expected within 90 days of first production..."`}
+        value={ppmText}
+        onChange={(e) => setPpmText(e.target.value)}
+        className="h-40 text-sm font-mono resize-none"
+      />
+
+      <Button
+        onClick={analyze}
+        disabled={!ppmText.trim() || loading}
+        className="w-full gap-2 bg-flare-red hover:bg-flare-red/90 text-white"
+      >
+        <Search className="w-4 h-4" />
+        {loading ? "Analyzing for Red Flags..." : "Analyze This Document"}
+      </Button>
+
+      {analysis && (
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+          {/* Risk Score */}
+          <div className={`rounded-xl border p-4 ${riskColor[analysis.riskLevel] || riskColor.medium}`}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-sm uppercase tracking-wide">Risk Assessment</span>
+              <div className="flex items-center gap-2">
+                <span className="font-mono font-bold text-2xl">{analysis.riskScore}/10</span>
+                <Badge className={`${riskColor[analysis.riskLevel]} border font-bold uppercase text-xs`}>
+                  {analysis.riskLevel}
+                </Badge>
+              </div>
+            </div>
+            <p className="text-sm leading-relaxed">{analysis.summary}</p>
+          </div>
+
+          {/* Verdict */}
+          <div className="rounded-xl border border-border bg-card p-4">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Verdict</p>
+            <p className="text-sm font-medium text-foreground leading-relaxed">{analysis.verdict}</p>
+          </div>
+
+          {/* Red Flags */}
+          {analysis.redFlags?.length > 0 && (
+            <div>
+              <h3 className="text-sm font-bold text-flare-red uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                <XCircle className="w-4 h-4" /> Red Flags ({analysis.redFlags.length})
+              </h3>
+              <div className="space-y-2">
+                {analysis.redFlags.map((f, i) => (
+                  <div key={i} className="rounded-xl border border-border bg-card p-3">
+                    <div className="flex items-start gap-2 mb-1">
+                      <Badge className={`${sevColor[f.severity] || sevColor.medium} border-0 text-[10px] font-semibold uppercase shrink-0`}>{f.severity}</Badge>
+                      <p className="text-xs font-semibold text-foreground leading-snug">{f.flag}</p>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed pl-1">{f.explanation}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Green Flags */}
+          {analysis.greenFlags?.length > 0 && (
+            <div>
+              <h3 className="text-sm font-bold text-drill-green uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                <CheckCircle2 className="w-4 h-4" /> Positive Indicators
+              </h3>
+              <div className="space-y-1">
+                {analysis.greenFlags.map((f, i) => (
+                  <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground p-2 rounded-lg bg-drill-green/5 border border-drill-green/20">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-drill-green mt-0.5 shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Missing Items */}
+          {analysis.missingItems?.length > 0 && (
+            <div>
+              <h3 className="text-sm font-bold text-crude-gold uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                <AlertTriangle className="w-4 h-4" /> Missing From This Document
+              </h3>
+              <div className="space-y-1">
+                {analysis.missingItems.map((item, i) => (
+                  <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground p-2 rounded-lg bg-crude-gold/5 border border-crude-gold/20">
+                    <AlertTriangle className="w-3.5 h-3.5 text-crude-gold mt-0.5 shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+// ─── Collapsible Section ──────────────────────────────────────────────────
+function CollapsibleCard({ title, subtitle, icon: Icon, iconColor = "text-crude-gold", children, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="rounded-xl border border-border bg-card overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-3 px-4 py-4 hover:bg-muted/30 transition-colors text-left"
+      >
+        <div className={`w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0`}>
+          <Icon className={`w-4 h-4 ${iconColor}`} />
+        </div>
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-foreground">{title}</p>
+          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+        </div>
+        {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden border-t border-border"
+          >
+            <div className="p-4">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────
+export default function InvestorProtection() {
+  const [checkedItems, setCheckedItems] = useState({});
+
+  const toggleCheck = (id) => setCheckedItems(prev => ({ ...prev, [id]: !prev[id] }));
+  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+
+      {/* Hero Banner */}
+      <div className="rounded-2xl border-2 border-flare-red/40 bg-gradient-to-br from-[#3d0000] via-[#1a0000] to-petroleum dark:from-card dark:via-card dark:to-card/80 p-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-xl bg-flare-red/20 border border-flare-red/40 flex items-center justify-center">
+            <ShieldAlert className="w-5 h-5 text-flare-red" />
+          </div>
+          <div>
+            <h1 className="text-white font-bold text-lg leading-tight">Investor Protection Center</h1>
+            <p className="text-white/60 text-xs">Know before you sign. Protect your capital.</p>
+          </div>
+        </div>
+        <p className="text-white/80 text-sm leading-relaxed mb-4">
+          The oil & gas industry has produced extraordinary wealth — and extraordinary fraud. From promissory note schemes to cost-stuffing operators, bad actors hide behind complex PPM language and shell companies. <strong className="text-white">This guide arms you with the tools to spot them before it costs you everything.</strong>
+        </p>
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { val: "$10B+", label: "Lost to oil & gas fraud annually (FBI est.)" },
+            { val: "80%", label: "Of small oil deals never pay investor return of capital" },
+            { val: "506(b)", label: "The exemption that lets operators skip SEC review" },
+          ].map(item => (
+            <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-3 text-center">
+              <p className="font-mono font-bold text-crude-gold text-base">{item.val}</p>
+              <p className="text-white/50 text-[10px] leading-tight mt-0.5">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Tabs defaultValue="analyzer">
+        <TabsList className="w-full grid grid-cols-4 h-auto gap-1 p-1">
+          <TabsTrigger value="analyzer" className="text-xs py-2">AI Analyzer</TabsTrigger>
+          <TabsTrigger value="redflags" className="text-xs py-2">Red Flags</TabsTrigger>
+          <TabsTrigger value="duediligence" className="text-xs py-2">Due Diligence</TabsTrigger>
+          <TabsTrigger value="fraudpatterns" className="text-xs py-2">Fraud Patterns</TabsTrigger>
+        </TabsList>
+
+        {/* ── Tab 1: AI Analyzer ── */}
+        <TabsContent value="analyzer" className="mt-4">
+          <PPMAnalyzer />
+        </TabsContent>
+
+        {/* ── Tab 2: Red Flags ── */}
+        <TabsContent value="redflags" className="mt-4 space-y-3">
+          <div className="p-3 rounded-xl bg-muted/50 border border-border">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Review your PPM or JV agreement against each of these categories. <Badge className="bg-flare-red/10 text-flare-red border-0 text-[10px] font-bold">CRITICAL</Badge> flags are potential deal-killers. <Badge className="bg-crude-gold/10 text-crude-gold border-0 text-[10px] font-bold">WARNING</Badge> flags require further investigation.
+            </p>
+          </div>
+          {ppmRedFlags.map((section) => {
+            const Icon = section.icon;
+            return (
+              <CollapsibleCard
+                key={section.category}
+                title={section.category}
+                subtitle={`${section.flags.filter(f => f.critical).length} critical · ${section.flags.filter(f => !f.critical).length} warning`}
+                icon={Icon}
+                defaultOpen={section.category === "Ownership & Economics"}
+              >
+                <div className="space-y-3">
+                  {section.flags.map((flag, i) => (
+                    <div key={i} className={`rounded-xl border p-3 ${flag.critical ? "border-flare-red/30 bg-flare-red/5" : "border-crude-gold/30 bg-crude-gold/5"}`}>
+                      <div className="flex items-start gap-2 mb-1.5">
+                        {flag.critical
+                          ? <XCircle className="w-4 h-4 text-flare-red mt-0.5 shrink-0" />
+                          : <AlertTriangle className="w-4 h-4 text-crude-gold mt-0.5 shrink-0" />
+                        }
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="text-sm font-semibold text-foreground">{flag.label}</p>
+                            <Badge className={`border-0 text-[10px] font-bold ${flag.critical ? "bg-flare-red/10 text-flare-red" : "bg-crude-gold/10 text-crude-gold"}`}>
+                              {flag.critical ? "CRITICAL" : "WARNING"}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed pl-6">{flag.explanation}</p>
+                    </div>
+                  ))}
+                </div>
+              </CollapsibleCard>
+            );
+          })}
+        </TabsContent>
+
+        {/* ── Tab 3: Due Diligence ── */}
+        <TabsContent value="duediligence" className="mt-4 space-y-4">
+          <div className="rounded-xl border border-border bg-card p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold text-foreground">Pre-Investment Checklist</h3>
+              <Badge className="bg-primary/10 text-primary dark:text-accent border-0 font-mono">
+                {checkedCount}/{ddChecklist.length} complete
+              </Badge>
+            </div>
+            <div className="space-y-2">
+              {ddChecklist.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => toggleCheck(item.id)}
+                  className={`w-full flex items-start gap-3 p-3 rounded-xl border transition-all text-left ${
+                    checkedItems[item.id]
+                      ? "border-drill-green/40 bg-drill-green/5"
+                      : "border-border bg-background hover:bg-muted/30"
+                  }`}
+                >
+                  <div className={`w-4 h-4 rounded border mt-0.5 shrink-0 flex items-center justify-center transition-colors ${
+                    checkedItems[item.id] ? "bg-drill-green border-drill-green" : "border-muted-foreground"
+                  }`}>
+                    {checkedItems[item.id] && <CheckCircle2 className="w-3 h-3 text-white" />}
+                  </div>
+                  <div className="flex-1">
+                    <p className={`text-xs leading-relaxed ${checkedItems[item.id] ? "line-through text-muted-foreground" : "text-foreground"}`}>
+                      {item.label}
+                    </p>
+                    {item.link && !checkedItems[item.id] && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-[10px] text-primary dark:text-accent hover:underline flex items-center gap-1 mt-0.5"
+                      >
+                        <ArrowRight className="w-2.5 h-2.5" /> Open resource
+                      </a>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Accredited Investor Requirements */}
+          <CollapsibleCard
+            title="Accredited Investor Requirements"
+            subtitle="You must qualify before legally investing in most oil & gas PPMs"
+            icon={Users}
+            iconColor="text-primary dark:text-accent"
+          >
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground mb-3 leading-relaxed">Under SEC Regulation D, oil & gas PPMs are typically restricted to <strong className="text-foreground">accredited investors</strong>. If an operator sold you a deal without verifying your accreditation status, that's a securities law violation you can use against them.</p>
+              {accredReqs.map((r) => (
+                <div key={r.label} className="flex items-start gap-3 p-3 rounded-xl border border-border bg-muted/30">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-drill-green mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-xs font-semibold text-foreground">{r.label}</p>
+                    <p className="text-xs text-muted-foreground">{r.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CollapsibleCard>
+
+          {/* Where to Report */}
+          <CollapsibleCard
+            title="Where to Report Oil & Gas Fraud"
+            subtitle="If you've been defrauded, these are your options"
+            icon={Phone}
+            iconColor="text-flare-red"
+          >
+            <div className="space-y-2">
+              {[
+                { name: "SEC Enforcement (tips.sec.gov)", url: "https://tips.sec.gov/", desc: "Report securities fraud, unregistered offerings, and Reg D violations. You may be eligible for a whistleblower award." },
+                { name: "FBI Financial Crimes (ic3.gov)", url: "https://www.ic3.gov/", desc: "Federal wire fraud and mail fraud in oil & gas investments. File an IC3 complaint." },
+                { name: "Your State Securities Regulator (NASAA)", url: "https://www.nasaa.org/", desc: "NASAA links to all 50 state securities regulators who investigate intrastate oil & gas fraud." },
+                { name: "FINRA (brokercheck.finra.org)", url: "https://brokercheck.finra.org/", desc: "Report broker-dealers and registered reps who sold unsuitable or fraudulent investments." },
+                { name: "Your State Oil & Gas Board", url: "https://www.rrc.texas.gov/", desc: "Can revoke operator permits and force accounting audits of production and revenue." },
+              ].map((r) => (
+                <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer"
+                  className="flex items-start gap-3 p-3 rounded-xl border border-border bg-card hover:bg-muted/30 transition-colors block">
+                  <Globe className="w-3.5 h-3.5 text-primary dark:text-accent mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-xs font-semibold text-foreground">{r.name}</p>
+                    <p className="text-xs text-muted-foreground">{r.desc}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </CollapsibleCard>
+        </TabsContent>
+
+        {/* ── Tab 4: Fraud Patterns ── */}
+        <TabsContent value="fraudpatterns" className="mt-4 space-y-3">
+          <div className="p-3 rounded-xl bg-muted/50 border border-border mb-1">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              These are the most common fraud patterns in oil & gas private placements, based on SEC enforcement actions, FBI investigations, and industry litigation. Knowing these patterns is your first line of defense.
+            </p>
+          </div>
+          {fraudPatterns.map((pattern, i) => (
+            <motion.div
+              key={pattern.name}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className={`rounded-xl border p-4 ${
+                pattern.severity === "critical" ? "border-flare-red/30 bg-flare-red/5" :
+                pattern.severity === "high" ? "border-orange-500/30 bg-orange-500/5" :
+                "border-crude-gold/30 bg-crude-gold/5"
+              }`}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Siren className={`w-4 h-4 shrink-0 ${
+                  pattern.severity === "critical" ? "text-flare-red" :
+                  pattern.severity === "high" ? "text-orange-500" : "text-crude-gold"
+                }`} />
+                <p className="text-sm font-bold text-foreground">{pattern.name}</p>
+                <Badge className={`border-0 text-[10px] font-bold ml-auto uppercase ${
+                  pattern.severity === "critical" ? "bg-flare-red/10 text-flare-red" :
+                  pattern.severity === "high" ? "bg-orange-500/10 text-orange-500" :
+                  "bg-crude-gold/10 text-crude-gold"
+                }`}>{pattern.severity}</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-3">{pattern.description}</p>
+              <div className="flex items-start gap-2 rounded-lg bg-background/60 border border-border p-2.5">
+                <Zap className="w-3.5 h-3.5 text-crude-gold mt-0.5 shrink-0" />
+                <p className="text-xs text-foreground leading-relaxed"><strong>Protect Yourself:</strong> {pattern.warning}</p>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Disclaimer */}
+          <div className="p-4 rounded-xl border border-border bg-muted/30">
+            <div className="flex gap-2 items-start">
+              <BookOpen className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">Legal Disclaimer:</strong> The information on this page is for educational purposes only and does not constitute legal advice. The fraud patterns and red flags described are generalizations based on publicly available enforcement actions. Not every operator exhibiting these characteristics is committing fraud. Always engage a licensed securities attorney and independent oil & gas engineer before investing. Specific company names have not been cited — conduct your own due diligence on any operator.
+              </p>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}

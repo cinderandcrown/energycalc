@@ -17,6 +17,7 @@ import Scenarios from './pages/Scenarios';
 import Learn from './pages/Learn';
 import Settings from './pages/Settings';
 import Markets from './pages/Markets';
+import InvestorProtection from './pages/InvestorProtection';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
