@@ -237,6 +237,30 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ═══════ TRUST MISSION ═══════ */}
+      <section className="border-b border-border bg-flare-red/5 dark:bg-flare-red/5">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+          <div className="flex items-start gap-4 rounded-2xl border-2 border-flare-red/30 bg-card p-6">
+            <div className="w-12 h-12 rounded-2xl bg-flare-red/10 flex items-center justify-center shrink-0">
+              <ShieldAlert className="w-6 h-6 text-flare-red" />
+            </div>
+            <div>
+              <h2 className="font-bold text-foreground text-lg mb-2">Our Mission: Stop Oil & Gas Investment Fraud</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                The FBI estimates <strong className="text-foreground">$10 billion+</strong> is lost annually to oil and gas investment fraud. From promissory note schemes to cost-stuffing operators, predatory promoters hide behind complex PPM language, shell companies, and Reg D exemptions. <strong className="text-foreground">We built EnergyCalc Pro to arm investors with the tools to fight back.</strong>
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">AI Operator Vetting</Badge>
+                <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">PPM Red Flag Scanner</Badge>
+                <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">Fraud Pattern Library</Badge>
+                <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">Due Diligence Checklists</Badge>
+                <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">SEC/FINRA Reporting Guide</Badge>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════ CALCULATORS ═══════ */}
       <section className="border-b border-border bg-card/40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
