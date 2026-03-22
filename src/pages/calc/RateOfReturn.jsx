@@ -215,6 +215,8 @@ export default function RateOfReturn() {
               positive={results.annualIRR !== null && results.annualIRR > 0}
             />
           </div>
+
+          <RateOfReturnExplainers inputs={inputs} results={results} />
         </div>
       </div>
 
@@ -243,8 +245,6 @@ export default function RateOfReturn() {
           </LineChart>
         </ResponsiveContainer>
       </div>
-
-      <RateOfReturnExplainers inputs={inputs} results={results} />
 
       <GeoDueDiligence calcType="rate_of_return" />
       <AIWellEvaluator />

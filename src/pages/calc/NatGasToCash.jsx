@@ -207,6 +207,8 @@ export default function NatGasToCash() {
             <ResultCard label="Operating Expenses" value={results.operatingExpenses} positive={false} />
             <ResultCard label="Severance Tax" value={results.severanceTax} positive={false} />
           </div>
+
+          <NatGasToCashExplainers inputs={inputs} results={results} />
         </div>
       </div>
 
@@ -253,8 +255,6 @@ export default function NatGasToCash() {
           </tbody>
         </table>
       </div>
-
-      <NatGasToCashExplainers inputs={inputs} results={results} />
 
       <GeoDueDiligence calcType="natgas_to_cash" />
       <AIWellEvaluator />

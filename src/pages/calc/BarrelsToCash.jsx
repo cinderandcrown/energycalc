@@ -156,6 +156,8 @@ export default function BarrelsToCash() {
             <ResultCard label="Operating Expenses" value={results.operatingExpenses} positive={false} />
             <ResultCard label="Severance Tax" value={results.severanceTax} positive={false} />
           </div>
+
+          <BarrelsToCashExplainers inputs={inputs} results={results} />
         </div>
       </div>
 
@@ -202,8 +204,6 @@ export default function BarrelsToCash() {
           </tbody>
         </table>
       </div>
-
-      <BarrelsToCashExplainers inputs={inputs} results={results} />
 
       <GeoDueDiligence calcType="barrels_to_cash" />
       <AIWellEvaluator />
