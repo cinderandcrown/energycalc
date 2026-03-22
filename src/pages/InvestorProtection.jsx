@@ -114,6 +114,18 @@ const fraudPatterns = [
     description: "Operator claims Reg D exemption (no SEC registration required) but solicits investors via cold calls, social media, or public advertising — which is only allowed under 506(c) with verified accredited investors. Most small operators use 506(b) which strictly prohibits general solicitation.",
     warning: "Ask whether the offering is 506(b) or 506(c) and whether you were cold-solicited. If yes, report to your state securities regulator."
   },
+  {
+    name: "The Phantom Well Scheme",
+    severity: "critical",
+    description: "Operator collects investor funds, claims to drill a well, and provides fabricated production reports and revenue statements. No well exists or drilling was abandoned early. Investor checks are funded by new investor money (Ponzi structure). When the new money dries up, the operation collapses and the operator disappears.",
+    warning: "ALWAYS verify well status independently on the state oil & gas board website (TX RRC, OK OCC, etc.) using the API number. Request GPS coordinates and verify the drill site on satellite imagery."
+  },
+  {
+    name: "The 'Tax Play' Misdirection",
+    severity: "high",
+    description: "Promoter sells the deal purely on tax benefits: 'Write off 85% of your investment in Year 1!' The focus on taxes distracts from terrible underlying economics — the well may never produce enough to generate meaningful returns. Tax deductions don't help if the investment itself goes to zero.",
+    warning: "Tax benefits should enhance a good deal, not make a bad deal tolerable. Always model the investment BEFORE tax benefits using the Rate of Return calculator. If the pre-tax economics don't work, the deductions are just a smaller loss."
+  },
 ];
 
 // ─── Accreditation Guide ──────────────────────────────────────────────────
@@ -347,8 +359,11 @@ export default function InvestorProtection() {
             <p className="text-white/60 text-xs">Know before you sign. Protect your capital.</p>
           </div>
         </div>
-        <p className="text-white/80 text-sm leading-relaxed mb-4">
-          The oil & gas industry has produced extraordinary wealth — and extraordinary fraud. From promissory note schemes to cost-stuffing operators, bad actors hide behind complex PPM language and shell companies. <strong className="text-white">This guide arms you with the tools to spot them before it costs you everything.</strong>
+        <p className="text-white/80 text-sm leading-relaxed mb-2">
+          The oil & gas industry has produced extraordinary wealth — and extraordinary fraud. From promissory note schemes to phantom wells and cost-stuffing operators, bad actors hide behind complex PPM language and shell companies. <strong className="text-white">This guide arms you with the tools to spot them before it costs you everything.</strong>
+        </p>
+        <p className="text-white/60 text-xs leading-relaxed mb-4">
+          Use our <strong className="text-crude-gold">AI PPM Analyzer</strong> to scan any document, review 8 documented fraud patterns, check 20+ red flags, and follow a 12-step due diligence checklist. Then use the <a href="/operator-screener" className="text-crude-gold underline underline-offset-2">Operator Screener</a> to vet the company itself.
         </p>
         <div className="grid grid-cols-3 gap-3">
           {[
