@@ -9,6 +9,7 @@ const calcItems = [
   { path: '/calc/barrels-to-cash', icon: BarChart2, label: 'Barrels to Cash', desc: 'Oil production revenue' },
   { path: '/calc/natgas-to-cash', icon: Flame, label: 'Nat Gas to Cash', desc: 'Gas & NGL income' },
   { path: '/calc/rate-of-return', icon: Percent, label: 'Rate of Return', desc: 'IRR & payout analysis' },
+  { path: '/calc/tax-impact', icon: Calculator, label: 'Tax Impact', desc: '5-year multi-investment tax model' },
 ];
 
 const primaryNav = [
