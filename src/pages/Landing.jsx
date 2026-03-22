@@ -122,9 +122,7 @@ export default function Landing() {
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-petroleum to-[#1a3a6b] border border-crude-gold/30 flex items-center justify-center">
-              <span className="text-crude-gold text-base font-bold">⚡</span>
-            </div>
+            <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-9 h-9 rounded-xl object-contain" />
             <div className="leading-none">
               <span className="font-bold text-base tracking-tight">
                 <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
