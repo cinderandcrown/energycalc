@@ -54,8 +54,8 @@ export default function RateOfReturn() {
     let payoutMonth = null;
     let totalRevenue = 0;
 
-    // S&P 500 avg ~10% annual → ~0.833% monthly
-    const sp500Monthly = 0.00833;
+    // S&P 500 avg ~10.5% annual → ~0.836% monthly
+    const sp500Monthly = 0.00836;
 
     for (let m = 1; m <= timeHorizon; m++) {
       const monthly = combinedMonthly * Math.pow(1 - annualDeclineRate, m / 12);
@@ -63,8 +63,8 @@ export default function RateOfReturn() {
       totalRevenue += monthly;
       cumulative += monthly;
 
-      // SP500 equivalent: net investment grows at sp500 rate
-      const sp500Value = -netInvestment * Math.pow(1 + sp500Monthly, m);
+      // SP500 equivalent: same dollar amount grows at S&P avg rate, shown as net profit
+      const sp500Value = netInvestment * (Math.pow(1 + sp500Monthly, m) - 1) - netInvestment;
 
       if (payoutMonth === null && cumulative >= 0) {
         payoutMonth = m;
