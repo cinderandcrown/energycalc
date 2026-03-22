@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Save, RotateCcw, Share2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import DownloadReportButton from "@/components/DownloadReportButton";
 
-export default function CalcActionBar({ onSave, onReset }) {
+export default function CalcActionBar({ onSave, onReset, calcType, inputs, results }) {
   const { toast } = useToast();
 
   const handleShare = () => {
@@ -22,6 +23,9 @@ export default function CalcActionBar({ onSave, onReset }) {
         <Save className="w-4 h-4" />
         Save & Name
       </Button>
+      {calcType && inputs && results && (
+        <DownloadReportButton calcType={calcType} inputs={inputs} results={results} />
+      )}
       <Button onClick={handleShare} size="sm" variant="outline" className="gap-1.5">
         <Share2 className="w-4 h-4" />
         Share
