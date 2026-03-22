@@ -155,6 +155,19 @@ export default function Layout() {
         <Outlet />
       </main>
 
+      {/* Desktop Legal Footer */}
+      <footer className="hidden md:block border-t border-border bg-card/50 py-2 px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-2">
+          <p className="text-[10px] text-muted-foreground">
+            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Not affiliated with FINRA, SEC, or any regulatory body.
+          </p>
+          <div className="flex items-center gap-3">
+            <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>
+            <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
+          </div>
+        </div>
+      </footer>
+
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
         {/* Mobile Calc Sub-menu */}
