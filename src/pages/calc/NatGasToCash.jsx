@@ -40,7 +40,9 @@ export default function NatGasToCash() {
     const nglRevenue = includeNGL ? monthlyMCF * nglYield * nglPrice : 0;
     const totalGrossRevenue = grossGasRevenue + nglRevenue;
     const yourGross = totalGrossRevenue * workingInterest * netRevenueInterest;
-    const gatheringFees = monthlyMCF * gatheringFee * workingInterest;
+    // Gathering & processing are post-production costs deducted from your NRI revenue share
+    const gatheringFees = monthlyMCF * gatheringFee * workingInterest * netRevenueInterest;
+    // LOE is paid by WI holders proportional to their WI share
     const operatingExpenses = monthlyMCF * loePerMCF * workingInterest;
     const severanceTax = yourGross * severanceTaxRate;
     const netMonthly = yourGross - gatheringFees - operatingExpenses - severanceTax;
@@ -53,7 +55,7 @@ export default function NatGasToCash() {
       const mNGL = includeNGL ? mProd * nglYield * nglPrice : 0;
       const mTotal = mGasRev + mNGL;
       const mGross = mTotal * workingInterest * netRevenueInterest;
-      const mGather = mProd * gatheringFee * workingInterest;
+      const mGather = mProd * gatheringFee * workingInterest * netRevenueInterest;
       const mOpex = mProd * loePerMCF * workingInterest;
       const mSev = mGross * severanceTaxRate;
       const mNet = Math.max(0, mGross - mGather - mOpex - mSev);
@@ -67,7 +69,7 @@ export default function NatGasToCash() {
       const mGasRev = mProd * gasPrice;
       const mNGL = includeNGL ? mProd * nglYield * nglPrice : 0;
       const mGross = (mGasRev + mNGL) * workingInterest * netRevenueInterest;
-      const mGather = mProd * gatheringFee * workingInterest;
+      const mGather = mProd * gatheringFee * workingInterest * netRevenueInterest;
       const mOpex = mProd * loePerMCF * workingInterest;
       const mSev = mGross * severanceTaxRate;
       const mNet = Math.max(0, mGross - mGather - mOpex - mSev);
