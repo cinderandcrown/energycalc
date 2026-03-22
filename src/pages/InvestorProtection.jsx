@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import FraudPatternsTab from "../components/investor/FraudPatternsTab";
 
 // ─── PPM Red Flag Checklist ───────────────────────────────────────────────
 const ppmRedFlags = [
@@ -600,7 +601,7 @@ export default function InvestorProtection() {
 
         {/* ── Tab 4: Fraud Patterns ── */}
         <TabsContent value="fraudpatterns" className="mt-4 space-y-3">
-          <FraudPatternsTab />
+          <FraudPatternsTab fraudPatterns={fraudPatterns} />
 
         </TabsContent>
       </Tabs>
