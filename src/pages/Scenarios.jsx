@@ -154,8 +154,8 @@ function CalcList({ items, onToggleFav, onDelete, analyzingId, onAnalyze }) {
           const Icon = typeIcons[calc.calc_type] || Calculator;
           const hero = getHeroValue(calc);
           return (
+            <div key={calc.id}>
             <motion.div
-              key={calc.id}
               layout
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
@@ -210,8 +210,8 @@ function CalcList({ items, onToggleFav, onDelete, analyzingId, onAnalyze }) {
             {analyzingId === calc.id && (
               <DealAnalysis calc={calc} onClose={() => onAnalyze(null)} />
             )}
-          </div>
-        );
+            </div>
+          );
         })}
       </AnimatePresence>
     </div>
