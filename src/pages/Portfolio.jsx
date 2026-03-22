@@ -71,7 +71,7 @@ export default function Portfolio() {
           <BarChart3 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <h2 className="text-lg font-bold text-foreground mb-1">No Saved Projects Yet</h2>
           <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-            Run a calculator and save your results to see portfolio-wide analytics, tax savings summaries, and cash flow projections here.
+            Save calculator results to see portfolio analytics here.
           </p>
           <Link to="/calc/net-investment">
             <Button className="gap-2">
@@ -124,7 +124,7 @@ export default function Portfolio() {
       {/* Disclaimer */}
       <div className="pb-4 pt-2 text-center">
         <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-          Portfolio analytics are based on your saved calculation inputs and projections. Actual results will vary based on commodity prices, production rates, and market conditions. This is not investment advice.
+          Based on saved calculation inputs. Actual results vary. Not investment advice.
         </p>
       </div>
     </div>

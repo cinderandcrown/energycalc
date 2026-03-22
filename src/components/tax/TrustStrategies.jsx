@@ -161,7 +161,7 @@ export default function TrustStrategies() {
     <div className="space-y-3">
       <div className="p-3 rounded-xl bg-muted/50 border border-border">
         <p className="text-xs text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">Trusts are the backbone of wealth preservation.</strong> Every billionaire family in America uses trust structures to minimize estate taxes, protect assets from creditors, and transfer wealth across generations. These strategies are legal, proven, and available to anyone with proper legal counsel. The key is implementing them <em>before</em> you need them.
+          Trust structures for minimizing estate taxes, protecting assets, and transferring wealth across generations. Implement with qualified legal counsel.
         </p>
       </div>
       {trusts.map((t) => (

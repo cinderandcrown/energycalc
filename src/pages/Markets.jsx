@@ -378,7 +378,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
             <a href="https://oilprice.com" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-accent underline font-medium">
               OilPrice.com
             </a>{" "}
-            — the #1 source for oil & energy news.
+            for real-time energy news.
           </p>
         </div>
       </section>
@@ -388,7 +388,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
         <p className="text-crude-gold text-xs font-semibold uppercase tracking-widest mb-1">Put Prices to Work</p>
         <h3 className="text-white font-bold text-base mb-1">Turn Today's Prices Into Investment Returns</h3>
         <p className="text-white/70 text-xs mb-4 leading-relaxed">
-          Use commodity prices above directly in your cash flow models. Model your working interest income based on live market conditions across oil, gas, and emerging energy sectors.
+          Use live prices in your cash flow models.
         </p>
         <div className="flex gap-2 flex-wrap">
           <a href="/calc/barrels-to-cash" className="inline-flex items-center gap-1.5 bg-crude-gold text-petroleum text-xs font-semibold px-3 py-2 rounded-lg hover:opacity-90 transition-opacity">

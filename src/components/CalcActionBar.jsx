@@ -9,7 +9,7 @@ export default function CalcActionBar({ onSave, onReset }) {
     const url = window.location.href;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url).then(() => {
-        toast({ title: "Link copied!", description: "Share this URL to share your calculator settings." });
+        toast({ title: "Link copied!" });
       });
     } else {
       toast({ title: "Share", description: url });

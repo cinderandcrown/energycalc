@@ -32,7 +32,7 @@ export default function NetInvestmentExplainers({ results }) {
         value={results.totalYear1TaxSavings}
         positive
       >
-        This is the combined dollar amount you save on your tax bill in Year 1 from both IDC and tangible deductions. It directly reduces your out-of-pocket cost. The higher your tax bracket, the more you save. This is the single biggest reason oil & gas is called a "tax-advantaged" investment.
+        Combined IDC + tangible deductions. Directly reduces your out-of-pocket cost.
       </ExplainerCard>
 
       <ExplainerCard
@@ -42,7 +42,7 @@ export default function NetInvestmentExplainers({ results }) {
         title="IDC Deduction (100% in Year 1)"
         value={results.idcAmount}
       >
-        <strong>Intangible Drilling Costs (IDCs)</strong> are expenses like labor, drilling fluids, chemicals, fuel, and site preparation — anything that has no salvage value. Under <strong>IRC §263(c)</strong>, active working interest holders can deduct 100% of IDCs in the year the money is spent. This is the single largest deduction in oil & gas investing and typically represents 65–85% of your total investment. It's like writing off the majority of your investment against your income before the well even produces.
+        Intangible costs (labor, fluids, fuel, site prep) with no salvage value. 100% deductible under IRC §263(c). Typically 65–85% of total investment.
       </ExplainerCard>
 
       <ExplainerCard
@@ -53,7 +53,7 @@ export default function NetInvestmentExplainers({ results }) {
         value={results.idcTaxSavings}
         positive
       >
-        This is the actual cash you keep by not paying it in taxes, thanks to the IDC deduction. It's calculated as: <strong>IDC Amount × Your Combined Tax Rate</strong>. For example, if you're in the 37% bracket and your IDCs are $187,500, you save ~$69,375 on your federal tax bill alone. This money stays in your pocket — it's real savings, not a deferral.
+        IDC Amount × Combined Tax Rate. Real cash savings, not a deferral.
       </ExplainerCard>
 
       <ExplainerCard
@@ -63,7 +63,7 @@ export default function NetInvestmentExplainers({ results }) {
         title="Tangible Depreciation (Year 1)"
         value={results.tangibleDepreciation}
       >
-        <strong>Tangible Drilling Costs (TDCs)</strong> are physical equipment — the wellhead, casing, tubing, tanks, pumps — things with actual salvage value. These are depreciated over 7 years under the <strong>IRS MACRS schedule</strong> (Modified Accelerated Cost Recovery System). In Year 1, you can deduct 14.29% of the tangible cost. It's a smaller deduction than IDCs, but it adds up over the life of the well and further reduces your tax liability each year.
+        Physical equipment (wellhead, casing, tubing, pumps). MACRS 7-year schedule — Year 1 rate is 14.29%. Additional deductions continue through Year 7.
       </ExplainerCard>
 
       <ExplainerCard
@@ -74,7 +74,7 @@ export default function NetInvestmentExplainers({ results }) {
         value={results.tangibleTaxSavings}
         positive
       >
-        The actual tax dollars saved from the tangible equipment depreciation in Year 1. Calculated as: <strong>Year-1 Depreciation × Your Combined Tax Rate</strong>. While smaller than the IDC savings, remember that tangible depreciation continues for 7 years — so you'll receive additional deductions in Years 2–7 that are not shown in this Year-1 snapshot.
+        Year-1 Depreciation × Combined Tax Rate. Smaller than IDC but continues for 7 years.
       </ExplainerCard>
     </div>
   );

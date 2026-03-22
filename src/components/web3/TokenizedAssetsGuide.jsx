@@ -6,35 +6,35 @@ const benefits = [
   {
     icon: Coins,
     title: "Fractional Ownership",
-    description: "Tokenization breaks a $500K working interest into thousands of digital tokens, enabling investment minimums as low as $1,000. Retail investors can access the same deals previously reserved for accredited investors with six-figure minimums.",
+    description: "Break a $500K working interest into thousands of tokens, enabling minimums as low as $1,000.",
     color: "text-crude-gold",
     bg: "bg-crude-gold/10",
   },
   {
     icon: BarChart3,
     title: "24/7 Liquidity",
-    description: "Traditional oil & gas interests are notoriously illiquid — selling can take months. Tokenized interests trade on security token exchanges (tZERO, INX) or decentralized pools, providing exit options that don't exist in traditional structures.",
+    description: "Tokenized interests trade on security token exchanges (tZERO, INX), providing exit options unavailable in traditional structures.",
     color: "text-drill-green",
     bg: "bg-drill-green/10",
   },
   {
     icon: ShieldCheck,
     title: "Transparent Revenue Distribution",
-    description: "Smart contracts automatically split production revenue based on token ownership. No more waiting for the operator to cut checks, no disputes over deductions, and every payment is auditable on the blockchain by anyone.",
+    description: "Smart contracts split production revenue by token ownership. Every payment is auditable on-chain.",
     color: "text-primary dark:text-accent",
     bg: "bg-primary/10 dark:bg-accent/10",
   },
   {
     icon: Users,
     title: "Decentralized Governance",
-    description: "Token holders can vote on well operations, AFE approvals, and even operator replacement — enforced by smart contracts. This addresses the #1 structural problem in oil & gas JVs: operator control with no investor recourse.",
+    description: "Token holders vote on well operations, AFE approvals, and operator replacement — enforced by smart contracts.",
     color: "text-[#9b59b6]",
     bg: "bg-[#9b59b6]/10",
   },
   {
     icon: Globe,
     title: "Global Investor Access",
-    description: "Tokenized energy assets can be offered to qualified investors worldwide through compliant STOs. This expands the capital pool for operators and gives international investors access to U.S. energy tax advantages and commodity exposure.",
+    description: "Compliant STOs give global investors access to U.S. energy assets, tax advantages, and commodity exposure.",
     color: "text-flare-red",
     bg: "bg-flare-red/10",
   },
@@ -56,7 +56,7 @@ export default function TokenizedAssetsGuide() {
       {/* Intro */}
       <div className="rounded-xl border-2 border-crude-gold/30 bg-crude-gold/5 p-4">
         <p className="text-xs text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">What is tokenization?</strong> Tokenization converts ownership in a real-world asset — a working interest, royalty stream, mineral rights, or carbon credits — into digital tokens on a blockchain. Each token represents a verifiable, tradeable fraction of the underlying asset. Think of it as turning a $500,000 well participation into 500,000 tokens at $1 each — each one conferring proportional rights to production revenue, tax benefits, and governance votes.
+          <strong className="text-foreground">What is tokenization?</strong> Converting ownership in a real-world asset (working interest, royalty, mineral rights) into digital tokens on a blockchain. Each token represents a tradeable fraction with proportional rights to revenue, tax benefits, and governance.
         </p>
       </div>
 

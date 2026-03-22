@@ -112,7 +112,7 @@ export default function RateOfReturn() {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-xl font-bold text-foreground">Rate of Return Calculator</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Full IRR, payout period, and ROI on your energy investment</p>
+          <p className="text-sm text-muted-foreground mt-0.5">IRR, payout period, and ROI analysis</p>
         </div>
         <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} />
       </div>
@@ -127,14 +127,14 @@ export default function RateOfReturn() {
             value={inputs.netInvestment}
             onChange={set("netInvestment")}
             min={10000} max={5000000} step={5000} prefix="$"
-            tooltip="Your actual out-of-pocket cost after tax savings. Use the Net Investment Calculator to compute this precisely."
+            tooltip="Out-of-pocket cost after tax savings."
           />
           <InputWithSlider
             label="Monthly Oil Income ($)"
             value={inputs.monthlyOilIncome}
             onChange={set("monthlyOilIncome")}
             min={0} max={100000} step={100} prefix="$"
-            tooltip="Your net monthly oil income from the Barrels to Cash calculator."
+            tooltip="Net monthly oil income."
           />
           <InputWithSlider
             label="Monthly Gas Income ($)"
@@ -156,14 +156,14 @@ export default function RateOfReturn() {
             value={inputs.timeHorizon}
             onChange={set("timeHorizon")}
             min={12} max={120} step={6}
-            tooltip="How long you expect to hold this investment. Most oil and gas investments are evaluated over 5–10 years."
+            tooltip="Investment holding period in months."
           />
           <InputWithSlider
             label="Annual Production Decline (%)"
             value={inputs.annualDeclineRate * 100}
             onChange={(v) => set("annualDeclineRate")(v / 100)}
             min={0} max={50} step={1} suffix="%"
-            tooltip="Expected annual decline in production — decreases your monthly income over time."
+            tooltip="Annual production decline rate."
           />
         </div>
 

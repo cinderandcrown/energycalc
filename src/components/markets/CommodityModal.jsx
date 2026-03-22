@@ -193,7 +193,7 @@ Be accurate with price ranges based on real recent market data from oilprice.com
           {/* AI Analysis */}
           {analysis?.text && (
             <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-4">
-              <p className="text-xs font-semibold text-crude-gold uppercase tracking-wide mb-2">AI Market Analysis</p>
+              <p className="text-xs font-semibold text-crude-gold uppercase tracking-wide mb-2">Market Analysis</p>
               <p className="text-sm text-foreground leading-relaxed">{analysis.text}</p>
             </div>
           )}

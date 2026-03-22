@@ -38,7 +38,7 @@ export default function TaxStrategies() {
           Tax Strategies & Asset Protection
         </h1>
         <p className="text-sm text-muted-foreground mt-1 leading-relaxed max-w-2xl">
-          Legal tax minimization and liability protection strategies used by sophisticated energy investors. Every strategy below is within the bounds of U.S. tax law — the IRS wrote these rules.
+          Legal tax minimization and asset protection strategies for energy investors.
         </p>
       </div>
 
@@ -121,7 +121,7 @@ export default function TaxStrategies() {
           <div>
             <p className="text-xs font-bold text-foreground mb-1">Legal & Tax Disclaimer</p>
             <p className="text-[11px] text-muted-foreground leading-relaxed">
-              The information on this page is for <strong className="text-foreground">educational purposes only</strong> and does not constitute tax, legal, or financial advice. Tax laws are complex and change frequently. The strategies described may not be suitable for your specific situation and could have unintended consequences if implemented incorrectly. <strong className="text-foreground">Always consult a qualified CPA, tax attorney, and/or estate planning attorney</strong> before implementing any tax strategy, forming any legal entity, or creating any trust. EnergyCalc Pro is not a law firm, CPA firm, or registered investment advisor. Individual results vary based on income level, state of residence, and specific circumstances.
+              Educational only — not tax, legal, or financial advice. <strong className="text-foreground">Consult a CPA, tax attorney, or estate planner</strong> before implementing any strategy. Results vary by income, state, and circumstances.
             </p>
           </div>
         </div>

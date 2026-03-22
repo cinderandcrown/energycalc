@@ -27,7 +27,7 @@ export default function Web3Energy() {
           </div>
         </div>
         <p className="text-white/80 text-sm leading-relaxed mb-4">
-          The convergence of <strong className="text-crude-gold">blockchain technology</strong> and <strong className="text-white">commodity energy</strong> is creating new investment structures, transparent operations, and democratized access to an asset class historically reserved for insiders. From tokenized working interests to on-chain production tracking, Web3 is addressing the energy sector's oldest problems: opacity, illiquidity, and operator control.
+          Tokenized working interests, on-chain production tracking, and blockchain-based settlement are changing how energy assets are structured and traded.
         </p>
         <div className="grid grid-cols-3 gap-3">
           {[
@@ -67,7 +67,7 @@ export default function Web3Energy() {
         <TabsContent value="glossary" className="mt-4 space-y-4">
           <div className="rounded-xl border border-border bg-muted/30 p-3">
             <p className="text-xs text-muted-foreground">
-              Key terminology at the intersection of blockchain and energy investing. Understanding these terms is critical before evaluating any tokenized energy offering.
+              Key blockchain and energy investing terminology.
             </p>
           </div>
           <Web3Glossary />
@@ -78,18 +78,18 @@ export default function Web3Energy() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Link to="/investor-protection" className="rounded-xl border border-border bg-card p-4 hover:bg-muted/30 transition-colors">
           <p className="text-sm font-semibold text-foreground mb-0.5">Investor Protection Center</p>
-          <p className="text-xs text-muted-foreground">The same fraud principles apply — learn how to vet any energy deal, tokenized or traditional.</p>
+          <p className="text-xs text-muted-foreground">Vet any energy deal — tokenized or traditional.</p>
         </Link>
         <Link to="/learn" className="rounded-xl border border-border bg-card p-4 hover:bg-muted/30 transition-colors">
           <p className="text-sm font-semibold text-foreground mb-0.5">Energy Investing Fundamentals</p>
-          <p className="text-xs text-muted-foreground">Master WI, NRI, IDC, and depletion before exploring tokenized structures.</p>
+          <p className="text-xs text-muted-foreground">WI, NRI, IDC, and depletion fundamentals.</p>
         </Link>
       </div>
 
       {/* Disclaimer */}
       <div className="pb-4 pt-2 text-center">
         <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-          This Web3 & Energy content is for educational purposes only and does not constitute investment, legal, or tax advice. Tokenized securities are subject to federal and state securities laws. Always consult qualified legal and financial professionals before investing in any digital asset or tokenized energy product.
+          Educational only — not investment, legal, or tax advice. Tokenized securities are subject to federal and state securities laws.
         </p>
       </div>
     </div>

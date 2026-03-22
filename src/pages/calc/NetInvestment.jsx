@@ -156,7 +156,7 @@ export default function NetInvestment() {
           {/* SALT cap note */}
           <div className="p-3 rounded-lg bg-muted/50 border border-border">
             <p className="text-xs text-muted-foreground leading-relaxed">
-              <strong className="text-foreground">Note on state taxes:</strong> The SALT deduction cap ($10K) may limit your ability to deduct state taxes against federal income. This calculator adds the rates for simplicity — consult your CPA for your specific situation.
+              <strong className="text-foreground">Note:</strong> SALT cap ($10K) may limit state tax deductions. Rates are combined here for simplicity — consult your CPA.
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function NetInvestment() {
           {/* Depletion note */}
           <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-3">
             <p className="text-xs text-muted-foreground leading-relaxed">
-              <strong className="text-foreground">15% Percentage Depletion (IRC §613A):</strong> Not shown above because it applies during <em>production</em>, not at investment. Once the well produces, you can deduct 15% of gross well income as depletion — tax-free cash flow. This further reduces your effective cost over the life of the well. The depletion allowance has no cost basis limit for independent producers (unlike cost depletion).
+              <strong className="text-foreground">15% Percentage Depletion (IRC §613A):</strong> Applied during production (not shown above). Deducts 15% of gross income as tax-free cash flow. No cost basis limit for independent producers.
             </p>
           </div>
 

@@ -301,7 +301,7 @@ export default function Layout() {
       <footer className="hidden sm:block border-t border-border bg-card/50 py-2 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-2">
           <p className="text-[10px] text-muted-foreground">
-            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
+            © {new Date().getFullYear()} EnergyCalc Pro. Not a broker-dealer or investment adviser. Calculations are illustrative only.
           </p>
           <div className="flex items-center gap-3">
             <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>

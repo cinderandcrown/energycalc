@@ -75,7 +75,7 @@ const taxAdvantages = [
     icon: Zap,
     title: "Intangible Drilling Costs (IDC)",
     stat: "Up to 100%",
-    desc: "IDCs — labor, fuel, chemicals — can be deducted in the year they're incurred, dramatically reducing your taxable income in Year 1.",
+    desc: "Labor, fuel, chemicals — 100% deductible in Year 1 under IRC §263(c).",
     color: "text-crude-gold",
     bg: "bg-crude-gold/10",
   },
@@ -83,7 +83,7 @@ const taxAdvantages = [
     icon: Shield,
     title: "Percentage Depletion Allowance",
     stat: "15% Tax-Free",
-    desc: "Oil & gas investors receive a 15% depletion deduction on gross income — a benefit unavailable in virtually any other asset class.",
+    desc: "15% deduction on gross income from producing properties. No cost basis limit for independents.",
     color: "text-drill-green",
     bg: "bg-drill-green/10",
   },
@@ -91,7 +91,7 @@ const taxAdvantages = [
     icon: DollarSign,
     title: "Tangible Equipment Depreciation",
     stat: "7-Year Schedule",
-    desc: "Physical drilling equipment qualifies for MACRS depreciation, providing additional deductions spread over the life of the asset.",
+    desc: "Wellhead, casing, tubing, pumps — MACRS 7-year accelerated depreciation.",
     color: "text-primary dark:text-accent",
     bg: "bg-primary/10 dark:bg-accent/10",
   },
@@ -99,7 +99,7 @@ const taxAdvantages = [
     icon: BarChart3,
     title: "Active Income Treatment",
     stat: "No Passive Limits",
-    desc: "Working interest investments in oil & gas are classified as active income — losses can offset W-2 and other ordinary income without passive activity limits.",
+    desc: "WI losses offset W-2 and ordinary income — no passive activity limits.",
     color: "text-[#9b59b6]",
     bg: "bg-[#9b59b6]/10",
   },
@@ -259,7 +259,7 @@ export default function Dashboard() {
             <h2 className="font-bold text-white text-base">Why Commodity Energy Investing Outperforms</h2>
           </div>
           <p className="text-white/70 text-sm leading-relaxed mb-5">
-            Commodity-driven energy investments — oil, gas, solar, wind, uranium — offer <strong className="text-crude-gold">unmatched tax advantages</strong> unavailable in stocks, real estate, or crypto. The U.S. tax code actively incentivizes domestic energy production — giving qualified investors the ability to write off the majority of their investment in <strong className="text-white">Year 1</strong> while generating commodity-backed cash flow.
+            U.S. tax law provides <strong className="text-crude-gold">unique deductions</strong> for energy investments not available in stocks, real estate, or crypto. Qualified investors can deduct the majority of their investment in <strong className="text-white">Year 1</strong> while generating commodity-backed cash flow.
           </p>
           <div className="grid grid-cols-2 gap-3">
             {whyEnergy.map((item) => (
@@ -321,7 +321,7 @@ export default function Dashboard() {
         </div>
         <div className="mt-3 p-3 rounded-xl bg-muted/50 border border-border">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">Example:</strong> A $500,000 investment with 75% IDC and a 37% tax rate yields ~$138,750 in IDC deductions + ~$2,643 in Year-1 tangible depreciation = <strong className="text-foreground">~$141,393 in Year-1 tax savings</strong>, reducing your net cost to ~$358,607 before a barrel is produced. Once producing, 15% depletion further reduces your tax burden. Use the <Link to="/calc/net-investment" className="text-primary dark:text-accent underline">Net Investment Calculator</Link> to model your scenario.
+            <strong className="text-foreground">Example:</strong> $500K investment, 75% IDC, 37% bracket → <strong className="text-foreground">~$141K Year-1 tax savings</strong> (net cost ~$359K). <Link to="/calc/net-investment" className="text-primary dark:text-accent underline">Run your numbers →</Link>
           </p>
         </div>
       </section>
@@ -433,7 +433,7 @@ export default function Dashboard() {
       {/* Footer Disclaimer */}
       <div className="pb-4 pt-2 text-center">
         <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-          EnergyCalc Pro is for informational and educational purposes only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
+          Informational only — not investment advice. Tax treatment varies. Consult a qualified CPA before investing.
         </p>
       </div>
     </div>

@@ -320,7 +320,7 @@ export default function Learn() {
       {/* Header */}
       <div>
         <h1 className="text-xl font-bold text-foreground">Learn</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">Oil & gas investing — fully demystified. Knowledge is your best protection.</p>
+        <p className="text-sm text-muted-foreground mt-0.5">Oil & gas investing glossary and FAQ</p>
       </div>
 
       {/* Stats */}
@@ -470,8 +470,8 @@ export default function Learn() {
 
           {/* CTA */}
           <div className="rounded-2xl border border-crude-gold/40 bg-gradient-to-br from-petroleum to-[#1a3a6b] p-6 text-center">
-            <h3 className="text-white font-semibold text-lg mb-2">Still have questions?</h3>
-            <p className="text-white/70 text-sm mb-4">Connect with a qualified oil and gas advisor before making investment decisions.</p>
+            <h3 className="text-white font-semibold text-lg mb-2">Need more help?</h3>
+            <p className="text-white/70 text-sm mb-4">Consult a qualified oil & gas advisor before investing.</p>
             <a
               href="mailto:advisor@energycalcpro.com"
               className="inline-flex items-center gap-2 bg-crude-gold text-petroleum font-semibold text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity"

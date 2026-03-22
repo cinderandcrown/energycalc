@@ -13,7 +13,7 @@ const sections = [
     title: "Seismic Data Evaluation",
     color: "text-primary dark:text-accent",
     bg: "bg-primary/10 dark:bg-accent/10",
-    intro: "Before investing, demand to see the seismic data. If the operator can't produce it — or won't let an independent geologist review it — that's a major red flag.",
+    intro: "Demand seismic data before investing. If the operator can't produce it, that's a red flag.",
     items: [
       {
         label: "2D vs 3D Seismic Coverage",

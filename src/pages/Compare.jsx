@@ -63,7 +63,7 @@ export default function Compare() {
         <div className="text-center py-16 border-2 border-dashed border-border rounded-2xl">
           <GitCompareArrows className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
           <p className="text-sm font-medium text-foreground">No saved calculations to compare</p>
-          <p className="text-xs text-muted-foreground mt-1 mb-4">Run some calculators and save results first</p>
+          <p className="text-xs text-muted-foreground mt-1 mb-4">Save some calculator results first</p>
           <Link to="/calc/net-investment">
             <Button size="sm">Start Calculating</Button>
           </Link>
@@ -114,7 +114,7 @@ export default function Compare() {
       {/* Disclaimer */}
       <div className="text-center pt-2 pb-4">
         <p className="text-[10px] text-muted-foreground max-w-lg mx-auto">
-          All comparisons are based on hypothetical, illustrative calculations. They do not constitute investment advice. Consult a licensed professional before making investment decisions.
+          Hypothetical comparisons only. Not investment advice.
         </p>
       </div>
     </div>

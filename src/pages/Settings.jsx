@@ -171,7 +171,7 @@ export default function Settings() {
         </Link>
         <div className="pt-3 border-t border-border mt-3">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">EnergyCalc Pro is not a registered broker-dealer, investment advisor, or FINRA member.</strong> All calculations are illustrative estimates only and do not constitute investment advice, tax advice, or a securities solicitation. Oil &amp; gas investments involve substantial risk including loss of principal. Always consult a licensed CPA, securities attorney, or registered investment advisor.
+            Not a broker-dealer or investment adviser. Calculations are illustrative only. Oil &amp; gas investments carry substantial risk. Consult a CPA/attorney before investing.
           </p>
         </div>
       </div>

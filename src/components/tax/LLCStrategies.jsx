@@ -148,7 +148,7 @@ export default function LLCStrategies() {
     <div className="space-y-3">
       <div className="p-3 rounded-xl bg-muted/50 border border-border">
         <p className="text-xs text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">Entity structure is your first line of defense.</strong> The right LLC, LP, or corporate structure limits your personal liability, reduces taxes, and positions you for efficient wealth transfer. The wrong structure (or no structure) leaves your personal assets exposed to every risk the oil patch can throw at you.
+          LLC, LP, and corporate structures for limiting personal liability, reducing taxes, and enabling efficient wealth transfer.
         </p>
       </div>
 

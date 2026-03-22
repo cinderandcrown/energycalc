@@ -306,7 +306,7 @@ Be specific. Quote actual language from the text when citing red flags. Be harsh
         <div className="flex gap-2 items-start">
           <ShieldAlert className="w-4 h-4 text-flare-red mt-0.5 shrink-0" />
           <p className="text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">AI Deal Analyzer:</strong> Paste text from any oil & gas offering — LP agreement, JV contract, PPM, subscription agreement, promissory note, or direct participation program. Our AI identifies the deal structure, flags investor risks, analyzes fee stacking, and spots fraud patterns specific to that deal type. <strong className="text-foreground">This does not constitute legal advice.</strong> Always consult a licensed securities attorney before investing.
+            <strong className="text-foreground">AI Deal Analyzer:</strong> Paste any offering document — LP, JV, PPM, or promissory note. AI identifies deal structure, flags risks, and analyzes fees. <strong className="text-foreground">Not legal advice.</strong>
           </p>
         </div>
       </div>
@@ -479,11 +479,8 @@ export default function InvestorProtection() {
             <p className="text-white/60 text-xs">Know before you sign. Protect your capital.</p>
           </div>
         </div>
-        <p className="text-white/80 text-sm leading-relaxed mb-2">
-          The oil & gas industry has produced extraordinary wealth — and extraordinary fraud. From LP fee stacking to JV turnkey gouging, promissory note traps, and phantom well Ponzi schemes — bad actors hide behind complex offering documents, shell companies, and slick websites. <strong className="text-white">This guide covers every deal structure: LP programs, Joint Ventures, promissory notes, and direct participation.</strong>
-        </p>
-        <p className="text-white/60 text-xs leading-relaxed mb-4">
-          Use our <strong className="text-crude-gold">AI Deal Analyzer</strong> to scan any LP agreement, JV offering, PPM, or promissory note. Review {fraudPatterns.length} documented fraud patterns across all deal types, check 20+ red flags, and follow a 12-step due diligence checklist. Then use the <a href="/operator-screener" className="text-crude-gold underline underline-offset-2">Operator Screener</a> to vet the company itself.
+        <p className="text-white/80 text-sm leading-relaxed mb-4">
+          Scan offering documents with AI, review {fraudPatterns.length} documented fraud patterns, check 20+ red flags, and follow a 12-step due diligence checklist. Covers LP programs, JVs, promissory notes, and direct participation.
         </p>
         <div className="grid grid-cols-3 gap-3">
           {[

@@ -6,11 +6,11 @@ import { Badge } from "@/components/ui/badge";
 const strategies = [
   {
     icon: Zap,
-    title: "Intangible Drilling Costs (IDC) — The Year-1 Nuclear Deduction",
+    title: "Intangible Drilling Costs (IDC) — Year-1 Deduction",
     badge: "Up to 100% Deduction",
     color: "text-crude-gold",
     bg: "bg-crude-gold/10",
-    summary: "Deduct 60–80% of your entire investment in the year you write the check. No other asset class in America offers this.",
+    summary: "Deduct 60–80% of your total investment in Year 1.",
     details: [
       "IDCs include labor, chemicals, mud, fuel, grease, hauling, supplies, surveying, and ground clearing — everything except the physical equipment.",
       "For a typical well, IDCs represent 60–80% of total drilling costs. On a $500K investment, that's $300K–$400K deductible immediately.",
@@ -22,11 +22,11 @@ const strategies = [
   },
   {
     icon: DollarSign,
-    title: "Percentage Depletion Allowance — 15% Tax-Free Income Forever",
+    title: "Percentage Depletion Allowance — 15% Tax-Free",
     badge: "15% Tax-Free",
     color: "text-drill-green",
     bg: "bg-drill-green/10",
-    summary: "The IRS lets you exclude 15% of gross oil & gas income from taxation — indefinitely — even after you've recovered your entire investment.",
+    summary: "Exclude 15% of gross oil & gas income from taxation indefinitely, even after full cost recovery.",
     details: [
       "Unlike cost depletion (which stops when you've recovered your basis), percentage depletion has NO limit on total deductions over the life of the well.",
       "This means you can deduct MORE than your original investment over time. No other asset class has this feature.",

@@ -88,49 +88,49 @@ export default function BarrelsToCash() {
             value={inputs.workingInterest * 100}
             onChange={(v) => set("workingInterest")(v / 100)}
             min={0.1} max={100} step={0.1} suffix="%"
-            tooltip="Your ownership percentage of the well's costs and production. If you own 1% WI, you pay 1% of costs and receive 1% of production."
+            tooltip="Your % ownership of well costs and production."
           />
           <InputWithSlider
             label="Net Revenue Interest (%)"
             value={inputs.netRevenueInterest * 100}
             onChange={(v) => set("netRevenueInterest")(v / 100)}
             min={0.1} max={87.5} step={0.1} suffix="%"
-            tooltip="Your share of production revenue after royalty payments. A 75% NRI means you keep 75% of the revenue after paying the 25% royalty burden."
+            tooltip="Your revenue share after royalty payments."
           />
           <InputWithSlider
             label="Daily Production (BOPD)"
             value={inputs.dailyBOPD}
             onChange={set("dailyBOPD")}
             min={1} max={5000} step={1}
-            tooltip="Barrels of Oil Per Day — the daily production rate assigned to your working interest share."
+            tooltip="Barrels of Oil Per Day."
           />
           <InputWithSlider
             label="Oil Price ($/bbl)"
             value={inputs.oilPrice}
             onChange={set("oilPrice")}
             min={20} max={200} step={0.5} prefix="$"
-            tooltip="Current market price per barrel of crude oil. WTI Crude is the U.S. benchmark. Check the dashboard for live prices."
+            tooltip="WTI Crude benchmark price per barrel."
           />
           <InputWithSlider
             label="Lease Operating Expenses ($/bbl)"
             value={inputs.loePerBbl}
             onChange={set("loePerBbl")}
             min={5} max={40} step={0.5} prefix="$"
-            tooltip="LOE covers pumping, maintenance, chemicals, and other recurring costs to keep the well producing. Expressed per barrel."
+            tooltip="Recurring costs per barrel (pumping, maintenance, chemicals)."
           />
           <InputWithSlider
             label="Severance Tax Rate (%)"
             value={inputs.severanceTaxRate * 100}
             onChange={(v) => set("severanceTaxRate")(v / 100)}
             min={0} max={12} step={0.1} suffix="%"
-            tooltip="State production tax on oil revenue. Texas is 4.6%, Oklahoma is 7%, Wyoming is 6%. Varies by state."
+            tooltip="State production tax. TX 4.6%, OK 7%, WY 6%."
           />
           <InputWithSlider
             label="Annual Production Decline (%)"
             value={inputs.declineRate * 100}
             onChange={(v) => set("declineRate")(v / 100)}
             min={0} max={50} step={1} suffix="%"
-            tooltip="The annual percentage decline in production as reservoir pressure decreases. New wells often decline 50–70% in year one, stabilizing at 10–20%."
+            tooltip="Annual decline rate. New wells typically 50–70% Year 1."
           />
         </div>
 

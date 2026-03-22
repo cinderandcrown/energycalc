@@ -98,56 +98,56 @@ export default function NatGasToCash() {
             value={inputs.workingInterest * 100}
             onChange={(v) => set("workingInterest")(v / 100)}
             min={0.1} max={100} step={0.1} suffix="%"
-            tooltip="Your ownership percentage of the well's costs and production revenue."
+            tooltip="Your % ownership of well costs and revenue."
           />
           <InputWithSlider
             label="Net Revenue Interest (%)"
             value={inputs.netRevenueInterest * 100}
             onChange={(v) => set("netRevenueInterest")(v / 100)}
             min={0.1} max={87.5} step={0.1} suffix="%"
-            tooltip="Your share of revenue after deducting royalty burdens from your working interest."
+            tooltip="Your revenue share after royalty burdens."
           />
           <InputWithSlider
             label="Daily Production (MCF/day)"
             value={inputs.dailyMCF}
             onChange={set("dailyMCF")}
             min={10} max={100000} step={10}
-            tooltip="Thousand Cubic Feet per day — the daily natural gas production rate."
+            tooltip="Thousand Cubic Feet per day."
           />
           <InputWithSlider
             label="Gas Price ($/MCF)"
             value={inputs.gasPrice}
             onChange={set("gasPrice")}
             min={1} max={15} step={0.05} prefix="$"
-            tooltip="Current Henry Hub natural gas price per MCF. Check the dashboard for the live price feed."
+            tooltip="Henry Hub benchmark price per MCF."
           />
           <InputWithSlider
             label="Gathering & Processing Fees ($/MCF)"
             value={inputs.gatheringFee}
             onChange={set("gatheringFee")}
             min={0.1} max={3} step={0.05} prefix="$"
-            tooltip="Fees charged by midstream operators to gather, compress, and process raw gas. Deducted before you receive revenue."
+            tooltip="Midstream fees for gathering, compression, and processing."
           />
           <InputWithSlider
             label="Lease Operating Expenses ($/MCF)"
             value={inputs.loePerMCF}
             onChange={set("loePerMCF")}
             min={0.1} max={2} step={0.05} prefix="$"
-            tooltip="Recurring costs to maintain production: compression, maintenance, labor, chemicals — expressed per MCF produced."
+            tooltip="Recurring costs per MCF (compression, maintenance, labor)."
           />
           <InputWithSlider
             label="Severance Tax Rate (%)"
             value={inputs.severanceTaxRate * 100}
             onChange={(v) => set("severanceTaxRate")(v / 100)}
             min={0} max={10} step={0.1} suffix="%"
-            tooltip="State production tax on natural gas revenue. Texas is 7.5%, Louisiana is 12.5%."
+            tooltip="State production tax. TX 7.5%, LA 12.5%."
           />
           <InputWithSlider
             label="Annual Production Decline (%)"
             value={inputs.declineRate * 100}
             onChange={(v) => set("declineRate")(v / 100)}
             min={0} max={60} step={1} suffix="%"
-            tooltip="Natural gas wells can decline 60–80% in year one and then flatten out. Enter your expected annual decline rate."
+            tooltip="Annual decline rate. Gas wells typically 60–80% Year 1."
           />
 
           {/* NGL Toggle */}
@@ -169,14 +169,14 @@ export default function NatGasToCash() {
                   value={inputs.nglYield}
                   onChange={set("nglYield")}
                   min={0} max={0.05} step={0.001}
-                  tooltip="Barrels of Natural Gas Liquids extracted per MCF of raw gas. Depends on richness of the gas stream."
+                  tooltip="BBL of NGL per MCF. Depends on gas stream richness."
                 />
                 <InputWithSlider
                   label="NGL Price ($/BBL)"
                   value={inputs.nglPrice}
                   onChange={set("nglPrice")}
                   min={10} max={60} step={0.5} prefix="$"
-                  tooltip="Blended price for natural gas liquids including ethane, propane, butane, and natural gasoline."
+                  tooltip="Blended NGL price (ethane, propane, butane, natural gasoline)."
                 />
               </div>
             )}

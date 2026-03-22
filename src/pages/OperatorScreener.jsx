@@ -93,7 +93,7 @@ Be DIRECT and PROTECTIVE of the investor. If you don't have information, say so 
           </div>
         </div>
         <p className="text-white/75 text-sm leading-relaxed">
-          Enter the name of the operator or company pitching you a deal. Our AI investigator will search public records, regulatory databases, and industry sources to flag potential risks. <strong className="text-crude-gold">This is your first line of defense against fraud.</strong>
+          Enter the operator or company name. AI searches public records and industry sources for potential risks.
         </p>
       </div>
 
@@ -261,7 +261,7 @@ Be DIRECT and PROTECTIVE of the investor. If you don't have information, say so 
           {/* Disclaimer */}
           <div className="p-4 rounded-xl border border-border bg-muted/30">
             <p className="text-[10px] text-muted-foreground leading-relaxed">
-              <strong className="text-foreground">Disclaimer:</strong> This AI-powered screening tool uses publicly available information and AI analysis. It does not access proprietary databases, court records, or state regulatory systems in real time. Results are informational only and do not constitute a legal background check, securities analysis, or investment advice. Always verify results independently through SEC EDGAR, FINRA BrokerCheck, state courts, and the relevant state oil & gas regulatory board. Consult a licensed securities attorney before investing.
+              <strong className="text-foreground">Disclaimer:</strong> AI analysis using public information only. Not a legal background check or investment advice. Verify independently via SEC EDGAR, FINRA BrokerCheck, and state regulators.
             </p>
           </div>
         </motion.div>

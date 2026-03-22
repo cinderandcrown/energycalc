@@ -32,12 +32,12 @@ const PLAN = {
 
 
 const FEATURES = [
-  { icon: ShieldAlert, title: "AI Operator Screener", desc: "Enter any operator's name and get an instant AI background check — red flags, known issues, regulatory actions, and verification steps. Your first line of defense." },
-  { icon: Shield, title: "PPM Red Flag Analyzer", desc: "Paste any PPM, JV agreement, or subscription document. Our AI scores risk 1–10, flags predatory clauses, and tells you what's missing." },
-  { icon: Calculator, title: "4 Deal Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, and Rate of Return — model the real economics before committing capital." },
-  { icon: BookOpen, title: "Fraud Pattern Library", desc: "Learn the 6 most common oil & gas fraud schemes — promissory note traps, cost stuffing, ORRI schemes, and more. Based on SEC & FBI enforcement actions." },
-  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, and commodity prices with AI market commentary. Know what your barrels are worth today." },
-  { icon: Zap, title: "Tax Optimization Tools", desc: "Model IDC deductions, percentage depletion, and MACRS depreciation. See your true after-tax cost before you sign anything." },
+  { icon: ShieldAlert, title: "AI Operator Screener", desc: "AI background check on any operator — red flags, regulatory actions, and verification steps." },
+  { icon: Shield, title: "PPM Red Flag Analyzer", desc: "Paste any PPM or JV agreement. AI scores risk 1–10 and flags predatory clauses." },
+  { icon: Calculator, title: "4 Deal Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, and Rate of Return." },
+  { icon: BookOpen, title: "Fraud Pattern Library", desc: "6 common oil & gas fraud schemes based on SEC & FBI enforcement actions." },
+  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time commodity prices with AI market commentary." },
+  { icon: Zap, title: "Tax Optimization Tools", desc: "Model IDC, percentage depletion, and MACRS depreciation." },
 ];
 
 const CALCS = [
@@ -199,7 +199,7 @@ export default function Landing() {
             transition={{ delay: 0.22 }}
             className="text-center text-white/65 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
           >
-            The most powerful investor protection and deal analysis platform for oil & gas. Vet operators, analyze PPMs for red flags, model tax-adjusted returns, and arm yourself with the knowledge to never get taken. Built by investors, for investors.
+            Vet operators. Analyze PPMs. Model tax-adjusted returns. Spot fraud before you invest. Built by investors, for investors.
           </motion.p>
 
           <motion.div
@@ -248,9 +248,9 @@ export default function Landing() {
               <ShieldAlert className="w-6 h-6 text-flare-red" />
             </div>
             <div>
-              <h2 className="font-bold text-foreground text-lg mb-2">Our Mission: Stop Oil & Gas Investment Fraud</h2>
+              <h2 className="font-bold text-foreground text-lg mb-2">Oil & Gas Investment Fraud: $10B+ Lost Annually</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                The FBI estimates <strong className="text-foreground">$10 billion+</strong> is lost annually to oil and gas investment fraud. From promissory note schemes to cost-stuffing operators, predatory promoters hide behind complex PPM language, shell companies, and Reg D exemptions. <strong className="text-foreground">We built EnergyCalc Pro to arm investors with the tools to fight back.</strong>
+                Promissory note schemes, cost-stuffing operators, predatory PPM language, shell companies, Reg D exemptions. EnergyCalc Pro gives you the tools to vet deals before you commit capital.
               </p>
               <div className="flex flex-wrap gap-2">
                 <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">AI Operator Vetting</Badge>
@@ -297,8 +297,8 @@ export default function Landing() {
       {/* ═══════ FEATURES ═══════ */}
       <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Your Complete Investor Protection Arsenal</h2>
-          <p className="text-muted-foreground text-sm max-w-xl mx-auto">Built to protect you from bad deals, bad operators, and bad math. Every tool an oil & gas investor needs to make informed decisions.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Investor Protection & Analysis Tools</h2>
+          <p className="text-muted-foreground text-sm max-w-xl mx-auto">Everything you need to vet a deal before committing capital.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f, i) => {
@@ -393,7 +393,7 @@ export default function Landing() {
       <footer className="border-t border-border bg-card/50 py-6 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[10px] text-muted-foreground text-center sm:text-left leading-relaxed max-w-lg">
-            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
+            © {new Date().getFullYear()} EnergyCalc Pro. Not a broker-dealer or investment adviser. Calculations are illustrative only. Not affiliated with FINRA, SEC, or any regulatory body.
           </p>
           <div className="flex items-center gap-4">
             <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal &amp; Privacy</Link>
