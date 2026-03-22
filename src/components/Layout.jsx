@@ -52,16 +52,16 @@ function CalcDropdown({ isCalcActive }) {
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1.5 w-56 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden">
+        <div className="absolute top-full left-0 mt-1.5 w-56 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
           {calcItems.map(({ path, icon: Icon, label, desc }) => (
             <Link
               key={path}
               to={path}
               onClick={() => setOpen(false)}
-              className="flex items-start gap-3 px-3 py-2.5 hover:bg-muted/50 transition-colors"
+              className="flex items-start gap-3 px-3 py-2.5 hover:bg-crude-gold/5 dark:hover:bg-crude-gold/10 transition-all duration-200 group"
             >
-              <div className="w-7 h-7 rounded-lg bg-primary/10 dark:bg-accent/10 flex items-center justify-center mt-0.5 shrink-0">
-                <Icon className="w-3.5 h-3.5 text-primary dark:text-accent" />
+              <div className="w-7 h-7 rounded-lg bg-primary/10 dark:bg-accent/10 flex items-center justify-center mt-0.5 shrink-0 group-hover:bg-crude-gold/20 transition-colors">
+                <Icon className="w-3.5 h-3.5 text-primary dark:text-accent group-hover:text-crude-gold transition-colors" />
               </div>
               <div>
                 <p className="text-sm font-medium text-foreground">{label}</p>
@@ -96,7 +96,7 @@ export default function Layout() {
       <SiteDisclaimer />
 
       {/* Top Bar */}
-      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md oil-shimmer">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-2.5">
             <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-8 h-8 rounded-lg shrink-0 object-contain" />
