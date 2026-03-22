@@ -131,6 +131,30 @@ export default function Landing() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,168,67,0.12),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(212,168,67,0.06),transparent_50%)]" />
 
+        {/* Animated oil bubbles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[
+            { left: "10%", delay: "0s", size: "6px", duration: "3s" },
+            { left: "25%", delay: "0.8s", size: "4px", duration: "2.5s" },
+            { left: "45%", delay: "1.5s", size: "8px", duration: "3.5s" },
+            { left: "65%", delay: "0.3s", size: "5px", duration: "2.8s" },
+            { left: "80%", delay: "2s", size: "3px", duration: "3.2s" },
+            { left: "90%", delay: "1.2s", size: "6px", duration: "2.6s" },
+          ].map((b, i) => (
+            <div
+              key={i}
+              className="absolute bottom-0 rounded-full bg-crude-gold/30"
+              style={{
+                left: b.left,
+                width: b.size,
+                height: b.size,
+                animation: `bubble-rise ${b.duration} ease-out infinite`,
+                animationDelay: b.delay,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-center">
             <Badge className="bg-crude-gold/15 text-crude-gold border-crude-gold/25 mb-6 text-xs font-semibold px-4 py-1.5">
