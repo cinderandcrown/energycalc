@@ -123,7 +123,7 @@ export default function NatGasToCash() {
             value={inputs.dailyMCF}
             onChange={set("dailyMCF")}
             min={10} max={100000} step={10}
-            tooltip="Thousand Cubic Feet per day — the daily natural gas production rate."
+            tooltip="Thousand Cubic Feet per day — the total daily production of the well. Your share is calculated by applying your Working Interest and Net Revenue Interest."
           />
           <InputWithSlider
             label="Gas Price ($/MCF)"

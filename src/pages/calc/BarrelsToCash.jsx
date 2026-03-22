@@ -113,7 +113,7 @@ export default function BarrelsToCash() {
             value={inputs.dailyBOPD}
             onChange={set("dailyBOPD")}
             min={1} max={5000} step={1}
-            tooltip="Barrels of Oil Per Day — the daily production rate assigned to your working interest share."
+            tooltip="Barrels of Oil Per Day — the total daily production of the well. Your share is calculated by applying your Working Interest and Net Revenue Interest."
           />
           <InputWithSlider
             label="Oil Price ($/bbl)"
