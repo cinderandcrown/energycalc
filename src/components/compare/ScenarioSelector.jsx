@@ -1,4 +1,4 @@
-import { Calculator, Droplets, Flame, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Calculator, Droplets, Flame, TrendingUp, CheckCircle2, DollarSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const typeLabels = {
@@ -6,6 +6,7 @@ const typeLabels = {
   barrels_to_cash: "Oil to Cash",
   natgas_to_cash: "Gas to Cash",
   rate_of_return: "Rate of Return",
+  tax_impact: "Tax Impact",
 };
 
 const typeIcons = {
@@ -13,6 +14,7 @@ const typeIcons = {
   barrels_to_cash: Droplets,
   natgas_to_cash: Flame,
   rate_of_return: TrendingUp,
+  tax_impact: DollarSign,
 };
 
 const typeColors = {
@@ -20,21 +22,35 @@ const typeColors = {
   barrels_to_cash: "bg-orange-500/10",
   natgas_to_cash: "bg-blue-500/10",
   rate_of_return: "bg-drill-green/10",
+  tax_impact: "bg-purple-500/10",
 };
 
+const MAX_SELECTIONS = 3;
+
 export default function ScenarioSelector({ calculations, selected, onToggle }) {
+  const atMax = selected.length >= MAX_SELECTIONS;
+
   return (
     <div className="space-y-2">
+      {atMax && (
+        <p className="text-[10px] text-muted-foreground bg-muted/50 rounded-lg px-3 py-1.5 text-center">
+          Max {MAX_SELECTIONS} scenarios selected. Deselect one to add another.
+        </p>
+      )}
       {calculations.map((calc) => {
         const Icon = typeIcons[calc.calc_type] || Calculator;
         const isSelected = selected.includes(calc.id);
+        const isDisabled = atMax && !isSelected;
         return (
           <button
             key={calc.id}
-            onClick={() => onToggle(calc.id)}
+            onClick={() => !isDisabled && onToggle(calc.id)}
+            disabled={isDisabled}
             className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all text-left ${
               isSelected
                 ? "border-primary dark:border-accent bg-primary/5 dark:bg-accent/5"
+                : isDisabled
+                ? "border-border bg-card opacity-40 cursor-not-allowed"
                 : "border-border bg-card hover:bg-muted/30"
             }`}
           >

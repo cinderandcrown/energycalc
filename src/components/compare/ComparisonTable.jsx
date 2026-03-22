@@ -55,6 +55,17 @@ function getMetrics(calc) {
         { label: "Net Profit", value: fmt(r.netProfit) },
         { label: "Cash-on-Cash", value: fmt(r.cashOnCash, "", "%") },
       ];
+    case "tax_impact":
+      return [
+        { label: "Total Investment", value: fmt(r.totalInvested || i.totalInvestment) },
+        { label: "Tax Bracket", value: fmt(i.taxRate || i.taxBracket, "", "%") },
+        { label: "Total IDC Deductions", value: fmt(r.totalIDC || r.cumulativeIDC) },
+        { label: "Total Depletion", value: fmt(r.totalDepletion || r.cumulativeDepletion) },
+        { label: "Total Depreciation", value: fmt(r.totalDepreciation || r.cumulativeDepreciation) },
+        { label: "Total Tax Savings", value: fmt(r.totalTaxSavings || r.cumulativeTaxSavings), highlight: true },
+        { label: "Net After-Tax Cost", value: fmt(r.netAfterTaxCost), highlight: true },
+        { label: "Effective Tax Rate", value: fmt(r.effectiveTaxRate, "", "%") },
+      ];
     default:
       return [];
   }
