@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 
@@ -15,6 +15,7 @@ const navItems = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/markets', icon: BarChart3, label: 'Markets' },
   { path: '/portfolio', icon: PieChart, label: 'Portfolio' },
+  { path: '/honest-guide', icon: Scale, label: 'Honest Guide' },
   { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
   { path: '/operator-screener', icon: Search, label: 'Vet' },
   { path: '/tax-strategies', icon: Landmark, label: 'Tax' },
