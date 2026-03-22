@@ -246,12 +246,14 @@ Be specific. Quote actual language from the text when citing red flags. Be harsh
       response_json_schema: {
         type: "object",
         properties: {
+          dealStructure: { type: "string" },
           riskScore: { type: "number" },
           riskLevel: { type: "string" },
           summary: { type: "string" },
           redFlags: { type: "array", items: { type: "object", properties: { flag: { type: "string" }, severity: { type: "string" }, explanation: { type: "string" } } } },
           greenFlags: { type: "array", items: { type: "string" } },
           missingItems: { type: "array", items: { type: "string" } },
+          feeAnalysis: { type: "string" },
           verdict: { type: "string" }
         }
       }
