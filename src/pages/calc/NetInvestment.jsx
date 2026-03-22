@@ -19,7 +19,6 @@ const DEFAULTS = {
   federalTaxRate: 0.37,
   stateTaxRate: 0,
   idcPercentage: 0.75,
-  depletionRate: 0.15,
 };
 
 const fmt = (v) => v.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -31,20 +30,21 @@ export default function NetInvestment() {
   const set = (key) => (val) => setInputs((p) => ({ ...p, [key]: val }));
 
   const results = useMemo(() => {
-    const { totalInvestment, federalTaxRate, stateTaxRate, idcPercentage, depletionRate } = inputs;
+    const { totalInvestment, federalTaxRate, stateTaxRate, idcPercentage } = inputs;
     const combinedRate = federalTaxRate + stateTaxRate;
     const tangiblePct = 1 - idcPercentage;
 
     const idcAmount = totalInvestment * idcPercentage;
     const tangibleAmount = totalInvestment * tangiblePct;
 
+    // IRC §263(c): IDCs are 100% deductible in Year 1 for active WI holders
     const idcTaxSavings = idcAmount * combinedRate;
+    // MACRS 7-year, half-year convention: Year 1 rate = 14.29% (IRS Publication 946)
     const tangibleDepreciation = tangibleAmount * 0.1429;
     const tangibleTaxSavings = tangibleDepreciation * combinedRate;
-    const depletionSavings = totalInvestment * depletionRate * combinedRate;
 
-    const totalTaxSavings = idcTaxSavings + tangibleTaxSavings + depletionSavings;
-    const netInvestment = totalInvestment - totalTaxSavings;
+    const totalYear1TaxSavings = idcTaxSavings + tangibleTaxSavings;
+    const netInvestment = totalInvestment - totalYear1TaxSavings;
     const effectiveCost = netInvestment / totalInvestment;
 
     return {
@@ -53,16 +53,15 @@ export default function NetInvestment() {
       idcTaxSavings,
       tangibleDepreciation,
       tangibleTaxSavings,
-      depletionSavings,
-      totalTaxSavings,
+      totalYear1TaxSavings,
       netInvestment,
       effectiveCost,
     };
   }, [inputs]);
 
   const pieData = [
-    { name: "IDC", value: results.idcAmount, color: "#D4A843" },
-    { name: "Tangible Equipment", value: results.tangibleAmount, color: "#0B2545" },
+    { name: "IDC Tax Savings", value: results.idcTaxSavings, color: "#D4A843" },
+    { name: "Tangible Tax Savings (Yr 1)", value: results.tangibleTaxSavings, color: "#0B2545" },
     { name: "Net Out-of-Pocket", value: results.netInvestment, color: "#2E7D32" },
   ];
 
@@ -153,16 +152,12 @@ export default function NetInvestment() {
             </p>
           </div>
 
-          <InputWithSlider
-            label="Depletion Allowance"
-            value={inputs.depletionRate * 100}
-            onChange={(v) => set("depletionRate")(v / 100)}
-            min={5}
-            max={22}
-            step={0.5}
-            suffix="%"
-            tooltip="Statutory percentage depletion for independent oil and gas producers. The IRS allows 15% depletion on gross income from the well."
-          />
+          {/* SALT cap note */}
+          <div className="p-3 rounded-lg bg-muted/50 border border-border">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">Note on state taxes:</strong> The SALT deduction cap ($10K) may limit your ability to deduct state taxes against federal income. This calculator adds the rates for simplicity — consult your CPA for your specific situation.
+            </p>
+          </div>
         </div>
 
         {/* Results */}
@@ -174,12 +169,18 @@ export default function NetInvestment() {
           />
 
           <div className="grid grid-cols-2 gap-3">
-            <ResultCard label="Total Tax Savings" value={results.totalTaxSavings} positive={true} />
-            <ResultCard label="IDC Deduction" value={results.idcAmount} />
+            <ResultCard label="Year-1 Tax Savings" value={results.totalYear1TaxSavings} positive={true} />
+            <ResultCard label="IDC Deduction (100%)" value={results.idcAmount} />
             <ResultCard label="IDC Tax Savings" value={results.idcTaxSavings} positive={true} />
-            <ResultCard label="Tangible Depreciation (Yr 1)" value={results.tangibleDepreciation} />
+            <ResultCard label="Tangible Depr. (Yr 1, 14.29%)" value={results.tangibleDepreciation} />
             <ResultCard label="Tangible Tax Savings" value={results.tangibleTaxSavings} positive={true} />
-            <ResultCard label="Depletion Savings" value={results.depletionSavings} positive={true} />
+          </div>
+
+          {/* Depletion note */}
+          <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-3">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              <strong className="text-foreground">15% Percentage Depletion (IRC §613A):</strong> Not shown above because it applies during <em>production</em>, not at investment. Once the well produces, you can deduct 15% of gross well income as depletion — tax-free cash flow. This further reduces your effective cost over the life of the well. The depletion allowance has no cost basis limit for independent producers (unlike cost depletion).
+            </p>
           </div>
 
           {/* Pie Chart */}
