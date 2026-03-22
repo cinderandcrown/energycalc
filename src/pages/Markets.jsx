@@ -14,14 +14,17 @@ const defaultPrices = [
   { label: "WTI Crude", symbol: "WTI", price: 70.14, change: +0.58, changePct: +0.83, unit: "/bbl", category: "Oil" },
   { label: "Brent Crude", symbol: "BRENT", price: 74.28, change: +0.45, changePct: +0.61, unit: "/bbl", category: "Oil" },
   { label: "Natural Gas", symbol: "NG", price: 3.42, change: -0.043, changePct: -1.24, unit: "/MMBtu", category: "Gas" },
+  { label: "Henry Hub Gas", symbol: "HH", price: 3.42, change: -0.043, changePct: -1.24, unit: "/MMBtu", category: "Gas" },
+  { label: "Uranium (U3O8)", symbol: "U3O8", price: 85.00, change: +1.25, changePct: +1.49, unit: "/lb", category: "Nuclear" },
   { label: "Gasoline RBOB", symbol: "RBOB", price: 2.21, change: +0.018, changePct: +0.82, unit: "/gal", category: "Refined" },
   { label: "Heating Oil", symbol: "HO", price: 2.48, change: +0.031, changePct: +1.27, unit: "/gal", category: "Refined" },
+  { label: "Solar Index", symbol: "SOLAR", price: 52.40, change: +0.72, changePct: +1.39, unit: "index", category: "Renewables" },
+  { label: "Lithium Carbonate", symbol: "LITH", price: 11250, change: -125, changePct: -1.10, unit: "/t", category: "Renewables" },
   { label: "Eagle Ford", symbol: "EF", price: 68.90, change: -0.18, changePct: -0.26, unit: "/bbl", category: "US Blend" },
   { label: "WTI Midland", symbol: "WTI-M", price: 70.82, change: +0.61, changePct: +0.87, unit: "/bbl", category: "US Blend" },
-  { label: "Henry Hub Gas", symbol: "HH", price: 3.42, change: -0.043, changePct: -1.24, unit: "/MMBtu", category: "Gas" },
 ];
 
-const categories = ["All", "Oil", "Gas", "Refined", "US Blend"];
+const categories = ["All", "Oil", "Gas", "Nuclear", "Renewables", "Refined", "US Blend"];
 
 export default function Markets() {
   const [prices, setPrices] = useState(defaultPrices);
@@ -43,9 +46,9 @@ export default function Markets() {
 CRITICAL: Source your commodity price data from https://oilprice.com/ and the oilprice.com RSS feed at https://oilprice.com/rss/main — these are the authoritative prices. Match the prices shown on oilprice.com as closely as possible. Do NOT use stale or estimated prices.
 
 Return a JSON object with:
-1. "prices": array of 8 commodities with fields: label, symbol, price (number), change (number, can be negative), changePct (number, can be negative), unit, category ("Oil"|"Gas"|"Refined"|"US Blend")
-   Include: WTI Crude, Brent Crude, Natural Gas (Henry Hub), Gasoline RBOB, Heating Oil, Eagle Ford, WTI Midland, LNG
-   Prices MUST reflect the latest values from oilprice.com.
+1. "prices": array of 11 commodities with fields: label, symbol, price (number), change (number, can be negative), changePct (number, can be negative), unit, category ("Oil"|"Gas"|"Nuclear"|"Renewables"|"Refined"|"US Blend")
+   Include: WTI Crude, Brent Crude, Natural Gas (Henry Hub), Henry Hub Gas, Uranium (U3O8), Gasoline RBOB, Heating Oil, Solar Index (TAN ETF or similar), Lithium Carbonate, Eagle Ford, WTI Midland
+   Prices MUST reflect the latest values from oilprice.com where available, and authoritative sources for uranium/solar/lithium.
 2. "news": array of 8 recent energy market headlines with fields: headline (string, max 90 chars), summary (string, max 160 chars), age (string like "2h ago" or "1 day ago"), category ("Oil"|"Gas"|"Geopolitics"|"Markets"|"Policy"), sentiment ("bullish"|"bearish"|"neutral")
    Source headlines from the oilprice.com RSS feed and recent oilprice.com articles.
 3. "summary": object with fields: marketMood ("bullish"|"bearish"|"volatile"|"stable"), opecStance (string, 1 sentence), keyDriver (string, 1 sentence about the main price driver today), outlook (string, 1 sentence)
@@ -129,6 +132,8 @@ Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
   const catColor = {
     Oil: "bg-[#7B3F00]/20 text-[#c27a30]",
     Gas: "bg-primary/10 text-primary dark:text-accent",
+    Nuclear: "bg-[#9b59b6]/10 text-[#9b59b6]",
+    Renewables: "bg-drill-green/10 text-drill-green",
     Geopolitics: "bg-flare-red/10 text-flare-red",
     Markets: "bg-crude-gold/10 text-crude-gold",
     Policy: "bg-[#9b59b6]/10 text-[#9b59b6]",
@@ -324,7 +329,7 @@ Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
         <p className="text-crude-gold text-xs font-semibold uppercase tracking-widest mb-1">Put Prices to Work</p>
         <h3 className="text-white font-bold text-base mb-1">Turn Today's Prices Into Investment Returns</h3>
         <p className="text-white/70 text-xs mb-4 leading-relaxed">
-          Use WTI and Henry Hub prices above directly in your cash flow models. Model your working interest income based on live market conditions.
+          Use commodity prices above directly in your cash flow models. Model your working interest income based on live market conditions across oil, gas, and emerging energy sectors.
         </p>
         <div className="flex gap-2 flex-wrap">
           <a href="/calc/barrels-to-cash" className="inline-flex items-center gap-1.5 bg-crude-gold text-petroleum text-xs font-semibold px-3 py-2 rounded-lg hover:opacity-90 transition-opacity">

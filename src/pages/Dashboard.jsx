@@ -108,7 +108,7 @@ const taxAdvantages = [
 ];
 
 const whyEnergy = [
-  { label: "Avg. IRR on producing wells", value: "25–40%", up: true },
+  { label: "Avg. IRR on producing assets", value: "25–40%", up: true },
   { label: "Year-1 tax deduction (typical)", value: "~65–80%", up: true },
   { label: "S&P 500 avg. annual return", value: "10.5%", up: false },
   { label: "Commodity inflation hedge", value: "Strong", up: true },
@@ -173,7 +173,7 @@ export default function Dashboard() {
           {loading ? "Welcome back" : `Welcome back, ${user?.full_name?.split(" ")[0] ?? "there"} 👋`}
         </motion.h1>
         <p className="text-muted-foreground mt-1 text-sm md:text-base">
-          Know your numbers before you drill. Built for operators, investors, and energy professionals.
+          Know your numbers before you invest. Built for operators, investors, and commodity energy professionals.
         </p>
       </div>
 
@@ -182,10 +182,10 @@ export default function Dashboard() {
         <div className="rounded-2xl border-2 border-crude-gold/30 bg-gradient-to-br from-petroleum via-[#0d2d5a] to-[#0B2545] dark:from-card dark:via-card dark:to-card/80 p-6">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-crude-gold" />
-            <h2 className="font-bold text-white text-base">Why Energy Investing Outperforms</h2>
+            <h2 className="font-bold text-white text-base">Why Commodity Energy Investing Outperforms</h2>
           </div>
           <p className="text-white/70 text-sm leading-relaxed mb-5">
-            Oil & gas investments offer <strong className="text-crude-gold">unmatched tax advantages</strong> unavailable in stocks, real estate, or crypto. The U.S. tax code actively incentivizes domestic energy production — giving qualified investors the ability to write off the majority of their investment in <strong className="text-white">Year 1</strong> while generating commodity-backed cash flow.
+            Commodity-driven energy investments — oil, gas, solar, wind, uranium — offer <strong className="text-crude-gold">unmatched tax advantages</strong> unavailable in stocks, real estate, or crypto. The U.S. tax code actively incentivizes domestic energy production — giving qualified investors the ability to write off the majority of their investment in <strong className="text-white">Year 1</strong> while generating commodity-backed cash flow.
           </p>
           <div className="grid grid-cols-2 gap-3">
             {whyEnergy.map((item) => (
@@ -359,7 +359,7 @@ export default function Dashboard() {
       {/* Footer Disclaimer */}
       <div className="pb-4 pt-2 text-center">
         <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
-          EnergyCalc Pro is for informational and educational purposes only. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
+          EnergyCalc Pro is for informational and educational purposes only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
         </p>
       </div>
     </div>
