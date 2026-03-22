@@ -307,8 +307,13 @@ Be specific. Quote actual language from the text when citing red flags. Be harsh
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
           {/* Risk Score */}
           <div className={`rounded-xl border p-4 ${riskColor[analysis.riskLevel] || riskColor.medium}`}>
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-bold text-sm uppercase tracking-wide">Risk Assessment</span>
+            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm uppercase tracking-wide">Risk Assessment</span>
+                {analysis.dealStructure && (
+                  <Badge className="bg-background/50 border border-current text-[10px] font-bold">{analysis.dealStructure}</Badge>
+                )}
+              </div>
               <div className="flex items-center gap-2">
                 <span className="font-mono font-bold text-2xl">{analysis.riskScore}/10</span>
                 <Badge className={`${riskColor[analysis.riskLevel]} border font-bold uppercase text-xs`}>
