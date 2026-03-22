@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
+import OilPourTransition from './OilPourTransition';
 
 const calcItems = [
   { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
@@ -154,7 +155,9 @@ export default function Layout() {
 
       {/* Main Content */}
       <main className="flex-1 pb-20 md:pb-0">
-        <Outlet />
+        <OilPourTransition>
+          <Outlet />
+        </OilPourTransition>
       </main>
 
       {/* Desktop Legal Footer */}
