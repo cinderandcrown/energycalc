@@ -78,52 +78,120 @@ const ddChecklist = [
 
 // ─── Common Fraud Patterns ────────────────────────────────────────────────
 const fraudPatterns = [
+  // ── Promissory Note Deals ──
   {
     name: "The Promissory Note Trap",
     severity: "critical",
+    dealType: "Promissory Note",
     description: "Operator offers a 'promissory note' paying 12–24% annual interest instead of equity ownership. Sounds like a bond — it's not. These are often unregistered securities, unsecured against any asset, and nearly impossible to collect on. When the operator goes under, note holders are last in line after everyone else.",
-    warning: "Any oil & gas investment structured as a promissory note should be reviewed by a securities attorney before signing."
+    warning: "Any oil & gas investment structured as a promissory note should be reviewed by a securities attorney before signing. Demand to know what assets secure the note and what happens in default."
   },
+  // ── Limited Partnership (LP) Deals ──
+  {
+    name: "The LP Fee Stack / Promote Overload",
+    severity: "critical",
+    dealType: "Limited Partnership",
+    description: "The GP structures the LP so they collect multiple layers of fees before investors see a dime: management fees (2–3%), acquisition fees (3–5%), drilling supervision fees (10–15%), disposition fees (2–3%), and a back-end carried interest (25–50% after payout). By the time all GP fees are paid, a well needs to produce 2–3x projections just for LPs to break even. This was the bread-and-butter structure of 1980s oil & gas tax shelters — and many modern programs use the same playbook.",
+    warning: "Add up ALL GP fees — management, acquisition, drilling supervision, overhead, carry. If total GP compensation exceeds 20–25% of invested capital before LPs get a return, the economics are stacked against you. Compare to direct working interest deals where you own the production directly."
+  },
+  {
+    name: "The LP 'Blind Pool' Gamble",
+    severity: "high",
+    dealType: "Limited Partnership",
+    description: "LP offering raises capital for wells that haven't been identified yet — the so-called 'blind pool.' Investors commit $250K–$500K not knowing which leases, which basin, or even which state the wells will be drilled in. The GP has complete discretion to pick projects after they have your money. Some GPs deliberately choose marginal prospects after fundraising because better acreage was never available — they needed your money first.",
+    warning: "Demand prospect-specific details BEFORE investing: target formation, lease location (section/township/range), offset well production data, and an independent engineering report. If the GP says 'trust us to pick good wells,' your money is better spent elsewhere."
+  },
+  {
+    name: "The LP Capital Call Trap",
+    severity: "high",
+    dealType: "Limited Partnership",
+    description: "LP agreement contains open-ended capital call provisions allowing the GP to demand additional funding for 'completion costs,' 'workover expenses,' or 'additional drilling.' Investors who don't pay the capital call face dilution, forfeiture of their interest, or conversion to a smaller NRI. Some GPs deliberately underfund initial drilling to force capital calls — capturing more money from committed investors who are afraid to lose their existing stake.",
+    warning: "Read the capital call provisions line by line. Look for: maximum capital call amounts, caps on total investor commitment, and what happens if you don't participate. The best LP deals cap total investor exposure at 100–120% of initial commitment."
+  },
+  {
+    name: "The LP 'Waterfall' Manipulation",
+    severity: "high",
+    dealType: "Limited Partnership",
+    description: "Distribution waterfall looks fair on paper — '80% to LPs until payout, then 60/40 split.' But the GP defines 'payout' using total program costs including inflated management fees, affiliated service charges, and overhead allocations. True investor payout is pushed far into the future while the GP collects distributions from Day 1 via their fee structure.",
+    warning: "Insist that 'payout' means return of INVESTOR capital only — not reimbursement of GP overhead. Model the waterfall yourself using the Rate of Return calculator with realistic production declines. If payout takes >36 months at projected rates, the deal may never pay out."
+  },
+  // ── Joint Venture (JV) Deals ──
+  {
+    name: "The JV 'Turnkey' Price Gouge",
+    severity: "critical",
+    dealType: "Joint Venture",
+    description: "Operator offers a turnkey JV where you pay a fixed price per well (e.g., $400K for a 25% WI). The actual drilling cost is $250K total — meaning the operator pockets $150K in hidden markup before a single barrel is produced. You're paying $400K for a $62.5K well cost (your 25% share of $250K). The operator's 'skin in the game' is zero — they already profited at closing. Sites like oilcashflow.com and similar platforms historically promoted turnkey JV deals where the markup was buried in the turnkey price.",
+    warning: "ALWAYS demand the AFE (Authorization for Expenditure) with line-item costs. Compare the turnkey price to the actual AFE. If the turnkey exceeds the AFE by more than 15–20%, the excess is pure operator profit — not drilling cost. Ask: 'What is the operator paying per well vs. what am I paying?'"
+  },
+  {
+    name: "The JV 'Carried Interest' Illusion",
+    severity: "high",
+    dealType: "Joint Venture",
+    description: "JV agreement states the operator is 'carried' through drilling — meaning investors pay 100% of drilling costs while the operator retains a significant working interest (25–50%) for free. This is pitched as 'the operator contributes the leases, you contribute the capital.' In reality, the leases may have been acquired for pennies per acre, and the operator is getting a free ride on your capital with no financial risk.",
+    warning: "Calculate the value of the operator's lease contribution vs. your cash contribution. If you're paying $500K and the operator's leases cost $5K, you're funding a 100:1 leverage play for the operator. The carry should be proportional to the actual value contributed."
+  },
+  {
+    name: "The JV 'Operator Controlled' Expenses",
+    severity: "critical",
+    dealType: "Joint Venture",
+    description: "JV operating agreement (JOA) gives the operator sole authority over all expenditures, vendor selection, and well operations — with no cap, no competitive bidding requirement, and no investor approval threshold. The operator hires their own affiliated drilling company, saltwater disposal company, and pipeline company at above-market rates. Your monthly JIBs (Joint Interest Billings) eat up all production revenue. This is the #1 complaint in JV oil & gas deals.",
+    warning: "The JOA should include: (1) AFE approval process for expenditures over $25K, (2) competitive bidding on services over $50K, (3) prohibition or disclosure of affiliated-party transactions, (4) monthly JIB detail with supporting invoices, (5) audit rights allowing investors to examine operator books annually."
+  },
+  {
+    name: "The JV Non-Consent Penalty",
+    severity: "high",
+    dealType: "Joint Venture",
+    description: "JV agreement includes a 'non-consent' clause: if the operator proposes a new well or workover and you decline to participate, you're penalized with a 200–500% cost recovery penalty. This means the participating parties recover 2–5x their costs from YOUR share of future production before you see another check. Operators use this to force investors into every new expenditure or strip their existing revenue.",
+    warning: "Standard AAPL (American Association of Professional Landmen) non-consent penalty is 200–300% for development wells. Anything above 300% is aggressive. Some JOAs allow the operator to unilaterally propose wells — giving them the power to either drain your capital or dilute your interest. Negotiate a cap."
+  },
+  // ── Cross-Deal Patterns ──
   {
     name: "The Overriding Royalty Scheme",
     severity: "critical",
-    description: "Operator sells working interest to investors, then layers multiple overriding royalty interests (ORRIs) off the top — to himself, family members, or shell companies. By the time production revenue flows to investors, it's been bled dry by hidden royalty burdens not disclosed in the PPM.",
-    warning: "Demand a complete title opinion showing all royalty burdens on the leasehold before committing capital."
+    dealType: "All Deal Types",
+    description: "Operator sells working interest to investors (via LP, JV, or direct participation), then layers multiple overriding royalty interests (ORRIs) off the top — to himself, family members, or shell companies. By the time production revenue flows to investors, it's been bled dry by hidden royalty burdens not disclosed in the PPM. A 75% NRI on a 100% WI means 25% is going to royalties and overrides — if the operator holds a secret 10% ORRI on top of that, your effective NRI drops to 65%.",
+    warning: "Demand a complete title opinion showing ALL royalty burdens on the leasehold before committing capital. Cross-reference the ORRI holders against the operator's principals, family, and affiliated entities."
   },
   {
     name: "The 'Proven Formation' Bait-and-Switch",
     severity: "high",
-    description: "Operator shows you production data from a successful nearby well to imply your well will match it. The PPM vaguely references 'proven formations' but contains no engineering report. The nearby well may be in a different zone, different lease, or owned by someone else entirely.",
-    warning: "Insist on an independent 3rd-party engineering report specific to your lease and target formation."
+    dealType: "All Deal Types",
+    description: "Operator shows you production data from a successful nearby well to imply your well will match it. The PPM vaguely references 'proven formations' but contains no engineering report. The nearby well may be in a different zone, different lease, or owned by someone else entirely. Common in LP programs and JV offerings targeting retail investors.",
+    warning: "Insist on an independent 3rd-party engineering report specific to YOUR lease and target formation. Verify offset well data on the state oil & gas board website — don't take the operator's word for it."
   },
   {
     name: "The Cost Stuffing Operation",
     severity: "high",
-    description: "Operator controls affiliated service companies (drilling contractor, saltwater disposal, pipeline transport). All costs are billed to the joint account at inflated rates through these related-party entities. Investor's revenue is consumed by these manufactured expenses. Completely legal if disclosed — criminal if hidden.",
-    warning: "JOA should require competitive bidding or market-rate caps on all affiliated-party transactions."
+    dealType: "All Deal Types",
+    description: "Operator controls affiliated service companies (drilling contractor, saltwater disposal, pipeline transport). All costs are billed to the joint account at inflated rates through these related-party entities. Investor's revenue is consumed by these manufactured expenses. This affects LPs, JVs, and direct WI deals equally. Completely legal if disclosed — criminal if hidden.",
+    warning: "JOA or LPA should require competitive bidding or market-rate caps on all affiliated-party transactions. You have the right to audit operator books in most agreements — exercise it."
   },
   {
     name: "The Dry Hole Rollover",
     severity: "high",
-    description: "Well comes in dry or is plugged early. Operator immediately approaches investors with a 'new opportunity' to recover losses in another deal. Each new deal generates more upfront fees. The cycle repeats. Investors throw good money after bad chasing sunk costs.",
-    warning: "A dry hole is part of oil & gas risk. An operator who immediately pivots to selling you another deal may be fee-farming."
+    dealType: "All Deal Types",
+    description: "Well comes in dry or is plugged early. Operator immediately approaches investors with a 'new opportunity' to recover losses in another deal. Each new deal generates more upfront fees for the operator. The cycle repeats. Investors throw good money after bad chasing sunk costs. This is rampant in both LP programs and JV deal flow.",
+    warning: "A dry hole is part of oil & gas risk. An operator who immediately pivots to selling you another deal may be fee-farming. Evaluate each deal independently — sunk costs are sunk."
   },
   {
     name: "The Regulation D Misuse",
     severity: "medium",
-    description: "Operator claims Reg D exemption (no SEC registration required) but solicits investors via cold calls, social media, or public advertising — which is only allowed under 506(c) with verified accredited investors. Most small operators use 506(b) which strictly prohibits general solicitation.",
+    dealType: "All Deal Types",
+    description: "Operator claims Reg D exemption (no SEC registration required) but solicits investors via cold calls, social media, or public advertising — which is only allowed under 506(c) with verified accredited investors. Most small operators use 506(b) which strictly prohibits general solicitation. This applies to LPs, JVs, and promissory notes alike.",
     warning: "Ask whether the offering is 506(b) or 506(c) and whether you were cold-solicited. If yes, report to your state securities regulator."
   },
   {
     name: "The Phantom Well Scheme",
     severity: "critical",
-    description: "Operator collects investor funds, claims to drill a well, and provides fabricated production reports and revenue statements. No well exists or drilling was abandoned early. Investor checks are funded by new investor money (Ponzi structure). When the new money dries up, the operation collapses and the operator disappears.",
+    dealType: "All Deal Types",
+    description: "Operator collects investor funds, claims to drill a well, and provides fabricated production reports and revenue statements. No well exists or drilling was abandoned early. Investor checks are funded by new investor money (Ponzi structure). When the new money dries up, the operation collapses and the operator disappears. Can be structured as LP, JV, or direct participation.",
     warning: "ALWAYS verify well status independently on the state oil & gas board website (TX RRC, OK OCC, etc.) using the API number. Request GPS coordinates and verify the drill site on satellite imagery."
   },
   {
     name: "The 'Tax Play' Misdirection",
     severity: "high",
-    description: "Promoter sells the deal purely on tax benefits: 'Write off 85% of your investment in Year 1!' The focus on taxes distracts from terrible underlying economics — the well may never produce enough to generate meaningful returns. Tax deductions don't help if the investment itself goes to zero.",
+    dealType: "All Deal Types",
+    description: "Promoter sells the deal purely on tax benefits: 'Write off 85% of your investment in Year 1!' The focus on taxes distracts from terrible underlying economics — the well may never produce enough to generate meaningful returns. Tax deductions don't help if the investment itself goes to zero. Common in both LP and JV offerings targeting high-income professionals.",
     warning: "Tax benefits should enhance a good deal, not make a bad deal tolerable. Always model the investment BEFORE tax benefits using the Rate of Return calculator. If the pre-tax economics don't work, the deductions are just a smaller loss."
   },
 ];
