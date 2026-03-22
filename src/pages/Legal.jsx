@@ -62,10 +62,10 @@ TO ENSURE COMPLIANCE WITH REQUIREMENTS IMPOSED BY THE INTERNAL REVENUE SERVICE U
     priority: "high",
     content: `Effective Date: ${EFFECTIVE_DATE}
 
-ACCEPTANCE OF TERMS
+ACCEPTANCE OF TERMS — ELECTRONIC AGREEMENT
 By accessing, browsing, or using ${COMPANY_NAME} (the "Platform"), you ("User," "you," or "your") acknowledge that you have read, understood, and agree to be bound by these Terms of Use ("Terms"), the Privacy Policy, and all other policies and disclaimers posted on this Platform (collectively, the "Agreement"). If you do not agree to all terms of this Agreement, you must immediately cease using the Platform.
 
-This Agreement constitutes a legally binding contract between you and ${COMPANY_ENTITY} ("Company," "we," "us," or "our"). Your continued use of the Platform after any modification to these Terms constitutes your acceptance of such modifications.
+This Agreement constitutes a legally binding contract between you and ${COMPANY_ENTITY} ("Company," "we," "us," or "our"), formed under the laws of the State of ${GOVERNING_STATE}. Your access to or use of the Platform constitutes your electronic signature and acceptance of this Agreement under the Electronic Signatures in Global and National Commerce Act (15 U.S.C. § 7001 et seq.) and the Texas Uniform Electronic Transactions Act (Tex. Bus. & Com. Code § 322.001 et seq.). You agree that this electronic acceptance has the same legal force and effect as a physical signature. Your continued use of the Platform after any modification to these Terms constitutes your acceptance of such modifications.
 
 ELIGIBILITY
 You must be at least eighteen (18) years of age and legally competent to enter into binding contracts in your jurisdiction to use this Platform. By using this Platform, you represent and warrant that you meet these eligibility requirements.
@@ -193,8 +193,8 @@ TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, YOU HEREBY KNOWINGLY, VOLUNTA
 LIMITATION ON TIME TO FILE CLAIMS
 ANY CAUSE OF ACTION OR CLAIM YOU MAY HAVE ARISING OUT OF OR RELATING TO THIS AGREEMENT OR THE PLATFORM MUST BE COMMENCED WITHIN ONE (1) YEAR AFTER THE CAUSE OF ACTION ACCRUES. OTHERWISE, SUCH CAUSE OF ACTION OR CLAIM IS PERMANENTLY BARRED.
 
-GOVERNING LAW
-This Agreement and all Disputes shall be governed by and construed in accordance with the laws of the State of ${GOVERNING_STATE}, without giving effect to any choice or conflict of law provision or rule. To the extent any matter is not subject to arbitration under this Agreement, the exclusive jurisdiction and venue shall be in the state and federal courts located in ${GOVERNING_STATE}.`
+GOVERNING LAW & VENUE
+This Agreement and all Disputes shall be governed by and construed in accordance with the laws of the State of ${GOVERNING_STATE}, without giving effect to any choice or conflict of law provision or rule (including the Texas conflict of laws rules under Chapter 271 of the Texas Business and Commerce Code). To the extent any matter is not subject to arbitration under this Agreement, you irrevocably and unconditionally consent to the exclusive jurisdiction and venue of the state courts of ${GOVERNING_COUNTY}, ${GOVERNING_STATE}, and the United States District Court for the Southern District of ${GOVERNING_STATE}, and you irrevocably waive any objection to such jurisdiction or venue, including any objection based on inconvenient forum.`
   },
   {
     id: "ai-disclaimer",
