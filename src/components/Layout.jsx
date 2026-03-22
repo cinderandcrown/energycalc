@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 
 const calcItems = [
@@ -18,6 +18,7 @@ const navItems = [
   { path: '/operator-screener', icon: Search, label: 'Vet' },
   { path: '/tax-strategies', icon: Landmark, label: 'Tax' },
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
+  { path: '/web3', icon: Blocks, label: 'Web3' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
@@ -190,7 +191,7 @@ export default function Layout() {
           </div>
         )}
 
-        <div className="grid grid-cols-9">
+        <div className="grid grid-cols-10">
           {/* Dashboard */}
           <Link
             to="/dashboard"

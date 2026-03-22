@@ -26,6 +26,7 @@ import InvestorProtection from './pages/InvestorProtection';
 import OperatorScreener from './pages/OperatorScreener';
 import TaxStrategies from './pages/TaxStrategies';
 import Portfolio from './pages/Portfolio';
+import Web3Energy from './pages/Web3Energy';
 
 const ProtectedRoutes = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -81,6 +82,7 @@ function App() {
               <Route path="/operator-screener" element={<OperatorScreener />} />
               <Route path="/tax-strategies" element={<TaxStrategies />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/web3" element={<Web3Energy />} />
             </Route>
 
             <Route path="*" element={<PageNotFound />} />
