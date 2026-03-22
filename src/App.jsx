@@ -1,100 +1,105 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Layout from './components/Layout';
 
-// Public pages (no auth required)
-import Landing from './pages/Landing';
-import Legal from './pages/Legal';
+// Page imports
+import Landing from '@/pages/Landing';
+import Dashboard from '@/pages/Dashboard';
+import Markets from '@/pages/Markets';
+import MarketIntelligence from '@/pages/MarketIntelligence';
+import Portfolio from '@/pages/Portfolio';
+import InvestorProtection from '@/pages/InvestorProtection';
+import RegDGuide from '@/pages/RegDGuide';
+import HonestGuide from '@/pages/HonestGuide';
+import OperatorScreener from '@/pages/OperatorScreener';
+import TaxStrategies from '@/pages/TaxStrategies';
+import Scenarios from '@/pages/Scenarios';
+import Web3Energy from '@/pages/Web3Energy';
+import Learn from '@/pages/Learn';
+import Settings from '@/pages/Settings';
+import Legal from '@/pages/Legal';
+import Compare from '@/pages/Compare';
+import NetInvestment from '@/pages/calc/NetInvestment';
+import BarrelsToCash from '@/pages/calc/BarrelsToCash';
+import NatGasToCash from '@/pages/calc/NatGasToCash';
+import RateOfReturn from '@/pages/calc/RateOfReturn';
+import TaxImpact from '@/pages/calc/TaxImpact';
 
-// Protected pages
-import Dashboard from './pages/Dashboard';
-import NetInvestment from './pages/calc/NetInvestment';
-import BarrelsToCash from './pages/calc/BarrelsToCash';
-import NatGasToCash from './pages/calc/NatGasToCash';
-import RateOfReturn from './pages/calc/RateOfReturn';
-import Scenarios from './pages/Scenarios';
-import Compare from './pages/Compare';
-import Learn from './pages/Learn';
-import Settings from './pages/Settings';
-import Markets from './pages/Markets';
-import InvestorProtection from './pages/InvestorProtection';
-import OperatorScreener from './pages/OperatorScreener';
-import TaxStrategies from './pages/TaxStrategies';
-import Portfolio from './pages/Portfolio';
-import Web3Energy from './pages/Web3Energy';
-import HonestGuide from './pages/HonestGuide';
-import MarketIntelligence from './pages/MarketIntelligence';
-import TaxImpact from './pages/calc/TaxImpact';
-import RegDGuide from './pages/RegDGuide';
+// Layout
+import Layout from '@/components/Layout';
 
-const ProtectedRoutes = () => {
+const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
+  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-muted border-t-primary dark:border-t-accent rounded-full animate-spin"></div>
-          <p className="text-sm text-muted-foreground font-medium">Loading EnergyCalc Pro...</p>
-        </div>
+      <div className="fixed inset-0 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
       </div>
     );
   }
 
+  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
+      // Redirect to login automatically
       navigateToLogin();
       return null;
     }
   }
 
+  // Render the main app
   return (
-    <Layout />
+    <Routes>
+      {/* Public landing page */}
+      <Route path="/" element={<Landing />} />
+      <Route path="/legal" element={<Legal />} />
+
+      {/* Authenticated pages with Layout */}
+      <Route element={<Layout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/markets" element={<Markets />} />
+        <Route path="/intelligence" element={<MarketIntelligence />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/investor-protection" element={<InvestorProtection />} />
+        <Route path="/reg-d" element={<RegDGuide />} />
+        <Route path="/honest-guide" element={<HonestGuide />} />
+        <Route path="/operator-screener" element={<OperatorScreener />} />
+        <Route path="/tax-strategies" element={<TaxStrategies />} />
+        <Route path="/scenarios" element={<Scenarios />} />
+        <Route path="/web3" element={<Web3Energy />} />
+        <Route path="/learn" element={<Learn />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/compare" element={<Compare />} />
+
+        {/* Calculators */}
+        <Route path="/calc/net-investment" element={<NetInvestment />} />
+        <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
+        <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
+        <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
+        <Route path="/calc/tax-impact" element={<TaxImpact />} />
+      </Route>
+
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 };
 
+
 function App() {
+
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
-          <Routes>
-            {/* Public routes - no auth needed */}
-            <Route path="/" element={<Landing />} />
-            <Route path="/legal" element={<Legal />} />
-
-            {/* Protected routes - wrapped in auth + layout */}
-            <Route element={<ProtectedRoutes />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/markets" element={<Markets />} />
-              <Route path="/calc/net-investment" element={<NetInvestment />} />
-              <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
-              <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
-              <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
-              <Route path="/calc/tax-impact" element={<TaxImpact />} />
-              <Route path="/scenarios" element={<Scenarios />} />
-              <Route path="/compare" element={<Compare />} />
-              <Route path="/learn" element={<Learn />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/investor-protection" element={<InvestorProtection />} />
-              <Route path="/operator-screener" element={<OperatorScreener />} />
-              <Route path="/tax-strategies" element={<TaxStrategies />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/web3" element={<Web3Energy />} />
-              <Route path="/honest-guide" element={<HonestGuide />} />
-              <Route path="/intelligence" element={<MarketIntelligence />} />
-              <Route path="/reg-d" element={<RegDGuide />} />
-            </Route>
-
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
+          <AuthenticatedApp />
         </Router>
         <Toaster />
       </QueryClientProvider>
