@@ -24,6 +24,7 @@ import Settings from './pages/Settings';
 import Markets from './pages/Markets';
 import InvestorProtection from './pages/InvestorProtection';
 import OperatorScreener from './pages/OperatorScreener';
+import TaxStrategies from './pages/TaxStrategies';
 
 const ProtectedRoutes = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -77,6 +78,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/investor-protection" element={<InvestorProtection />} />
               <Route path="/operator-screener" element={<OperatorScreener />} />
+              <Route path="/tax-strategies" element={<TaxStrategies />} />
             </Route>
 
             <Route path="*" element={<PageNotFound />} />
