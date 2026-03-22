@@ -95,7 +95,6 @@ export default function Landing() {
           <nav className="hidden md:flex items-center gap-6">
             <button onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</button>
             <button onClick={scrollToPricing} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</button>
-            <button onClick={() => document.getElementById("consulting")?.scrollIntoView({ behavior: "smooth" })} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Consulting</button>
             <Link to="/legal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Legal</Link>
           </nav>
 
@@ -120,7 +119,6 @@ export default function Landing() {
           <div className="md:hidden border-t border-border bg-card px-4 py-4 space-y-3">
             <button onClick={() => { document.getElementById("features")?.scrollIntoView({ behavior: "smooth" }); setMobileMenuOpen(false); }} className="block text-sm text-foreground">Features</button>
             <button onClick={scrollToPricing} className="block text-sm text-foreground">Pricing</button>
-            <button onClick={() => { document.getElementById("consulting")?.scrollIntoView({ behavior: "smooth" }); setMobileMenuOpen(false); }} className="block text-sm text-foreground">Consulting</button>
             <Link to="/legal" className="block text-sm text-foreground" onClick={() => setMobileMenuOpen(false)}>Legal</Link>
             <button onClick={() => base44.auth.redirectToLogin("/dashboard")} className="block text-sm text-crude-gold font-semibold">Sign In →</button>
           </div>
