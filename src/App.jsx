@@ -23,6 +23,7 @@ import Learn from './pages/Learn';
 import Settings from './pages/Settings';
 import Markets from './pages/Markets';
 import InvestorProtection from './pages/InvestorProtection';
+import OperatorScreener from './pages/OperatorScreener';
 
 const ProtectedRoutes = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -75,6 +76,7 @@ function App() {
               <Route path="/learn" element={<Learn />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/investor-protection" element={<InvestorProtection />} />
+              <Route path="/operator-screener" element={<OperatorScreener />} />
             </Route>
 
             <Route path="*" element={<PageNotFound />} />
