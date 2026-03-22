@@ -10,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import LandingOilSplash from "@/components/LandingOilSplash";
+import HeroBackground from "@/components/landing/HeroBackground";
+import HeroContent from "@/components/landing/HeroContent";
 
 const PLAN = {
   name: "EnergyCalc Pro",
@@ -149,96 +151,8 @@ export default function Landing() {
 
       {/* ═══════ HERO ═══════ */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-petroleum via-[#0d2d5a] to-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,168,67,0.12),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(212,168,67,0.06),transparent_50%)]" />
-
-        {/* Animated oil bubbles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[
-            { left: "10%", delay: "0s", size: "6px", duration: "3s" },
-            { left: "25%", delay: "0.8s", size: "4px", duration: "2.5s" },
-            { left: "45%", delay: "1.5s", size: "8px", duration: "3.5s" },
-            { left: "65%", delay: "0.3s", size: "5px", duration: "2.8s" },
-            { left: "80%", delay: "2s", size: "3px", duration: "3.2s" },
-            { left: "90%", delay: "1.2s", size: "6px", duration: "2.6s" },
-          ].map((b, i) => (
-            <div
-              key={i}
-              className="absolute bottom-0 rounded-full bg-crude-gold/30"
-              style={{
-                left: b.left,
-                width: b.size,
-                height: b.size,
-                animation: `bubble-rise ${b.duration} ease-out infinite`,
-                animationDelay: b.delay,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-center">
-            <Badge className="bg-crude-gold/15 text-crude-gold border-crude-gold/25 mb-6 text-xs font-semibold px-4 py-1.5">
-              Built for Commodity Energy Investors
-            </Badge>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="text-center text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-5"
-          >
-            Know Your Numbers.{" "}
-            <span className="text-crude-gold">Protect Your Capital.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.22 }}
-            className="text-center text-white/65 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
-          >
-            The most powerful investor protection and deal analysis platform for oil & gas. Vet operators, analyze PPMs for red flags, model tax-adjusted returns, and arm yourself with the knowledge to never get taken. Built by investors, for investors.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3"
-          >
-            <Button size="lg" className="bg-crude-gold text-petroleum font-bold hover:bg-crude-gold/90 gap-2 px-8 h-12 text-base" onClick={scrollToPricing}>
-              <Zap className="w-5 h-5" />
-              View Plans &amp; Pricing
-            </Button>
-            <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 gap-2 h-12 text-base" onClick={handleSignIn}>
-              <Lock className="w-4 h-4" />
-              Sign In
-            </Button>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.45 }}
-            className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
-          >
-            {[
-              { value: "$10B+", label: "Annual energy investment fraud (FBI)" },
-              { value: "65–80%", label: "Year-1 tax deduction (typical WI)" },
-              { value: "25–40%", label: "Avg IRR on producing assets" },
-              { value: "6+", label: "Commodity sectors covered" },
-            ].map((s) => (
-              <div key={s.label} className="text-center rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-3 py-4">
-                <p className="font-mono font-bold text-xl text-crude-gold">{s.value}</p>
-                <p className="text-[11px] text-white/50 mt-1 leading-tight">{s.label}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+        <HeroBackground />
+        <HeroContent scrollToPricing={scrollToPricing} handleSignIn={handleSignIn} />
       </section>
 
       {/* ═══════ TRUST MISSION ═══════ */}
