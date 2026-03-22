@@ -30,6 +30,7 @@ import Web3Energy from './pages/Web3Energy';
 import HonestGuide from './pages/HonestGuide';
 import MarketIntelligence from './pages/MarketIntelligence';
 import TaxImpact from './pages/calc/TaxImpact';
+import RegDGuide from './pages/RegDGuide';
 
 const ProtectedRoutes = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -89,6 +90,7 @@ function App() {
               <Route path="/web3" element={<Web3Energy />} />
               <Route path="/honest-guide" element={<HonestGuide />} />
               <Route path="/intelligence" element={<MarketIntelligence />} />
+              <Route path="/reg-d" element={<RegDGuide />} />
             </Route>
 
             <Route path="*" element={<PageNotFound />} />

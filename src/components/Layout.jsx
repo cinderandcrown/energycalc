@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 
@@ -21,6 +21,7 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { path: '/reg-d', icon: FileText, label: 'Reg D Guide' },
   { path: '/honest-guide', icon: Scale, label: 'Honest Guide' },
   { path: '/operator-screener', icon: Search, label: 'Vet Operator' },
   { path: '/tax-strategies', icon: Landmark, label: 'Tax Strategies' },
