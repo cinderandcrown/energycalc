@@ -283,102 +283,51 @@ export default function Landing() {
       <section id="pricing" className="border-y border-border bg-card/30 py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Alliance Partner Plans</h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto">Choose the tier that matches your investment activity. Cancel anytime. Payments processed securely via Stripe.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Simple, Transparent Pricing</h2>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto">One plan. Full access. Cancel anytime. Payments processed securely via Stripe.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-4xl mx-auto">
-            {PLANS.map((plan) => {
-              const isLoading = checkoutLoading === plan.productId;
-              return (
-                <motion.div
-                  key={plan.productId}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`relative rounded-2xl border p-6 flex flex-col ${
-                    plan.highlight
-                      ? "border-crude-gold/50 bg-card shadow-lg shadow-crude-gold/5 ring-1 ring-crude-gold/20"
-                      : "border-border bg-card"
-                  }`}
-                >
-                  {plan.highlight && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-crude-gold text-petroleum text-[11px] font-bold px-4 py-1 rounded-full whitespace-nowrap">Most Popular</span>
-                    </div>
-                  )}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative rounded-2xl border-2 border-crude-gold/50 bg-card shadow-lg shadow-crude-gold/5 ring-1 ring-crude-gold/20 p-8 max-w-md mx-auto"
+          >
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="bg-crude-gold text-petroleum text-[11px] font-bold px-4 py-1 rounded-full whitespace-nowrap">Full Access</span>
+            </div>
 
-                  <div className="mb-5">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">{plan.badge}</p>
-                    <h3 className="font-bold text-foreground text-lg">{plan.name}</h3>
-                    <p className="text-muted-foreground text-xs mt-1.5 leading-relaxed">{plan.description}</p>
-                  </div>
+            <div className="text-center mb-6">
+              <h3 className="font-bold text-foreground text-xl">{PLAN.name}</h3>
+              <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">{PLAN.description}</p>
+            </div>
 
-                  <div className="flex items-baseline gap-1 mb-5">
-                    <span className="font-mono font-bold text-3xl text-foreground">{plan.price}</span>
-                    <span className="text-muted-foreground text-sm">{plan.period}</span>
-                  </div>
+            <div className="flex items-baseline justify-center gap-1 mb-6">
+              <span className="font-mono font-bold text-5xl text-foreground">{PLAN.price}</span>
+              <span className="text-muted-foreground text-lg">{PLAN.period}</span>
+            </div>
 
-                  <ul className="space-y-2.5 flex-1 mb-6">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5 text-sm text-foreground">
-                        <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0 mt-0.5" />
-                        <span className="leading-snug">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
+            <ul className="space-y-2.5 mb-8">
+              {PLAN.features.map((f) => (
+                <li key={f} className="flex items-start gap-2.5 text-sm text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0 mt-0.5" />
+                  <span className="leading-snug">{f}</span>
+                </li>
+              ))}
+            </ul>
 
-                  <Button
-                    onClick={() => handleCheckout(plan.productId)}
-                    disabled={!!checkoutLoading}
-                    className={`w-full gap-2 font-semibold h-11 ${
-                      plan.highlight
-                        ? "bg-crude-gold text-petroleum hover:bg-crude-gold/90"
-                        : "bg-primary text-primary-foreground hover:bg-primary/90"
-                    }`}
-                  >
-                    {isLoading ? "Redirecting to Checkout..." : "Get Started"}
-                    {!isLoading && <ArrowRight className="w-4 h-4" />}
-                  </Button>
-                </motion.div>
-              );
-            })}
-          </div>
+            <Button
+              onClick={() => handleCheckout(PLAN.productId)}
+              disabled={!!checkoutLoading}
+              className="w-full gap-2 font-semibold h-12 text-base bg-crude-gold text-petroleum hover:bg-crude-gold/90"
+            >
+              {checkoutLoading === PLAN.productId ? "Redirecting to Checkout..." : "Get Started — $10/mo"}
+              {checkoutLoading !== PLAN.productId && <ArrowRight className="w-4 h-4" />}
+            </Button>
+          </motion.div>
         </div>
       </section>
 
-      {/* ═══════ CONSULTING ═══════ */}
-      <section id="consulting" className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Consulting Services</h2>
-          <p className="text-muted-foreground text-sm max-w-lg mx-auto">Need hands-on guidance? Our Cinder &amp; Crown advisory team offers direct consulting for operators and investors.</p>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-          {CONSULTING.map((c) => {
-            const isLoading = checkoutLoading === c.productId;
-            return (
-              <div key={c.productId} className="rounded-2xl border border-border bg-card p-5 flex items-center justify-between gap-4">
-                <div>
-                  <p className="font-semibold text-foreground text-sm">{c.name}</p>
-                  <p className="font-mono font-bold text-lg text-crude-gold">
-                    {c.price}<span className="text-muted-foreground text-xs font-normal">{c.unit}</span>
-                  </p>
-                </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleCheckout(c.productId)}
-                  disabled={!!checkoutLoading}
-                  className="shrink-0 gap-1.5 border-crude-gold/30 text-crude-gold hover:bg-crude-gold/10"
-                >
-                  {isLoading ? "..." : "Book"}
-                  {!isLoading && <ArrowRight className="w-3.5 h-3.5" />}
-                </Button>
-              </div>
-            );
-          })}
-        </div>
-      </section>
 
       {/* ═══════ CTA ═══════ */}
       <section className="border-t border-border bg-gradient-to-b from-petroleum to-[#071a33]">
