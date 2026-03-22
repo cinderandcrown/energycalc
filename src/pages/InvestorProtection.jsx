@@ -283,6 +283,22 @@ Be specific. Quote actual language from the text when citing red flags. Be harsh
         }
       }
     });
+    // Save paste submission to database
+    await base44.entities.PPMSubmission.create({
+      document_title: result.dealStructure || "Pasted Document",
+      submission_type: "paste",
+      text_length: ppmText.length,
+      deal_structure: result.dealStructure || "Unknown",
+      risk_score: result.riskScore,
+      risk_level: result.riskLevel,
+      red_flag_count: result.redFlags?.length || 0,
+      green_flag_count: result.greenFlags?.length || 0,
+      missing_item_count: result.missingItems?.length || 0,
+      summary: result.summary,
+      verdict: result.verdict,
+      full_analysis: result,
+    });
+
     setAnalysis(result);
     setLoading(false);
   };
