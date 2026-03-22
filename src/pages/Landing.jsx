@@ -10,66 +10,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const PLANS = [
-  {
-    name: "Phoenix Alliance",
-    price: "$2,500",
-    period: "/mo",
-    productId: "prod_T51IJwjgs6O3pR",
-    badge: "Starter",
-    highlight: false,
-    description: "For individual investors getting started in oil & gas analysis.",
-    features: [
-      "All 4 investment calculators",
-      "Unlimited saved calculations",
-      "AI PPM Document Analyzer",
-      "Live commodity price feed",
-      "Investor Protection Center",
-      "Glossary & FAQ library",
-    ],
-  },
-  {
-    name: "Cinder Alliance",
-    price: "$3,750",
-    period: "/mo",
-    productId: "prod_T51M08shED7Vrs",
-    badge: "Most Popular",
-    highlight: true,
-    description: "For active investors managing multiple deals and scenarios.",
-    features: [
-      "Everything in Phoenix",
-      "Scenario comparison tools",
-      "Priority AI analysis",
-      "PDF export & reporting",
-      "Advanced decline modeling",
-      "Email support (24h SLA)",
-    ],
-  },
-  {
-    name: "Crown Alliance",
-    price: "$5,400",
-    period: "/mo",
-    productId: "prod_T51OYAvARzNNGo",
-    badge: "Enterprise",
-    highlight: false,
-    description: "For operators, fund managers, and institutional energy investors.",
-    features: [
-      "Everything in Cinder",
-      "Multi-user team access",
-      "White-label PDF reports",
-      "Custom deal modeling",
-      "Dedicated account manager",
-      "Phone support",
-    ],
-  },
-];
+const PLAN = {
+  name: "EnergyCalc Pro",
+  price: "$10",
+  period: "/mo",
+  productId: "prod_UC1nAY3emodE1H",
+  description: "Full access to every tool, calculator, and AI-powered feature on the platform.",
+  features: [
+    "All 4 investment calculators",
+    "Unlimited saved calculations",
+    "AI PPM Document Analyzer",
+    "AI Operator Screener",
+    "Live commodity price feed",
+    "Investor Protection Center",
+    "Scenario comparison tools",
+    "Geological due diligence guides",
+    "Glossary & FAQ library",
+  ],
+};
 
-const CONSULTING = [
-  { name: "Hourly Consulting", price: "$205", unit: "/hr", productId: "prod_T50spyJVYe7PXi" },
-  { name: "Half-Hour Strategy Session", price: "$125", unit: "", productId: "prod_T50yavcIXBEDb0" },
-  { name: "Day Rate (Up to 8 Hours)", price: "$1,480", unit: "/day", productId: "prod_T50u9H3WP10oV1" },
-  { name: "Contractor Block (Prepaid)", price: "$1,400", unit: "", productId: "prod_T50wgURmNwpm2G" },
-];
+
 
 const FEATURES = [
   { icon: ShieldAlert, title: "AI Operator Screener", desc: "Enter any operator's name and get an instant AI background check — red flags, known issues, regulatory actions, and verification steps. Your first line of defense." },
