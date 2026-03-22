@@ -324,6 +324,16 @@ Be specific. Quote actual language from the text when citing red flags. Be harsh
             <p className="text-sm leading-relaxed">{analysis.summary}</p>
           </div>
 
+          {/* Fee Analysis */}
+          {analysis.feeAnalysis && (
+            <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-4">
+              <p className="text-xs font-semibold text-crude-gold uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+                <DollarSign className="w-3.5 h-3.5" /> Fee & Cost Analysis
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">{analysis.feeAnalysis}</p>
+            </div>
+          )}
+
           {/* Verdict */}
           <div className="rounded-xl border border-border bg-card p-4">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">Verdict</p>
