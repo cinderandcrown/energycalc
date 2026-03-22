@@ -321,7 +321,7 @@ export default function Dashboard() {
         </div>
         <div className="mt-3 p-3 rounded-xl bg-muted/50 border border-border">
           <p className="text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">Example:</strong> A $500,000 investment with 75% IDC and a 37% federal tax rate can reduce your net out-of-pocket cost to <strong className="text-foreground">~$287,500</strong> — before a single barrel is produced. Use the <Link to="/calc/net-investment" className="text-primary dark:text-accent underline">Net Investment Calculator</Link> to model your scenario.
+            <strong className="text-foreground">Example:</strong> A $500,000 investment with 75% IDC and a 37% tax rate yields ~$138,750 in IDC deductions + ~$2,643 in Year-1 tangible depreciation = <strong className="text-foreground">~$141,393 in Year-1 tax savings</strong>, reducing your net cost to ~$358,607 before a barrel is produced. Once producing, 15% depletion further reduces your tax burden. Use the <Link to="/calc/net-investment" className="text-primary dark:text-accent underline">Net Investment Calculator</Link> to model your scenario.
           </p>
         </div>
       </section>
