@@ -379,7 +379,13 @@ ANTI-MONEY LAUNDERING (AML)
 ${COMPANY_ENTITY} does not accept, hold, transfer, or facilitate the transfer of investment funds or securities. ${COMPANY_NAME} is a SaaS platform that charges subscription fees for software access. We are not a financial institution subject to Bank Secrecy Act reporting requirements; however, we cooperate fully with law enforcement when legally required.
 
 TAX DISCLAIMER
-Tax-related calculations and information on this Platform are based on generalized interpretations of the Internal Revenue Code and Treasury Regulations as of the date of the Platform's most recent content update. This information does not constitute tax advice within the meaning of Treasury Department Circular 230. Users may not rely on tax-related information from this Platform for the purpose of avoiding tax penalties. Consult a licensed CPA or tax attorney for advice specific to your circumstances.`
+Tax-related calculations and information on this Platform are based on generalized interpretations of the Internal Revenue Code and Treasury Regulations as of the date of the Platform's most recent content update. This information does not constitute tax advice within the meaning of Treasury Department Circular 230 (31 C.F.R. Part 10). Users may not rely on tax-related information from this Platform for the purpose of (i) avoiding penalties under the Internal Revenue Code or (ii) promoting, marketing, or recommending any transaction or matter addressed herein. Consult a licensed CPA or tax attorney for advice specific to your circumstances.
+
+ERISA DISCLAIMER
+${COMPANY_NAME} is not a fiduciary with respect to any employee benefit plan as defined by Section 3(3) of the Employee Retirement Income Security Act of 1974, as amended ("ERISA"), or any plan described in Section 4975(e)(1) of the Internal Revenue Code ("Code"). Nothing on this Platform constitutes "investment advice" within the meaning of ERISA Section 3(21)(A)(ii) or a recommendation as defined by DOL Prohibited Transaction Exemption 2020-02. No content on this Platform is intended for use by ERISA plan fiduciaries in making investment decisions on behalf of plan participants. If you are a fiduciary of an ERISA-covered plan, you should not rely on any information from this Platform in fulfilling your fiduciary duties.
+
+ELECTRONIC FUNDS TRANSFER ACT / REG E
+${COMPANY_ENTITY} does not hold, custody, transfer, or facilitate the transfer of customer funds, securities, digital assets, or commodities. Subscription payments processed by Stripe, Inc. are governed by Stripe's terms of service and applicable provisions of the Electronic Funds Transfer Act (15 U.S.C. § 1693 et seq.) and Regulation E (12 C.F.R. Part 1005).`
   },
   {
     id: "miscellaneous",
@@ -557,7 +563,7 @@ export default function Legal() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {[
               { name: "SEC — Investor Education", url: "https://www.sec.gov/investor" },
-              { name: "SEC EDGAR — Company Filings", url: "https://www.sec.gov/cgi-bin/browse-edgar" },
+              { name: "SEC EDGAR — Company Filings", url: "https://efts.sec.gov/LATEST/search-index?q=%22oil%20and%20gas%22&dateRange=custom" },
               { name: "FINRA — Investor Education", url: "https://www.finra.org/investors" },
               { name: "FINRA BrokerCheck", url: "https://brokercheck.finra.org/" },
               { name: "NASAA — State Securities Regulators", url: "https://www.nasaa.org/" },
