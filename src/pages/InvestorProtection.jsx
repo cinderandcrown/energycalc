@@ -282,13 +282,13 @@ Be specific. Quote actual language from the text when citing red flags. Be harsh
         <div className="flex gap-2 items-start">
           <ShieldAlert className="w-4 h-4 text-flare-red mt-0.5 shrink-0" />
           <p className="text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">AI PPM Analyzer:</strong> Paste text from a PPM, JV agreement, subscription agreement, or promissory note. Our AI will flag investor risks, missing disclosures, and fraud patterns. <strong className="text-foreground">This does not constitute legal advice.</strong> Always consult a licensed securities attorney before investing.
+            <strong className="text-foreground">AI Deal Analyzer:</strong> Paste text from any oil & gas offering — LP agreement, JV contract, PPM, subscription agreement, promissory note, or direct participation program. Our AI identifies the deal structure, flags investor risks, analyzes fee stacking, and spots fraud patterns specific to that deal type. <strong className="text-foreground">This does not constitute legal advice.</strong> Always consult a licensed securities attorney before investing.
           </p>
         </div>
       </div>
 
       <Textarea
-        placeholder={`Paste your PPM, JV agreement, or offering document text here...\n\nExample: "Investor agrees to contribute $50,000 for a 5% working interest in the XYZ #1 well located in Jasper County, Mississippi, operated by ABC Energy LLC. Returns are expected within 90 days of first production..."`}
+        placeholder={`Paste your LP agreement, JV contract, PPM, promissory note, or any offering document here...\n\nExamples:\n• LP: "Limited Partner shall contribute $250,000 for a 2% LP interest. GP receives 25% carried interest after 150% payout..."\n• JV: "Investor agrees to pay $400,000 turnkey for a 25% WI in the Smith #1 well, operated by ABC Energy LLC..."\n• Note: "Promissory note in the amount of $100,000 at 18% annual interest, payable quarterly..."`}
         value={ppmText}
         onChange={(e) => setPpmText(e.target.value)}
         className="h-40 text-sm font-mono resize-none"
@@ -477,7 +477,7 @@ export default function InvestorProtection() {
 
       <Tabs defaultValue="analyzer">
         <TabsList className="w-full grid grid-cols-4 h-auto gap-1 p-1">
-          <TabsTrigger value="analyzer" className="text-xs py-2">AI Analyzer</TabsTrigger>
+          <TabsTrigger value="analyzer" className="text-xs py-2">AI Deal Analyzer</TabsTrigger>
           <TabsTrigger value="redflags" className="text-xs py-2">Red Flags</TabsTrigger>
           <TabsTrigger value="duediligence" className="text-xs py-2">Due Diligence</TabsTrigger>
           <TabsTrigger value="fraudpatterns" className="text-xs py-2">Fraud Patterns</TabsTrigger>
