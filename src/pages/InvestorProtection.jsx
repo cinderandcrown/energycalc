@@ -456,10 +456,10 @@ export default function InvestorProtection() {
           </div>
         </div>
         <p className="text-white/80 text-sm leading-relaxed mb-2">
-          The oil & gas industry has produced extraordinary wealth — and extraordinary fraud. From promissory note schemes to phantom wells and cost-stuffing operators, bad actors hide behind complex PPM language and shell companies. <strong className="text-white">This guide arms you with the tools to spot them before it costs you everything.</strong>
+          The oil & gas industry has produced extraordinary wealth — and extraordinary fraud. From LP fee stacking to JV turnkey gouging, promissory note traps, and phantom well Ponzi schemes — bad actors hide behind complex offering documents, shell companies, and slick websites. <strong className="text-white">This guide covers every deal structure: LP programs, Joint Ventures, promissory notes, and direct participation.</strong>
         </p>
         <p className="text-white/60 text-xs leading-relaxed mb-4">
-          Use our <strong className="text-crude-gold">AI PPM Analyzer</strong> to scan any document, review 8 documented fraud patterns, check 20+ red flags, and follow a 12-step due diligence checklist. Then use the <a href="/operator-screener" className="text-crude-gold underline underline-offset-2">Operator Screener</a> to vet the company itself.
+          Use our <strong className="text-crude-gold">AI Deal Analyzer</strong> to scan any LP agreement, JV offering, PPM, or promissory note. Review {fraudPatterns.length} documented fraud patterns across all deal types, check 20+ red flags, and follow a 12-step due diligence checklist. Then use the <a href="/operator-screener" className="text-crude-gold underline underline-offset-2">Operator Screener</a> to vet the company itself.
         </p>
         <div className="grid grid-cols-3 gap-3">
           {[
