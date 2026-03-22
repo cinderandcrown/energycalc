@@ -1,15 +1,17 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 
 // Extracts a commodity row from oilprice.com HTML using the data-hash attribute
-function extractCommodity(html, dataHash, label, unit) {
+function extractCommodity(html: string, dataHash: string, label: string, unit: string, category: string, symbol: string) {
   // Find the row by data-hash
   const rowRegex = new RegExp(`data-hash="${dataHash}"[^>]*>[\\s\\S]*?<td class="value">([\\d.]+)\\s*<[\\s\\S]*?<td class="change_amount">([+-]?[\\d.]+)<[\\s\\S]*?<td class="change_percent">([+-]?[\\d.]+)%`, 'i');
   const match = html.match(rowRegex);
   if (match) {
     return {
       label,
+      symbol,
       price: parseFloat(match[1]),
       unit,
+      category,
       change: parseFloat(match[2]),
       changePct: parseFloat(match[3]),
     };
@@ -34,16 +36,31 @@ Deno.serve(async (req) => {
 
     const html = await res.text();
 
+    // All commodities we attempt to scrape — ones that fail to parse are silently skipped
     const commodities = [
-      { hash: "WTI-Crude", label: "WTI Crude", unit: "/bbl" },
-      { hash: "Brent-Crude", label: "Brent Crude", unit: "/bbl" },
-      { hash: "Natural-gas", label: "Natural Gas", unit: "/MMBtu" },
-      { hash: "Heating-Oil", label: "Heating Oil", unit: "/gal" },
+      // Oil
+      { hash: "WTI-Crude", label: "WTI Crude", symbol: "WTI", unit: "/bbl", category: "Oil" },
+      { hash: "Brent-Crude", label: "Brent Crude", symbol: "BRENT", unit: "/bbl", category: "Oil" },
+      { hash: "Louisiana-Light", label: "Louisiana Light Sweet", symbol: "LLS", unit: "/bbl", category: "Oil" },
+      { hash: "Mars-US", label: "Mars US", symbol: "MARS", unit: "/bbl", category: "Oil" },
+      { hash: "OPEC-Basket", label: "OPEC Basket", symbol: "OPEC", unit: "/bbl", category: "Oil" },
+      // Gas
+      { hash: "Natural-gas", label: "Natural Gas", symbol: "NG", unit: "/MMBtu", category: "Gas" },
+      { hash: "Propane", label: "Propane", symbol: "PROPANE", unit: "/gal", category: "Gas" },
+      // Refined
+      { hash: "Heating-Oil", label: "Heating Oil", symbol: "HO", unit: "/gal", category: "Refined" },
+      { hash: "Gasoline", label: "RBOB Gasoline", symbol: "RBOB", unit: "/gal", category: "Refined" },
+      // Renewables
+      { hash: "Ethanol", label: "Ethanol", symbol: "ETHANOL", unit: "/gal", category: "Renewables" },
+      // Nuclear
+      { hash: "Uranium", label: "Uranium", symbol: "URANIUM", unit: "/lb", category: "Nuclear" },
+      // Coal
+      { hash: "Coal", label: "Coal", symbol: "COAL", unit: "/ton", category: "Coal" },
     ];
 
     const prices = [];
     for (const c of commodities) {
-      const result = extractCommodity(html, c.hash, c.label, c.unit);
+      const result = extractCommodity(html, c.hash, c.label, c.unit, c.category, c.symbol);
       if (result) {
         prices.push(result);
       } else {

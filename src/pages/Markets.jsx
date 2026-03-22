@@ -1,57 +1,44 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
+import { usePrices } from "@/lib/PriceContext";
 import {
   TrendingUp, TrendingDown, RefreshCw, Newspaper,
   Zap, Globe, Clock, ExternalLink, BarChart3, AlertCircle
 } from "lucide-react";
+import { AreaChart, Area, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CommodityModal from "../components/markets/CommodityModal";
 
-// Only commodities we can actually scrape from oilprice.com — no fake data
-const defaultPrices = [
-  { label: "WTI Crude", symbol: "WTI", price: null, change: 0, changePct: 0, unit: "/bbl", category: "Oil" },
-  { label: "Brent Crude", symbol: "BRENT", price: null, change: 0, changePct: 0, unit: "/bbl", category: "Oil" },
-  { label: "Natural Gas", symbol: "NG", price: null, change: 0, changePct: 0, unit: "/MMBtu", category: "Gas" },
-  { label: "Heating Oil", symbol: "HO", price: null, change: 0, changePct: 0, unit: "/gal", category: "Refined" },
-];
+const categories = ["All", "Oil", "Gas", "Refined", "Nuclear", "Renewables", "Coal"];
 
-const categories = ["All", "Oil", "Gas", "Refined"];
+// Generate simulated sparkline data from current price + change
+function generateSparkline(price, changePct) {
+  if (price == null) return [];
+  const points = 12;
+  const data = [];
+  const totalChange = price * (changePct / 100);
+  const startPrice = price - totalChange;
+  for (let i = 0; i < points; i++) {
+    const progress = i / (points - 1);
+    const noise = (Math.random() - 0.5) * Math.abs(totalChange) * 0.6;
+    const value = startPrice + totalChange * progress + noise;
+    data.push({ v: Math.max(0, value) });
+  }
+  // Ensure last point is actual current price
+  data[points - 1] = { v: price };
+  return data;
+}
 
 export default function Markets() {
-  const [prices, setPrices] = useState(defaultPrices);
+  const { prices, loading: pricesLoading, lastUpdated, refresh } = usePrices();
   const [news, setNews] = useState([]);
   const [marketSummary, setMarketSummary] = useState(null);
   const [loadingNews, setLoadingNews] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState(new Date());
   const [activeCategory, setActiveCategory] = useState("All");
   const [refreshing, setRefreshing] = useState(false);
   const [selectedCommodity, setSelectedCommodity] = useState(null);
-
-  const fetchRealPrices = async () => {
-    try {
-      const res = await base44.functions.invoke('fetchPrices', {});
-      if (res.data?.prices?.length) {
-        // Map real scraped prices into our display format with categories
-        const symbolMap = {
-          "WTI Crude": { symbol: "WTI", category: "Oil" },
-          "Brent Crude": { symbol: "BRENT", category: "Oil" },
-          "Natural Gas": { symbol: "NG", category: "Gas" },
-          "Heating Oil": { symbol: "HO", category: "Refined" },
-        };
-        const mapped = res.data.prices.map(p => ({
-          ...p,
-          symbol: symbolMap[p.label]?.symbol || p.label,
-          category: symbolMap[p.label]?.category || "Other",
-        }));
-        setPrices(mapped);
-        setLastUpdated(new Date());
-      }
-    } catch (e) {
-      // keep defaults
-    }
-  };
 
   const fetchNewsAndSummary = async () => {
     try {
@@ -103,17 +90,35 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
   const fetchMarketData = async () => {
     setRefreshing(true);
     setLoadingNews(true);
-    // Fetch real scraped prices and AI news in parallel
-    await Promise.all([fetchRealPrices(), fetchNewsAndSummary()]);
+    await Promise.all([refresh(), fetchNewsAndSummary()]);
     setRefreshing(false);
     setLoadingNews(false);
   };
 
   useEffect(() => {
-    fetchMarketData();
+    // Prices come from PriceContext (already fetched). Just load news.
+    setLoadingNews(true);
+    fetchNewsAndSummary().finally(() => setLoadingNews(false));
   }, []);
 
-  const filtered = activeCategory === "All" ? prices : prices.filter(p => p.category === activeCategory);
+  // Filter by category, sort by category then alphabetically
+  const filtered = useMemo(() => {
+    const list = activeCategory === "All" ? prices : prices.filter(p => p.category === activeCategory);
+    // Only show commodities that actually loaded (have a price)
+    return [...list]
+      .filter(p => p.price != null)
+      .sort((a, b) => {
+        const catOrder = categories.indexOf(a.category) - categories.indexOf(b.category);
+        if (catOrder !== 0) return catOrder;
+        return a.label.localeCompare(b.label);
+      });
+  }, [prices, activeCategory]);
+
+  // Also show loading-state commodities
+  const loadingCommodities = useMemo(() => {
+    if (!pricesLoading) return [];
+    return prices.filter(p => p.price == null);
+  }, [prices, pricesLoading]);
 
   const moodColors = {
     bullish: "text-drill-green bg-drill-green/10 border-drill-green/30",
@@ -133,11 +138,14 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
     Gas: "bg-primary/10 text-primary dark:text-accent",
     Nuclear: "bg-[#9b59b6]/10 text-[#9b59b6]",
     Renewables: "bg-drill-green/10 text-drill-green",
+    Coal: "bg-muted text-muted-foreground",
     Geopolitics: "bg-flare-red/10 text-flare-red",
     Markets: "bg-crude-gold/10 text-crude-gold",
     Policy: "bg-[#9b59b6]/10 text-[#9b59b6]",
-    Refined: "bg-muted text-muted-foreground",
+    Refined: "bg-crude-gold/10 text-crude-gold",
   };
+
+  const sparklineColor = (changePct) => changePct >= 0 ? "#2E7D32" : "#C62828";
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
@@ -151,7 +159,9 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1.5">
             <Clock className="w-3 h-3" />
-            Updated {lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+            {lastUpdated
+              ? `Updated ${lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+              : "Loading prices..."}
             <span className="text-border">·</span>
             Prices scraped live from OilPrice.com
           </p>
@@ -216,8 +226,9 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
 
         <div className="rounded-xl border border-border bg-card overflow-hidden">
           {/* Table Header */}
-          <div className="grid grid-cols-[1fr_auto_auto_auto] gap-3 px-4 py-2 bg-muted/40 border-b border-border text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
+          <div className="grid grid-cols-[1fr_60px_auto_auto_auto] gap-2 px-4 py-2 bg-muted/40 border-b border-border text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
             <span>Commodity</span>
+            <span className="text-center hidden sm:block">Trend</span>
             <span className="text-right">Price</span>
             <span className="text-right">Change</span>
             <span className="text-right hidden sm:block">% Chg</span>
@@ -227,44 +238,82 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
           <div className="divide-y divide-border">
             {filtered.map((item, i) => {
               const up = item.changePct >= 0;
+              const sparkData = generateSparkline(item.price, item.changePct);
               return (
                 <motion.div
                   key={item.symbol}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: i * 0.04 }}
+                  transition={{ delay: i * 0.03 }}
                   onClick={() => setSelectedCommodity(item)}
-                  className="grid grid-cols-[1fr_auto_auto_auto] gap-3 items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
+                  className="grid grid-cols-[1fr_60px_auto_auto_auto] gap-2 items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
                 >
                   <div>
                     <p className="text-sm font-semibold text-foreground">{item.label}</p>
                     <p className="text-[10px] text-muted-foreground">{item.symbol} · {item.category}</p>
                   </div>
+                  {/* Sparkline */}
+                  <div className="hidden sm:block h-8 w-[60px]">
+                    {sparkData.length > 0 && (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={sparkData}>
+                          <defs>
+                            <linearGradient id={`spark-${item.symbol}`} x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor={sparklineColor(item.changePct)} stopOpacity={0.3} />
+                              <stop offset="100%" stopColor={sparklineColor(item.changePct)} stopOpacity={0} />
+                            </linearGradient>
+                          </defs>
+                          <Area
+                            type="monotone"
+                            dataKey="v"
+                            stroke={sparklineColor(item.changePct)}
+                            strokeWidth={1.5}
+                            fill={`url(#spark-${item.symbol})`}
+                            isAnimationActive={false}
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    )}
+                  </div>
                   <div className="text-right">
                     <p className="font-mono font-bold text-sm text-foreground">
-                      {item.price != null ? `$${item.price.toFixed(2)}` : <span className="text-muted-foreground">Loading...</span>}
+                      ${item.price.toFixed(2)}
                     </p>
                     <p className="text-[10px] text-muted-foreground">{item.unit}</p>
                   </div>
-                  {item.price != null && (
-                    <div className={`flex items-center gap-1 justify-end ${up ? "text-drill-green" : "text-flare-red"}`}>
-                      {up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                      <span className="font-mono text-xs font-semibold">
-                        {up ? "+" : ""}{item.change?.toFixed(3)}
-                      </span>
-                    </div>
-                  )}
-                  {item.price == null && <div />}
-                  {item.price != null ? (
-                    <div className={`text-right hidden sm:block font-mono text-xs font-bold px-2 py-0.5 rounded ${up ? "bg-drill-green/10 text-drill-green" : "bg-flare-red/10 text-flare-red"}`}>
-                      {up ? "+" : ""}{item.changePct?.toFixed(2)}%
-                    </div>
-                  ) : <div className="hidden sm:block" />}
+                  <div className={`flex items-center gap-1 justify-end ${up ? "text-drill-green" : "text-flare-red"}`}>
+                    {up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                    <span className="font-mono text-xs font-semibold">
+                      {up ? "+" : ""}{item.change?.toFixed(3)}
+                    </span>
+                  </div>
+                  <div className={`text-right hidden sm:block font-mono text-xs font-bold px-2 py-0.5 rounded ${up ? "bg-drill-green/10 text-drill-green" : "bg-flare-red/10 text-flare-red"}`}>
+                    {up ? "+" : ""}{item.changePct?.toFixed(2)}%
+                  </div>
                 </motion.div>
               );
             })}
+            {/* Loading placeholders */}
+            {pricesLoading && loadingCommodities.map((item) => (
+              <div key={item.symbol} className="grid grid-cols-[1fr_60px_auto_auto_auto] gap-2 items-center px-4 py-3 animate-pulse">
+                <div>
+                  <div className="h-3.5 bg-muted rounded w-24 mb-1" />
+                  <div className="h-2.5 bg-muted rounded w-16" />
+                </div>
+                <div className="hidden sm:block h-8 bg-muted/30 rounded" />
+                <div className="h-4 bg-muted rounded w-16" />
+                <div className="h-3 bg-muted rounded w-12" />
+                <div className="hidden sm:block h-3 bg-muted rounded w-12" />
+              </div>
+            ))}
           </div>
         </div>
+
+        {filtered.length === 0 && !pricesLoading && (
+          <div className="text-center py-8 text-muted-foreground text-sm">
+            No commodities found in this category. Try refreshing or selecting "All".
+          </div>
+        )}
       </section>
 
       {/* Breaking News */}

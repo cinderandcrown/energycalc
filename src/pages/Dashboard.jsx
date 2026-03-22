@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { usePrices } from "@/lib/PriceContext";
 import { motion } from "framer-motion";
 import {
   Calculator, Droplets, Flame, TrendingUp, Star,
@@ -66,12 +67,8 @@ const typePaths = {
   rate_of_return: "/calc/rate-of-return",
 };
 
-const defaultPriceData = [
-  { label: "WTI Crude", price: null, unit: "/bbl", changePct: 0 },
-  { label: "Brent Crude", price: null, unit: "/bbl", changePct: 0 },
-  { label: "Natural Gas", price: null, unit: "/MMBtu", changePct: 0 },
-  { label: "Heating Oil", price: null, unit: "/gal", changePct: 0 },
-];
+// Top 6 commodities shown in the dashboard ticker
+const TICKER_SYMBOLS = ["WTI", "BRENT", "NG", "RBOB", "URANIUM", "PROPANE"];
 
 const taxAdvantages = [
   {
@@ -119,23 +116,19 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [priceData, setPriceData] = useState(defaultPriceData);
-  const [pricesLoading, setPricesLoading] = useState(true);
+  const { prices, loading: pricesLoading, refresh: refreshPrices } = usePrices();
   const [pricesRefreshing, setPricesRefreshing] = useState(false);
 
-  const fetchPrices = useCallback(async () => {
+  // Get the 6 ticker commodities from PriceContext
+  const tickerData = TICKER_SYMBOLS
+    .map(sym => prices.find(p => p.symbol === sym))
+    .filter(Boolean);
+
+  const handleRefreshPrices = async () => {
     setPricesRefreshing(true);
-    try {
-      const res = await base44.functions.invoke('fetchPrices', {});
-      if (res.data?.prices?.length) {
-        setPriceData(res.data.prices);
-      }
-    } catch (e) {
-      // keep defaults
-    }
-    setPricesLoading(false);
+    await refreshPrices();
     setPricesRefreshing(false);
-  }, []);
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -148,8 +141,7 @@ export default function Dashboard() {
       setLoading(false);
     };
     load();
-    fetchPrices();
-  }, [fetchPrices]);
+  }, []);
 
   const favorites = calculations.filter((c) => c.is_favorite);
   const recent = calculations.slice(0, 5);
@@ -203,7 +195,7 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      {/* Live Commodity Ticker */}
+      {/* Live Commodity Ticker — 6 commodities, horizontally scrollable on mobile */}
       <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
           <div className={`w-2 h-2 rounded-full ${pricesLoading ? "bg-crude-gold animate-pulse" : "bg-drill-green animate-pulse"}`} />
@@ -211,18 +203,18 @@ export default function Dashboard() {
             {pricesLoading ? "Fetching live prices..." : "Live Prices · via OilPrice.com"}
           </span>
           <button
-            onClick={fetchPrices}
+            onClick={handleRefreshPrices}
             disabled={pricesRefreshing}
             className="ml-auto p-1 rounded hover:bg-muted transition-colors"
           >
             <RefreshCw className={`w-3 h-3 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
           </button>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
-          {priceData.map((item) => {
+        <div className="flex overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-6 divide-x divide-border scrollbar-hide">
+          {tickerData.map((item) => {
             const up = (item.changePct ?? 0) >= 0;
             return (
-              <div key={item.label} className="px-3 py-3 text-center">
+              <div key={item.symbol} className="min-w-[120px] sm:min-w-0 px-3 py-3 text-center shrink-0">
                 <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide truncate">{item.label}</p>
                 <p className="font-mono font-bold text-base text-foreground">
                   {item.price != null ? `$${item.price.toFixed(2)}` : "—"}
@@ -234,6 +226,14 @@ export default function Dashboard() {
               </div>
             );
           })}
+          {/* Show placeholders if ticker data is empty and still loading */}
+          {tickerData.length === 0 && pricesLoading && TICKER_SYMBOLS.map((sym) => (
+            <div key={sym} className="min-w-[120px] sm:min-w-0 px-3 py-3 text-center shrink-0 animate-pulse">
+              <div className="h-2.5 bg-muted rounded w-16 mx-auto mb-1.5" />
+              <div className="h-4 bg-muted rounded w-14 mx-auto mb-1" />
+              <div className="h-2.5 bg-muted rounded w-10 mx-auto" />
+            </div>
+          ))}
         </div>
       </div>
 

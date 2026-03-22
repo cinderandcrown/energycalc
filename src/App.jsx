@@ -4,6 +4,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import { PriceProvider } from '@/lib/PriceContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from './components/Layout';
 
@@ -52,7 +53,9 @@ const ProtectedRoutes = () => {
   }
 
   return (
-    <Layout />
+    <PriceProvider>
+      <Layout />
+    </PriceProvider>
   );
 };
 

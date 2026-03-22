@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, ArrowLeft } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 
@@ -75,12 +75,18 @@ function CalcDropdown({ isCalcActive }) {
   );
 }
 
+// Routes that are considered "child screens" and should show a back button
+const childRoutes = ['/calc/', '/compare', '/investor-protection', '/operator-screener', '/tax-strategies', '/web3', '/learn', '/settings'];
+
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const [mobileCalcOpen, setMobileCalcOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCalcOpen, setDrawerCalcOpen] = useState(false);
+
+  const isChildScreen = childRoutes.some(r => location.pathname.startsWith(r));
 
   useEffect(() => {
     const saved = localStorage.getItem('energycalc-theme');
@@ -114,6 +120,17 @@ export default function Layout() {
       {/* Top Bar */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md oil-shimmer">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {/* Back button for child screens on mobile */}
+            {isChildScreen && (
+              <button
+                onClick={() => navigate(-1)}
+                className="sm:hidden flex items-center justify-center w-9 h-9 -ml-1 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+            )}
           <Link to="/dashboard" className="flex items-center gap-2.5">
             <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-8 h-8 rounded-lg shrink-0 object-contain" />
             <div className="leading-none">
@@ -123,6 +140,7 @@ export default function Layout() {
               <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Commodity Energy Intelligence</span>
             </div>
           </Link>
+          </div>
 
           {/* Desktop Nav (lg and up) */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -273,7 +291,7 @@ export default function Layout() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 pb-20 sm:pb-0">
+      <main className="flex-1 sm:pb-0" style={{ paddingBottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
         <OilPourTransition>
           <Outlet />
         </OilPourTransition>
@@ -293,7 +311,7 @@ export default function Layout() {
       </footer>
 
       {/* Mobile Bottom Nav (phones only, < sm/640px) */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         {/* Mobile Calc Sub-menu */}
         {mobileCalcOpen && (
           <div className="border-b border-border bg-card grid grid-cols-2 gap-px bg-border">

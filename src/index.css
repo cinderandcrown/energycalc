@@ -70,6 +70,24 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent text selection on interactive elements */
+  button, a, nav, [role="button"], [role="tab"], .select-none {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Minimum 44px tap targets for mobile accessibility */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* Allow smaller inline badges/icons that aren't primary tap targets */
+  .badge, [class*="Badge"], span > a, p > a {
+    min-height: unset;
+    min-width: unset;
   }
 
   h1, h2, h3, h4, h5, h6 {

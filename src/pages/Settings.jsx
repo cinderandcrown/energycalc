@@ -6,9 +6,20 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink } from "lucide-react";
+import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Settings() {
   const [user, setUser] = useState(null);
@@ -16,6 +27,7 @@ export default function Settings() {
   const [fullName, setFullName] = useState("");
   const [company, setCompany] = useState("");
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -44,6 +56,17 @@ export default function Settings() {
 
   const handleLogout = () => {
     base44.auth.logout();
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleting(true);
+    try {
+      await base44.auth.deleteAccount();
+      toast({ title: "Account deleted", description: "Your account and data have been removed." });
+    } catch (e) {
+      toast({ title: "Error", description: "Failed to delete account. Please contact support.", variant: "destructive" });
+    }
+    setDeleting(false);
   };
 
   return (
@@ -158,6 +181,39 @@ export default function Settings() {
         <LogOut className="w-4 h-4" />
         Sign Out
       </Button>
+
+      {/* Delete Account */}
+      <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5">
+        <div className="flex items-center gap-2 mb-2">
+          <Trash2 className="w-4 h-4 text-destructive" />
+          <h2 className="text-sm font-semibold text-destructive">Danger Zone</h2>
+        </div>
+        <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+          Permanently delete your account and all associated data including saved calculations, scenarios, and preferences. This action cannot be undone.
+        </p>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" className="w-full gap-2" disabled={deleting}>
+              <Trash2 className="w-4 h-4" />
+              {deleting ? "Deleting..." : "Delete Account"}
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will permanently delete your EnergyCalc Pro account and remove all your data including saved calculations, scenarios, and preferences. This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                Yes, Delete My Account
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
     </div>
   );
 }
