@@ -39,12 +39,15 @@ export default function NatGasToCash() {
     const grossGasRevenue = monthlyMCF * gasPrice;
     const nglRevenue = includeNGL ? monthlyMCF * nglYield * nglPrice : 0;
     const totalGrossRevenue = grossGasRevenue + nglRevenue;
+    // Severance tax is levied on WI share of gross wellhead revenue (before royalty deduction)
+    const wiGrossRevenue = totalGrossRevenue * workingInterest;
+    const severanceTax = wiGrossRevenue * severanceTaxRate;
+    // NRI determines your actual revenue share after royalties
     const yourGross = totalGrossRevenue * workingInterest * netRevenueInterest;
     // Gathering & processing are post-production costs deducted from your NRI revenue share
     const gatheringFees = monthlyMCF * gatheringFee * workingInterest * netRevenueInterest;
     // LOE is paid by WI holders proportional to their WI share
     const operatingExpenses = monthlyMCF * loePerMCF * workingInterest;
-    const severanceTax = yourGross * severanceTaxRate;
     const netMonthly = yourGross - gatheringFees - operatingExpenses - severanceTax;
     const netAnnual = netMonthly * 12;
 
@@ -55,25 +58,33 @@ export default function NatGasToCash() {
       const mNGL = includeNGL ? mProd * nglYield * nglPrice : 0;
       const mTotal = mGasRev + mNGL;
       const mGross = mTotal * workingInterest * netRevenueInterest;
+      const mWIGross = mTotal * workingInterest;
       const mGather = mProd * gatheringFee * workingInterest * netRevenueInterest;
       const mOpex = mProd * loePerMCF * workingInterest;
-      const mSev = mGross * severanceTaxRate;
+      const mSev = mWIGross * severanceTaxRate;
       const mNet = Math.max(0, mGross - mGather - mOpex - mSev);
       return { month: m, label: m === 0 ? "Now" : `M${m}`, netIncome: mNet, grossRevenue: mGross };
     });
 
+    // 5-year table — sum each month within the year for accuracy
     const yearlyTable = [1, 2, 3, 4, 5].map((yr) => {
-      const m = (yr - 1) * 12;
-      const prod = dailyMCF * Math.pow(1 - declineRate, m / 12);
-      const mProd = prod * 30.44;
-      const mGasRev = mProd * gasPrice;
-      const mNGL = includeNGL ? mProd * nglYield * nglPrice : 0;
-      const mGross = (mGasRev + mNGL) * workingInterest * netRevenueInterest;
-      const mGather = mProd * gatheringFee * workingInterest * netRevenueInterest;
-      const mOpex = mProd * loePerMCF * workingInterest;
-      const mSev = mGross * severanceTaxRate;
-      const mNet = Math.max(0, mGross - mGather - mOpex - mSev);
-      return { year: yr, dailyProd: prod.toFixed(0), monthlyNet: mNet, annualNet: mNet * 12 };
+      let annualNet = 0;
+      const startMonth = (yr - 1) * 12;
+      for (let m = startMonth; m < startMonth + 12; m++) {
+        const prod = dailyMCF * Math.pow(1 - declineRate, m / 12);
+        const mProd = prod * 30.44;
+        const mGasRev = mProd * gasPrice;
+        const mNGL = includeNGL ? mProd * nglYield * nglPrice : 0;
+        const mTotal = mGasRev + mNGL;
+        const mGross = mTotal * workingInterest * netRevenueInterest;
+        const mWIGross = mTotal * workingInterest;
+        const mGather = mProd * gatheringFee * workingInterest * netRevenueInterest;
+        const mOpex = mProd * loePerMCF * workingInterest;
+        const mSev = mWIGross * severanceTaxRate;
+        annualNet += Math.max(0, mGross - mGather - mOpex - mSev);
+      }
+      const avgProd = dailyMCF * Math.pow(1 - declineRate, (startMonth + 6) / 12);
+      return { year: yr, dailyProd: avgProd.toFixed(0), monthlyNet: annualNet / 12, annualNet };
     });
 
     return { yourGross, gatheringFees, operatingExpenses, severanceTax, netMonthly, netAnnual, nglRevenue, months, yearlyTable };

@@ -29,11 +29,16 @@ export default function BarrelsToCash() {
   const results = useMemo(() => {
     const { workingInterest, netRevenueInterest, dailyBOPD, oilPrice, loePerBbl, severanceTaxRate, declineRate } = inputs;
 
+    // dailyBOPD = total well production (not your share)
     const monthlyProdBbl = dailyBOPD * 30.44;
     const grossRevenue = monthlyProdBbl * oilPrice;
+    // Severance tax is levied on gross wellhead revenue × WI share (before royalty deduction in most states)
+    const wiGrossRevenue = grossRevenue * workingInterest;
+    const severanceTax = wiGrossRevenue * severanceTaxRate;
+    // NRI determines your actual revenue share after royalties
     const yourGross = grossRevenue * workingInterest * netRevenueInterest;
+    // LOE is borne by WI holders proportional to their WI
     const operatingExpenses = monthlyProdBbl * loePerBbl * workingInterest;
-    const severanceTax = yourGross * severanceTaxRate;
     const netMonthly = yourGross - operatingExpenses - severanceTax;
     const netAnnual = netMonthly * 12;
 
@@ -42,8 +47,9 @@ export default function BarrelsToCash() {
       const prod = dailyBOPD * Math.pow(1 - declineRate, m / 12);
       const mProd = prod * 30.44;
       const mGross = mProd * oilPrice * workingInterest * netRevenueInterest;
+      const mWIGross = mProd * oilPrice * workingInterest;
       const mOpex = mProd * loePerBbl * workingInterest;
-      const mSev = mGross * severanceTaxRate;
+      const mSev = mWIGross * severanceTaxRate;
       const mNet = mGross - mOpex - mSev;
       return {
         month: m,
@@ -53,16 +59,21 @@ export default function BarrelsToCash() {
       };
     });
 
-    // 5-year table
+    // 5-year table — sum each month within the year for accuracy
     const yearlyTable = [1, 2, 3, 4, 5].map((yr) => {
-      const m = (yr - 1) * 12;
-      const prod = dailyBOPD * Math.pow(1 - declineRate, m / 12);
-      const mProd = prod * 30.44;
-      const mGross = mProd * oilPrice * workingInterest * netRevenueInterest;
-      const mOpex = mProd * loePerBbl * workingInterest;
-      const mSev = mGross * severanceTaxRate;
-      const mNet = Math.max(0, mGross - mOpex - mSev);
-      return { year: yr, dailyProd: prod.toFixed(1), monthlyNet: mNet, annualNet: mNet * 12 };
+      let annualNet = 0;
+      const startMonth = (yr - 1) * 12;
+      for (let m = startMonth; m < startMonth + 12; m++) {
+        const prod = dailyBOPD * Math.pow(1 - declineRate, m / 12);
+        const mProd = prod * 30.44;
+        const mGross = mProd * oilPrice * workingInterest * netRevenueInterest;
+        const mWIGross = mProd * oilPrice * workingInterest;
+        const mOpex = mProd * loePerBbl * workingInterest;
+        const mSev = mWIGross * severanceTaxRate;
+        annualNet += Math.max(0, mGross - mOpex - mSev);
+      }
+      const avgProd = dailyBOPD * Math.pow(1 - declineRate, (startMonth + 6) / 12);
+      return { year: yr, dailyProd: avgProd.toFixed(1), monthlyNet: annualNet / 12, annualNet };
     });
 
     return { yourGross, operatingExpenses, severanceTax, netMonthly, netAnnual, months, yearlyTable };

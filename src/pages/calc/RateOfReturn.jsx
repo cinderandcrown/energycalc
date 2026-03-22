@@ -63,8 +63,9 @@ export default function RateOfReturn() {
       totalRevenue += monthly;
       cumulative += monthly;
 
-      // SP500 equivalent: same dollar amount grows at S&P avg rate, shown as net profit
-      const sp500Value = netInvestment * (Math.pow(1 + sp500Monthly, m) - 1) - netInvestment;
+      // SP500 equivalent: invest the same dollars, track cumulative net gain/loss
+      // Value = Investment × (1+r)^m, net P&L = Value - Investment, cumulative = net - initial
+      const sp500Value = netInvestment * Math.pow(1 + sp500Monthly, m) - netInvestment;
 
       if (payoutMonth === null && cumulative >= 0) {
         payoutMonth = m;
@@ -78,8 +79,11 @@ export default function RateOfReturn() {
     }
 
     const simpleROI = ((totalRevenue - netInvestment) / netInvestment) * 100;
+    // Cash-on-cash uses initial month income (before decline) as a snapshot metric
     const monthlyCashOnCash = (combinedMonthly / netInvestment) * 100;
-    const annualizedReturn = (Math.pow(1 + monthlyCashOnCash / 100, 12) - 1) * 100;
+    // Annualized return from total revenue over actual time horizon (accounts for decline)
+    const years = timeHorizon / 12;
+    const annualizedReturn = years > 0 ? (Math.pow(totalRevenue / netInvestment, 1 / years) - 1) * 100 : 0;
 
     // IRR (monthly, annualize)
     let monthlyIRR = null;

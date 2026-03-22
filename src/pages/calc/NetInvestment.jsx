@@ -32,7 +32,10 @@ export default function NetInvestment() {
 
   const results = useMemo(() => {
     const { totalInvestment, federalTaxRate, stateTaxRate, idcPercentage } = inputs;
-    const combinedRate = federalTaxRate + stateTaxRate;
+    // State deduction reduces federal taxable income (itemized deduction), so the
+    // combined marginal benefit is: state_rate + federal_rate × (1 - state_rate)
+    // This avoids double-counting the state deduction against itself.
+    const combinedRate = stateTaxRate + federalTaxRate * (1 - stateTaxRate);
     const tangiblePct = 1 - idcPercentage;
 
     const idcAmount = totalInvestment * idcPercentage;
