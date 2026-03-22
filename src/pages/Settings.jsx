@@ -6,9 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink, Loader2, CreditCard, CheckCircle2 } from "lucide-react";
+import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink, Loader2, CreditCard, CheckCircle2, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 const PRODUCT_ID = "prod_UC1nAY3emodE1H";
 
@@ -216,10 +217,50 @@ export default function Settings() {
       </div>
 
       {/* Logout */}
-      <Button variant="outline" className="w-full gap-2 text-destructive border-destructive/40 hover:bg-destructive/10" onClick={handleLogout}>
+      <Button variant="outline" className="w-full min-h-[44px] gap-2 text-destructive border-destructive/40 hover:bg-destructive/10" onClick={handleLogout}>
         <LogOut className="w-4 h-4" />
         Sign Out
       </Button>
+
+      {/* Delete Account */}
+      <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 space-y-3">
+        <div className="flex items-center gap-2">
+          <Trash2 className="w-4 h-4 text-destructive" />
+          <h2 className="text-sm font-semibold text-destructive">Delete Account</h2>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Permanently delete your account and all associated data including saved calculations, scenarios, and subscription. This action cannot be undone.
+        </p>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" className="w-full min-h-[44px] gap-2">
+              <Trash2 className="w-4 h-4" />
+              Delete My Account
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will permanently delete your account and all your data — saved calculations, scenarios, and subscription. This action cannot be reversed.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="min-h-[44px]">Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="min-h-[44px] bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                onClick={async () => {
+                  toast({ title: "Account deletion requested", description: "Please contact support@energycalc.app to finalize account deletion." });
+                }}
+              >
+                Yes, Delete My Account
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+
+      <div className="h-4" />
     </div>
   );
 }

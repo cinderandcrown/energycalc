@@ -207,7 +207,7 @@ export default function Layout() {
           {/* Tablet hamburger (sm to lg) */}
           <button
             onClick={() => setDrawerOpen(!drawerOpen)}
-            className="hidden sm:flex lg:hidden items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+            className="hidden sm:flex lg:hidden items-center justify-center w-11 h-11 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
           >
             {drawerOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -310,14 +310,14 @@ export default function Layout() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 pb-20 sm:pb-0">
+      <main className="flex-1 pb-24 sm:pb-0" style={{ overscrollBehavior: 'none' }}>
         <OilPourTransition>
           <Outlet />
         </OilPourTransition>
       </main>
 
       {/* Desktop/Tablet Legal Footer */}
-      <footer className="hidden sm:block border-t border-border bg-card/50 py-2 px-4">
+      <footer className="hidden sm:block border-t border-border bg-card/50 py-2 px-4" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0px))' }}>
         <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-2">
           <p className="text-[10px] text-muted-foreground">
             © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
@@ -330,7 +330,7 @@ export default function Layout() {
       </footer>
 
       {/* Mobile Bottom Nav (phones only, < sm/640px) */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         {/* Mobile Calc Sub-menu */}
         {mobileCalcOpen && (
           <div className="border-b border-border bg-card grid grid-cols-2 gap-px bg-border">
@@ -339,7 +339,7 @@ export default function Layout() {
                 key={path}
                 to={path}
                 onClick={() => setMobileCalcOpen(false)}
-                className={`flex items-center gap-2 px-3 py-2.5 bg-card transition-colors ${
+                className={`flex items-center gap-2 px-3 min-h-[44px] bg-card transition-colors ${
                   isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'
                 }`}
               >
@@ -356,7 +356,7 @@ export default function Layout() {
             <Link
               key={path}
               to={path}
-              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+              className={`flex flex-col items-center justify-center gap-0.5 min-h-[50px] text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
             >
               <Icon className="w-5 h-5" />
               <span className="text-[10px]">{label}</span>
@@ -365,7 +365,7 @@ export default function Layout() {
           {/* Calculators toggle */}
           <button
             onClick={() => setMobileCalcOpen(!mobileCalcOpen)}
-            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isCalcActive || mobileCalcOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center justify-center gap-0.5 min-h-[50px] text-xs transition-colors ${isCalcActive || mobileCalcOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
           >
             <Calculator className="w-5 h-5" />
             <span className="text-[10px]">Calc</span>
@@ -373,7 +373,7 @@ export default function Layout() {
           {/* More menu - opens drawer on phone */}
           <button
             onClick={() => setDrawerOpen(!drawerOpen)}
-            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${drawerOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center justify-center gap-0.5 min-h-[50px] text-xs transition-colors ${drawerOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
           >
             <Menu className="w-5 h-5" />
             <span className="text-[10px]">More</span>
@@ -390,16 +390,16 @@ export default function Layout() {
       <div className={`sm:hidden fixed top-0 right-0 bottom-0 z-40 w-72 flex flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex items-center justify-between px-4 h-14 border-b border-border">
           <span className="font-bold text-sm text-foreground">Menu</span>
-          <button onClick={() => setDrawerOpen(false)} className="p-1.5 text-muted-foreground hover:text-foreground">
+          <button onClick={() => setDrawerOpen(false)} className="w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5">
+        <div className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5" style={{ overscrollBehavior: 'contain' }}>
           {[{ path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' }, { path: '/markets', icon: BarChart3, label: 'Markets' }, ...navItems.slice(2)].map(({ path, icon: Icon, label }) => (
             <Link
               key={path}
               to={path}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
                 isActive(path)
                   ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted'
@@ -416,7 +416,7 @@ export default function Layout() {
               <Link
                 key={path}
                 to={path}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                className={`flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-sm transition-colors ${
                   isActive(path) ? 'text-primary dark:text-accent font-medium' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                 }`}
               >
@@ -426,7 +426,7 @@ export default function Layout() {
             ))}
           </div>
         </div>
-        <div className="border-t border-border px-4 py-3">
+        <div className="border-t border-border px-4 py-3" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom, 0px))' }}>
           <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2 block">Legal & Privacy</Link>
         </div>
       </div>
