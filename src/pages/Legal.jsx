@@ -525,7 +525,7 @@ export default function Legal() {
           </div>
 
           <div className="flex flex-wrap gap-2 mt-4">
-            {["Not SEC Registered", "Not FINRA Member", "Not an Investment Advisor", "Not a CPA/Tax Firm", "Not a Law Firm", "Educational Use Only", "Binding Arbitration", "Class Action Waiver"].map(tag => (
+            {["Not SEC Registered", "Not FINRA Member", "Not an Investment Advisor", "Not a CPA/Tax Firm", "Not a Law Firm", "No Fiduciary Duty", "Circular 230 Compliant", "ERISA Disclaimed", "Educational Use Only", "Binding Arbitration", "Class Action Waiver"].map(tag => (
               <span key={tag} className="text-[9px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full bg-flare-red/10 text-flare-red border border-flare-red/20">
                 {tag}
               </span>
