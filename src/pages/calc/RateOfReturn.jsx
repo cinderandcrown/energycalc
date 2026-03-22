@@ -8,6 +8,7 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
+import RateOfReturnExplainers from "@/components/calc/RateOfReturnExplainers";
 import { motion } from "framer-motion";
 
 const DEFAULTS = {
@@ -242,6 +243,8 @@ export default function RateOfReturn() {
           </LineChart>
         </ResponsiveContainer>
       </div>
+
+      <RateOfReturnExplainers inputs={inputs} results={results} />
 
       <GeoDueDiligence calcType="rate_of_return" />
       <AIWellEvaluator />

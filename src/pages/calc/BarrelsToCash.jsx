@@ -7,6 +7,7 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
+import BarrelsToCashExplainers from "@/components/calc/BarrelsToCashExplainers";
 
 const DEFAULTS = {
   workingInterest: 0.01,
@@ -201,6 +202,8 @@ export default function BarrelsToCash() {
           </tbody>
         </table>
       </div>
+
+      <BarrelsToCashExplainers inputs={inputs} results={results} />
 
       <GeoDueDiligence calcType="barrels_to_cash" />
       <AIWellEvaluator />

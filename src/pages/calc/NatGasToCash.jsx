@@ -9,6 +9,7 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
+import NatGasToCashExplainers from "@/components/calc/NatGasToCashExplainers";
 
 const DEFAULTS = {
   workingInterest: 0.01,
@@ -252,6 +253,8 @@ export default function NatGasToCash() {
           </tbody>
         </table>
       </div>
+
+      <NatGasToCashExplainers inputs={inputs} results={results} />
 
       <GeoDueDiligence calcType="natgas_to_cash" />
       <AIWellEvaluator />
