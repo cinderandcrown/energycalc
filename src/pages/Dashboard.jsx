@@ -126,39 +126,9 @@ export default function Dashboard() {
   const fetchPrices = useCallback(async () => {
     setPricesRefreshing(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are an energy commodity analyst. Provide CURRENT prices for these 4 commodities as of today (${new Date().toDateString()}).
-
-Source data from https://oilprice.com/ and oilprice.com RSS feed. For LNG, use the Japan/Korea Marker (JKM) spot price from authoritative LNG pricing sources.
-
-Return JSON with "prices" array of exactly 4 items, each with:
-- label (string): "WTI Crude", "Brent Crude", "Henry Hub Gas", "LNG (Japan/Korea)"
-- price (number): current price
-- unit (string): "/bbl", "/MMBtu", etc.
-- changePct (number): today's % change, negative if down
-
-Use ONLY real current data. Do NOT fabricate.`,
-        add_context_from_internet: true,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            prices: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  label: { type: "string" },
-                  price: { type: "number" },
-                  unit: { type: "string" },
-                  changePct: { type: "number" }
-                }
-              }
-            }
-          }
-        }
-      });
-      if (result?.prices?.length) {
-        setPriceData(result.prices);
+      const res = await base44.functions.invoke('fetchPrices', {});
+      if (res.data?.prices?.length) {
+        setPriceData(res.data.prices);
       }
     } catch (e) {
       // keep defaults
