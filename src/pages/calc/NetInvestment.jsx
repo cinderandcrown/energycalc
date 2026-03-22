@@ -11,6 +11,7 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
+import NetInvestmentExplainers from "@/components/calc/NetInvestmentExplainers";
 
 const TAX_BRACKETS = [10, 12, 22, 24, 32, 35, 37];
 
@@ -168,13 +169,7 @@ export default function NetInvestment() {
             sublabel={`Effective cost: ${(results.effectiveCost * 100).toFixed(1)}¢ per dollar invested`}
           />
 
-          <div className="grid grid-cols-2 gap-3">
-            <ResultCard label="Year-1 Tax Savings" value={results.totalYear1TaxSavings} positive={true} />
-            <ResultCard label="IDC Deduction (100%)" value={results.idcAmount} />
-            <ResultCard label="IDC Tax Savings" value={results.idcTaxSavings} positive={true} />
-            <ResultCard label="Tangible Depr. (Yr 1, 14.29%)" value={results.tangibleDepreciation} />
-            <ResultCard label="Tangible Tax Savings" value={results.tangibleTaxSavings} positive={true} />
-          </div>
+          <NetInvestmentExplainers results={results} />
 
           {/* Depletion note */}
           <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-3">
