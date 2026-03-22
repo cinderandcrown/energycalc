@@ -79,6 +79,14 @@ export default function Landing() {
     setCheckoutLoading(null);
   };
 
+  const handleSignIn = () => {
+    if (window.self !== window.top) {
+      alert("Sign in is only available from the published app. Click 'Publish' in the top right, then open your live URL to sign in.");
+      return;
+    }
+    base44.auth.redirectToLogin("/dashboard");
+  };
+
   const scrollToPricing = () => {
     document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
     setMobileMenuOpen(false);
