@@ -6,9 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink } from "lucide-react";
+import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink, Loader2, CreditCard, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
+
+const PRODUCT_ID = "prod_UC1nAY3emodE1H";
 
 export default function Settings() {
   const [user, setUser] = useState(null);
@@ -16,7 +18,37 @@ export default function Settings() {
   const [fullName, setFullName] = useState("");
   const [company, setCompany] = useState("");
   const [saving, setSaving] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [portalLoading, setPortalLoading] = useState(false);
   const { toast } = useToast();
+
+  const isProActive = user?.subscription_status === "active";
+
+  const handleUpgrade = async () => {
+    if (window.self !== window.top) {
+      alert("Checkout is only available from the published app. Please open the live URL to subscribe.");
+      return;
+    }
+    setCheckoutLoading(true);
+    const res = await base44.functions.invoke("stripeCheckout", { productId: PRODUCT_ID });
+    if (res.data?.url) {
+      window.location.href = res.data.url;
+    } else {
+      toast({ title: "Unable to start checkout", description: "Please try again.", variant: "destructive" });
+    }
+    setCheckoutLoading(false);
+  };
+
+  const handleManageBilling = async () => {
+    setPortalLoading(true);
+    const res = await base44.functions.invoke("stripeBillingPortal", {});
+    if (res.data?.url) {
+      window.location.href = res.data.url;
+    } else {
+      toast({ title: "Unable to open billing portal", variant: "destructive" });
+    }
+    setPortalLoading(false);
+  };
 
   useEffect(() => {
     base44.auth.me().then((u) => {
@@ -61,27 +93,57 @@ export default function Settings() {
               <Zap className="w-4 h-4 text-crude-gold" />
               <span className="text-crude-gold text-xs font-semibold uppercase tracking-wide">Current Plan</span>
             </div>
-            <h2 className="text-white font-bold text-lg">Free Tier</h2>
-            <p className="text-white/60 text-xs mt-1">Up to 3 saved calculations. Upgrade for unlimited access.</p>
+            <h2 className="text-white font-bold text-lg">{isProActive ? "EnergyCalc Pro" : "Free Tier"}</h2>
+            <p className="text-white/60 text-xs mt-1">
+              {isProActive
+                ? "Full access to all tools and calculators."
+                : "Up to 3 saved calculations. Upgrade for unlimited access."}
+            </p>
           </div>
-          <Badge className="bg-crude-gold text-petroleum font-semibold text-xs">FREE</Badge>
+          <Badge className={`font-semibold text-xs ${isProActive ? "bg-drill-green text-white" : "bg-crude-gold text-petroleum"}`}>
+            {isProActive ? "PRO" : "FREE"}
+          </Badge>
         </div>
-        <div className="mt-4 pt-4 border-t border-white/10">
-          <h3 className="text-white/80 text-xs font-semibold mb-3">Pro features — $9.99/month</h3>
-          <div className="grid grid-cols-2 gap-2 mb-4">
-            {["Unlimited saved calculations", "Scenario comparison", "PDF export", "Live price feed"].map((f) => (
-              <div key={f} className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-crude-gold/80 flex items-center justify-center">
-                  <span className="text-petroleum text-[8px] font-bold">✓</span>
+
+        {isProActive ? (
+          <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-drill-green" />
+              <span className="text-white/80 text-sm font-medium">Your Pro subscription is active</span>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full border-white/20 text-white hover:bg-white/10 gap-2"
+              onClick={handleManageBilling}
+              disabled={portalLoading}
+            >
+              {portalLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
+              Manage Billing & Invoices
+            </Button>
+          </div>
+        ) : (
+          <div className="mt-4 pt-4 border-t border-white/10">
+            <h3 className="text-white/80 text-xs font-semibold mb-3">Pro features — $10/month</h3>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {["Unlimited saved calculations", "Scenario comparison", "AI deal analysis", "Live price feed", "Operator screening", "Tax strategy tools"].map((f) => (
+                <div key={f} className="flex items-center gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-crude-gold/80 flex items-center justify-center">
+                    <span className="text-petroleum text-[8px] font-bold">✓</span>
+                  </div>
+                  <span className="text-white/70 text-xs">{f}</span>
                 </div>
-                <span className="text-white/70 text-xs">{f}</span>
-              </div>
-            ))}
+              ))}
+            </div>
+            <Button
+              className="w-full bg-crude-gold text-petroleum font-semibold hover:opacity-90 gap-2"
+              onClick={handleUpgrade}
+              disabled={checkoutLoading}
+            >
+              {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+              {checkoutLoading ? "Redirecting..." : "Upgrade to Pro — $10/mo"}
+            </Button>
           </div>
-          <Button className="w-full bg-crude-gold text-petroleum font-semibold hover:opacity-90">
-            Upgrade to Pro
-          </Button>
-        </div>
+        )}
       </div>
 
       {/* Profile */}
