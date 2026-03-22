@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import CommodityModal from "../components/markets/CommodityModal";
 
 // Static commodity baseline — updated by LLM fetch
 const defaultPrices = [
@@ -30,6 +31,7 @@ export default function Markets() {
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [activeCategory, setActiveCategory] = useState("All");
   const [refreshing, setRefreshing] = useState(false);
+  const [selectedCommodity, setSelectedCommodity] = useState(null);
 
   const fetchMarketData = async () => {
     setRefreshing(true);
@@ -226,7 +228,8 @@ Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.04 }}
-                  className="grid grid-cols-[1fr_auto_auto_auto] gap-3 items-center px-4 py-3 hover:bg-muted/30 transition-colors"
+                  onClick={() => setSelectedCommodity(item)}
+                  className="grid grid-cols-[1fr_auto_auto_auto] gap-3 items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
                 >
                   <div>
                     <p className="text-sm font-semibold text-foreground">{item.label}</p>
@@ -333,6 +336,12 @@ Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
         </div>
       </section>
 
+      {/* Commodity Detail Modal */}
+      <CommodityModal
+        commodity={selectedCommodity}
+        open={!!selectedCommodity}
+        onClose={() => setSelectedCommodity(null)}
+      />
     </div>
   );
 }
