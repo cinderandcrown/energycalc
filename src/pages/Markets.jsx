@@ -180,6 +180,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
             <div className="space-y-1 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm font-bold uppercase tracking-wide">Market Mood: {marketSummary.marketMood}</span>
+                <Badge className="bg-muted text-muted-foreground border-0 text-[9px]">AI Commentary</Badge>
               </div>
               <p className="text-xs opacity-90 leading-relaxed"><strong>Key Driver:</strong> {marketSummary.keyDriver}</p>
               <p className="text-xs opacity-80 leading-relaxed"><strong>OPEC:</strong> {marketSummary.opecStance}</p>
@@ -261,10 +262,13 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
 
       {/* Breaking News */}
       <section>
-        <h2 className="text-sm font-bold text-foreground uppercase tracking-wide flex items-center gap-2 mb-3">
-          <Newspaper className="w-4 h-4 text-crude-gold" />
-          Breaking Energy News
-        </h2>
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <h2 className="text-sm font-bold text-foreground uppercase tracking-wide flex items-center gap-2">
+            <Newspaper className="w-4 h-4 text-crude-gold" />
+            Energy News
+          </h2>
+          <Badge className="bg-muted text-muted-foreground border-0 text-[9px]">AI-Sourced · Verify Independently</Badge>
+        </div>
 
         {loadingNews ? (
           <div className="space-y-3">
