@@ -35,16 +35,17 @@ export default function Layout() {
       {/* Top Bar */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground text-xs font-bold">⚡</span>
+          <Link to="/dashboard" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-petroleum to-[#1a3a6b] border border-crude-gold/30 flex items-center justify-center shrink-0">
+              <span className="text-crude-gold text-sm font-bold leading-none">⚡</span>
             </div>
-            <span className="font-inter font-bold text-sm tracking-tight">
-              <span className="text-primary dark:text-accent">Energy</span>
-              <span className="text-foreground">Calc</span>
-              <span className="text-muted-foreground text-xs ml-1 font-normal">Pro</span>
-            </span>
-          </div>
+            <div className="leading-none">
+              <span className="font-bold text-sm tracking-tight">
+                <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
+              </span>
+              <span className="block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Oil &amp; Gas Intelligence</span>
+            </div>
+          </Link>
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map(({ path, icon: Icon, label }) => (

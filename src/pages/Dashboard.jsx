@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Calculator, Droplets, Flame, TrendingUp, Star, ChevronRight, RefreshCw } from "lucide-react";
+import {
+  Calculator, Droplets, Flame, TrendingUp, Star,
+  ChevronRight, RefreshCw, Zap, Shield, DollarSign,
+  BarChart3, ArrowUpRight, BookOpen
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const calcCards = [
   {
     title: "Net Investment",
-    description: "Calculate after-tax out-of-pocket cost with IDC deductions",
+    description: "Calculate your true after-tax cost with IDC deductions & depletion allowances",
     icon: Calculator,
     path: "/calc/net-investment",
     color: "from-petroleum to-[#1a3a6b]",
@@ -25,7 +29,7 @@ const calcCards = [
   },
   {
     title: "Natural Gas to Cash",
-    description: "Convert MCF/day production into net monthly income",
+    description: "Convert MCF/day into net monthly income including NGL revenue",
     icon: Flame,
     path: "/calc/natgas-to-cash",
     color: "from-[#1a3a6b] to-[#0d2b50]",
@@ -37,7 +41,7 @@ const calcCards = [
     icon: TrendingUp,
     path: "/calc/rate-of-return",
     color: "from-[#1a4731] to-[#0f2d1f]",
-    badge: "ROI",
+    badge: "ROI Analysis",
   },
 ];
 
@@ -66,6 +70,48 @@ const priceData = [
   { label: "WTI Crude", price: "70.14", unit: "/bbl", change: "+0.83%", up: true },
   { label: "Brent Crude", price: "74.28", unit: "/bbl", change: "+0.61%", up: true },
   { label: "Henry Hub Gas", price: "3.42", unit: "/MMBtu", change: "-1.24%", up: false },
+];
+
+const taxAdvantages = [
+  {
+    icon: Zap,
+    title: "Intangible Drilling Costs (IDC)",
+    stat: "Up to 100%",
+    desc: "IDCs — labor, fuel, chemicals — can be deducted in the year they're incurred, dramatically reducing your taxable income in Year 1.",
+    color: "text-crude-gold",
+    bg: "bg-crude-gold/10",
+  },
+  {
+    icon: Shield,
+    title: "Percentage Depletion Allowance",
+    stat: "15% Tax-Free",
+    desc: "Oil & gas investors receive a 15% depletion deduction on gross income — a benefit unavailable in virtually any other asset class.",
+    color: "text-drill-green",
+    bg: "bg-drill-green/10",
+  },
+  {
+    icon: DollarSign,
+    title: "Tangible Equipment Depreciation",
+    stat: "7-Year Schedule",
+    desc: "Physical drilling equipment qualifies for MACRS depreciation, providing additional deductions spread over the life of the asset.",
+    color: "text-primary dark:text-accent",
+    bg: "bg-primary/10 dark:bg-accent/10",
+  },
+  {
+    icon: BarChart3,
+    title: "Active Income Treatment",
+    stat: "No Passive Limits",
+    desc: "Working interest investments in oil & gas are classified as active income — losses can offset W-2 and other ordinary income without passive activity limits.",
+    color: "text-[#9b59b6]",
+    bg: "bg-[#9b59b6]/10",
+  },
+];
+
+const whyEnergy = [
+  { label: "Avg. IRR on producing wells", value: "25–40%", up: true },
+  { label: "Year-1 tax deduction (typical)", value: "~65–80%", up: true },
+  { label: "S&P 500 avg. annual return", value: "10.5%", up: false },
+  { label: "Commodity inflation hedge", value: "Strong", up: true },
 ];
 
 export default function Dashboard() {
@@ -97,8 +143,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-      {/* Price Ticker */}
+    <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
+
+      {/* Live Commodity Ticker */}
       <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
           <div className="w-2 h-2 rounded-full bg-drill-green animate-pulse" />
@@ -116,17 +163,94 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Welcome */}
+      {/* Hero Welcome */}
       <div>
         <motion.h1
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-bold text-foreground"
+          className="text-2xl md:text-3xl font-bold text-foreground"
         >
           {loading ? "Welcome back" : `Welcome back, ${user?.full_name?.split(" ")[0] ?? "there"} 👋`}
         </motion.h1>
-        <p className="text-sm text-muted-foreground mt-1">Know Your Numbers Before You Drill.</p>
+        <p className="text-muted-foreground mt-1 text-sm md:text-base">
+          Know your numbers before you drill. Built for operators, investors, and energy professionals.
+        </p>
       </div>
+
+      {/* Why Oil & Gas — Investor Case */}
+      <section>
+        <div className="rounded-2xl border-2 border-crude-gold/30 bg-gradient-to-br from-petroleum via-[#0d2d5a] to-[#0B2545] dark:from-card dark:via-card dark:to-card/80 p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="w-5 h-5 text-crude-gold" />
+            <h2 className="font-bold text-white text-base">Why Energy Investing Outperforms</h2>
+          </div>
+          <p className="text-white/70 text-sm leading-relaxed mb-5">
+            Oil & gas investments offer <strong className="text-crude-gold">unmatched tax advantages</strong> unavailable in stocks, real estate, or crypto. The U.S. tax code actively incentivizes domestic energy production — giving qualified investors the ability to write off the majority of their investment in <strong className="text-white">Year 1</strong> while generating commodity-backed cash flow.
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {whyEnergy.map((item) => (
+              <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-3">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <ArrowUpRight className={`w-3.5 h-3.5 ${item.up ? "text-crude-gold" : "text-white/50"}`} />
+                  <span className="font-mono font-bold text-sm text-crude-gold">{item.value}</span>
+                </div>
+                <p className="text-white/60 text-xs">{item.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 pt-4 border-t border-white/10 flex gap-3">
+            <Link to="/learn">
+              <Button size="sm" variant="outline" className="border-crude-gold/50 text-crude-gold hover:bg-crude-gold/10 gap-1.5 text-xs">
+                <BookOpen className="w-3.5 h-3.5" />
+                Learn the Fundamentals
+              </Button>
+            </Link>
+            <Link to="/calc/net-investment">
+              <Button size="sm" className="bg-crude-gold text-petroleum font-semibold hover:opacity-90 gap-1.5 text-xs">
+                <Calculator className="w-3.5 h-3.5" />
+                Run My Numbers
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Tax Advantage Breakdown */}
+      <section>
+        <h2 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">Tax Advantages at a Glance</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {taxAdvantages.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07 }}
+                className="rounded-xl border border-border bg-card p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`w-9 h-9 rounded-lg ${item.bg} flex items-center justify-center shrink-0`}>
+                    <Icon className={`w-4.5 h-4.5 ${item.color}`} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                      <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                      <Badge className={`${item.bg} ${item.color} border-0 text-[10px] font-bold`}>{item.stat}</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+        <div className="mt-3 p-3 rounded-xl bg-muted/50 border border-border">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            <strong className="text-foreground">Example:</strong> A $500,000 investment with 75% IDC and a 37% federal tax rate can reduce your net out-of-pocket cost to <strong className="text-foreground">~$287,500</strong> — before a single barrel is produced. Use the <Link to="/calc/net-investment" className="text-primary dark:text-accent underline">Net Investment Calculator</Link> to model your scenario.
+          </p>
+        </div>
+      </section>
 
       {/* Pinned Favorites */}
       {favorites.length > 0 && (
@@ -155,9 +279,9 @@ export default function Dashboard() {
         </section>
       )}
 
-      {/* Quick Actions */}
+      {/* Calculators */}
       <section>
-        <h2 className="text-sm font-semibold text-foreground mb-3">Calculators</h2>
+        <h2 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">Calculators</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {calcCards.map((card, i) => {
             const Icon = card.icon;
@@ -225,12 +349,19 @@ export default function Dashboard() {
         <div className="text-center py-12 border-2 border-dashed border-border rounded-2xl">
           <Calculator className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
           <p className="text-sm font-medium text-foreground">No calculations yet</p>
-          <p className="text-xs text-muted-foreground mt-1 mb-4">Run your first calculation to get started</p>
+          <p className="text-xs text-muted-foreground mt-1 mb-4">Model your first investment and see your real tax-adjusted returns</p>
           <Link to="/calc/net-investment">
             <Button size="sm">Start Calculating</Button>
           </Link>
         </div>
       )}
+
+      {/* Footer Disclaimer */}
+      <div className="pb-4 pt-2 text-center">
+        <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
+          EnergyCalc Pro is for informational and educational purposes only. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
+        </p>
+      </div>
     </div>
   );
 }
