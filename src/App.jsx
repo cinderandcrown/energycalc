@@ -29,6 +29,7 @@ import Portfolio from './pages/Portfolio';
 import Web3Energy from './pages/Web3Energy';
 import HonestGuide from './pages/HonestGuide';
 import MarketIntelligence from './pages/MarketIntelligence';
+import TaxImpact from './pages/calc/TaxImpact';
 
 const ProtectedRoutes = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -76,6 +77,7 @@ function App() {
               <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
               <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
               <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
+              <Route path="/calc/tax-impact" element={<TaxImpact />} />
               <Route path="/scenarios" element={<Scenarios />} />
               <Route path="/compare" element={<Compare />} />
               <Route path="/learn" element={<Learn />} />
