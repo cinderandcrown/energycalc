@@ -211,7 +211,7 @@ export default function Dashboard() {
             <AlertTriangle className="w-4.5 h-4.5 text-flare-red" />
           </div>
           <p className="text-sm font-semibold text-foreground">Analyze a PPM</p>
-          <p className="text-xs text-muted-foreground mt-0.5">AI red flag scanner for documents</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Upload PDF or paste text for AI red flag scan</p>
         </Link>
       </div>
 
