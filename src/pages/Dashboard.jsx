@@ -43,6 +43,14 @@ const calcCards = [
     color: "from-[#1a4731] to-[#0f2d1f]",
     badge: "ROI Analysis",
   },
+  {
+    title: "Tax Impact",
+    description: "Model cumulative IDC, depletion & depreciation across 5 years of investments",
+    icon: Calculator,
+    path: "/calc/tax-impact",
+    color: "from-[#4a1a6b] to-[#2d0f4a]",
+    badge: "Multi-Year Tax",
+  },
 ];
 
 const typeLabels = {
@@ -50,6 +58,7 @@ const typeLabels = {
   barrels_to_cash: "Oil to Cash",
   natgas_to_cash: "Gas to Cash",
   rate_of_return: "Rate of Return",
+  tax_impact: "Tax Impact",
 };
 
 const typeIcons = {
@@ -57,6 +66,7 @@ const typeIcons = {
   barrels_to_cash: Droplets,
   natgas_to_cash: Flame,
   rate_of_return: TrendingUp,
+  tax_impact: Calculator,
 };
 
 const typePaths = {
@@ -64,6 +74,7 @@ const typePaths = {
   barrels_to_cash: "/calc/barrels-to-cash",
   natgas_to_cash: "/calc/natgas-to-cash",
   rate_of_return: "/calc/rate-of-return",
+  tax_impact: "/calc/tax-impact",
 };
 
 const defaultPriceData = [
