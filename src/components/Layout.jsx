@@ -1,11 +1,11 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert } from 'lucide-react';
 
 const navItems = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/markets', icon: BarChart3, label: 'Markets' },
   { path: '/calc/net-investment', icon: Calculator, label: 'Calculators' },
+  { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
   { path: '/settings', icon: Settings, label: 'Settings' },
