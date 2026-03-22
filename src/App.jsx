@@ -18,6 +18,7 @@ import Learn from './pages/Learn';
 import Settings from './pages/Settings';
 import Markets from './pages/Markets';
 import InvestorProtection from './pages/InvestorProtection';
+import Legal from './pages/Legal';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -56,6 +57,7 @@ const AuthenticatedApp = () => {
         <Route path="/learn" element={<Learn />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/investor-protection" element={<InvestorProtection />} />
+        <Route path="/legal" element={<Legal />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
