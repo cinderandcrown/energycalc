@@ -33,6 +33,54 @@ const navItems = [...primaryNav, ...moreNav];
 
 const calcPaths = calcItems.map(c => c.path);
 
+function MoreDropdown({ isMoreActive, location }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+          isMoreActive
+            ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
+            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+        }`}
+      >
+        <Menu className="w-4 h-4" />
+        More
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div className="absolute top-full right-0 mt-1.5 w-52 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 py-1">
+          {moreNav.map(({ path, icon: Icon, label }) => (
+            <Link
+              key={path}
+              to={path}
+              onClick={() => setOpen(false)}
+              className={`flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${
+                location.pathname === path
+                  ? 'text-primary dark:text-accent font-medium bg-primary/5 dark:bg-accent/5'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+            >
+              <Icon className="w-4 h-4 shrink-0" />
+              {label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function CalcDropdown({ isCalcActive }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
