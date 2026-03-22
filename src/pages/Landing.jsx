@@ -61,6 +61,15 @@ export default function Landing() {
       return;
     }
     setCheckoutLoading(productId);
+
+    // Check if user is authenticated first
+    const isAuth = await base44.auth.isAuthenticated();
+    if (!isAuth) {
+      // Redirect to login, then to dashboard with checkout flag
+      base44.auth.redirectToLogin(`/dashboard?checkout=${productId}`);
+      return;
+    }
+
     const res = await base44.functions.invoke("stripeCheckout", { productId });
     if (res.data?.url) {
       window.location.href = res.data.url;
