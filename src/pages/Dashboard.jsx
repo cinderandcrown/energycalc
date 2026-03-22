@@ -225,7 +225,7 @@ export default function Dashboard() {
               <div key={item.label} className="px-3 py-3 text-center">
                 <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide truncate">{item.label}</p>
                 <p className="font-mono font-bold text-base text-foreground">
-                  ${typeof item.price === "number" ? item.price.toFixed(2) : item.price}
+                  {item.price != null ? `$${item.price.toFixed(2)}` : "—"}
                   <span className="text-xs text-muted-foreground">{item.unit}</span>
                 </p>
                 <p className={`text-xs font-medium ${up ? "text-drill-green" : "text-flare-red"}`}>
