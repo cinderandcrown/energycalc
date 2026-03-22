@@ -119,6 +119,53 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [priceData, setPriceData] = useState(defaultPriceData);
+  const [pricesLoading, setPricesLoading] = useState(true);
+  const [pricesRefreshing, setPricesRefreshing] = useState(false);
+
+  const fetchPrices = useCallback(async () => {
+    setPricesRefreshing(true);
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are an energy commodity analyst. Provide CURRENT prices for these 4 commodities as of today (${new Date().toDateString()}).
+
+Source data from https://oilprice.com/ and oilprice.com RSS feed. For LNG, use the Japan/Korea Marker (JKM) spot price from authoritative LNG pricing sources.
+
+Return JSON with "prices" array of exactly 4 items, each with:
+- label (string): "WTI Crude", "Brent Crude", "Henry Hub Gas", "LNG (Japan/Korea)"
+- price (number): current price
+- unit (string): "/bbl", "/MMBtu", etc.
+- changePct (number): today's % change, negative if down
+
+Use ONLY real current data. Do NOT fabricate.`,
+        add_context_from_internet: true,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            prices: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  label: { type: "string" },
+                  price: { type: "number" },
+                  unit: { type: "string" },
+                  changePct: { type: "number" }
+                }
+              }
+            }
+          }
+        }
+      });
+      if (result?.prices?.length) {
+        setPriceData(result.prices);
+      }
+    } catch (e) {
+      // keep defaults
+    }
+    setPricesLoading(false);
+    setPricesRefreshing(false);
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -131,7 +178,8 @@ export default function Dashboard() {
       setLoading(false);
     };
     load();
-  }, []);
+    fetchPrices();
+  }, [fetchPrices]);
 
   const favorites = calculations.filter((c) => c.is_favorite);
   const recent = calculations.slice(0, 5);
@@ -188,18 +236,34 @@ export default function Dashboard() {
       {/* Live Commodity Ticker */}
       <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
-          <div className="w-2 h-2 rounded-full bg-drill-green animate-pulse" />
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Commodity Prices · via OilPrice.com</span>
-          <RefreshCw className="w-3 h-3 text-muted-foreground ml-auto" />
+          <div className={`w-2 h-2 rounded-full ${pricesLoading ? "bg-crude-gold animate-pulse" : "bg-drill-green animate-pulse"}`} />
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+            {pricesLoading ? "Fetching live prices..." : "Live Prices · via OilPrice.com"}
+          </span>
+          <button
+            onClick={fetchPrices}
+            disabled={pricesRefreshing}
+            className="ml-auto p-1 rounded hover:bg-muted transition-colors"
+          >
+            <RefreshCw className={`w-3 h-3 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
+          </button>
         </div>
-        <div className="grid grid-cols-3 divide-x divide-border">
-          {priceData.map((item) => (
-            <div key={item.label} className="px-4 py-3 text-center">
-              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">{item.label}</p>
-              <p className="font-mono font-bold text-base text-foreground">${item.price}<span className="text-xs text-muted-foreground">{item.unit}</span></p>
-              <p className={`text-xs font-medium ${item.up ? "text-drill-green" : "text-flare-red"}`}>{item.change}</p>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
+          {priceData.map((item) => {
+            const up = (item.changePct ?? 0) >= 0;
+            return (
+              <div key={item.label} className="px-3 py-3 text-center">
+                <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide truncate">{item.label}</p>
+                <p className="font-mono font-bold text-base text-foreground">
+                  ${typeof item.price === "number" ? item.price.toFixed(2) : item.price}
+                  <span className="text-xs text-muted-foreground">{item.unit}</span>
+                </p>
+                <p className={`text-xs font-medium ${up ? "text-drill-green" : "text-flare-red"}`}>
+                  {up ? "+" : ""}{(item.changePct ?? 0).toFixed(2)}%
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
 
