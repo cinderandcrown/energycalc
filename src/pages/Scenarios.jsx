@@ -1,0 +1,200 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { base44 } from "@/api/base44Client";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/components/ui/use-toast";
+
+const typeLabels = {
+  net_investment: "Net Investment",
+  barrels_to_cash: "Oil to Cash",
+  natgas_to_cash: "Gas to Cash",
+  rate_of_return: "Rate of Return",
+};
+
+const typeIcons = {
+  net_investment: Calculator,
+  barrels_to_cash: Droplets,
+  natgas_to_cash: Flame,
+  rate_of_return: TrendingUp,
+};
+
+const typeColors = {
+  net_investment: "bg-petroleum/10 text-petroleum dark:bg-primary/20 dark:text-primary",
+  barrels_to_cash: "bg-orange-500/10 text-orange-700 dark:text-orange-400",
+  natgas_to_cash: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
+  rate_of_return: "bg-drill-green/10 text-drill-green",
+};
+
+const getHeroValue = (calc) => {
+  if (!calc.results) return null;
+  const r = calc.results;
+  if (calc.calc_type === "net_investment") return { label: "Net Investment", value: r.netInvestment };
+  if (calc.calc_type === "barrels_to_cash") return { label: "Net Monthly", value: r.netMonthly };
+  if (calc.calc_type === "natgas_to_cash") return { label: "Net Monthly", value: r.netMonthly };
+  if (calc.calc_type === "rate_of_return") return { label: "Simple ROI", value: r.simpleROI, suffix: "%" };
+  return null;
+};
+
+export default function Scenarios() {
+  const [calculations, setCalculations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    base44.entities.Calculation.list("-created_date", 50).then((data) => {
+      setCalculations(data);
+      setLoading(false);
+    });
+  }, []);
+
+  const toggleFavorite = async (calc) => {
+    await base44.entities.Calculation.update(calc.id, { is_favorite: !calc.is_favorite });
+    setCalculations((prev) => prev.map((c) => (c.id === calc.id ? { ...c, is_favorite: !c.is_favorite } : c)));
+  };
+
+  const deleteCalc = async (id) => {
+    await base44.entities.Calculation.delete(id);
+    setCalculations((prev) => prev.filter((c) => c.id !== id));
+    toast({ title: "Deleted", description: "Calculation removed." });
+  };
+
+  const favorites = calculations.filter((c) => c.is_favorite);
+  const others = calculations.filter((c) => !c.is_favorite);
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-20 rounded-xl bg-muted animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-foreground">My Scenarios</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">{calculations.length} saved calculation{calculations.length !== 1 ? "s" : ""}</p>
+        </div>
+        <Link to="/calc/net-investment">
+          <Button size="sm" className="gap-1.5">
+            <FolderPlus className="w-4 h-4" />
+            New Calc
+          </Button>
+        </Link>
+      </div>
+
+      {calculations.length === 0 && (
+        <div className="text-center py-16 border-2 border-dashed border-border rounded-2xl">
+          <Calculator className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-sm font-medium text-foreground">No saved calculations</p>
+          <p className="text-xs text-muted-foreground mt-1 mb-4">Run a calculator and click "Save & Name" to store results here</p>
+          <Link to="/calc/net-investment">
+            <Button size="sm">Start Calculating</Button>
+          </Link>
+        </div>
+      )}
+
+      {favorites.length > 0 && (
+        <section>
+          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
+            <Star className="w-3.5 h-3.5 text-crude-gold fill-crude-gold" /> Favorites
+          </h2>
+          <CalcList items={favorites} onToggleFav={toggleFavorite} onDelete={deleteCalc} />
+        </section>
+      )}
+
+      {others.length > 0 && (
+        <section>
+          {favorites.length > 0 && (
+            <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">All Calculations</h2>
+          )}
+          <CalcList items={others} onToggleFav={toggleFavorite} onDelete={deleteCalc} />
+        </section>
+      )}
+    </div>
+  );
+}
+
+function CalcList({ items, onToggleFav, onDelete }) {
+  return (
+    <div className="space-y-2">
+      <AnimatePresence>
+        {items.map((calc) => {
+          const Icon = typeIcons[calc.calc_type] || Calculator;
+          const hero = getHeroValue(calc);
+          return (
+            <motion.div
+              key={calc.id}
+              layout
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:bg-muted/30 transition-colors"
+            >
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${typeColors[calc.calc_type]}`}>
+                <Icon className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-foreground truncate">{calc.name}</p>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <Badge variant="secondary" className="text-[10px] py-0 px-1.5">{typeLabels[calc.calc_type]}</Badge>
+                  <span className="text-xs text-muted-foreground">{new Date(calc.created_date).toLocaleDateString()}</span>
+                </div>
+                {calc.notes && <p className="text-xs text-muted-foreground mt-1 truncate">{calc.notes}</p>}
+              </div>
+              {hero && (
+                <div className="text-right shrink-0">
+                  <p className="text-xs text-muted-foreground">{hero.label}</p>
+                  <p className="font-mono font-bold text-sm text-foreground">
+                    {hero.suffix ? `${(hero.value || 0).toFixed(1)}${hero.suffix}` : `$${(hero.value || 0).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`}
+                  </p>
+                </div>
+              )}
+              <div className="flex items-center gap-1 shrink-0">
+                <Button variant="ghost" size="icon" className="w-7 h-7" onClick={() => onToggleFav(calc)}>
+                  <Star className={`w-3.5 h-3.5 ${calc.is_favorite ? "text-crude-gold fill-crude-gold" : "text-muted-foreground"}`} />
+                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="w-7 h-7 text-muted-foreground hover:text-destructive">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete "{calc.name}"?</AlertDialogTitle>
+                      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => onDelete(calc.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </div>
+  );
+}
