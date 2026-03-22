@@ -121,7 +121,7 @@ export default function RateOfReturn() {
           <h1 className="text-xl font-bold text-foreground">Rate of Return Calculator</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Full IRR, payout period, and ROI on your energy investment</p>
         </div>
-        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} />
+        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} calcType="rate_of_return" inputs={inputs} results={results} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

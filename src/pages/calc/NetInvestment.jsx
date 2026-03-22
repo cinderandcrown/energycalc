@@ -79,7 +79,7 @@ export default function NetInvestment() {
           <h1 className="text-xl font-bold text-foreground">Net Investment Calculator</h1>
           <p className="text-sm text-muted-foreground mt-0.5">After-tax cost of your oil & gas investment with federal deductions</p>
         </div>
-        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} />
+        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} calcType="net_investment" inputs={inputs} results={results} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

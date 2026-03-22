@@ -87,7 +87,7 @@ export default function BarrelsToCash() {
           <h1 className="text-xl font-bold text-foreground">Oil (Barrels) to Cash</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Convert BOPD production into working interest monthly income</p>
         </div>
-        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} />
+        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} calcType="barrels_to_cash" inputs={inputs} results={results} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

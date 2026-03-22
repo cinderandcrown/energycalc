@@ -98,7 +98,7 @@ export default function NatGasToCash() {
           <h1 className="text-xl font-bold text-foreground">Natural Gas to Cash</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Convert MCF/day production into working interest net income</p>
         </div>
-        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} />
+        <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} calcType="natgas_to_cash" inputs={inputs} results={results} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
