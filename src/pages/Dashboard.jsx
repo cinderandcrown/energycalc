@@ -146,6 +146,18 @@ export default function Dashboard() {
       setUser(me);
       setCalculations(calcs);
       setLoading(false);
+
+      // Auto-trigger Stripe checkout if redirected from landing page
+      const urlParams = new URLSearchParams(window.location.search);
+      const checkoutProduct = urlParams.get("checkout");
+      if (checkoutProduct) {
+        // Clean URL
+        window.history.replaceState({}, "", "/dashboard");
+        const res = await base44.functions.invoke("stripeCheckout", { productId: checkoutProduct });
+        if (res.data?.url) {
+          window.location.href = res.data.url;
+        }
+      }
     };
     load();
     fetchPrices();
