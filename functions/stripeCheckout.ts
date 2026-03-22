@@ -32,6 +32,7 @@ Deno.serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create({
       mode: price.recurring ? "subscription" : "payment",
+      payment_method_types: ["card", "link"],
       line_items: [{ price: price.id, quantity: 1 }],
       customer_email: user.email,
       success_url: `${origin}/dashboard?subscribed=true`,
