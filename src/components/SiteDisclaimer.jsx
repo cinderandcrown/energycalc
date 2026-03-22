@@ -22,9 +22,9 @@ export default function SiteDisclaimer() {
       <div className="max-w-7xl mx-auto flex items-start gap-3">
         <AlertTriangle className="w-3.5 h-3.5 text-primary-foreground dark:text-accent shrink-0 mt-0.5" />
         <p className="text-xs text-primary-foreground dark:text-accent/90 leading-relaxed flex-1">
-          <strong>Educational Use Only:</strong> EnergyCalc Pro is not a registered broker-dealer, investment advisor, or FINRA member. Nothing on this platform constitutes investment advice or a securities solicitation. All calculations are illustrative estimates only. Oil &amp; gas investments involve substantial risk.{" "}
+          <strong>Educational Use Only — Not Investment Advice:</strong> EnergyCalc Pro, LLC is not a registered broker-dealer, investment adviser, CPA firm, law firm, or FINRA member and does not offer, solicit, or recommend securities under Regulation D or otherwise. Nothing on this platform constitutes investment, tax, or legal advice. All calculations are hypothetical and illustrative only. Oil &amp; gas investments are speculative and involve substantial risk, including total loss of capital. <strong>IRS Circular 230 Notice:</strong> Tax-related content cannot be used to avoid IRS penalties.{" "}
           <Link to="/legal" onClick={dismiss} className="underline underline-offset-2 font-semibold hover:opacity-80">
-            Full Legal Disclosures →
+            Full Legal Disclosures &amp; Terms →
           </Link>
         </p>
         <button onClick={dismiss} className="text-primary-foreground dark:text-accent/70 hover:opacity-70 transition-opacity shrink-0 mt-0.5">
