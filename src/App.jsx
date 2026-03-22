@@ -7,8 +7,11 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from './components/Layout';
 
-// Pages
+// Public pages (no auth required)
 import Landing from './pages/Landing';
+import Legal from './pages/Legal';
+
+// Protected pages
 import Dashboard from './pages/Dashboard';
 import NetInvestment from './pages/calc/NetInvestment';
 import BarrelsToCash from './pages/calc/BarrelsToCash';
@@ -19,9 +22,8 @@ import Learn from './pages/Learn';
 import Settings from './pages/Settings';
 import Markets from './pages/Markets';
 import InvestorProtection from './pages/InvestorProtection';
-import Legal from './pages/Legal';
 
-const AuthenticatedApp = () => {
+const ProtectedRoutes = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
@@ -45,24 +47,7 @@ const AuthenticatedApp = () => {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route element={<Layout />}>
-        <Route path="/home" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/markets" element={<Markets />} />
-        <Route path="/calc/net-investment" element={<NetInvestment />} />
-        <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
-        <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
-        <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
-        <Route path="/scenarios" element={<Scenarios />} />
-        <Route path="/learn" element={<Learn />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/investor-protection" element={<InvestorProtection />} />
-        <Route path="/legal" element={<Legal />} />
-      </Route>
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <Layout />
   );
 };
 
@@ -71,7 +56,27 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
-          <AuthenticatedApp />
+          <Routes>
+            {/* Public routes - no auth needed */}
+            <Route path="/" element={<Landing />} />
+            <Route path="/legal" element={<Legal />} />
+
+            {/* Protected routes - wrapped in auth + layout */}
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/markets" element={<Markets />} />
+              <Route path="/calc/net-investment" element={<NetInvestment />} />
+              <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
+              <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
+              <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
+              <Route path="/scenarios" element={<Scenarios />} />
+              <Route path="/learn" element={<Learn />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/investor-protection" element={<InvestorProtection />} />
+            </Route>
+
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
         </Router>
         <Toaster />
       </QueryClientProvider>
