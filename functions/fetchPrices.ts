@@ -1,5 +1,22 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 
+// Extracts a commodity row from oilprice.com HTML using the data-hash attribute
+function extractCommodity(html, dataHash, label, unit) {
+  // Find the row by data-hash
+  const rowRegex = new RegExp(`data-hash="${dataHash}"[^>]*>[\\s\\S]*?<td class="value">([\\d.]+)\\s*<[\\s\\S]*?<td class="change_amount">([+-]?[\\d.]+)<[\\s\\S]*?<td class="change_percent">([+-]?[\\d.]+)%`, 'i');
+  const match = html.match(rowRegex);
+  if (match) {
+    return {
+      label,
+      price: parseFloat(match[1]),
+      unit,
+      change: parseFloat(match[2]),
+      changePct: parseFloat(match[3]),
+    };
+  }
+  return null;
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -17,36 +34,25 @@ Deno.serve(async (req) => {
 
     const html = await res.text();
 
-    // Parse the main ticker prices from the header widget
-    // Format: commodity name, price, change, changePct
+    const commodities = [
+      { hash: "WTI-Crude", label: "WTI Crude", unit: "/bbl" },
+      { hash: "Brent-Crude", label: "Brent Crude", unit: "/bbl" },
+      { hash: "Natural-gas", label: "Natural Gas", unit: "/MMBtu" },
+      { hash: "Heating-Oil", label: "Heating Oil", unit: "/gal" },
+    ];
+
     const prices = [];
-
-    // WTI Crude
-    const wtiMatch = html.match(/WTI Crude[^<]*<[\s\S]*?(\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)%/);
-    if (wtiMatch) {
-      prices.push({ label: "WTI Crude", price: parseFloat(wtiMatch[1]), unit: "/bbl", change: parseFloat(wtiMatch[2]), changePct: parseFloat(wtiMatch[3]) });
-    }
-
-    // Brent Crude
-    const brentMatch = html.match(/Brent Crude[^<]*<[\s\S]*?(\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)%/);
-    if (brentMatch) {
-      prices.push({ label: "Brent Crude", price: parseFloat(brentMatch[1]), unit: "/bbl", change: parseFloat(brentMatch[2]), changePct: parseFloat(brentMatch[3]) });
-    }
-
-    // Natural Gas
-    const gasMatch = html.match(/Natural Gas[^<]*<[\s\S]*?(\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)%/);
-    if (gasMatch) {
-      prices.push({ label: "Natural Gas", price: parseFloat(gasMatch[1]), unit: "/MMBtu", change: parseFloat(gasMatch[2]), changePct: parseFloat(gasMatch[3]) });
-    }
-
-    // Heating Oil
-    const heatMatch = html.match(/Heating Oil[^<]*<[\s\S]*?(\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)[\s\S]*?([+-]?\d+\.\d+)%/);
-    if (heatMatch) {
-      prices.push({ label: "Heating Oil", price: parseFloat(heatMatch[1]), unit: "/gal", change: parseFloat(heatMatch[2]), changePct: parseFloat(heatMatch[3]) });
+    for (const c of commodities) {
+      const result = extractCommodity(html, c.hash, c.label, c.unit);
+      if (result) {
+        prices.push(result);
+      } else {
+        console.error(`Failed to parse ${c.label} (data-hash: ${c.hash})`);
+      }
     }
 
     if (prices.length === 0) {
-      console.error("Failed to parse any prices from oilprice.com HTML");
+      console.error("No prices parsed from oilprice.com");
       return Response.json({ error: "Failed to parse prices" }, { status: 500 });
     }
 
