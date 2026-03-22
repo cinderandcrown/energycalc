@@ -11,7 +11,7 @@ export default function DownloadReportButton({ calcType, inputs, results, size =
   const handleDownload = async () => {
     setLoading(true);
     const cleanResults = { ...results };
-    // Strip large arrays that aren't needed for the report table (chartData is huge)
+    // Strip large arrays that aren't needed for the PDF
     delete cleanResults.months;
     delete cleanResults.chartData;
 
@@ -19,9 +19,8 @@ export default function DownloadReportButton({ calcType, inputs, results, size =
       calcType,
       inputs,
       results: cleanResults,
-    });
+    }, { responseType: "blob" });
 
-    // response.data is the PDF arraybuffer
     const blob = new Blob([response.data], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
