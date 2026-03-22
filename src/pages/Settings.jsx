@@ -1,0 +1,156 @@
+import { useEffect, useState } from "react";
+import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+
+export default function Settings() {
+  const [user, setUser] = useState(null);
+  const [darkMode, setDarkMode] = useState(true);
+  const [fullName, setFullName] = useState("");
+  const [company, setCompany] = useState("");
+  const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    base44.auth.me().then((u) => {
+      setUser(u);
+      setFullName(u?.full_name || "");
+      setCompany(u?.company || "");
+    });
+    const isDark = localStorage.getItem("energycalc-theme") !== "light";
+    setDarkMode(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+  }, []);
+
+  const toggleDark = (val) => {
+    setDarkMode(val);
+    localStorage.setItem("energycalc-theme", val ? "dark" : "light");
+    document.documentElement.classList.toggle("dark", val);
+  };
+
+  const saveProfile = async () => {
+    setSaving(true);
+    await base44.auth.updateMe({ company });
+    toast({ title: "Profile updated!" });
+    setSaving(false);
+  };
+
+  const handleLogout = () => {
+    base44.auth.logout();
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <div>
+        <h1 className="text-xl font-bold text-foreground">Settings</h1>
+        <p className="text-sm text-muted-foreground mt-0.5">Manage your account and preferences</p>
+      </div>
+
+      {/* Subscription */}
+      <div className="rounded-2xl border border-crude-gold/40 bg-gradient-to-br from-petroleum to-[#1a3a6b] p-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Zap className="w-4 h-4 text-crude-gold" />
+              <span className="text-crude-gold text-xs font-semibold uppercase tracking-wide">Current Plan</span>
+            </div>
+            <h2 className="text-white font-bold text-lg">Free Tier</h2>
+            <p className="text-white/60 text-xs mt-1">Up to 3 saved calculations. Upgrade for unlimited access.</p>
+          </div>
+          <Badge className="bg-crude-gold text-petroleum font-semibold text-xs">FREE</Badge>
+        </div>
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <h3 className="text-white/80 text-xs font-semibold mb-3">Pro features — $9.99/month</h3>
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            {["Unlimited saved calculations", "Scenario comparison", "PDF export", "Live price feed"].map((f) => (
+              <div key={f} className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-crude-gold/80 flex items-center justify-center">
+                  <span className="text-petroleum text-[8px] font-bold">✓</span>
+                </div>
+                <span className="text-white/70 text-xs">{f}</span>
+              </div>
+            ))}
+          </div>
+          <Button className="w-full bg-crude-gold text-petroleum font-semibold hover:opacity-90">
+            Upgrade to Pro
+          </Button>
+        </div>
+      </div>
+
+      {/* Profile */}
+      <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+        <div className="flex items-center gap-2 pb-2 border-b border-border">
+          <User className="w-4 h-4 text-muted-foreground" />
+          <h2 className="text-sm font-semibold text-foreground">Profile</h2>
+        </div>
+        <div>
+          <Label>Full Name</Label>
+          <Input value={fullName} disabled className="mt-1 bg-muted/50 text-muted-foreground" />
+          <p className="text-xs text-muted-foreground mt-1">Name cannot be changed here. Contact support.</p>
+        </div>
+        <div>
+          <Label>Email</Label>
+          <Input value={user?.email || ""} disabled className="mt-1 bg-muted/50 text-muted-foreground" />
+        </div>
+        <div>
+          <Label>Company (optional)</Label>
+          <Input
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            placeholder="Your company name"
+            className="mt-1"
+          />
+        </div>
+        <Button onClick={saveProfile} disabled={saving} size="sm">
+          {saving ? "Saving..." : "Save Profile"}
+        </Button>
+      </div>
+
+      {/* Appearance */}
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <div className="flex items-center gap-2 pb-2 border-b border-border mb-4">
+          {darkMode ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
+          <h2 className="text-sm font-semibold text-foreground">Appearance</h2>
+        </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-foreground">Dark Mode</p>
+            <p className="text-xs text-muted-foreground">Recommended for field environments</p>
+          </div>
+          <Switch checked={darkMode} onCheckedChange={toggleDark} />
+        </div>
+      </div>
+
+      {/* Legal */}
+      <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
+        <div className="flex items-center gap-2 pb-2 border-b border-border mb-2">
+          <Shield className="w-4 h-4 text-muted-foreground" />
+          <h2 className="text-sm font-semibold text-foreground">Legal</h2>
+        </div>
+        {["Terms of Service", "Privacy Policy", "Disclaimer"].map((item) => (
+          <button key={item} className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+            {item}
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </button>
+        ))}
+        <div className="pt-3 border-t border-border mt-3">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            EnergyCalc Pro is for informational purposes only. Results do not constitute tax, legal, or investment advice. Always consult a qualified CPA or financial advisor.
+          </p>
+        </div>
+      </div>
+
+      {/* Logout */}
+      <Button variant="outline" className="w-full gap-2 text-destructive border-destructive/40 hover:bg-destructive/10" onClick={handleLogout}>
+        <LogOut className="w-4 h-4" />
+        Sign Out
+      </Button>
+    </div>
+  );
+}
