@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import {
@@ -558,7 +559,8 @@ export default function InvestorProtection() {
             <div className="flex gap-2 items-start">
               <BookOpen className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <strong className="text-foreground">Legal Disclaimer:</strong> The information on this page is for educational purposes only and does not constitute legal advice. The fraud patterns and red flags described are generalizations based on publicly available enforcement actions. Not every operator exhibiting these characteristics is committing fraud. Always engage a licensed securities attorney and independent oil & gas engineer before investing. Specific company names have not been cited — conduct your own due diligence on any operator.
+                <strong className="text-foreground">Legal Disclaimer:</strong> The information on this page is for educational purposes only and does not constitute legal advice, a securities analysis, or an investment recommendation. EnergyCalc Pro is not a registered broker-dealer, investment advisor, or FINRA member. The fraud patterns and red flags described are generalizations based on publicly available SEC enforcement actions, FBI reports, and court records. Not every operator exhibiting these characteristics is committing fraud. Always engage a licensed securities attorney and independent petroleum engineer before investing.{" "}
+                <Link to="/legal" className="underline underline-offset-2 text-primary dark:text-accent hover:opacity-80">View full legal disclosures →</Link>
               </p>
             </div>
           </div>
