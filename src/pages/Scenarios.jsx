@@ -53,6 +53,7 @@ const getHeroValue = (calc) => {
 export default function Scenarios() {
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [analyzingId, setAnalyzingId] = useState(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -129,7 +130,7 @@ export default function Scenarios() {
           <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 flex items-center gap-2">
             <Star className="w-3.5 h-3.5 text-crude-gold fill-crude-gold" /> Favorites
           </h2>
-          <CalcList items={favorites} onToggleFav={toggleFavorite} onDelete={deleteCalc} />
+          <CalcList items={favorites} onToggleFav={toggleFavorite} onDelete={deleteCalc} analyzingId={analyzingId} onAnalyze={setAnalyzingId} />
         </section>
       )}
 
@@ -138,7 +139,7 @@ export default function Scenarios() {
           {favorites.length > 0 && (
             <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">All Calculations</h2>
           )}
-          <CalcList items={others} onToggleFav={toggleFavorite} onDelete={deleteCalc} />
+          <CalcList items={others} onToggleFav={toggleFavorite} onDelete={deleteCalc} analyzingId={analyzingId} onAnalyze={setAnalyzingId} />
         </section>
       )}
     </div>
@@ -206,7 +207,11 @@ function CalcList({ items, onToggleFav, onDelete, analyzingId, onAnalyze }) {
                 </AlertDialog>
               </div>
             </motion.div>
-          );
+            {analyzingId === calc.id && (
+              <DealAnalysis calc={calc} onClose={() => onAnalyze(null)} />
+            )}
+          </div>
+        );
         })}
       </AnimatePresence>
     </div>
