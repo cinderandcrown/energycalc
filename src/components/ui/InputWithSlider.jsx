@@ -43,7 +43,7 @@ export default function InputWithSlider({
           </TooltipProvider>
         )}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         <Slider
           value={[value]}
           onValueChange={handleSliderChange}
@@ -52,7 +52,7 @@ export default function InputWithSlider({
           step={step}
           className="flex-1"
         />
-        <div className="relative shrink-0 w-28">
+        <div className="relative shrink-0 w-24 sm:w-28">
           {prefix && (
             <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
               {prefix}
@@ -62,7 +62,7 @@ export default function InputWithSlider({
             type="number"
             value={value}
             onChange={handleInputChange}
-            className={`h-8 text-sm font-mono text-right ${prefix ? "pl-5" : ""} ${suffix ? "pr-6" : ""}`}
+            className={`h-10 sm:h-8 text-sm font-mono text-right ${prefix ? "pl-5" : ""} ${suffix ? "pr-6" : ""}`}
             min={min}
             max={max}
             step={step}

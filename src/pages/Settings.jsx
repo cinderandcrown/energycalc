@@ -91,7 +91,7 @@ export default function Settings() {
         </div>
         <div className="mt-4 pt-4 border-t border-white/10">
           <h3 className="text-white/80 text-xs font-semibold mb-3">Pro features — $9.99/month</h3>
-          <div className="grid grid-cols-2 gap-2 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
             {["Unlimited saved calculations", "Scenario comparison", "PDF export", "Live price feed"].map((f) => (
               <div key={f} className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-crude-gold/80 flex items-center justify-center">

@@ -324,13 +324,13 @@ export default function Learn() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3">
         {[
           { label: "Terms Defined", value: totalTerms, icon: BookOpen },
           { label: "FAQs Answered", value: totalFAQs, icon: HelpCircle },
           { label: "Topic Categories", value: GLOSSARY_CATEGORIES.length + FAQ_CATEGORIES.length, icon: GraduationCap },
         ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="rounded-xl border border-border bg-card p-3 text-center">
+          <div key={label} className="rounded-xl border border-border bg-card p-2 sm:p-3 text-center">
             <Icon className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
             <p className="font-mono font-bold text-lg text-foreground">{value}</p>
             <p className="text-[10px] text-muted-foreground">{label}</p>

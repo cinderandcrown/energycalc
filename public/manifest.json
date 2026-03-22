@@ -1,0 +1,22 @@
+{
+  "name": "EnergyCalc Pro",
+  "short_name": "EnergyCalc",
+  "description": "Oil & gas investment calculator and investor protection platform",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0B2545",
+  "background_color": "#0B2545",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

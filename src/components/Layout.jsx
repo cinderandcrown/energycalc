@@ -101,6 +101,12 @@ export default function Layout() {
     setMobileCalcOpen(false);
   }, [location.pathname]);
 
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    document.body.classList.toggle('overflow-locked', drawerOpen);
+    return () => document.body.classList.remove('overflow-locked');
+  }, [drawerOpen]);
+
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
   const isCalcActive = calcPaths.some(p => location.pathname === p);
 
@@ -337,27 +343,27 @@ export default function Layout() {
             <Link
               key={path}
               to={path}
-              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+              className={`flex flex-col items-center justify-center gap-0.5 min-h-[48px] text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
             >
               <Icon className="w-5 h-5" />
-              <span className="text-[10px]">{label}</span>
+              <span className="text-[10px] leading-none">{label}</span>
             </Link>
           ))}
           {/* Calculators toggle */}
           <button
             onClick={() => setMobileCalcOpen(!mobileCalcOpen)}
-            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isCalcActive || mobileCalcOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center justify-center gap-0.5 min-h-[48px] text-xs transition-colors ${isCalcActive || mobileCalcOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
           >
             <Calculator className="w-5 h-5" />
-            <span className="text-[10px]">Calc</span>
+            <span className="text-[10px] leading-none">Calc</span>
           </button>
           {/* More menu - opens drawer on phone */}
           <button
             onClick={() => setDrawerOpen(!drawerOpen)}
-            className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${drawerOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+            className={`flex flex-col items-center justify-center gap-0.5 min-h-[48px] text-xs transition-colors ${drawerOpen ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
           >
             <Menu className="w-5 h-5" />
-            <span className="text-[10px]">More</span>
+            <span className="text-[10px] leading-none">More</span>
           </button>
         </div>
       </nav>

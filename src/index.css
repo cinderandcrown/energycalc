@@ -79,13 +79,23 @@
     user-select: none;
   }
 
+  /* Prevent iOS zoom on input focus (requires 16px+ font-size) */
+  input, select, textarea {
+    font-size: 16px;
+  }
+  @media (min-width: 640px) {
+    input, select, textarea {
+      font-size: inherit;
+    }
+  }
+
   /* Minimum 44px tap targets for mobile accessibility */
   button, a, [role="button"] {
     min-height: 44px;
     min-width: 44px;
   }
   /* Allow smaller inline badges/icons that aren't primary tap targets */
-  .badge, [class*="Badge"], span > a, p > a {
+  .badge, [class*="Badge"], span > a, p > a, th > span, td > span {
     min-height: unset;
     min-width: unset;
   }
@@ -140,6 +150,17 @@
 
   .border-crude-gold {
     border-color: hsl(var(--crude-gold));
+  }
+
+  /* Prevent background scroll when modal/drawer is open */
+  .overflow-locked {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  /* Optimized touch handling on sliders and interactive elements */
+  input[type="range"], .slider, [role="slider"] {
+    touch-action: manipulation;
   }
 
   .scrollbar-hide {

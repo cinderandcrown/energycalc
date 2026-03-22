@@ -178,7 +178,7 @@ export default function Dashboard() {
       </Link>
 
       {/* Quick Protection Tools */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Link to="/operator-screener" className="rounded-xl border border-border bg-card p-4 hover:bg-muted/30 transition-colors">
           <div className="w-9 h-9 rounded-xl bg-crude-gold/10 flex items-center justify-center mb-3">
             <Search className="w-4.5 h-4.5 text-crude-gold" />
@@ -205,9 +205,9 @@ export default function Dashboard() {
           <button
             onClick={handleRefreshPrices}
             disabled={pricesRefreshing}
-            className="ml-auto p-1 rounded hover:bg-muted transition-colors"
+            className="ml-auto p-2 -mr-1 rounded-lg hover:bg-muted transition-colors"
           >
-            <RefreshCw className={`w-3 h-3 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
           </button>
         </div>
         <div className="flex overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-6 divide-x divide-border scrollbar-hide">
@@ -261,7 +261,7 @@ export default function Dashboard() {
           <p className="text-white/70 text-sm leading-relaxed mb-5">
             U.S. tax law provides <strong className="text-crude-gold">unique deductions</strong> for energy investments not available in stocks, real estate, or crypto. Qualified investors can deduct the majority of their investment in <strong className="text-white">Year 1</strong> while generating commodity-backed cash flow.
           </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {whyEnergy.map((item) => (
               <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-3">
                 <div className="flex items-center gap-1.5 mb-0.5">

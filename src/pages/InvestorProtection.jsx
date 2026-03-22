@@ -482,13 +482,13 @@ export default function InvestorProtection() {
         <p className="text-white/80 text-sm leading-relaxed mb-4">
           Scan offering documents with AI, review {fraudPatterns.length} documented fraud patterns, check 20+ red flags, and follow a 12-step due diligence checklist. Covers LP programs, JVs, promissory notes, and direct participation.
         </p>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
           {[
             { val: "$10B+", label: "Lost to oil & gas fraud annually (FBI est.)" },
             { val: "80%", label: "Of small oil deals never pay investor return of capital" },
             { val: "506(b)", label: "The exemption that lets operators skip SEC review" },
           ].map(item => (
-            <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-3 text-center">
+            <div key={item.label} className="rounded-xl bg-white/5 border border-white/10 p-2 sm:p-3 text-center">
               <p className="font-mono font-bold text-crude-gold text-base">{item.val}</p>
               <p className="text-white/50 text-[10px] leading-tight mt-0.5">{item.label}</p>
             </div>
@@ -497,8 +497,8 @@ export default function InvestorProtection() {
       </div>
 
       <Tabs defaultValue="analyzer">
-        <TabsList className="w-full grid grid-cols-4 h-auto gap-1 p-1">
-          <TabsTrigger value="analyzer" className="text-xs py-2">AI Deal Analyzer</TabsTrigger>
+        <TabsList className="w-full grid grid-cols-2 sm:grid-cols-4 h-auto gap-1 p-1">
+          <TabsTrigger value="analyzer" className="text-xs py-2">AI Analyzer</TabsTrigger>
           <TabsTrigger value="redflags" className="text-xs py-2">Red Flags</TabsTrigger>
           <TabsTrigger value="duediligence" className="text-xs py-2">Due Diligence</TabsTrigger>
           <TabsTrigger value="fraudpatterns" className="text-xs py-2">Fraud Patterns</TabsTrigger>

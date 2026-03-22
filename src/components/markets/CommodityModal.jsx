@@ -181,7 +181,7 @@ Be accurate with price ranges based on real recent market data from oilprice.com
 
           {/* Stats Grid */}
           {analysis?.stats && (
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
               <StatCard label="52W High" value={`$${analysis.stats.high52w?.toFixed(2)}`} />
               <StatCard label="52W Low" value={`$${analysis.stats.low52w?.toFixed(2)}`} />
               <StatCard label="Avg Price" value={`$${analysis.stats.avgPrice?.toFixed(2)}`} />

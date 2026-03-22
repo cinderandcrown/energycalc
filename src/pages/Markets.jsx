@@ -212,7 +212,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors border ${
+                className={`text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-medium transition-colors border ${
                   activeCategory === cat
                     ? "bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground border-transparent"
                     : "border-border text-muted-foreground hover:text-foreground"
@@ -226,7 +226,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
 
         <div className="rounded-xl border border-border bg-card overflow-hidden">
           {/* Table Header */}
-          <div className="grid grid-cols-[1fr_60px_auto_auto_auto] gap-2 px-4 py-2 bg-muted/40 border-b border-border text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
+          <div className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_60px_auto_auto_auto] gap-2 px-4 py-2 bg-muted/40 border-b border-border text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">
             <span>Commodity</span>
             <span className="text-center hidden sm:block">Trend</span>
             <span className="text-right">Price</span>
@@ -246,7 +246,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
                   animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.03 }}
                   onClick={() => setSelectedCommodity(item)}
-                  className="grid grid-cols-[1fr_60px_auto_auto_auto] gap-2 items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
+                  className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_60px_auto_auto_auto] gap-2 items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
                 >
                   <div>
                     <p className="text-sm font-semibold text-foreground">{item.label}</p>
@@ -295,7 +295,7 @@ CRITICAL: Only include news headlines that are from REAL published articles you 
             })}
             {/* Loading placeholders */}
             {pricesLoading && loadingCommodities.map((item) => (
-              <div key={item.symbol} className="grid grid-cols-[1fr_60px_auto_auto_auto] gap-2 items-center px-4 py-3 animate-pulse">
+              <div key={item.symbol} className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_60px_auto_auto_auto] gap-2 items-center px-4 py-3 animate-pulse">
                 <div>
                   <div className="h-3.5 bg-muted rounded w-24 mb-1" />
                   <div className="h-2.5 bg-muted rounded w-16" />
