@@ -8,7 +8,7 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { fileUrl } = await req.json();
+  const { fileUrl, fileName, fileSizeMb } = await req.json();
 
   if (!fileUrl) {
     return Response.json({ error: 'fileUrl is required' }, { status: 400 });
@@ -122,6 +122,27 @@ Be specific. Quote actual language from the document when citing red flags. Be h
   });
 
   console.log(`[analyzePPM] Analysis complete. Risk: ${analysis.riskLevel} (${analysis.riskScore}/10)`);
+
+  // Save submission to database
+  await base44.asServiceRole.entities.PPMSubmission.create({
+    document_title: analysis.documentTitle || docTitle,
+    file_url: fileUrl,
+    file_name: fileName || "unknown",
+    file_size_mb: fileSizeMb || 0,
+    submission_type: "upload",
+    text_length: docText.length,
+    deal_structure: analysis.dealStructure || "Unknown",
+    risk_score: analysis.riskScore,
+    risk_level: analysis.riskLevel,
+    red_flag_count: analysis.redFlags?.length || 0,
+    green_flag_count: analysis.greenFlags?.length || 0,
+    missing_item_count: analysis.missingItems?.length || 0,
+    summary: analysis.summary,
+    verdict: analysis.verdict,
+    full_analysis: analysis,
+  });
+
+  console.log(`[analyzePPM] Submission saved to database`);
 
   return Response.json({
     success: true,
