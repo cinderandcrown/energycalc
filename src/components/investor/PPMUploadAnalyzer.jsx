@@ -78,7 +78,11 @@ export default function PPMUploadAnalyzer() {
 
     // Step 2: Analyze via backend
     setStage("AI is reading and analyzing your document...");
-    const res = await base44.functions.invoke("analyzePPM", { fileUrl: file_url });
+    const res = await base44.functions.invoke("analyzePPM", {
+      fileUrl: file_url,
+      fileName: file.name,
+      fileSizeMb: parseFloat((file.size / 1024 / 1024).toFixed(2)),
+    });
 
     if (res.data?.error) {
       setError(res.data.error);
