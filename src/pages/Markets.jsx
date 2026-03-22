@@ -9,22 +9,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import CommodityModal from "../components/markets/CommodityModal";
 
-// Static commodity baseline — updated by LLM fetch
+// Only commodities we can actually scrape from oilprice.com — no fake data
 const defaultPrices = [
-  { label: "WTI Crude", symbol: "WTI", price: 70.14, change: +0.58, changePct: +0.83, unit: "/bbl", category: "Oil" },
-  { label: "Brent Crude", symbol: "BRENT", price: 74.28, change: +0.45, changePct: +0.61, unit: "/bbl", category: "Oil" },
-  { label: "Natural Gas", symbol: "NG", price: 3.42, change: -0.043, changePct: -1.24, unit: "/MMBtu", category: "Gas" },
-  { label: "Henry Hub Gas", symbol: "HH", price: 3.42, change: -0.043, changePct: -1.24, unit: "/MMBtu", category: "Gas" },
-  { label: "Uranium (U3O8)", symbol: "U3O8", price: 85.00, change: +1.25, changePct: +1.49, unit: "/lb", category: "Nuclear" },
-  { label: "Gasoline RBOB", symbol: "RBOB", price: 2.21, change: +0.018, changePct: +0.82, unit: "/gal", category: "Refined" },
-  { label: "Heating Oil", symbol: "HO", price: 2.48, change: +0.031, changePct: +1.27, unit: "/gal", category: "Refined" },
-  { label: "Solar Index", symbol: "SOLAR", price: 52.40, change: +0.72, changePct: +1.39, unit: "index", category: "Renewables" },
-  { label: "Lithium Carbonate", symbol: "LITH", price: 11250, change: -125, changePct: -1.10, unit: "/t", category: "Renewables" },
-  { label: "Eagle Ford", symbol: "EF", price: 68.90, change: -0.18, changePct: -0.26, unit: "/bbl", category: "US Blend" },
-  { label: "WTI Midland", symbol: "WTI-M", price: 70.82, change: +0.61, changePct: +0.87, unit: "/bbl", category: "US Blend" },
+  { label: "WTI Crude", symbol: "WTI", price: null, change: 0, changePct: 0, unit: "/bbl", category: "Oil" },
+  { label: "Brent Crude", symbol: "BRENT", price: null, change: 0, changePct: 0, unit: "/bbl", category: "Oil" },
+  { label: "Natural Gas", symbol: "NG", price: null, change: 0, changePct: 0, unit: "/MMBtu", category: "Gas" },
+  { label: "Heating Oil", symbol: "HO", price: null, change: 0, changePct: 0, unit: "/gal", category: "Refined" },
 ];
 
-const categories = ["All", "Oil", "Gas", "Nuclear", "Renewables", "Refined", "US Blend"];
+const categories = ["All", "Oil", "Gas", "Refined"];
 
 export default function Markets() {
   const [prices, setPrices] = useState(defaultPrices);
