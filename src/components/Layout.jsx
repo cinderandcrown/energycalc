@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent } from 'lucide-react';
+import SiteDisclaimer from './SiteDisclaimer';
 
 const calcItems = [
   { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
@@ -86,6 +87,9 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Site-wide Legal Disclaimer Banner */}
+      <SiteDisclaimer />
+
       {/* Top Bar */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
