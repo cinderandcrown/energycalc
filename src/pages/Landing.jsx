@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import {
   Calculator, TrendingUp, Shield, BookOpen, BarChart3, Zap,
   ChevronRight, CheckCircle2, ArrowRight, Flame, Droplets,
-  ShieldAlert, Star, Lock, Percent, Menu, X
+  ShieldAlert, Star, Lock, Percent, Menu, X, Search
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
