@@ -149,7 +149,7 @@ export default function Dashboard() {
       <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
           <div className="w-2 h-2 rounded-full bg-drill-green animate-pulse" />
-          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Live Commodity Prices</span>
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Commodity Prices · via OilPrice.com</span>
           <RefreshCw className="w-3 h-3 text-muted-foreground ml-auto" />
         </div>
         <div className="grid grid-cols-3 divide-x divide-border">
