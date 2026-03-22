@@ -216,23 +216,33 @@ function PPMAnalyzer() {
     setLoading(true);
     setAnalysis(null);
     const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a securities attorney and oil & gas fraud expert. Analyze this PPM/JV/offering document text for red flags and investor risks.
+      prompt: `You are a securities attorney and oil & gas fraud expert with 30 years of experience analyzing LP programs, Joint Venture agreements, promissory notes, direct participation programs (DPPs), and PPMs.
 
-PPM Text:
+First, identify the DEAL STRUCTURE (Limited Partnership, Joint Venture, Promissory Note, Direct Working Interest, Royalty Purchase, or Other). Then analyze accordingly.
+
+For LP deals, specifically check for: excessive GP fee stacking (management, acquisition, drilling supervision, disposition, carry), blind pool provisions, open-ended capital call clauses, waterfall manipulation, and whether LP interests are structured to avoid self-employment tax.
+
+For JV deals, specifically check for: turnkey price markups vs actual AFE, carried interest imbalances, operator-controlled expenses with no caps or audit rights, non-consent penalty severity (>300% is aggressive), and affiliated-party service company billing.
+
+For Promissory Notes, check for: whether the note is secured or unsecured, registration status, what happens in default, and whether this is really an unregistered security disguised as a note.
+
+Document text to analyze:
 """
 ${ppmText}
 """
 
 Return a JSON object with:
+- "dealStructure": string (the type of deal: "Limited Partnership", "Joint Venture", "Promissory Note", "Direct Working Interest", "Royalty Purchase", or "Other/Unclear")
 - "riskScore": number 1-10 (10 = extremely high risk / likely fraud)
 - "riskLevel": "low" | "medium" | "high" | "critical"  
-- "summary": 2-sentence plain-English summary of what this is offering
+- "summary": 2-3 sentence plain-English summary of what this is offering and what structure it uses
 - "redFlags": array of objects { flag: string (specific clause or issue found), severity: "low"|"medium"|"high"|"critical", explanation: string }
 - "greenFlags": array of strings (positive indicators found, if any)
-- "missingItems": array of strings (critical items that should be in any legitimate PPM but are absent)
-- "verdict": string (1-2 sentences final verdict on whether to proceed and what to do next)
+- "missingItems": array of strings (critical items that should be in any legitimate offering of this type but are absent)
+- "feeAnalysis": string (breakdown of all fees, promotes, carries, and markups found — or "Not enough information to analyze fees")
+- "verdict": string (2-3 sentences final verdict on whether to proceed and what to do next)
 
-Be specific. Quote actual language from the text when citing red flags. Be harsh and direct — this protects real investor money.`,
+Be specific. Quote actual language from the text when citing red flags. Be harsh and direct — this protects real investor money. If the deal structure is unclear, say so and explain why that itself is a red flag.`,
       response_json_schema: {
         type: "object",
         properties: {
