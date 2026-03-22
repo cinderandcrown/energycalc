@@ -172,6 +172,13 @@ export default function NetInvestment() {
             sublabel={`Effective cost: ${(results.effectiveCost * 100).toFixed(1)}¢ per dollar invested`}
           />
 
+          <div className="grid grid-cols-2 gap-3">
+            <ResultCard label="Total Year-1 Tax Savings" value={results.totalYear1TaxSavings} positive />
+            <ResultCard label="IDC Deduction" value={results.idcAmount} highlight />
+            <ResultCard label="Tangible Equipment" value={results.tangibleAmount} />
+            <ResultCard label="Tangible Yr-1 Depreciation" value={results.tangibleDepreciation} />
+          </div>
+
           <NetInvestmentExplainers results={results} />
 
           {/* Depletion note */}
