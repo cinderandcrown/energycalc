@@ -72,12 +72,12 @@ const CONSULTING = [
 ];
 
 const FEATURES = [
-  { icon: Calculator, title: "4 Specialized Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, and Rate of Return — purpose-built for commodity energy deal structures." },
-  { icon: ShieldAlert, title: "Investor Protection Center", desc: "AI-powered PPM red flag analyzer, fraud pattern library, due diligence checklists, and reporting resources for all energy sectors." },
-  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, uranium, solar index, and more — with AI-generated market commentary and sector sentiment." },
-  { icon: BookOpen, title: "Complete Knowledge Base", desc: "57+ defined industry terms, 26+ expert FAQs — from IDCs and depletion to renewables, uranium, and Reg D compliance." },
-  { icon: TrendingUp, title: "Scenario Management", desc: "Save, compare, and favorite calculations. Model best-case, base-case, and worst-case deal outcomes across energy sectors." },
-  { icon: Zap, title: "Tax Optimization Tools", desc: "Instantly model your after-tax cost with IDC deductions, percentage depletion, ITC/PTC credits, and MACRS depreciation." },
+  { icon: ShieldAlert, title: "AI Operator Screener", desc: "Enter any operator's name and get an instant AI background check — red flags, known issues, regulatory actions, and verification steps. Your first line of defense." },
+  { icon: Shield, title: "PPM Red Flag Analyzer", desc: "Paste any PPM, JV agreement, or subscription document. Our AI scores risk 1–10, flags predatory clauses, and tells you what's missing." },
+  { icon: Calculator, title: "4 Deal Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, and Rate of Return — model the real economics before committing capital." },
+  { icon: BookOpen, title: "Fraud Pattern Library", desc: "Learn the 6 most common oil & gas fraud schemes — promissory note traps, cost stuffing, ORRI schemes, and more. Based on SEC & FBI enforcement actions." },
+  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, and commodity prices with AI market commentary. Know what your barrels are worth today." },
+  { icon: Zap, title: "Tax Optimization Tools", desc: "Model IDC deductions, percentage depletion, and MACRS depreciation. See your true after-tax cost before you sign anything." },
 ];
 
 const CALCS = [
@@ -187,7 +187,7 @@ export default function Landing() {
             className="text-center text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-5"
           >
             Know Your Numbers.{" "}
-            <span className="text-crude-gold">Before You Drill.</span>
+            <span className="text-crude-gold">Protect Your Capital.</span>
           </motion.h1>
 
           <motion.p
@@ -196,7 +196,7 @@ export default function Landing() {
             transition={{ delay: 0.22 }}
             className="text-center text-white/65 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10"
           >
-            Professional investment intelligence for oil, gas, solar, wind, uranium, and commodity-driven energy operators, working interest investors, and fund managers. Model tax benefits, analyze PPMs, and protect your capital.
+            The most powerful investor protection and deal analysis platform for oil & gas. Vet operators, analyze PPMs for red flags, model tax-adjusted returns, and arm yourself with the knowledge to never get taken. Built by investors, for investors.
           </motion.p>
 
           <motion.div
@@ -270,8 +270,8 @@ export default function Landing() {
       {/* ═══════ FEATURES ═══════ */}
       <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Everything You Need to Invest Smarter</h2>
-          <p className="text-muted-foreground text-sm max-w-xl mx-auto">A full intelligence suite purpose-built for commodity-driven energy investments — oil, gas, solar, wind, uranium, and more.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Your Complete Investor Protection Arsenal</h2>
+          <p className="text-muted-foreground text-sm max-w-xl mx-auto">Built to protect you from bad deals, bad operators, and bad math. Every tool an oil & gas investor needs to make informed decisions.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f, i) => {
