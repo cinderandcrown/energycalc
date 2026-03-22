@@ -8,6 +8,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from './components/Layout';
 
 // Pages
+import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import NetInvestment from './pages/calc/NetInvestment';
 import BarrelsToCash from './pages/calc/BarrelsToCash';
