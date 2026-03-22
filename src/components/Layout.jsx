@@ -224,7 +224,7 @@ export default function Layout() {
             <Link
               key={path}
               to={path}
-              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-colors ${isActive(path) ? 'text-primary dark:text-accent' : 'text-muted-foreground'}`}
+              className={`flex flex-col items-center gap-0.5 py-2 text-xs transition-all duration-200 ${isActive(path) ? 'text-primary dark:text-accent scale-105' : 'text-muted-foreground active:scale-95'}`}
             >
               <Icon className="w-5 h-5" />
               <span className="text-[10px]">{label}</span>
