@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import FraudPatternsTab from "../components/investor/FraudPatternsTab";
+import PPMUploadAnalyzer from "../components/investor/PPMUploadAnalyzer";
 
 // ─── PPM Red Flag Checklist ───────────────────────────────────────────────
 const ppmRedFlags = [
@@ -499,15 +500,21 @@ export default function InvestorProtection() {
         </div>
       </div>
 
-      <Tabs defaultValue="analyzer">
-        <TabsList className="w-full grid grid-cols-4 h-auto gap-1 p-1">
-          <TabsTrigger value="analyzer" className="text-xs py-2">AI Deal Analyzer</TabsTrigger>
+      <Tabs defaultValue="upload">
+        <TabsList className="w-full grid grid-cols-5 h-auto gap-1 p-1">
+          <TabsTrigger value="upload" className="text-xs py-2">Upload PPM</TabsTrigger>
+          <TabsTrigger value="analyzer" className="text-xs py-2">Paste Text</TabsTrigger>
           <TabsTrigger value="redflags" className="text-xs py-2">Red Flags</TabsTrigger>
           <TabsTrigger value="duediligence" className="text-xs py-2">Due Diligence</TabsTrigger>
           <TabsTrigger value="fraudpatterns" className="text-xs py-2">Fraud Patterns</TabsTrigger>
         </TabsList>
 
-        {/* ── Tab 1: AI Analyzer ── */}
+        {/* ── Tab 0: Upload PPM ── */}
+        <TabsContent value="upload" className="mt-4">
+          <PPMUploadAnalyzer />
+        </TabsContent>
+
+        {/* ── Tab 1: AI Analyzer (Paste Text) ── */}
         <TabsContent value="analyzer" className="mt-4">
           <PPMAnalyzer />
         </TabsContent>
