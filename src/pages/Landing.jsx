@@ -137,7 +137,7 @@ export default function Landing() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => base44.auth.redirectToLogin("/dashboard")} className="hidden sm:inline-flex gap-1.5 text-sm">
+            <Button variant="ghost" size="sm" onClick={handleSignIn} className="hidden sm:inline-flex gap-1.5 text-sm">
               Sign In
             </Button>
             <Button size="sm" className="bg-crude-gold text-petroleum font-semibold hover:bg-crude-gold/90 gap-1.5" onClick={scrollToPricing}>
@@ -158,7 +158,7 @@ export default function Landing() {
             <button onClick={() => { document.getElementById("features")?.scrollIntoView({ behavior: "smooth" }); setMobileMenuOpen(false); }} className="block text-sm text-foreground">Features</button>
             <button onClick={scrollToPricing} className="block text-sm text-foreground">Pricing</button>
             <Link to="/legal" className="block text-sm text-foreground" onClick={() => setMobileMenuOpen(false)}>Legal</Link>
-            <button onClick={() => base44.auth.redirectToLogin("/dashboard")} className="block text-sm text-crude-gold font-semibold">Sign In →</button>
+            <button onClick={handleSignIn} className="block text-sm text-crude-gold font-semibold">Sign In →</button>
           </div>
         )}
       </header>
@@ -229,7 +229,7 @@ export default function Landing() {
               <Zap className="w-5 h-5" />
               View Plans &amp; Pricing
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 gap-2 h-12 text-base" onClick={() => base44.auth.redirectToLogin("/dashboard")}>
+            <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 gap-2 h-12 text-base" onClick={handleSignIn}>
               <Lock className="w-4 h-4" />
               Sign In
             </Button>
@@ -398,7 +398,7 @@ export default function Landing() {
           <Button
             size="lg"
             className="bg-crude-gold text-petroleum font-bold hover:bg-crude-gold/90 gap-2 px-10 h-12"
-            onClick={() => base44.auth.redirectToLogin("/dashboard")}
+            onClick={handleSignIn}
           >
             <Lock className="w-4 h-4" />
             Sign In to Dashboard
