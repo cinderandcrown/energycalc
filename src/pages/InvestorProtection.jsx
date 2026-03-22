@@ -600,42 +600,7 @@ export default function InvestorProtection() {
 
         {/* ── Tab 4: Fraud Patterns ── */}
         <TabsContent value="fraudpatterns" className="mt-4 space-y-3">
-          <div className="p-3 rounded-xl bg-muted/50 border border-border mb-1">
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              These are the most common fraud patterns in oil & gas private placements, based on SEC enforcement actions, FBI investigations, and industry litigation. Knowing these patterns is your first line of defense.
-            </p>
-          </div>
-          {fraudPatterns.map((pattern, i) => (
-            <motion.div
-              key={pattern.name}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className={`rounded-xl border p-4 ${
-                pattern.severity === "critical" ? "border-flare-red/30 bg-flare-red/5" :
-                pattern.severity === "high" ? "border-orange-500/30 bg-orange-500/5" :
-                "border-crude-gold/30 bg-crude-gold/5"
-              }`}
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <Siren className={`w-4 h-4 shrink-0 ${
-                  pattern.severity === "critical" ? "text-flare-red" :
-                  pattern.severity === "high" ? "text-orange-500" : "text-crude-gold"
-                }`} />
-                <p className="text-sm font-bold text-foreground">{pattern.name}</p>
-                <Badge className={`border-0 text-[10px] font-bold ml-auto uppercase ${
-                  pattern.severity === "critical" ? "bg-flare-red/10 text-flare-red" :
-                  pattern.severity === "high" ? "bg-orange-500/10 text-orange-500" :
-                  "bg-crude-gold/10 text-crude-gold"
-                }`}>{pattern.severity}</Badge>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed mb-3">{pattern.description}</p>
-              <div className="flex items-start gap-2 rounded-lg bg-background/60 border border-border p-2.5">
-                <Zap className="w-3.5 h-3.5 text-crude-gold mt-0.5 shrink-0" />
-                <p className="text-xs text-foreground leading-relaxed"><strong>Protect Yourself:</strong> {pattern.warning}</p>
-              </div>
-            </motion.div>
-          ))}
+          <FraudPatternsTab />
 
           {/* Disclaimer */}
           <div className="p-4 rounded-xl border border-border bg-muted/30">
