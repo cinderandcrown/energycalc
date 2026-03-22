@@ -36,43 +36,44 @@ export default function Markets() {
   const [refreshing, setRefreshing] = useState(false);
   const [selectedCommodity, setSelectedCommodity] = useState(null);
 
-  const fetchMarketData = async () => {
-    setRefreshing(true);
-    setLoadingNews(true);
+  const fetchRealPrices = async () => {
+    try {
+      const res = await base44.functions.invoke('fetchPrices', {});
+      if (res.data?.prices?.length) {
+        // Map real scraped prices into our display format with categories
+        const symbolMap = {
+          "WTI Crude": { symbol: "WTI", category: "Oil" },
+          "Brent Crude": { symbol: "BRENT", category: "Oil" },
+          "Natural Gas": { symbol: "NG", category: "Gas" },
+          "Heating Oil": { symbol: "HO", category: "Refined" },
+        };
+        const mapped = res.data.prices.map(p => ({
+          ...p,
+          symbol: symbolMap[p.label]?.symbol || p.label,
+          category: symbolMap[p.label]?.category || "Other",
+        }));
+        setPrices(mapped);
+        setLastUpdated(new Date());
+      }
+    } catch (e) {
+      // keep defaults
+    }
+  };
+
+  const fetchNewsAndSummary = async () => {
     try {
       const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are an energy market analyst. Provide current oil and gas market intelligence as of today (${new Date().toDateString()}).
-
-CRITICAL: Source your commodity price data from https://oilprice.com/ and the oilprice.com RSS feed at https://oilprice.com/rss/main — these are the authoritative prices. Match the prices shown on oilprice.com as closely as possible. Do NOT use stale or estimated prices.
+        prompt: `You are an energy market analyst. Search for the latest energy market news from oilprice.com and other major energy news sources as of today (${new Date().toDateString()}).
 
 Return a JSON object with:
-1. "prices": array of 11 commodities with fields: label, symbol, price (number), change (number, can be negative), changePct (number, can be negative), unit, category ("Oil"|"Gas"|"Nuclear"|"Renewables"|"Refined"|"US Blend")
-   Include: WTI Crude, Brent Crude, Natural Gas (Henry Hub), Henry Hub Gas, Uranium (U3O8), Gasoline RBOB, Heating Oil, Solar Index (TAN ETF or similar), Lithium Carbonate, Eagle Ford, WTI Midland
-   Prices MUST reflect the latest values from oilprice.com where available, and authoritative sources for uranium/solar/lithium.
-2. "news": array of 8 recent energy market headlines with fields: headline (string, max 90 chars), summary (string, max 160 chars), age (string like "2h ago" or "1 day ago"), category ("Oil"|"Gas"|"Geopolitics"|"Markets"|"Policy"), sentiment ("bullish"|"bearish"|"neutral")
-   Source headlines from the oilprice.com RSS feed and recent oilprice.com articles.
-3. "summary": object with fields: marketMood ("bullish"|"bearish"|"volatile"|"stable"), opecStance (string, 1 sentence), keyDriver (string, 1 sentence about the main price driver today), outlook (string, 1 sentence)
+1. "news": array of 6 recent REAL energy market headlines. Only include headlines you can verify from actual recent news articles. Fields: headline (string, max 90 chars), summary (string, max 160 chars), age (string like "2h ago" or "1 day ago"), category ("Oil"|"Gas"|"Geopolitics"|"Markets"|"Policy"), sentiment ("bullish"|"bearish"|"neutral")
+2. "summary": object with fields: marketMood ("bullish"|"bearish"|"volatile"|"stable"), opecStance (string, 1 sentence), keyDriver (string, 1 sentence about the main price driver today), outlook (string, 1 sentence)
 
-Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
+CRITICAL: Only include news headlines that are from REAL published articles you can find via web search. Do NOT fabricate or guess headlines. If you cannot verify a headline, do not include it.`,
         add_context_from_internet: true,
         response_json_schema: {
           type: "object",
           properties: {
-            prices: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  label: { type: "string" },
-                  symbol: { type: "string" },
-                  price: { type: "number" },
-                  change: { type: "number" },
-                  changePct: { type: "number" },
-                  unit: { type: "string" },
-                  category: { type: "string" }
-                }
-              }
-            },
             news: {
               type: "array",
               items: {
@@ -99,13 +100,18 @@ Use ONLY real data from oilprice.com. Do not fabricate prices or headlines.`,
         }
       });
 
-      if (result?.prices?.length) setPrices(result.prices);
       if (result?.news?.length) setNews(result.news);
       if (result?.summary) setMarketSummary(result.summary);
-      setLastUpdated(new Date());
     } catch (e) {
-      // fallback to defaults already set
+      // no news available
     }
+  };
+
+  const fetchMarketData = async () => {
+    setRefreshing(true);
+    setLoadingNews(true);
+    // Fetch real scraped prices and AI news in parallel
+    await Promise.all([fetchRealPrices(), fetchNewsAndSummary()]);
     setRefreshing(false);
     setLoadingNews(false);
   };
