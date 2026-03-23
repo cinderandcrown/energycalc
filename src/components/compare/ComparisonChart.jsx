@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-const COLORS = ["#D4A843", "#2E7D32", "#3b82f6", "#f97316", "#8b5cf6"];
+const COLORS = ["hsl(var(--crude-gold))", "hsl(var(--drill-green))", "hsl(220, 80%, 55%)", "hsl(25, 90%, 55%)", "hsl(270, 60%, 55%)"];
 
 function extractChartValue(calc, key) {
   const r = calc.results || {};
