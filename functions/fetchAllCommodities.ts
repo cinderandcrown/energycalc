@@ -112,11 +112,12 @@ CATEGORIES AND COMMODITIES TO INCLUDE:
 - Rubber (symbol: RUB, unit: /kg)
 
 CRITICAL INSTRUCTIONS:
-1. Search the web for REAL current market prices. Use financial data sources like MarketWatch, Bloomberg, Trading Economics, Kitco, CME Group, LME.
+1. Search the web for REAL current market prices. Use financial data sources like MarketWatch, Bloomberg, Trading Economics, Kitco, CME Group, LME, barchart.com.
 2. Do NOT fabricate or guess prices. If you cannot find a current price for a commodity, omit it entirely.
 3. All prices should be in USD.
 4. Change and changePct should reflect the most recent trading session's movement.
-5. Be accurate — commodity traders will be using this data.`;
+5. Be accurate — commodity traders will be using this data.
+6. IMPORTANT: Do NOT skip the Livestock category. Live Cattle, Feeder Cattle, and Lean Hogs are major CME-traded U.S. commodities — search CME Group or barchart.com for current futures prices. Cattle futures are among the most actively traded agricultural commodities in the United States.`;
 
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt,
