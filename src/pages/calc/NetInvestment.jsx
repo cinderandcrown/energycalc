@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import MobileSelect from "@/components/mobile/MobileSelect";
 import { Label } from "@/components/ui/label";
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -113,19 +113,13 @@ export default function NetInvestment() {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            <Select
+            <MobileSelect
               value={String(inputs.federalTaxRate * 100)}
               onValueChange={(v) => set("federalTaxRate")(parseFloat(v) / 100)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {TAX_BRACKETS.map((b) => (
-                  <SelectItem key={b} value={String(b)}>{b}%</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              options={TAX_BRACKETS.map((b) => ({ value: String(b), label: `${b}%` }))}
+              label="Federal Tax Bracket"
+              placeholder="Select bracket"
+            />
           </div>
 
           <InputWithSlider

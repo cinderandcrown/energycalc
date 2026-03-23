@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import MobileSelect from "@/components/mobile/MobileSelect";
 import { Slider } from "@/components/ui/slider";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import PageHeader from "@/components/mobile/PageHeader";
@@ -130,14 +130,14 @@ export default function LivestockCalc() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <Label className="text-sm">Livestock Type</Label>
-            <Select value={inputs.livestockType} onValueChange={handleTypeChange}>
-              <SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {LIVESTOCK_TYPES.map(t => (
-                  <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <MobileSelect
+              value={inputs.livestockType}
+              onValueChange={handleTypeChange}
+              options={LIVESTOCK_TYPES.map(t => ({ value: t.value, label: t.label }))}
+              label="Livestock Type"
+              placeholder="Select type"
+              triggerClassName="mt-1.5"
+            />
           </div>
 
           <div>
