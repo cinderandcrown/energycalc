@@ -37,7 +37,7 @@ export default function NavigationHeader({ onMenuToggle, menuOpen, desktopNav, c
                 <span className="text-foreground"> Investor</span><span className="text-crude-gold">+</span>
               </span>
               <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-[0.08em] -mt-0.5">
-              Trusted Commodity Market Intelligence
+              Commodity Market Intelligence
               </span>
             </div>
           </Link>
