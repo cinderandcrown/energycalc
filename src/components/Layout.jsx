@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
+import TrialBanner from './TrialBanner';
 
 const calcItems = [
   { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
@@ -31,6 +32,7 @@ const moreNav = [
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/web3', icon: Blocks, label: 'Web3' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
+  { path: '/account', icon: UserCircle, label: 'My Account' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
@@ -312,6 +314,11 @@ export default function Layout() {
           <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2 block">Legal & Privacy</Link>
           <p className="text-[10px] text-muted-foreground">© {new Date().getFullYear()} EnergyCalc Pro</p>
         </div>
+      </div>
+
+      {/* Trial Banner */}
+      <div className="max-w-7xl mx-auto px-4 pt-2">
+        <TrialBanner />
       </div>
 
       {/* Main Content */}
