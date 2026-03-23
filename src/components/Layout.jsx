@@ -14,8 +14,9 @@ import DashboardAdSidebar from './ads/DashboardAdSidebar';
 import NavigationHeader from './navigation/NavigationHeader';
 import BottomTabBar from './navigation/BottomTabBar';
 import MobileDrawer from './navigation/MobileDrawer';
+import useTabNavigationStacks from '@/hooks/useTabNavigationStacks';
 
-// ── Desktop nav data ──
+/* ── Desktop nav data ── */
 const calcItems = [
   { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
   { path: '/calc/barrels-to-cash', icon: BarChart2, label: 'Barrels to Cash', desc: 'Oil production revenue' },
@@ -53,47 +54,29 @@ const moreNav = [
 
 const calcPaths = calcItems.map(c => c.path);
 
-// ── Desktop dropdown components ──
+/* ── Desktop dropdown: More ── */
 function MoreDropdown({ isMoreActive, location }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-
   useEffect(() => {
-    const handleClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    const h = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
   }, []);
 
   return (
     <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-          isMoreActive
-            ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
-            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-        }`}
-      >
-        <Menu className="w-4 h-4" />
-        More
+      <button onClick={() => setOpen(!open)}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isMoreActive ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+        <Menu className="w-4 h-4" /> More
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
-
       {open && (
         <div className="absolute top-full right-0 mt-1.5 w-52 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 py-1">
           {moreNav.map(({ path, icon: Icon, label }) => (
-            <Link
-              key={path}
-              to={path}
-              onClick={() => setOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${
-                location.pathname === path
-                  ? 'text-primary dark:text-accent font-medium bg-primary/5 dark:bg-accent/5'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-            >
-              <Icon className="w-4 h-4 shrink-0" />
-              {label}
+            <Link key={path} to={path} onClick={() => setOpen(false)}
+              className={`flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${location.pathname === path ? 'text-primary dark:text-accent font-medium bg-primary/5 dark:bg-accent/5' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+              <Icon className="w-4 h-4 shrink-0" /> {label}
             </Link>
           ))}
         </div>
@@ -102,40 +85,28 @@ function MoreDropdown({ isMoreActive, location }) {
   );
 }
 
+/* ── Desktop dropdown: Calculators ── */
 function CalcDropdown({ isCalcActive }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-
   useEffect(() => {
-    const handleClick = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    const h = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
   }, []);
 
   return (
     <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-          isCalcActive
-            ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
-            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-        }`}
-      >
-        <Calculator className="w-4 h-4" />
-        Calculators
+      <button onClick={() => setOpen(!open)}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isCalcActive ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+        <Calculator className="w-4 h-4" /> Calculators
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
-
       {open && (
         <div className="absolute top-full left-0 mt-1.5 w-56 rounded-xl border border-border bg-card shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
           {calcItems.map(({ path, icon: Icon, label, desc }) => (
-            <Link
-              key={path}
-              to={path}
-              onClick={() => setOpen(false)}
-              className="flex items-start gap-3 px-3 py-2.5 hover:bg-crude-gold/5 dark:hover:bg-crude-gold/10 transition-all duration-200 group"
-            >
+            <Link key={path} to={path} onClick={() => setOpen(false)}
+              className="flex items-start gap-3 px-3 py-2.5 hover:bg-crude-gold/5 dark:hover:bg-crude-gold/10 transition-all duration-200 group">
               <div className="w-7 h-7 rounded-lg bg-primary/10 dark:bg-accent/10 flex items-center justify-center mt-0.5 shrink-0 group-hover:bg-crude-gold/20 transition-colors">
                 <Icon className="w-3.5 h-3.5 text-primary dark:text-accent group-hover:text-crude-gold transition-colors" />
               </div>
@@ -151,12 +122,15 @@ function CalcDropdown({ isCalcActive }) {
   );
 }
 
-// ── Main Layout ──
+/* ═══════════════════════════════════════════════════════════════════
+   Main Layout — uses iOS-style tab navigation stacks
+   ═══════════════════════════════════════════════════════════════════ */
 export default function Layout() {
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCalcOpen, setDrawerCalcOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const { activeTab, switchTab, goBack, canGoBack } = useTabNavigationStacks();
 
   useEffect(() => {
     base44.auth.me().then(u => setIsAdmin(u?.role === 'admin')).catch(() => {});
@@ -169,46 +143,26 @@ export default function Layout() {
   }, []);
 
   // Close drawer on route change
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [location.pathname]);
+  useEffect(() => { setDrawerOpen(false); }, [location.pathname]);
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
   const isCalcActive = calcPaths.some(p => location.pathname === p);
 
-  // ── Desktop nav (rendered inside NavigationHeader) ──
+  /* ── Desktop nav (rendered inside NavigationHeader) ── */
   const desktopNav = (
     <nav className="hidden lg:flex items-center gap-1">
       {primaryNav.map(({ path, icon: Icon, label }) => (
-        <Link
-          key={path}
-          to={path}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-            isActive(path)
-              ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
-              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-          }`}
-        >
-          <Icon className="w-4 h-4" />
-          {label}
+        <Link key={path} to={path}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive(path) ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+          <Icon className="w-4 h-4" /> {label}
         </Link>
       ))}
       <CalcDropdown isCalcActive={isCalcActive} />
-      <MoreDropdown
-        isMoreActive={moreNav.some(n => location.pathname === n.path)}
-        location={location}
-      />
+      <MoreDropdown isMoreActive={moreNav.some(n => location.pathname === n.path)} location={location} />
       {isAdmin && (
-        <Link
-          to="/admin"
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-            location.pathname.startsWith('/admin')
-              ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
-              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-          }`}
-        >
-          <Shield className="w-4 h-4" />
-          Admin
+        <Link to="/admin"
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${location.pathname.startsWith('/admin') ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+          <Shield className="w-4 h-4" /> Admin
         </Link>
       )}
     </nav>
@@ -218,22 +172,24 @@ export default function Layout() {
     <div className="min-h-screen bg-background flex flex-col">
       <SiteDisclaimer />
 
-      {/* Header with global back button */}
+      {/* Header — native-style back button via stack manager */}
       <NavigationHeader
         onMenuToggle={() => setDrawerOpen(!drawerOpen)}
         menuOpen={drawerOpen}
         desktopNav={desktopNav}
+        canGoBack={canGoBack}
+        onGoBack={goBack}
       />
 
-      {/* Tablet Drawer Overlay */}
+      {/* Tablet Drawer Overlay (sm–lg) */}
       {drawerOpen && (
         <div className="hidden sm:block lg:hidden fixed inset-0 z-40" onClick={() => setDrawerOpen(false)}>
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
         </div>
       )}
 
-      {/* Tablet Slide-out Drawer (sm to lg) */}
-      <div className={`hidden sm:flex lg:hidden fixed top-14 right-0 bottom-0 z-40 w-72 flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Tablet Slide-out Drawer (sm–lg) */}
+      <div className={`hidden sm:flex lg:hidden fixed top-14 right-0 bottom-0 z-40 w-72 flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
           <Link to="/dashboard" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive('/dashboard') ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
             <LayoutDashboard className="w-4 h-4" /> Dashboard
@@ -241,13 +197,9 @@ export default function Layout() {
           <Link to="/markets" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive('/markets') ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
             <BarChart3 className="w-4 h-4" /> Markets
           </Link>
-
-          {/* Calculators expandable */}
           <div>
-            <button
-              onClick={() => setDrawerCalcOpen(!drawerCalcOpen)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isCalcActive ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
-            >
+            <button onClick={() => setDrawerCalcOpen(!drawerCalcOpen)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isCalcActive ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
               <Calculator className="w-4 h-4" />
               <span className="flex-1 text-left">Calculators</span>
               <ChevronDown className={`w-3.5 h-3.5 transition-transform ${drawerCalcOpen ? 'rotate-180' : ''}`} />
@@ -266,8 +218,6 @@ export default function Layout() {
               </div>
             )}
           </div>
-
-          {/* Remaining nav */}
           {[...primaryNav.slice(2), ...moreNav].map(({ path, icon: Icon, label }) => (
             <Link key={path} to={path} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive(path) ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
               <Icon className="w-4 h-4" /> {label}
@@ -286,7 +236,14 @@ export default function Layout() {
       </div>
 
       {/* Main Content + Ad Sidebar */}
-      <main className="flex-1 sm:pb-0" style={{ overscrollBehavior: 'none', paddingBottom: 'calc(70px + env(safe-area-inset-bottom, 0px))' }}>
+      <main
+        className="flex-1"
+        style={{
+          overscrollBehavior: 'none',
+          paddingBottom: 'calc(54px + env(safe-area-inset-bottom, 0px))',
+        }}
+      >
+        {/* On sm+ the bottom nav is hidden, so reset padding */}
         <style>{`@media (min-width: 640px) { main { padding-bottom: 0 !important; } }`}</style>
         <div className="flex">
           <div className="flex-1 min-w-0">
@@ -307,7 +264,7 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto flex flex-col gap-1.5">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <p className="text-[10px] text-muted-foreground">
-              © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
+              © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors.
             </p>
             <div className="flex items-center gap-3">
               <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>
@@ -323,8 +280,12 @@ export default function Layout() {
         </div>
       </footer>
 
-      {/* Mobile Bottom Tab Bar */}
-      <BottomTabBar onMorePress={() => setDrawerOpen(!drawerOpen)} />
+      {/* Mobile Bottom Tab Bar — with independent stacks */}
+      <BottomTabBar
+        onMorePress={() => setDrawerOpen(!drawerOpen)}
+        onTabPress={switchTab}
+        activeTab={activeTab}
+      />
 
       {/* Mobile Drawer (phone only) */}
       <div className="sm:hidden">
