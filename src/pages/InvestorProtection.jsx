@@ -477,8 +477,17 @@ function CollapsibleCard({ title, subtitle, icon: Icon, iconColor = "text-crude-
 }
 
 // ─── Main Page ────────────────────────────────────────────────────────────
+const TABS = [
+  { value: "upload", label: "Upload PPM", icon: FileText },
+  { value: "analyzer", label: "Paste Text", icon: Search },
+  { value: "redflags", label: "Red Flags", icon: AlertTriangle },
+  { value: "duediligence", label: "Due Diligence", icon: ClipboardCheck },
+  { value: "fraudpatterns", label: "Fraud Patterns", icon: Siren },
+];
+
 export default function InvestorProtection() {
   const [checkedItems, setCheckedItems] = useState({});
+  const [activeTab, setActiveTab] = useState("upload");
 
   const toggleCheck = (id) => setCheckedItems(prev => ({ ...prev, [id]: !prev[id] }));
   const checkedCount = Object.values(checkedItems).filter(Boolean).length;
@@ -519,27 +528,45 @@ export default function InvestorProtection() {
 
       <AdBanner slot="PROTECT_TOP" format="horizontal" className="rounded-xl" />
 
-      <Tabs defaultValue="upload">
-        <TabsList className="w-full flex overflow-x-auto scrollbar-hide h-auto gap-1 p-1">
-          <TabsTrigger value="upload" className="text-xs py-2">Upload PPM</TabsTrigger>
-          <TabsTrigger value="analyzer" className="text-xs py-2">Paste Text</TabsTrigger>
-          <TabsTrigger value="redflags" className="text-xs py-2">Red Flags</TabsTrigger>
-          <TabsTrigger value="duediligence" className="text-xs py-2">Due Diligence</TabsTrigger>
-          <TabsTrigger value="fraudpatterns" className="text-xs py-2">Fraud Patterns</TabsTrigger>
-        </TabsList>
+      {/* Tab Navigation */}
+      <div className="rounded-xl border border-border bg-card p-1.5">
+        <div className="flex overflow-x-auto scrollbar-hide gap-1">
+          {TABS.map(tab => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.value;
+            return (
+              <button
+                key={tab.value}
+                onClick={() => setActiveTab(tab.value)}
+                className={`flex items-center gap-1.5 px-3 py-2.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all shrink-0 ${
+                  isActive
+                    ? "bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground shadow-sm"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-        {/* ── Tab 0: Upload PPM ── */}
-        <TabsContent value="upload" className="mt-4">
+      {/* Tab Content */}
+      {activeTab === "upload" && (
+        <div className="mt-4">
           <PPMUploadAnalyzer />
-        </TabsContent>
+        </div>
+      )}
 
-        {/* ── Tab 1: AI Analyzer (Paste Text) ── */}
-        <TabsContent value="analyzer" className="mt-4">
+      {activeTab === "analyzer" && (
+        <div className="mt-4">
           <PPMAnalyzer />
-        </TabsContent>
+        </div>
+      )}
 
-        {/* ── Tab 2: Red Flags ── */}
-        <TabsContent value="redflags" className="mt-4 space-y-3">
+      {activeTab === "redflags" && (
+        <div className="mt-4 space-y-3">
           <div className="p-3 rounded-xl bg-muted/50 border border-border">
             <p className="text-xs text-muted-foreground leading-relaxed">
               Review your PPM or JV agreement against each of these categories. <Badge className="bg-flare-red/10 text-flare-red border-0 text-[10px] font-bold">CRITICAL</Badge> flags are potential deal-killers. <Badge className="bg-crude-gold/10 text-crude-gold border-0 text-[10px] font-bold">WARNING</Badge> flags require further investigation.
@@ -579,10 +606,11 @@ export default function InvestorProtection() {
               </CollapsibleCard>
             );
           })}
-        </TabsContent>
+        </div>
+      )}
 
-        {/* ── Tab 3: Due Diligence ── */}
-        <TabsContent value="duediligence" className="mt-4 space-y-4">
+      {activeTab === "duediligence" && (
+        <div className="mt-4 space-y-4">
           <div className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-bold text-foreground">Pre-Investment Checklist</h3>
@@ -627,7 +655,6 @@ export default function InvestorProtection() {
             </div>
           </div>
 
-          {/* Accredited Investor Requirements */}
           <CollapsibleCard
             title="Accredited Investor Requirements"
             subtitle="You must qualify before legally investing in most oil & gas PPMs"
@@ -648,7 +675,6 @@ export default function InvestorProtection() {
             </div>
           </CollapsibleCard>
 
-          {/* Where to Report */}
           <CollapsibleCard
             title="Where to Report Oil & Gas Fraud"
             subtitle="If you've been defrauded, these are your options"
@@ -674,14 +700,14 @@ export default function InvestorProtection() {
               ))}
             </div>
           </CollapsibleCard>
-        </TabsContent>
+        </div>
+      )}
 
-        {/* ── Tab 4: Fraud Patterns ── */}
-        <TabsContent value="fraudpatterns" className="mt-4 space-y-3">
+      {activeTab === "fraudpatterns" && (
+        <div className="mt-4 space-y-3">
           <FraudPatternsTab fraudPatterns={fraudPatterns} />
-
-        </TabsContent>
-      </Tabs>
+        </div>
+      )}
 
       <AdBanner slot="PROTECT_BOTTOM" format="horizontal" className="rounded-xl" />
     </div>
