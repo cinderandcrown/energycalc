@@ -149,6 +149,7 @@ export default function Landing() {
           <div className="md:hidden border-t border-border bg-card px-4 py-4 space-y-3">
             <button onClick={() => { document.getElementById("features")?.scrollIntoView({ behavior: "smooth" }); setMobileMenuOpen(false); }} className="block text-sm text-foreground">Features</button>
             <button onClick={scrollToPricing} className="block text-sm text-foreground">Pricing</button>
+            <Link to="/blog" className="block text-sm text-foreground" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
             <Link to="/legal" className="block text-sm text-foreground" onClick={() => setMobileMenuOpen(false)}>Legal</Link>
             <button onClick={handleSignIn} className="block text-sm text-crude-gold font-semibold">Sign In →</button>
           </div>
