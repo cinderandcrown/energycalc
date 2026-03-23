@@ -30,18 +30,18 @@ export default function MobileSelect({ value, onValueChange, options, placeholde
         <div className="fixed inset-0 z-[60]" onClick={() => setOpen(false)}>
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
           <div
-            className="absolute bottom-0 left-0 right-0 bg-card rounded-t-2xl border-t border-border shadow-2xl animate-in slide-in-from-bottom duration-300 max-h-[70vh] flex flex-col"
-            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+            className="absolute bottom-0 left-0 right-0 bg-card rounded-t-[20px] border-t border-border shadow-2xl animate-in slide-in-from-bottom duration-300 max-h-[70vh] flex flex-col"
+            style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0px))' }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Handle */}
-            <div className="flex justify-center pt-3 pb-1">
-              <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+            {/* Handle — iOS-style */}
+            <div className="flex justify-center pt-2 pb-1">
+              <div className="w-9 h-[5px] rounded-full bg-muted-foreground/20" />
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-              <h3 className="text-base font-semibold text-foreground">{label || placeholder}</h3>
+            <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+              <h3 className="text-[17px] font-semibold text-foreground tracking-tight">{label || placeholder}</h3>
               <button
                 onClick={() => setOpen(false)}
                 className="w-8 h-8 rounded-full bg-muted flex items-center justify-center"
@@ -56,11 +56,11 @@ export default function MobileSelect({ value, onValueChange, options, placeholde
                 <button
                   key={opt.value}
                   onClick={() => { onValueChange(opt.value); setOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-5 py-3.5 text-left transition-colors active:bg-muted ${
-                    opt.value === value ? "bg-primary/5 dark:bg-accent/5" : ""
+                  className={`w-full flex items-center gap-3 px-5 py-3.5 text-left transition-colors active:bg-muted/60 ${
+                    opt.value === value ? 'bg-primary/5 dark:bg-accent/5' : ''
                   }`}
                 >
-                  <span className={`text-base flex-1 ${opt.value === value ? "font-semibold text-primary dark:text-accent" : "text-foreground"}`}>
+                  <span className={`text-[15px] flex-1 ${opt.value === value ? 'font-semibold text-primary dark:text-accent' : 'text-foreground'}`}>
                     {opt.label}
                   </span>
                   {opt.value === value && (
