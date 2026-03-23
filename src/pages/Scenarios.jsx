@@ -72,6 +72,10 @@ export default function Scenarios() {
     onMutate: ({ id, isFav }) => {
       setCalculations(prev => prev.map(c => c.id === id ? { ...c, is_favorite: !isFav } : c));
     },
+    onError: (err, { id, isFav }) => {
+      setCalculations(prev => prev.map(c => c.id === id ? { ...c, is_favorite: isFav } : c));
+      toast({ title: "Failed to update", description: err?.message || "Please try again.", variant: "destructive" });
+    },
   });
 
   const deleteMutation = useMutation({
@@ -79,6 +83,10 @@ export default function Scenarios() {
     onMutate: (id) => {
       setCalculations(prev => prev.filter(c => c.id !== id));
       toast({ title: "Deleted", description: "Calculation removed." });
+    },
+    onError: (err) => {
+      loadData();
+      toast({ title: "Delete failed", description: err?.message || "Please try again.", variant: "destructive" });
     },
   });
 
