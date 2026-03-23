@@ -22,7 +22,7 @@ const PLAN = {
   productId: "prod_UC1nAY3emodE1H",
   description: "Full access to every commodity calculator, AI-powered analysis tool, and investor protection feature.",
   features: [
-    "All 8 investment calculators",
+    "All 9 investment calculators",
     "Unlimited saved calculations",
     "AI PPM Document Analyzer",
     "AI Operator Screener",
@@ -39,7 +39,7 @@ const PLAN = {
 const FEATURES = [
   { icon: ShieldAlert, title: "AI Operator Screener", desc: "Enter any operator's name and get an instant AI background check — red flags, known issues, regulatory actions, and verification steps. Your first line of defense." },
   { icon: Shield, title: "PPM Red Flag Analyzer", desc: "Paste any PPM, JV agreement, or subscription document. Our AI scores risk 1–10, flags predatory clauses, and tells you what's missing." },
-  { icon: Calculator, title: "8 Professional Calculators", desc: "Oil, gas, gold purity, 100+ industrial metals, 120+ agricultural crops, rate of return, net investment, and multi-year tax impact — model any commodity deal." },
+  { icon: Calculator, title: "9 Professional Calculators", desc: "Oil, gas, gold purity, 100+ industrial metals, 120+ agricultural crops, livestock, rate of return, net investment, and multi-year tax impact — model any commodity deal." },
   { icon: BookOpen, title: "Fraud Pattern Library", desc: "Learn the most common commodity investment fraud schemes — promissory note traps, cost stuffing, ORRI schemes, and more. Based on SEC & FBI enforcement actions." },
   { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time commodity prices across oil, gas, metals, agriculture, and more — with AI market commentary. Track what your investments are worth today." },
   { icon: Zap, title: "Tax Optimization Tools", desc: "Model IDC deductions, percentage depletion, and MACRS depreciation. See your true after-tax cost before you sign anything." },
@@ -54,6 +54,7 @@ const CALCS = [
   { icon: Star, label: "Gold Purity", desc: "Karat, weight & spot valuation" },
   { icon: Search, label: "120+ Crop Yields", desc: "Ag revenue per acre projections" },
   { icon: Lock, label: "100+ Metals", desc: "Full landed cost-basis analysis" },
+  { icon: BarChart3, label: "Livestock", desc: "Cattle, hogs & poultry ROI" },
 ];
 
 export default function Landing() {
@@ -190,7 +191,7 @@ export default function Landing() {
       <section className="border-b border-border bg-card/40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">8 Calculators. Every Commodity. Every Angle.</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">9 Calculators. Every Commodity. Every Angle.</h2>
             <p className="text-muted-foreground text-sm">Oil, gas, gold, silver, copper, 100+ metals, 120+ crops, livestock — the most comprehensive commodity investment toolkit anywhere.</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
