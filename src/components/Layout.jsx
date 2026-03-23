@@ -450,6 +450,23 @@ export default function Layout() {
               {label}
             </Link>
           ))}
+          {/* Admin */}
+          {isAdmin && (
+            <div className="pt-2 border-t border-border mt-2">
+              <Link
+                to="/admin"
+                className={`flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
+                  location.pathname.startsWith('/admin')
+                    ? 'bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                <Shield className="w-4.5 h-4.5" />
+                Admin Portal
+              </Link>
+            </div>
+          )}
+
           {/* Calculators */}
           <div className="pt-2 border-t border-border mt-2">
             <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold px-3 mb-1">Calculators</p>
