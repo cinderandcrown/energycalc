@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 
@@ -10,6 +10,9 @@ const calcItems = [
   { path: '/calc/natgas-to-cash', icon: Flame, label: 'Nat Gas to Cash', desc: 'Gas & NGL income' },
   { path: '/calc/rate-of-return', icon: Percent, label: 'Rate of Return', desc: 'IRR & payout analysis' },
   { path: '/calc/tax-impact', icon: Calculator, label: 'Tax Impact', desc: '5-year multi-investment tax model' },
+  { path: '/calc/gold-purity', icon: Gem, label: 'Gold Purity', desc: 'Karat, weight & spot value' },
+  { path: '/calc/ag-yield', icon: Wheat, label: 'Ag Yield', desc: 'Crop revenue projections' },
+  { path: '/calc/metal-cost', icon: Factory, label: 'Metal Cost', desc: 'Industrial metal cost-basis' },
 ];
 
 const primaryNav = [
