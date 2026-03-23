@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   TrendingUp, TrendingDown, RefreshCw, Newspaper,
   Zap, Globe, Clock, ExternalLink, BarChart3, AlertCircle,
-  Flame, Gem, Factory, Wheat, Beef, TreePine
+  Flame, Gem, Factory, Wheat, Ham, Trees
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,8 +18,8 @@ const CATEGORIES = [
   { key: "Precious Metals", label: "Precious", icon: Gem },
   { key: "Industrial Metals", label: "Industrial", icon: Factory },
   { key: "Agriculture", label: "Agriculture", icon: Wheat },
-  { key: "Livestock", label: "Livestock", icon: Beef },
-  { key: "Softs", label: "Softs", icon: TreePine },
+  { key: "Livestock", label: "Livestock", icon: Ham },
+  { key: "Softs", label: "Softs", icon: Trees },
 ];
 
 export default function Markets() {
