@@ -1,5 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.21';
 
+const CACHE_KEY = 'all_commodities';
+const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 minutes
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -8,8 +11,28 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const today = new Date().toISOString().split('T')[0];
+    const { forceRefresh } = await req.json().catch(() => ({}));
 
+    // Try to serve from cache first
+    if (!forceRefresh) {
+      const cached = await base44.asServiceRole.entities.CommodityCache.filter({ cache_key: CACHE_KEY });
+      if (cached.length > 0) {
+        const entry = cached[0];
+        const age = Date.now() - new Date(entry.fetched_at).getTime();
+        if (age < CACHE_MAX_AGE_MS && entry.data?.commodities?.length > 0) {
+          console.log(`Serving ${entry.data.commodities.length} commodities from cache (${Math.round(age / 60000)}m old)`);
+          return Response.json({
+            commodities: entry.data.commodities,
+            fetchedAt: entry.fetched_at,
+            count: entry.data.commodities.length,
+            cached: true
+          });
+        }
+      }
+    }
+
+    // Cache miss or stale — fetch fresh data
+    const today = new Date().toISOString().split('T')[0];
     const prompt = `You are a professional commodity market data analyst with access to real-time market data. Search for the latest commodity prices as of today (${today}).
 
 Return a JSON object with ALL of the following commodities organized by category. For EACH commodity, provide: name, symbol, price (number in USD), unit (string like "/bbl", "/oz", "/lb", "/bu"), change (number — today's price change), changePct (number — today's percent change), category (string matching one of the categories below).
@@ -105,12 +128,32 @@ CRITICAL INSTRUCTIONS:
     });
 
     const commodities = result?.commodities || [];
-    console.log(`Fetched ${commodities.length} commodity prices`);
+    console.log(`Fetched ${commodities.length} fresh commodity prices`);
+
+    // Save to cache
+    if (commodities.length > 0) {
+      const fetchedAt = new Date().toISOString();
+      const existing = await base44.asServiceRole.entities.CommodityCache.filter({ cache_key: CACHE_KEY });
+      if (existing.length > 0) {
+        await base44.asServiceRole.entities.CommodityCache.update(existing[0].id, {
+          data: { commodities },
+          fetched_at: fetchedAt
+        });
+      } else {
+        await base44.asServiceRole.entities.CommodityCache.create({
+          cache_key: CACHE_KEY,
+          data: { commodities },
+          fetched_at: fetchedAt
+        });
+      }
+      console.log('Cache updated with fresh prices');
+    }
 
     return Response.json({
       commodities,
       fetchedAt: new Date().toISOString(),
-      count: commodities.length
+      count: commodities.length,
+      cached: false
     });
   } catch (error) {
     console.error("fetchAllCommodities error:", error.message);

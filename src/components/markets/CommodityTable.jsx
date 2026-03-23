@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 export default function CommodityTable({ items, onSelect }) {
@@ -20,14 +19,11 @@ export default function CommodityTable({ items, onSelect }) {
       </div>
 
       <div className="divide-y divide-border">
-        {items.map((item, i) => {
+        {items.map((item) => {
           const up = (item.changePct || 0) >= 0;
           return (
-            <motion.div
+            <div
               key={item.symbol}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: i * 0.02 }}
               onClick={() => onSelect(item)}
               className="grid grid-cols-[1fr_auto_auto_auto] gap-3 items-center px-4 py-3 hover:bg-muted/30 transition-colors cursor-pointer"
             >
@@ -50,7 +46,7 @@ export default function CommodityTable({ items, onSelect }) {
               <div className={`text-right hidden sm:block font-mono text-xs font-bold px-2 py-0.5 rounded ${up ? "bg-drill-green/10 text-drill-green" : "bg-flare-red/10 text-flare-red"}`}>
                 {up ? "+" : ""}{item.changePct?.toFixed(2)}%
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>

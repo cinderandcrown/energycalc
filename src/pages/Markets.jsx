@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
-import { motion } from "framer-motion";
 import { BarChart3, RefreshCw, Loader2, Zap, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,13 +25,15 @@ export default function Markets() {
   const [category, setCategory] = useState("all");
   const [selected, setSelected] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [cached, setCached] = useState(false);
 
-  const fetchAll = async () => {
+  const fetchAll = async (forceRefresh = false) => {
     setLoading(true);
-    const res = await base44.functions.invoke("fetchAllCommodities", {});
+    const res = await base44.functions.invoke("fetchAllCommodities", { forceRefresh });
     if (res.data?.commodities?.length) {
       setCommodities(res.data.commodities);
       setFetchedAt(res.data.fetchedAt);
+      setCached(res.data.cached || false);
     }
     setLoading(false);
   };
@@ -71,17 +72,22 @@ export default function Markets() {
             </div>
           )}
         </div>
-        <Button variant="outline" size="sm" onClick={fetchAll} disabled={loading} className="gap-1.5">
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          {cached && (
+            <Badge variant="outline" className="text-[10px] text-muted-foreground">Cached</Badge>
+          )}
+          <Button variant="outline" size="sm" onClick={() => fetchAll(true)} disabled={loading} className="gap-1.5">
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+            {cached ? "Refresh Live" : "Refresh"}
+          </Button>
+        </div>
       </div>
 
       {loading && commodities.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
           <Loader2 className="w-8 h-8 text-muted-foreground animate-spin" />
-          <p className="text-sm text-muted-foreground">Fetching live commodity prices via AI web search...</p>
-          <p className="text-[10px] text-muted-foreground">This may take 10-15 seconds</p>
+          <p className="text-sm text-muted-foreground">Loading commodity prices...</p>
+          <p className="text-[10px] text-muted-foreground">Checking cache first, fetching fresh data if needed</p>
         </div>
       ) : (
         <>
@@ -106,9 +112,7 @@ export default function Markets() {
           </Tabs>
 
           {/* Table */}
-          <motion.div key={category} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
-            <CommodityTable items={filtered} onSelect={handleSelect} />
-          </motion.div>
+          <CommodityTable items={filtered} onSelect={handleSelect} />
 
           {/* AI disclaimer */}
           <div className="rounded-lg border border-border bg-muted/30 p-3 flex items-start gap-2.5">
