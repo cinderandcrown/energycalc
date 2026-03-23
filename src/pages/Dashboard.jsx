@@ -296,9 +296,9 @@ export default function Dashboard() {
           <button
             onClick={fetchPrices}
             disabled={pricesRefreshing}
-            className="ml-auto p-1 rounded hover:bg-muted transition-colors"
+            className="ml-auto p-2 rounded-lg hover:bg-muted transition-colors min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 sm:p-1 flex items-center justify-center"
           >
-            <RefreshCw className={`w-3 h-3 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
+            <RefreshCw className={`w-4 h-4 sm:w-3 sm:h-3 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
           </button>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-border">
@@ -499,10 +499,10 @@ export default function Dashboard() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="w-7 h-7 shrink-0"
+                    className="w-9 h-9 sm:w-7 sm:h-7 shrink-0"
                     onClick={() => toggleFavorite(calc)}
                   >
-                    <Star className={`w-3.5 h-3.5 ${calc.is_favorite ? "text-crude-gold fill-crude-gold" : "text-muted-foreground"}`} />
+                    <Star className={`w-4 h-4 sm:w-3.5 sm:h-3.5 ${calc.is_favorite ? "text-crude-gold fill-crude-gold" : "text-muted-foreground"}`} />
                   </Button>
                 </div>
               );
@@ -528,7 +528,7 @@ export default function Dashboard() {
       {/* Footer Disclaimer */}
       <div className="pb-4 pt-2 text-center">
         <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto">
-          EnergyCalc Pro is for informational and educational purposes only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
+          Commodity Investor+ is for informational and educational purposes only. Covers oil, gas, precious metals, industrial metals, agriculture, livestock, and other commodity sectors. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
         </p>
       </div>
     </div>

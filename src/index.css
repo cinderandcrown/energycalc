@@ -114,6 +114,16 @@
     [role="switch"] {
       min-height: auto;
     }
+
+    /* Enforce 12px minimum on all text */
+    .text-\[10px\], .text-\[9px\], .text-\[8px\] {
+      font-size: 12px !important;
+    }
+
+    /* Badge and icon-only button exceptions for touch targets */
+    [class*="badge"], .inline-btn {
+      min-height: auto;
+    }
   }
 
   /* Prevent text selection on interactive elements */

@@ -268,7 +268,7 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto flex flex-col gap-1.5">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <p className="text-[10px] text-muted-foreground">
-              © {new Date().getFullYear()} Commodity Investor+. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, precious metals, industrial metals, agriculture, livestock &amp; other commodity sectors. or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors.
+              © {new Date().getFullYear()} Commodity Investor+. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, precious metals, industrial metals, agriculture, livestock &amp; other commodity sectors.
             </p>
             <div className="flex items-center gap-3">
               <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>

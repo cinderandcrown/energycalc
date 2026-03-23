@@ -75,7 +75,7 @@ export default function BottomTabBar({ onMorePress, onTabPress, activeTab }) {
               }`}
             >
               <Icon className="w-[22px] h-[22px]" strokeWidth={active ? 2.2 : 1.8} />
-              <span className={`text-[10px] leading-none ${active ? "font-semibold" : "font-medium"}`}>
+              <span className={`text-[11px] leading-none ${active ? "font-semibold" : "font-medium"}`}>
                 {tab.label}
               </span>
             </button>
@@ -90,7 +90,7 @@ export default function BottomTabBar({ onMorePress, onTabPress, activeTab }) {
           }`}
         >
           <Calculator className="w-[22px] h-[22px]" strokeWidth={isCalcActive ? 2.2 : 1.8} />
-          <span className={`text-[10px] leading-none ${isCalcActive ? "font-semibold" : "font-medium"}`}>Calc</span>
+          <span className={`text-[11px] leading-none ${isCalcActive ? "font-semibold" : "font-medium"}`}>Calc</span>
         </button>
 
         {/* More */}
@@ -99,7 +99,7 @@ export default function BottomTabBar({ onMorePress, onTabPress, activeTab }) {
           className="flex flex-col items-center justify-center gap-[3px] min-h-[50px] text-muted-foreground transition-colors active:scale-95"
         >
           <Menu className="w-[22px] h-[22px]" strokeWidth={1.8} />
-          <span className="text-[10px] leading-none font-medium">More</span>
+          <span className="text-[11px] leading-none font-medium">More</span>
         </button>
       </div>
     </nav>
