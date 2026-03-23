@@ -251,14 +251,12 @@ export default function Landing() {
 
       {/* ═══════ AFFILIATE PARTNERS ═══════ */}
       <section className="border-b border-border bg-card/40">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 items-start">
-            <div>
-              <h2 className="text-lg font-bold text-foreground mb-1">Trusted Partner Tools</h2>
-              <p className="text-xs text-muted-foreground mb-4">Professional-grade platforms used by commodity investors and energy traders.</p>
-            </div>
-            <AffiliatesSidebar compact />
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+          <div className="text-center mb-6">
+            <h2 className="text-lg font-bold text-foreground mb-1">Trusted Partner Tools</h2>
+            <p className="text-xs text-muted-foreground">Professional-grade platforms used by commodity investors and energy traders.</p>
           </div>
+          <AffiliatesSidebar compact />
         </div>
       </section>
 
