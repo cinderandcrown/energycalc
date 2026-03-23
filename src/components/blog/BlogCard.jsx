@@ -29,18 +29,18 @@ const categoryColors = {
   how_to_guide: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400",
 };
 
-const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&h=450&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=450&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&h=450&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=450&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&h=450&fit=crop&q=80",
-];
-
-function getPlaceholder(id) {
-  const hash = (id || "").split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  return PLACEHOLDER_IMAGES[hash % PLACEHOLDER_IMAGES.length];
-}
+const categoryGradients = {
+  oil_gas: "from-petroleum via-[#0e2f55] to-[#1a3a6b]",
+  precious_metals: "from-yellow-700 via-yellow-600 to-amber-500",
+  industrial_metals: "from-slate-600 via-slate-500 to-blue-600",
+  agriculture: "from-green-800 via-green-700 to-emerald-600",
+  investor_protection: "from-red-800 via-red-700 to-rose-600",
+  tax_strategy: "from-purple-800 via-purple-700 to-violet-600",
+  market_analysis: "from-cyan-800 via-cyan-700 to-teal-600",
+  energy_transition: "from-emerald-800 via-emerald-700 to-green-500",
+  rare_earth: "from-orange-800 via-orange-700 to-amber-600",
+  how_to_guide: "from-indigo-800 via-indigo-700 to-blue-600",
+};
 
 export default function BlogCard({ post, featured = false }) {
   const slug = post.slug || post.id;
