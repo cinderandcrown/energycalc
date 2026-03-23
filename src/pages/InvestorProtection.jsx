@@ -520,7 +520,7 @@ export default function InvestorProtection() {
       <AdBanner slot="PROTECT_TOP" format="horizontal" className="rounded-xl" />
 
       <Tabs defaultValue="upload">
-        <TabsList className="w-full grid grid-cols-5 h-auto gap-1 p-1">
+        <TabsList className="w-full flex overflow-x-auto scrollbar-hide h-auto gap-1 p-1">
           <TabsTrigger value="upload" className="text-xs py-2">Upload PPM</TabsTrigger>
           <TabsTrigger value="analyzer" className="text-xs py-2">Paste Text</TabsTrigger>
           <TabsTrigger value="redflags" className="text-xs py-2">Red Flags</TabsTrigger>
