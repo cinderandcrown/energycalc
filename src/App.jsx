@@ -4,6 +4,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import CookieConsent from '@/components/CookieConsent';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 
 // Page imports
@@ -149,6 +150,7 @@ function App() {
           <AuthenticatedApp />
         </Router>
         <Toaster />
+        <CookieConsent />
       </QueryClientProvider>
     </AuthProvider>
   )
