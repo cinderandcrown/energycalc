@@ -16,7 +16,7 @@ const STATS = [
   { value: "$10B+", label: "Est. lost to commodity fraud (FBI)" },
   { value: "65–80%", label: "Year-1 IDC tax write-off" },
   { value: "9", label: "Commodity sectors covered" },
-  { value: "8", label: "Professional calculators" },
+  { value: "9", label: "Professional calculators" },
 ];
 
 export default function HeroContent({ scrollToPricing, handleSignIn }) {
@@ -87,7 +87,7 @@ export default function HeroContent({ scrollToPricing, handleSignIn }) {
         transition={{ delay: 0.7, duration: 0.5 }}
         className="text-center text-white/40 text-sm max-w-xl mx-auto leading-relaxed mb-10"
       >
-        AI-powered deal analysis, operator vetting, PPM red-flag scanning, and 8 commodity calculators — covering oil, gas, metals, agriculture, and more.
+        AI-powered deal analysis, operator vetting, PPM red-flag scanning, and 9 commodity calculators — covering oil, gas, metals, agriculture, livestock, and more.
         Built for the people writing the checks.
       </motion.p>
 
