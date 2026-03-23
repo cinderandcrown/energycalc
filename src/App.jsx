@@ -9,7 +9,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 // Page imports
 import Landing from '@/pages/Landing';
 import Dashboard from '@/pages/Dashboard';
-import Markets from '@/pages/Markets';
+import Markets from '@/pages/Markets.jsx';
 import MarketIntelligence from '@/pages/MarketIntelligence';
 import Portfolio from '@/pages/Portfolio';
 import InvestorProtection from '@/pages/InvestorProtection';
