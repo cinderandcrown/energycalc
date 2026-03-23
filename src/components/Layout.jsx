@@ -331,13 +331,21 @@ export default function Layout() {
 
       {/* Desktop/Tablet Legal Footer */}
       <footer className="hidden sm:block border-t border-border bg-card/50 py-2 px-4" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0px))' }}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-2">
-          <p className="text-[10px] text-muted-foreground">
-            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
-          </p>
-          <div className="flex items-center gap-3">
-            <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>
-            <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
+        <div className="max-w-7xl mx-auto flex flex-col gap-1.5">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <p className="text-[10px] text-muted-foreground">
+              © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium &amp; other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
+            </p>
+            <div className="flex items-center gap-3">
+              <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>
+              <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <a href="https://cinderandcrown.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 opacity-50 hover:opacity-100 transition-opacity">
+              <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/177a83ee6_CinderCrown-MuteLogo.png" alt="Cinder & Crown" className="w-4 h-4 object-contain" />
+              <span className="text-[9px] text-muted-foreground">Built by <strong className="text-foreground/60">Cinder &amp; Crown</strong></span>
+            </a>
           </div>
         </div>
       </footer>

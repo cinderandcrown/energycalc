@@ -310,13 +310,21 @@ export default function Landing() {
 
       {/* ═══════ FOOTER ═══════ */}
       <footer className="border-t border-border bg-card/50 py-6 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[10px] text-muted-foreground text-center sm:text-left leading-relaxed max-w-lg">
-            © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
-          </p>
-          <div className="flex items-center gap-4">
-            <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal &amp; Privacy</Link>
-            <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
+        <div className="max-w-5xl mx-auto flex flex-col items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 w-full">
+            <p className="text-[10px] text-muted-foreground text-center sm:text-left leading-relaxed max-w-lg">
+              © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
+            </p>
+            <div className="flex items-center gap-4">
+              <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal &amp; Privacy</Link>
+              <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 pt-2 border-t border-border/50 w-full justify-center">
+            <a href="https://cinderandcrown.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+              <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/177a83ee6_CinderCrown-MuteLogo.png" alt="Cinder & Crown" className="w-5 h-5 object-contain" />
+              <span className="text-[10px] text-muted-foreground">Built by <strong className="text-foreground/70">Cinder &amp; Crown</strong></span>
+            </a>
           </div>
         </div>
       </footer>
