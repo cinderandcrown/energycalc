@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import {
   Calculator, Droplets, Flame, TrendingUp, Star,
   ChevronRight, RefreshCw, Zap, Shield, DollarSign,
-  BarChart3, ArrowUpRight, BookOpen, ShieldAlert, Search, AlertTriangle
+  BarChart3, ArrowUpRight, BookOpen, ShieldAlert, Search, AlertTriangle,
+  Gem, Wheat, Factory
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,30 @@ const calcCards = [
     color: "from-[#4a1a6b] to-[#2d0f4a]",
     badge: "Multi-Year Tax",
   },
+  {
+    title: "Gold Purity",
+    description: "Calculate karat purity, troy weight, and spot-price value of gold holdings",
+    icon: Gem,
+    path: "/calc/gold-purity",
+    color: "from-[#6b5a1a] to-[#4a3d0f]",
+    badge: "Precious Metals",
+  },
+  {
+    title: "Ag Yield",
+    description: "Project crop revenue with acreage, yield, and market price inputs",
+    icon: Wheat,
+    path: "/calc/ag-yield",
+    color: "from-[#3d6b1a] to-[#264a0f]",
+    badge: "Agriculture",
+  },
+  {
+    title: "Metal Cost Basis",
+    description: "Landed cost, P&L, and break-even pricing for industrial metals",
+    icon: Factory,
+    path: "/calc/metal-cost",
+    color: "from-[#1a4a6b] to-[#0f3550]",
+    badge: "Industrial Metals",
+  },
 ];
 
 const typeLabels = {
@@ -60,6 +85,9 @@ const typeLabels = {
   natgas_to_cash: "Gas to Cash",
   rate_of_return: "Rate of Return",
   tax_impact: "Tax Impact",
+  gold_purity: "Gold Purity",
+  ag_yield: "Ag Yield",
+  metal_cost: "Metal Cost",
 };
 
 const typeIcons = {
@@ -68,6 +96,9 @@ const typeIcons = {
   natgas_to_cash: Flame,
   rate_of_return: TrendingUp,
   tax_impact: Calculator,
+  gold_purity: Gem,
+  ag_yield: Wheat,
+  metal_cost: Factory,
 };
 
 const typePaths = {
@@ -76,6 +107,9 @@ const typePaths = {
   natgas_to_cash: "/calc/natgas-to-cash",
   rate_of_return: "/calc/rate-of-return",
   tax_impact: "/calc/tax-impact",
+  gold_purity: "/calc/gold-purity",
+  ag_yield: "/calc/ag-yield",
+  metal_cost: "/calc/metal-cost",
 };
 
 const defaultPriceData = [
@@ -390,7 +424,7 @@ export default function Dashboard() {
 
       {/* Calculators */}
       <section>
-        <h2 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">Calculators</h2>
+        <h2 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">{calcCards.length} Professional Calculators</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {calcCards.map((card, i) => {
             const Icon = card.icon;
