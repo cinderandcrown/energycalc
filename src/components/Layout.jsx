@@ -15,7 +15,7 @@ import NavigationHeader from './navigation/NavigationHeader';
 import BottomTabBar from './navigation/BottomTabBar';
 import MobileDrawer from './navigation/MobileDrawer';
 import useTabNavigationStacks from '@/hooks/useTabNavigationStacks';
-import SupportChatBubble from './support/SupportChatBubble';
+
 
 /* ── Desktop nav data ── */
 const calcItems = [
@@ -271,6 +271,7 @@ export default function Layout() {
               © {new Date().getFullYear()} Commodity Investor+. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, precious metals, industrial metals, agriculture, livestock &amp; other commodity sectors.
             </p>
             <div className="flex items-center gap-3">
+              <Link to="/support" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Support</Link>
               <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal & Privacy</Link>
               <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
             </div>
@@ -300,8 +301,7 @@ export default function Layout() {
         />
       </div>
 
-      {/* Support Chat Bubble */}
-      <SupportChatBubble />
+
     </div>
   );
 }

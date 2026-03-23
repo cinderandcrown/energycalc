@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, BarChart3, Newspaper, BookOpen, Activity, PieChart,
   ShieldAlert, Globe, FileText, Scale, Search, Landmark, FolderOpen,
-  Blocks, UserCircle, Settings, Shield, X
+  Blocks, UserCircle, Settings, Shield, X, MessageCircle
 } from "lucide-react";
 import { CALC_ITEMS } from "./BottomTabBar";
 
@@ -121,9 +121,17 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
 
         {/* Footer */}
         <div
-          className="border-t border-border px-5 py-3"
+          className="border-t border-border px-5 py-3 space-y-1.5"
           style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom, 0px))" }}
         >
+          <Link
+            to="/support"
+            onClick={onClose}
+            className="flex items-center gap-2 text-[13px] text-foreground font-medium"
+          >
+            <MessageCircle className="w-4 h-4 text-crude-gold" />
+            Customer Support
+          </Link>
           <Link
             to="/legal"
             onClick={onClose}
