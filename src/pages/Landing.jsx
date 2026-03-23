@@ -256,7 +256,6 @@ export default function Landing() {
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">Trusted Partner Tools</h2>
               <p className="text-xs text-muted-foreground mb-4">Professional-grade platforms used by commodity investors and energy traders.</p>
-              <AdBanner slot="LANDING_MID_2" format="horizontal" className="rounded-xl" />
             </div>
             <AffiliatesSidebar compact />
           </div>
