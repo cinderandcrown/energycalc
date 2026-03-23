@@ -26,9 +26,15 @@ export default function Markets() {
   const [selected, setSelected] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [cached, setCached] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchAll = async (forceRefresh = false) => {
-    setLoading(true);
+    // If force refresh or already have data, show background indicator
+    if (forceRefresh || commodities.length > 0) {
+      setRefreshing(true);
+    } else {
+      setLoading(true);
+    }
     const res = await base44.functions.invoke("fetchAllCommodities", { forceRefresh });
     if (res.data?.commodities?.length) {
       setCommodities(res.data.commodities);
@@ -36,9 +42,43 @@ export default function Markets() {
       setCached(res.data.cached || false);
     }
     setLoading(false);
+    setRefreshing(false);
   };
 
-  useEffect(() => { fetchAll(); }, []);
+  useEffect(() => {
+    // Step 1: Load cache instantly (even stale)
+    const loadCacheThenRefresh = async () => {
+      setLoading(true);
+      const cacheRes = await base44.functions.invoke("fetchAllCommodities", { cacheOnly: true });
+      if (cacheRes.data?.commodities?.length) {
+        setCommodities(cacheRes.data.commodities);
+        setFetchedAt(cacheRes.data.fetchedAt);
+        setCached(true);
+        setLoading(false);
+        // Step 2: If cache is stale, refresh in background
+        if (cacheRes.data.stale) {
+          setRefreshing(true);
+          const freshRes = await base44.functions.invoke("fetchAllCommodities", { forceRefresh: true });
+          if (freshRes.data?.commodities?.length) {
+            setCommodities(freshRes.data.commodities);
+            setFetchedAt(freshRes.data.fetchedAt);
+            setCached(false);
+          }
+          setRefreshing(false);
+        }
+      } else {
+        // No cache at all — full load
+        const freshRes = await base44.functions.invoke("fetchAllCommodities", {});
+        if (freshRes.data?.commodities?.length) {
+          setCommodities(freshRes.data.commodities);
+          setFetchedAt(freshRes.data.fetchedAt);
+          setCached(freshRes.data.cached || false);
+        }
+        setLoading(false);
+      }
+    };
+    loadCacheThenRefresh();
+  }, []);
 
   const filtered = useMemo(() => {
     if (category === "all") return commodities;
@@ -73,11 +113,14 @@ export default function Markets() {
           )}
         </div>
         <div className="flex items-center gap-2">
-          {cached && (
+          {refreshing && (
+            <Badge variant="outline" className="text-[10px] text-crude-gold border-crude-gold/30 animate-pulse">Updating...</Badge>
+          )}
+          {cached && !refreshing && (
             <Badge variant="outline" className="text-[10px] text-muted-foreground">Cached</Badge>
           )}
-          <Button variant="outline" size="sm" onClick={() => fetchAll(true)} disabled={loading} className="gap-1.5">
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+          <Button variant="outline" size="sm" onClick={() => fetchAll(true)} disabled={loading || refreshing} className="gap-1.5">
+            <RefreshCw className={`w-3.5 h-3.5 ${loading || refreshing ? "animate-spin" : ""}`} />
             {cached ? "Refresh Live" : "Refresh"}
           </Button>
         </div>

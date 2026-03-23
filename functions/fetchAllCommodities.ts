@@ -11,24 +11,39 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { forceRefresh } = await req.json().catch(() => ({}));
+    const { forceRefresh, cacheOnly } = await req.json().catch(() => ({}));
 
     // Try to serve from cache first
-    if (!forceRefresh) {
-      const cached = await base44.asServiceRole.entities.CommodityCache.filter({ cache_key: CACHE_KEY });
-      if (cached.length > 0) {
-        const entry = cached[0];
-        const age = Date.now() - new Date(entry.fetched_at).getTime();
-        if (age < CACHE_MAX_AGE_MS && entry.data?.commodities?.length > 0) {
-          console.log(`Serving ${entry.data.commodities.length} commodities from cache (${Math.round(age / 60000)}m old)`);
-          return Response.json({
-            commodities: entry.data.commodities,
-            fetchedAt: entry.fetched_at,
-            count: entry.data.commodities.length,
-            cached: true
-          });
-        }
+    const cachedEntries = await base44.asServiceRole.entities.CommodityCache.filter({ cache_key: CACHE_KEY });
+    const entry = cachedEntries.length > 0 ? cachedEntries[0] : null;
+    const age = entry ? Date.now() - new Date(entry.fetched_at).getTime() : Infinity;
+    const hasFreshCache = entry && age < CACHE_MAX_AGE_MS && entry.data?.commodities?.length > 0;
+
+    // If cacheOnly mode, return whatever cache we have (even stale) so UI loads fast
+    if (cacheOnly) {
+      if (entry?.data?.commodities?.length > 0) {
+        console.log(`Serving ${entry.data.commodities.length} commodities from cache (${Math.round(age / 60000)}m old, staleOk)`);
+        return Response.json({
+          commodities: entry.data.commodities,
+          fetchedAt: entry.fetched_at,
+          count: entry.data.commodities.length,
+          cached: true,
+          stale: !hasFreshCache
+        });
       }
+      return Response.json({ commodities: [], cached: false, stale: false });
+    }
+
+    // Normal mode: return fresh cache if available
+    if (!forceRefresh && hasFreshCache) {
+      console.log(`Serving ${entry.data.commodities.length} commodities from fresh cache (${Math.round(age / 60000)}m old)`);
+      return Response.json({
+        commodities: entry.data.commodities,
+        fetchedAt: entry.fetched_at,
+        count: entry.data.commodities.length,
+        cached: true,
+        stale: false
+      });
     }
 
     // Cache miss or stale — fetch fresh data
