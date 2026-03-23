@@ -71,9 +71,14 @@ export default function Settings() {
 
   const saveProfile = async () => {
     setSaving(true);
-    await base44.auth.updateMe({ company });
-    toast({ title: "Profile updated!" });
-    setSaving(false);
+    try {
+      await base44.auth.updateMe({ company });
+      toast({ title: "Profile updated!" });
+    } catch (err) {
+      toast({ title: "Failed to save", description: err?.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleLogout = () => {

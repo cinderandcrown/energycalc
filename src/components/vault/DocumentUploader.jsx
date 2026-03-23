@@ -39,28 +39,32 @@ export default function DocumentUploader({ onUploaded }) {
   const handleUpload = async () => {
     if (!file || !title) return;
     setUploading(true);
+    try {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      await base44.entities.DealDocument.create({
+        title,
+        file_url,
+        file_name: file.name,
+        file_size_kb: Math.round(file.size / 1024),
+        document_type: docType,
+        operator_name: operatorName || undefined,
+        deal_name: dealName || undefined,
+        analysis_status: "pending",
+      });
 
-    await base44.entities.DealDocument.create({
-      title,
-      file_url,
-      file_name: file.name,
-      file_size_kb: Math.round(file.size / 1024),
-      document_type: docType,
-      operator_name: operatorName || undefined,
-      deal_name: dealName || undefined,
-      analysis_status: "pending",
-    });
-
-    toast({ title: "Document uploaded", description: "Ready for AI analysis." });
-    setFile(null);
-    setTitle("");
-    setOperatorName("");
-    setDealName("");
-    setDocType("other");
-    setUploading(false);
-    onUploaded?.();
+      toast({ title: "Document uploaded", description: "Ready for AI analysis." });
+      setFile(null);
+      setTitle("");
+      setOperatorName("");
+      setDealName("");
+      setDocType("other");
+      onUploaded?.();
+    } catch (err) {
+      toast({ title: "Upload failed", description: err?.message || "Please try again.", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
