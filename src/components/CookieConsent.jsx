@@ -11,16 +11,17 @@ export default function CookieConsent() {
   useEffect(() => {
     const consent = localStorage.getItem(CONSENT_KEY);
     if (!consent) {
-      // Default: deny until user consents (Google Consent Mode v2)
+      setVisible(true);
+    } else if (consent === "accepted") {
+      // Restore granted consent on return visits
       if (window.gtag) {
-        window.gtag("consent", "default", {
-          ad_storage: "denied",
-          ad_user_data: "denied",
-          ad_personalization: "denied",
-          analytics_storage: "denied",
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+          analytics_storage: "granted",
         });
       }
-      setVisible(true);
     }
   }, []);
 
