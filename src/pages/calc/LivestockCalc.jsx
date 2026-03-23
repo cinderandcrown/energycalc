@@ -56,27 +56,35 @@ export default function LivestockCalc() {
     const {
       headCount, avgWeight, marketPrice, purchasePrice, purchaseWeight,
       feedCostPerHead, vetCostPerHead, transportCostPerHead,
-      deathLossRate, miscCostPerHead
+      deathLossRate, daysOnFeed, miscCostPerHead
     } = inputs;
 
     const effectiveHead = headCount * (1 - deathLossRate / 100);
     const totalPurchaseCost = headCount * purchaseWeight * purchasePrice;
-    const totalFeedCost = headCount * feedCostPerHead;
+
+    // Feed cost scales by days on feed (base cost assumes 150-day standard)
+    // Industry standard: feed cost is roughly proportional to feeding duration
+    const feedDayFactor = daysOnFeed / 150;
+    const totalFeedCost = headCount * feedCostPerHead * feedDayFactor;
+
     const totalVetCost = headCount * vetCostPerHead;
     const totalTransport = headCount * transportCostPerHead;
     const totalMisc = headCount * miscCostPerHead;
 
     const totalCost = totalPurchaseCost + totalFeedCost + totalVetCost + totalTransport + totalMisc;
-    const costPerHead = totalCost / headCount;
+    const costPerHead = headCount > 0 ? totalCost / headCount : 0;
 
+    // Revenue is based on surviving head sold at sale weight × market price
     const totalRevenue = effectiveHead * avgWeight * marketPrice;
+    // Revenue per head sold (effective head basis)
     const revenuePerHead = effectiveHead > 0 ? totalRevenue / effectiveHead : 0;
 
     const netProfit = totalRevenue - totalCost;
-    const profitPerHead = effectiveHead > 0 ? netProfit / effectiveHead : 0;
+    // Profit per head purchased — industry standard: measures return per head you bought
+    const profitPerHead = headCount > 0 ? netProfit / headCount : 0;
     const roi = totalCost > 0 ? (netProfit / totalCost) * 100 : 0;
 
-    // Break-even sale price per lb
+    // Break-even sale price per lb (must cover all costs from surviving head)
     const breakEvenPrice = effectiveHead > 0 && avgWeight > 0
       ? totalCost / (effectiveHead * avgWeight)
       : 0;
