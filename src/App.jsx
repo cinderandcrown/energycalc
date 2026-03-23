@@ -32,6 +32,7 @@ import GoldPurityCalc from '@/pages/calc/GoldPurityCalc';
 import AgYieldCalc from '@/pages/calc/AgYieldCalc';
 import MetalCostBasis from '@/pages/calc/MetalCostBasis';
 import MyAccount from '@/pages/MyAccount';
+import NewsFeedPage from '@/pages/NewsFeed.jsx';
 
 // Layout
 import Layout from '@/components/Layout';
@@ -88,6 +89,7 @@ const AuthenticatedApp = () => {
           <Route path="/web3" element={<Web3Energy />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/compare" element={<Compare />} />
+          <Route path="/news" element={<NewsFeedPage />} />
 
           {/* Calculators */}
           <Route path="/calc/net-investment" element={<NetInvestment />} />
