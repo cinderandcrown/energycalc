@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, ArrowLeft } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
+import AdUnit from './AdUnit';
 
 const calcItems = [
   { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
@@ -302,6 +303,11 @@ export default function Layout() {
           <Outlet />
         </OilPourTransition>
       </main>
+
+      {/* Ad above footer */}
+      <div className="hidden sm:block max-w-5xl mx-auto px-4 py-4">
+        <AdUnit variant="horizontal" />
+      </div>
 
       {/* Desktop/Tablet Legal Footer */}
       <footer className="hidden sm:block border-t border-border bg-card/50 py-2 px-4">

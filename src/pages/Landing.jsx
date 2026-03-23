@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import AdUnit from "@/components/AdUnit";
 
 const PLAN = {
   name: "EnergyCalc Pro",
@@ -321,6 +322,11 @@ export default function Landing() {
           })}
         </div>
       </section>
+
+      {/* ═══════ AD ═══════ */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+        <AdUnit variant="horizontal" />
+      </div>
 
       {/* ═══════ PRICING ═══════ */}
       <section id="pricing" className="border-y border-border bg-card/30 py-16">
