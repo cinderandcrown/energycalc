@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
 
 const calcCards = [
   {
@@ -184,7 +185,18 @@ export default function Dashboard() {
     );
   };
 
+  const handlePullRefresh = useCallback(async () => {
+    const [me, calcs] = await Promise.all([
+      base44.auth.me(),
+      base44.entities.Calculation.list("-created_date", 10),
+    ]);
+    setUser(me);
+    setCalculations(calcs);
+    await fetchPrices();
+  }, [fetchPrices]);
+
   return (
+    <PullToRefresh onRefresh={handlePullRefresh}>
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
 
       {/* Fraud Alert Banner */}
@@ -455,10 +467,11 @@ export default function Dashboard() {
 
       {/* Footer Disclaimer */}
       <div className="pb-4 pt-2 text-center">
-        <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
+        <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto">
           EnergyCalc Pro is for informational and educational purposes only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Tax treatment varies by individual circumstances. Always consult a qualified CPA or financial advisor before making investment decisions.
         </p>
       </div>
     </div>
+    </PullToRefresh>
   );
 }

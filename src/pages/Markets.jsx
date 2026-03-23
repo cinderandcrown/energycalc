@@ -1,12 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
 import { BarChart3, RefreshCw, Loader2, Zap, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CommodityTable from "@/components/markets/CommodityTable";
 import MarketOverviewCards from "@/components/markets/MarketOverviewCards";
 import CommodityModal from "@/components/markets/CommodityModal";
+import PageHeader from "@/components/mobile/PageHeader";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
+import MobileSelect from "@/components/mobile/MobileSelect";
 
 const CATEGORIES = [
   { key: "all", label: "All" },
@@ -28,8 +30,7 @@ export default function Markets() {
   const [cached, setCached] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchAll = async (forceRefresh = false) => {
-    // If force refresh or already have data, show background indicator
+  const fetchAll = useCallback(async (forceRefresh = false) => {
     if (forceRefresh || commodities.length > 0) {
       setRefreshing(true);
     } else {
@@ -43,7 +44,9 @@ export default function Markets() {
     }
     setLoading(false);
     setRefreshing(false);
-  };
+  }, [commodities.length]);
+
+  const handlePullRefresh = useCallback(() => fetchAll(true), [fetchAll]);
 
   useEffect(() => {
     // Step 1: Load cache instantly (even stale)
@@ -90,37 +93,37 @@ export default function Markets() {
     setModalOpen(true);
   };
 
+  const categoryOptions = CATEGORIES.map(c => ({ value: c.key, label: c.label }));
+
   return (
+    <PullToRefresh onRefresh={handlePullRefresh}>
     <div className="max-w-5xl mx-auto px-4 py-6 space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-primary dark:text-accent" />
-            Commodity Markets
-          </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Live prices across energy, metals, agriculture, and more
-          </p>
+        <PageHeader
+          title="Commodity Markets"
+          subtitle="Live prices across energy, metals, agriculture, and more"
+          icon={BarChart3}
+        >
           {fetchedAt && (
             <div className="flex items-center gap-1.5 mt-1">
               <Clock className="w-3 h-3 text-muted-foreground" />
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 Updated {new Date(fetchedAt).toLocaleTimeString()}
               </span>
-              <Badge variant="secondary" className="text-[10px]">{commodities.length} commodities</Badge>
+              <Badge variant="secondary" className="text-xs">{commodities.length} commodities</Badge>
             </div>
           )}
-        </div>
+        </PageHeader>
         <div className="flex items-center gap-2">
           {refreshing && (
-            <Badge variant="outline" className="text-[10px] text-crude-gold border-crude-gold/30 animate-pulse">Updating...</Badge>
+            <Badge variant="outline" className="text-xs text-crude-gold border-crude-gold/30 animate-pulse">Updating...</Badge>
           )}
           {cached && !refreshing && (
-            <Badge variant="outline" className="text-[10px] text-muted-foreground">Cached</Badge>
+            <Badge variant="outline" className="text-xs text-muted-foreground">Cached</Badge>
           )}
-          <Button variant="outline" size="sm" onClick={() => fetchAll(true)} disabled={loading || refreshing} className="gap-1.5">
-            <RefreshCw className={`w-3.5 h-3.5 ${loading || refreshing ? "animate-spin" : ""}`} />
+          <Button variant="outline" size="sm" onClick={() => fetchAll(true)} disabled={loading || refreshing} className="gap-1.5 min-h-[44px]">
+            <RefreshCw className={`w-4 h-4 ${loading || refreshing ? "animate-spin" : ""}`} />
             {cached ? "Refresh Live" : "Refresh"}
           </Button>
         </div>
@@ -143,16 +146,31 @@ export default function Markets() {
             <MarketOverviewCards commodities={commodities} />
           </div>
 
-          {/* Category Tabs */}
-          <Tabs value={category} onValueChange={setCategory}>
-            <TabsList className="w-full flex overflow-x-auto scrollbar-hide">
-              {CATEGORIES.map(c => (
-                <TabsTrigger key={c.key} value={c.key} className="text-xs whitespace-nowrap">
-                  {c.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          {/* Category Filter — mobile bottom sheet / desktop inline */}
+          <div className="sm:hidden">
+            <MobileSelect
+              value={category}
+              onValueChange={setCategory}
+              options={categoryOptions}
+              label="Filter by Category"
+              placeholder="All Categories"
+            />
+          </div>
+          <div className="hidden sm:flex flex-wrap gap-2">
+            {CATEGORIES.map(c => (
+              <button
+                key={c.key}
+                onClick={() => setCategory(c.key)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  category === c.key
+                    ? "bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground"
+                    : "bg-muted text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
 
           {/* Table */}
           <CommodityTable items={filtered} onSelect={handleSelect} />
@@ -171,5 +189,6 @@ export default function Markets() {
 
       <CommodityModal commodity={selected} open={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
+    </PullToRefresh>
   );
 }

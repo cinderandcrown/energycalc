@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { User, Moon, Sun, Shield, LogOut, ChevronRight, Zap, ExternalLink, Loader2, CreditCard, CheckCircle2, Trash2 } from "lucide-react";
+import { User, Moon, Sun, Shield, LogOut, Zap, ExternalLink, Loader2, CreditCard, CheckCircle2, Settings as SettingsIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import PageHeader from "@/components/mobile/PageHeader";
+import AccountDeletion from "@/components/mobile/AccountDeletion";
 
 const PRODUCT_ID = "prod_UC1nAY3emodE1H";
 
@@ -81,10 +81,11 @@ export default function Settings() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-      <div>
-        <h1 className="text-xl font-bold text-foreground">Settings</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">Manage your account and preferences</p>
-      </div>
+      <PageHeader
+        title="Settings"
+        subtitle="Manage your account and preferences"
+        icon={SettingsIcon}
+      />
 
       {/* Subscription */}
       <div className="rounded-2xl border border-crude-gold/40 bg-gradient-to-br from-petroleum to-[#1a3a6b] p-5">
@@ -159,44 +160,44 @@ export default function Settings() {
       </div>
 
       {/* Profile */}
-      <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
-        <div className="flex items-center gap-2 pb-2 border-b border-border">
-          <User className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-foreground">Profile</h2>
+      <div className="rounded-2xl border border-border bg-card p-5 space-y-5">
+        <div className="flex items-center gap-2 pb-3 border-b border-border">
+          <User className="w-5 h-5 text-muted-foreground" />
+          <h2 className="text-base font-semibold text-foreground">Profile</h2>
         </div>
         <div>
-          <Label>Full Name</Label>
-          <Input value={fullName} disabled className="mt-1 bg-muted/50 text-muted-foreground" />
-          <p className="text-xs text-muted-foreground mt-1">Name cannot be changed here. Contact support.</p>
+          <Label className="text-sm">Full Name</Label>
+          <Input value={fullName} disabled className="mt-1.5 min-h-[48px] text-base bg-muted/50 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground mt-1.5">Name cannot be changed here. Contact support.</p>
         </div>
         <div>
-          <Label>Email</Label>
-          <Input value={user?.email || ""} disabled className="mt-1 bg-muted/50 text-muted-foreground" />
+          <Label className="text-sm">Email</Label>
+          <Input value={user?.email || ""} disabled className="mt-1.5 min-h-[48px] text-base bg-muted/50 text-muted-foreground" />
         </div>
         <div>
-          <Label>Company (optional)</Label>
+          <Label className="text-sm">Company (optional)</Label>
           <Input
             value={company}
             onChange={(e) => setCompany(e.target.value)}
             placeholder="Your company name"
-            className="mt-1"
+            className="mt-1.5 min-h-[48px] text-base"
           />
         </div>
-        <Button onClick={saveProfile} disabled={saving} size="sm">
+        <Button onClick={saveProfile} disabled={saving} className="min-h-[48px] text-base w-full sm:w-auto">
           {saving ? "Saving..." : "Save Profile"}
         </Button>
       </div>
 
       {/* Appearance */}
       <div className="rounded-2xl border border-border bg-card p-5">
-        <div className="flex items-center gap-2 pb-2 border-b border-border mb-4">
-          {darkMode ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
-          <h2 className="text-sm font-semibold text-foreground">Appearance</h2>
+        <div className="flex items-center gap-2 pb-3 border-b border-border mb-4">
+          {darkMode ? <Moon className="w-5 h-5 text-muted-foreground" /> : <Sun className="w-5 h-5 text-muted-foreground" />}
+          <h2 className="text-base font-semibold text-foreground">Appearance</h2>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between min-h-[48px]">
           <div>
-            <p className="text-sm font-medium text-foreground">Dark Mode</p>
-            <p className="text-xs text-muted-foreground">Recommended for field environments</p>
+            <p className="text-base font-medium text-foreground">Dark Mode</p>
+            <p className="text-sm text-muted-foreground">Recommended for field environments</p>
           </div>
           <Switch checked={darkMode} onCheckedChange={toggleDark} />
         </div>
@@ -228,48 +229,13 @@ export default function Settings() {
       </div>
 
       {/* Logout */}
-      <Button variant="outline" className="w-full min-h-[44px] gap-2 text-destructive border-destructive/40 hover:bg-destructive/10" onClick={handleLogout}>
-        <LogOut className="w-4 h-4" />
+      <Button variant="outline" className="w-full min-h-[48px] gap-2 text-base text-destructive border-destructive/40 hover:bg-destructive/10" onClick={handleLogout}>
+        <LogOut className="w-5 h-5" />
         Sign Out
       </Button>
 
-      {/* Delete Account */}
-      <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 space-y-3">
-        <div className="flex items-center gap-2">
-          <Trash2 className="w-4 h-4 text-destructive" />
-          <h2 className="text-sm font-semibold text-destructive">Delete Account</h2>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Permanently delete your account and all associated data including saved calculations, scenarios, and subscription. This action cannot be undone.
-        </p>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="w-full min-h-[44px] gap-2">
-              <Trash2 className="w-4 h-4" />
-              Delete My Account
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This will permanently delete your account and all your data — saved calculations, scenarios, and subscription. This action cannot be reversed.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel className="min-h-[44px]">Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                className="min-h-[44px] bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                onClick={async () => {
-                  toast({ title: "Account deletion requested", description: "Please contact support@energycalc.app to finalize account deletion." });
-                }}
-              >
-                Yes, Delete My Account
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
+      {/* Delete Account — Multi-step flow */}
+      <AccountDeletion />
 
       <div className="h-4" />
     </div>

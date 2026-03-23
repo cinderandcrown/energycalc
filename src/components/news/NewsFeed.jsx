@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Newspaper, RefreshCw, Loader2, Shield, Filter } from "lucide-react";
+import { Newspaper, RefreshCw, Loader2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NewsCard from "./NewsCard";
+import PageHeader from "@/components/mobile/PageHeader";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
+import MobileSelect from "@/components/mobile/MobileSelect";
 
 const FILTERS = [
   { key: "all", label: "All News" },
@@ -29,12 +31,16 @@ export default function NewsFeed() {
     setLoading(false);
   };
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
     await base44.functions.invoke("curateNews", {});
     await loadNews();
     setRefreshing(false);
-  };
+  }, []);
+
+  const handlePullRefresh = useCallback(async () => {
+    await loadNews();
+  }, []);
 
   useEffect(() => { loadNews(); }, []);
 
@@ -47,44 +53,59 @@ export default function NewsFeed() {
 
   const fraudCount = articles.filter(a => a.fraud_relevance || a.category === "fraud_alert").length;
 
+  const filterOptions = FILTERS.map(f => ({ value: f.key, label: f.label }));
+
   return (
+    <PullToRefresh onRefresh={handlePullRefresh}>
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-            <Newspaper className="w-5 h-5 text-primary dark:text-accent" />
-            Commodity News Feed
-          </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            AI-curated market intelligence · Updated every 4 hours
-          </p>
+        <PageHeader
+          title="Commodity News Feed"
+          subtitle="AI-curated market intelligence · Updated every 4 hours"
+          icon={Newspaper}
+        >
           <div className="flex items-center gap-2 mt-1.5">
-            <Badge variant="secondary" className="text-[10px]">{articles.length} stories</Badge>
+            <Badge variant="secondary" className="text-xs">{articles.length} stories</Badge>
             {fraudCount > 0 && (
-              <Badge className="bg-flare-red/10 text-flare-red border-0 text-[10px]">
-                <Shield className="w-2.5 h-2.5 mr-1" />
+              <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs">
+                <Shield className="w-3 h-3 mr-1" />
                 {fraudCount} fraud alert{fraudCount !== 1 ? "s" : ""}
               </Badge>
             )}
           </div>
-        </div>
-        <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing} className="gap-1.5">
-          <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? "animate-spin" : ""}`} />
+        </PageHeader>
+        <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing} className="gap-1.5 min-h-[44px]">
+          <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`} />
           {refreshing ? "Curating..." : "Refresh Feed"}
         </Button>
       </div>
 
-      {/* Filters */}
-      <Tabs value={filter} onValueChange={setFilter}>
-        <TabsList className="w-full flex overflow-x-auto scrollbar-hide">
-          {FILTERS.map(f => (
-            <TabsTrigger key={f.key} value={f.key} className="text-xs whitespace-nowrap">
-              {f.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      {/* Filters — mobile bottom sheet / desktop inline */}
+      <div className="sm:hidden">
+        <MobileSelect
+          value={filter}
+          onValueChange={setFilter}
+          options={filterOptions}
+          label="Filter News"
+          placeholder="All News"
+        />
+      </div>
+      <div className="hidden sm:flex flex-wrap gap-2">
+        {FILTERS.map(f => (
+          <button
+            key={f.key}
+            onClick={() => setFilter(f.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              filter === f.key
+                ? "bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground"
+                : "bg-muted text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
 
       {/* Content */}
       {loading ? (
@@ -115,13 +136,14 @@ export default function NewsFeed() {
       )}
 
       {/* Disclaimer */}
-      <div className="rounded-lg border border-border bg-muted/30 p-3 flex items-start gap-2.5">
-        <Shield className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
-        <p className="text-[10px] text-muted-foreground leading-relaxed">
+      <div className="rounded-lg border border-border bg-muted/30 p-3.5 flex items-start gap-2.5">
+        <Shield className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+        <p className="text-xs text-muted-foreground leading-relaxed">
           News curated by AI from public sources. Fraud alerts sourced from SEC, CFTC, FBI, and state regulators. 
           Verify all information independently before making investment decisions. Not financial advice.
         </p>
       </div>
     </div>
+    </PullToRefresh>
   );
 }
