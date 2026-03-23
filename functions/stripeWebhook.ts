@@ -20,6 +20,19 @@ Deno.serve(async (req) => {
 
     console.log("Stripe webhook event:", event.type, event.id);
 
+    // Helper to find user by email or customer ID
+    const findUser = async (email, customerId) => {
+      if (customerId) {
+        const byCustomer = await base44.asServiceRole.entities.User.filter({ stripe_customer_id: customerId });
+        if (byCustomer.length > 0) return byCustomer[0];
+      }
+      if (email) {
+        const byEmail = await base44.asServiceRole.entities.User.filter({ email });
+        if (byEmail.length > 0) return byEmail[0];
+      }
+      return null;
+    };
+
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
       const email = session.customer_email || session.customer_details?.email;
@@ -28,35 +41,52 @@ Deno.serve(async (req) => {
 
       console.log("Checkout completed for:", email, "customer:", customerId, "subscription:", subscriptionId);
 
-      if (email) {
-        const users = await base44.asServiceRole.entities.User.filter({ email });
-        if (users.length > 0) {
-          await base44.asServiceRole.entities.User.update(users[0].id, {
-            subscription_status: "active",
-            stripe_customer_id: customerId,
-            stripe_subscription_id: subscriptionId,
-            subscription_plan: "pro",
-          });
-          console.log("User updated to active subscription:", email);
-        } else {
-          console.log("No user found with email:", email);
+      const foundUser = await findUser(email, customerId);
+      if (foundUser) {
+        // If subscription, fetch it to check trial status
+        let status = "active";
+        let trialEndsAt = null;
+        if (subscriptionId) {
+          const sub = await stripe.subscriptions.retrieve(subscriptionId);
+          status = sub.status; // "trialing" or "active"
+          if (sub.trial_end) {
+            trialEndsAt = new Date(sub.trial_end * 1000).toISOString();
+          }
         }
+
+        await base44.asServiceRole.entities.User.update(foundUser.id, {
+          subscription_status: status,
+          stripe_customer_id: customerId,
+          stripe_subscription_id: subscriptionId,
+          subscription_plan: "pro",
+          trial_ends_at: trialEndsAt,
+        });
+        console.log("User updated:", email, "status:", status, "trial_ends:", trialEndsAt);
+      } else {
+        console.error("No user found with email:", email);
       }
     }
 
     if (event.type === "customer.subscription.updated") {
       const subscription = event.data.object;
       const customerId = subscription.customer;
-      const status = subscription.status; // active, past_due, canceled, etc.
+      const status = subscription.status;
 
       console.log("Subscription updated:", customerId, "status:", status);
 
-      const users = await base44.asServiceRole.entities.User.filter({ stripe_customer_id: customerId });
-      if (users.length > 0) {
-        await base44.asServiceRole.entities.User.update(users[0].id, {
-          subscription_status: status === "active" ? "active" : "inactive",
-        });
-        console.log("User subscription status updated:", status);
+      // Get customer email for fallback lookup
+      const customer = await stripe.customers.retrieve(customerId);
+      const foundUser = await findUser(customer.email, customerId);
+
+      if (foundUser) {
+        const updateData = {
+          subscription_status: status, // trialing, active, past_due, canceled, etc.
+        };
+        if (subscription.trial_end) {
+          updateData.trial_ends_at = new Date(subscription.trial_end * 1000).toISOString();
+        }
+        await base44.asServiceRole.entities.User.update(foundUser.id, updateData);
+        console.log("User subscription status updated:", foundUser.email, "->", status);
       }
     }
 
@@ -66,14 +96,17 @@ Deno.serve(async (req) => {
 
       console.log("Subscription deleted for customer:", customerId);
 
-      const users = await base44.asServiceRole.entities.User.filter({ stripe_customer_id: customerId });
-      if (users.length > 0) {
-        await base44.asServiceRole.entities.User.update(users[0].id, {
+      const customer = await stripe.customers.retrieve(customerId);
+      const foundUser = await findUser(customer.email, customerId);
+
+      if (foundUser) {
+        await base44.asServiceRole.entities.User.update(foundUser.id, {
           subscription_status: "inactive",
           stripe_subscription_id: null,
           subscription_plan: null,
+          trial_ends_at: null,
         });
-        console.log("User subscription cancelled:", users[0].email);
+        console.log("User subscription cancelled:", foundUser.email);
       }
     }
 

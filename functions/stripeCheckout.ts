@@ -27,14 +27,23 @@ Deno.serve(async (req) => {
     }
 
     const price = prices.data[0];
-
     const origin = req.headers.get("origin") || "https://app.base44.com";
+    const isSubscription = !!price.recurring;
 
-    const session = await stripe.checkout.sessions.create({
-      mode: price.recurring ? "subscription" : "payment",
+    // Check if user already has a Stripe customer, reuse it
+    let customerId = user.stripe_customer_id || null;
+    if (!customerId) {
+      // Check if a customer with this email already exists in Stripe
+      const existingCustomers = await stripe.customers.list({ email: user.email, limit: 1 });
+      if (existingCustomers.data.length > 0) {
+        customerId = existingCustomers.data[0].id;
+      }
+    }
+
+    const sessionParams = {
+      mode: isSubscription ? "subscription" : "payment",
       payment_method_types: ["card", "link"],
       line_items: [{ price: price.id, quantity: 1 }],
-      customer_email: user.email,
       success_url: `${origin}/dashboard?subscribed=true`,
       cancel_url: `${origin}/`,
       metadata: {
@@ -42,9 +51,30 @@ Deno.serve(async (req) => {
         user_id: user.id,
         user_email: user.email,
       },
-    });
+    };
 
-    console.log("Checkout session created:", session.id, "for user:", user.email);
+    // If we have an existing customer, use it; otherwise let Stripe create one from email
+    if (customerId) {
+      sessionParams.customer = customerId;
+    } else {
+      sessionParams.customer_email = user.email;
+    }
+
+    // Add 3-day free trial for subscriptions
+    if (isSubscription) {
+      sessionParams.subscription_data = {
+        trial_period_days: 3,
+        metadata: {
+          base44_app_id: Deno.env.get("BASE44_APP_ID"),
+          user_id: user.id,
+          user_email: user.email,
+        },
+      };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
+
+    console.log("Checkout session created:", session.id, "for user:", user.email, "trial: 3 days");
     return Response.json({ url: session.url });
   } catch (error) {
     console.error("Stripe checkout error:", error.message);
