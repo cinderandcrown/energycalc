@@ -14,19 +14,16 @@ export default function DownloadReportButton({ calcType, inputs, results, size =
     delete cleanResults.months;
     delete cleanResults.chartData;
 
-    const response = await base44.functions.fetch("generateReport", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ calcType, inputs, results: cleanResults }),
-    });
+    const response = await base44.functions.invoke("generateReport", { calcType, inputs, results: cleanResults });
 
-    if (!response.ok) {
+    if (!response.data) {
       toast({ title: "Error", description: "Failed to generate report.", variant: "destructive" });
       setLoading(false);
       return;
     }
 
-    const blob = await response.blob();
+    // Response contains arraybuffer/blob from the backend
+    const blob = new Blob([response.data], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
