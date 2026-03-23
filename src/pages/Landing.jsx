@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import LandingOilSplash from "@/components/LandingOilSplash";
 import HeroBackground from "@/components/landing/HeroBackground";
 import HeroContent from "@/components/landing/HeroContent";
+import AdBanner from "@/components/ads/AdBanner";
+import AffiliatesSidebar from "@/components/ads/AffiliatesSidebar";
 
 const PLAN = {
   name: "EnergyCalc Pro",
@@ -212,6 +214,11 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ═══════ AD BANNER ═══════ */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
+        <AdBanner slot="LANDING_MID_1" format="horizontal" className="rounded-xl" />
+      </div>
+
       {/* ═══════ FEATURES ═══════ */}
       <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
@@ -237,6 +244,20 @@ export default function Landing() {
               </motion.div>
             );
           })}
+        </div>
+      </section>
+
+      {/* ═══════ AFFILIATE PARTNERS ═══════ */}
+      <section className="border-b border-border bg-card/40">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 items-start">
+            <div>
+              <h2 className="text-lg font-bold text-foreground mb-1">Trusted Partner Tools</h2>
+              <p className="text-xs text-muted-foreground mb-4">Professional-grade platforms used by commodity investors and energy traders.</p>
+              <AdBanner slot="LANDING_MID_2" format="horizontal" className="rounded-xl" />
+            </div>
+            <AffiliatesSidebar compact />
+          </div>
         </div>
       </section>
 
@@ -316,6 +337,7 @@ export default function Landing() {
               © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
             </p>
             <div className="flex items-center gap-4">
+              <Link to="/blog" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Blog</Link>
               <Link to="/legal" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Legal &amp; Privacy</Link>
               <Link to="/investor-protection" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Investor Protection</Link>
             </div>

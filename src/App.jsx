@@ -36,6 +36,8 @@ import MyAccount from '@/pages/MyAccount';
 import NewsFeedPage from '@/pages/NewsFeed.jsx';
 import SEODashboard from '@/pages/SEODashboard.jsx';
 import AnalyticsDashboard from '@/pages/AnalyticsDashboard.jsx';
+import Blog from '@/pages/Blog.jsx';
+import BlogPostPage from '@/pages/BlogPost.jsx';
 
 // Admin
 import AdminGuard from '@/components/admin/AdminGuard';
@@ -74,9 +76,11 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      {/* Public landing page */}
+      {/* Public pages */}
       <Route path="/" element={<Landing />} />
       <Route path="/legal" element={<Legal />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPostPage />} />
 
       {/* Authenticated pages with Layout */}
       <Route element={<Layout />}>
