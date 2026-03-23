@@ -15,8 +15,11 @@ export default function PullToRefresh({ onRefresh, children, className = "" }) {
   const containerRef = useRef(null);
 
   const handleTouchStart = useCallback((e) => {
-    // Only activate when scrolled to top
-    if (containerRef.current && containerRef.current.scrollTop <= 0) {
+    // Only activate when the page is scrolled to top
+    // Check both container scroll and window scroll
+    const containerAtTop = !containerRef.current || containerRef.current.scrollTop <= 0;
+    const windowAtTop = window.scrollY <= 0;
+    if (containerAtTop && windowAtTop) {
       startY.current = e.touches[0].clientY;
       setPulling(true);
     }
