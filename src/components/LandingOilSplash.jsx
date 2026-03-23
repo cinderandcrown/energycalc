@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 
 /**
- * Smooth oil-pour reveal: a dark curtain rises with a golden edge,
- * followed by a luminous golden sweep — fluid and elegant, not splatty.
+ * Landman-style cold open: hard cut from black,
+ * a golden horizon line splits the screen like a sunrise
+ * over the Permian Basin, then fades to reveal.
  */
 export default function LandingOilSplash() {
   return (
@@ -10,54 +11,56 @@ export default function LandingOilSplash() {
       className="fixed inset-0 z-[200] pointer-events-none overflow-hidden"
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
-      transition={{ duration: 0.4, delay: 1.1 }}
+      transition={{ duration: 0.5, delay: 1.3 }}
     >
-      {/* Dark oil curtain — slides up to reveal */}
+      {/* Hard black — like a cold open title card */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ background: "#020304" }}
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.6, delay: 0.7, ease: [0.77, 0, 0.175, 1] }}
+      />
+
+      {/* Top half — slides up */}
+      <motion.div
+        className="absolute inset-x-0 top-0"
+        style={{ background: "linear-gradient(180deg, #020304 0%, #0a1020 100%)" }}
+        initial={{ height: "50%" }}
+        animate={{ height: "0%" }}
+        transition={{ duration: 0.7, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
+      />
+
+      {/* Bottom half — slides down */}
       <motion.div
         className="absolute inset-x-0 bottom-0"
-        style={{
-          background: "linear-gradient(0deg, #050208 0%, #0B2545 40%, #0a0a1a 100%)",
-        }}
-        initial={{ height: "100%" }}
+        style={{ background: "linear-gradient(0deg, #020304 0%, #0a1020 100%)" }}
+        initial={{ height: "50%" }}
         animate={{ height: "0%" }}
-        transition={{ duration: 0.85, delay: 0.25, ease: [0.77, 0, 0.175, 1] }}
+        transition={{ duration: 0.7, delay: 0.5, ease: [0.77, 0, 0.175, 1] }}
       />
 
-      {/* Golden edge line — rides the curtain edge */}
+      {/* Golden horizon crack — the money line */}
       <motion.div
-        className="absolute inset-x-0 h-[2px]"
+        className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[3px]"
         style={{
-          background: "linear-gradient(90deg, transparent 5%, rgba(212,168,67,0.4) 25%, rgba(212,168,67,0.9) 50%, rgba(212,168,67,0.4) 75%, transparent 95%)",
-          boxShadow: "0 0 30px 8px rgba(212,168,67,0.25), 0 0 60px 20px rgba(212,168,67,0.1)",
+          background: "linear-gradient(90deg, transparent 2%, rgba(212,168,67,0.3) 15%, rgba(255,180,40,0.9) 35%, rgba(255,200,60,1) 50%, rgba(255,180,40,0.9) 65%, rgba(212,168,67,0.3) 85%, transparent 98%)",
+          boxShadow: "0 0 40px 15px rgba(212,168,67,0.3), 0 0 80px 30px rgba(212,168,67,0.1)",
         }}
-        initial={{ bottom: "0%" }}
-        animate={{ bottom: "100%" }}
-        transition={{ duration: 0.85, delay: 0.25, ease: [0.77, 0, 0.175, 1] }}
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={{ scaleX: [0, 1, 1, 0], opacity: [0, 1, 1, 0] }}
+        transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1], times: [0, 0.35, 0.7, 1] }}
       />
 
-      {/* Broad golden glow sweep — follows the edge */}
+      {/* Warm light wash — like sunrise hitting the camera lens */}
       <motion.div
-        className="absolute inset-x-0 h-32"
+        className="absolute inset-0"
         style={{
-          background: "linear-gradient(0deg, transparent 0%, rgba(212,168,67,0.08) 40%, rgba(212,168,67,0.15) 60%, transparent 100%)",
-          filter: "blur(20px)",
+          background: "radial-gradient(ellipse 80% 40% at 50% 50%, rgba(212,168,67,0.1) 0%, transparent 60%)",
         }}
-        initial={{ bottom: "-10%" }}
-        animate={{ bottom: "110%" }}
-        transition={{ duration: 0.9, delay: 0.2, ease: [0.77, 0, 0.175, 1] }}
-      />
-
-      {/* Horizontal light sweep — like light glinting across oil */}
-      <motion.div
-        className="absolute inset-y-0"
-        style={{
-          width: "35%",
-          background: "linear-gradient(90deg, transparent 0%, rgba(212,168,67,0.06) 30%, rgba(212,168,67,0.15) 50%, rgba(212,168,67,0.06) 70%, transparent 100%)",
-          filter: "blur(40px)",
-        }}
-        initial={{ left: "-35%", opacity: 0 }}
-        animate={{ left: "135%", opacity: [0, 0.8, 0.8, 0] }}
-        transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.6, 0] }}
+        transition={{ duration: 1.0, delay: 0.4, ease: "easeInOut" }}
       />
     </motion.div>
   );
