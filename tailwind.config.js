@@ -2,6 +2,23 @@
 module.exports = {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  safelist: [
+    'text-drill-green',
+    'text-flare-red',
+    'bg-drill-green',
+    'bg-flare-red',
+    'border-crude-gold',
+    'from-petroleum', 'via-[#0e2f55]', 'to-[#1a3a6b]',
+    'from-yellow-700', 'via-yellow-600', 'to-amber-500',
+    'from-slate-600', 'via-slate-500', 'to-blue-600',
+    'from-green-800', 'via-green-700', 'to-emerald-600',
+    'from-red-800', 'via-red-700', 'to-rose-600',
+    'from-purple-800', 'via-purple-700', 'to-violet-600',
+    'from-cyan-800', 'via-cyan-700', 'to-teal-600',
+    'from-emerald-800', 'via-emerald-700', 'to-green-500',
+    'from-orange-800', 'via-orange-700', 'to-amber-600',
+    'from-indigo-800', 'via-indigo-700', 'to-blue-600',
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -83,23 +100,6 @@ module.exports = {
         'count-up': 'count-up 0.5s ease-out forwards',
         shimmer: 'shimmer 2s infinite linear',
       },
-      safelist: [
-        'text-drill-green',
-        'text-flare-red',
-        'bg-drill-green',
-        'bg-flare-red',
-        'border-crude-gold',
-        'from-petroleum', 'via-[#0e2f55]', 'to-[#1a3a6b]',
-        'from-yellow-700', 'via-yellow-600', 'to-amber-500',
-        'from-slate-600', 'via-slate-500', 'to-blue-600',
-        'from-green-800', 'via-green-700', 'to-emerald-600',
-        'from-red-800', 'via-red-700', 'to-rose-600',
-        'from-purple-800', 'via-purple-700', 'to-violet-600',
-        'from-cyan-800', 'via-cyan-700', 'to-teal-600',
-        'from-emerald-800', 'via-emerald-700', 'to-green-500',
-        'from-orange-800', 'via-orange-700', 'to-amber-600',
-        'from-indigo-800', 'via-indigo-700', 'to-blue-600',
-      ]
     }
   },
   plugins: [require("tailwindcss-animate")],
