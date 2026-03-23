@@ -30,13 +30,16 @@ const SENTIMENT_ICONS = {
   warning: <AlertTriangle className="w-3.5 h-3.5 text-crude-gold" />,
 };
 
-export default function NewsCard({ article }) {
+export default function NewsCard({ article, onClick }) {
   const isFraud = article.fraud_relevance || article.category === "fraud_alert";
 
   return (
-    <div className={`rounded-xl border bg-card p-4 transition-colors hover:border-foreground/20 ${
-      isFraud ? "border-flare-red/40 bg-flare-red/5" : "border-border"
-    }`}>
+    <div
+      onClick={() => onClick?.(article)}
+      className={`rounded-xl border bg-card p-4 transition-colors hover:border-foreground/20 cursor-pointer ${
+        isFraud ? "border-flare-red/40 bg-flare-red/5" : "border-border"
+      }`}
+    >
       {/* Top badges */}
       <div className="flex items-center gap-2 flex-wrap mb-2">
         <Badge className={`text-[10px] ${CATEGORY_COLORS[article.category] || CATEGORY_COLORS.market_analysis}`}>

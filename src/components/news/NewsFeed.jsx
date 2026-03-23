@@ -5,6 +5,7 @@ import { Newspaper, RefreshCw, Loader2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import NewsCard from "./NewsCard";
+import NewsModal from "./NewsModal";
 import PageHeader from "@/components/mobile/PageHeader";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import MobileSelect from "@/components/mobile/MobileSelect";
@@ -24,6 +25,7 @@ export default function NewsFeed() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState("all");
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   const loadNews = async () => {
     const news = await base44.entities.CommodityNews.list("-created_date", 100);
@@ -129,7 +131,7 @@ export default function NewsFeed() {
         <div className="space-y-3">
           {filtered.map((article, i) => (
             <motion.div key={article.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.03 }}>
-              <NewsCard article={article} />
+              <NewsCard article={article} onClick={setSelectedArticle} />
             </motion.div>
           ))}
         </div>
@@ -144,6 +146,11 @@ export default function NewsFeed() {
         </p>
       </div>
     </div>
+      <NewsModal
+        article={selectedArticle}
+        open={!!selectedArticle}
+        onClose={() => setSelectedArticle(null)}
+      />
     </PullToRefresh>
   );
 }
