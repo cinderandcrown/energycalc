@@ -61,11 +61,15 @@ export default function Markets() {
         // Step 2: If cache is stale, refresh in background
         if (cacheRes.data.stale) {
           setRefreshing(true);
-          const freshRes = await base44.functions.invoke("fetchAllCommodities", { forceRefresh: true });
-          if (freshRes.data?.commodities?.length) {
-            setCommodities(freshRes.data.commodities);
-            setFetchedAt(freshRes.data.fetchedAt);
-            setCached(false);
+          try {
+            const freshRes = await base44.functions.invoke("fetchAllCommodities", { forceRefresh: true });
+            if (freshRes.data?.commodities?.length) {
+              setCommodities(freshRes.data.commodities);
+              setFetchedAt(freshRes.data.fetchedAt);
+              setCached(false);
+            }
+          } catch (e) {
+            console.warn("Background refresh failed, using cached data", e.message);
           }
           setRefreshing(false);
         }
