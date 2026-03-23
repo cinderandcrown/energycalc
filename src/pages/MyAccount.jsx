@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import useSubscription from "@/hooks/useSubscription";
+import DocumentVault from "@/components/vault/DocumentVault";
 
 const typeLabels = {
   net_investment: "Net Investment",
@@ -180,6 +181,9 @@ export default function MyAccount() {
           </div>
         </div>
       </div>
+
+      {/* Deal Document Vault */}
+      <DocumentVault />
 
       {/* Recent Calculations */}
       <div className="rounded-2xl border border-border bg-card p-5">
