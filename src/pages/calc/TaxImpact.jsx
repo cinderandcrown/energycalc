@@ -10,6 +10,7 @@ import TaxImpactTable from "../../components/calc/TaxImpactTable";
 import SaveCalcModal from "../../components/SaveCalcModal";
 import CalcActionBar from "../../components/CalcActionBar";
 import DisclaimerFooter from "../../components/DisclaimerFooter";
+import InContentAd from "@/components/ads/InContentAd";
 
 const BRACKET_COLORS = ["bg-crude-gold", "bg-drill-green", "bg-blue-500", "bg-purple-500"];
 const BRACKET_RING = ["ring-crude-gold", "ring-drill-green", "ring-blue-500", "ring-purple-500"];
@@ -170,6 +171,8 @@ export default function TaxImpact() {
           </div>
         </div>
       </div>
+
+      <InContentAd slot="CALC_TAX_MID" />
 
       <CalcActionBar
         onSave={() => setSaveOpen(true)}

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import CalcActionBar from "@/components/CalcActionBar";
 import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import RateOfReturnExplainers from "@/components/calc/RateOfReturnExplainers";
@@ -249,6 +250,7 @@ export default function RateOfReturn() {
         </ResponsiveContainer>
       </div>
 
+      <InContentAd slot="CALC_ROR_MID" />
       <GeoDueDiligence calcType="rate_of_return" />
       <AIWellEvaluator />
       <DisclaimerFooter />

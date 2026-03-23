@@ -7,6 +7,7 @@ import { ResultCard, HeroResultCard } from "@/components/ui/ResultCard";
 import CalcActionBar from "@/components/CalcActionBar";
 import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import NatGasToCashExplainers from "@/components/calc/NatGasToCashExplainers";
@@ -256,6 +257,7 @@ export default function NatGasToCash() {
         </table>
       </div>
 
+      <InContentAd slot="CALC_GAS_MID" />
       <GeoDueDiligence calcType="natgas_to_cash" />
       <AIWellEvaluator />
       <DisclaimerFooter />
