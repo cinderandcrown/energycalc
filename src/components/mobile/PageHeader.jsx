@@ -1,16 +1,14 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import useRouteDepth from "@/hooks/useRouteDepth";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 /**
  * Mobile-friendly page header with back arrow.
- * Shows back button on all sub-pages (not on /dashboard which is "home").
+ * Uses the global useRouteDepth hook to determine whether to show the back button.
  */
-const ROOT_PATHS = ["/dashboard"];
-
 export default function PageHeader({ title, subtitle, icon: Icon, children }) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const showBack = !ROOT_PATHS.includes(location.pathname);
+  const { showBack } = useRouteDepth();
 
   return (
     <div className="flex items-start gap-3">
