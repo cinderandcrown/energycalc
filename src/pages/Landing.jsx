@@ -138,7 +138,7 @@ export default function Landing() {
             </Button>
 
             {/* Mobile menu toggle */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden ml-1 p-1.5 text-muted-foreground">
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden ml-1 p-1.5 text-muted-foreground" aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}>
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>

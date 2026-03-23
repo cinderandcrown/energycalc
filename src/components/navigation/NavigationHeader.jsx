@@ -50,6 +50,7 @@ export default function NavigationHeader({ onMenuToggle, menuOpen, desktopNav, c
         <button
           onClick={onMenuToggle}
           className="hidden sm:flex lg:hidden items-center justify-center w-11 h-11 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
         >
           {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>

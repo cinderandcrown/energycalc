@@ -92,7 +92,7 @@ export default function DocumentCard({ doc, onRefresh }) {
               Report
             </Button>
           )}
-          <Button size="icon" variant="ghost" onClick={handleDelete} disabled={deleting} className="w-8 h-8 text-muted-foreground hover:text-flare-red">
+          <Button size="icon" variant="ghost" onClick={handleDelete} disabled={deleting} className="w-8 h-8 text-muted-foreground hover:text-flare-red" aria-label="Delete document">
             {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
           </Button>
         </div>

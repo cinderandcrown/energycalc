@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Upload, FileText, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import MobileSelect from "@/components/mobile/MobileSelect";
 import { useToast } from "@/components/ui/use-toast";
 
 const DOC_TYPES = [
@@ -85,16 +85,13 @@ export default function DocumentUploader({ onUploaded }) {
           <Input placeholder="Document title *" value={title} onChange={(e) => setTitle(e.target.value)} />
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Select value={docType} onValueChange={setDocType}>
-              <SelectTrigger>
-                <SelectValue placeholder="Document type" />
-              </SelectTrigger>
-              <SelectContent>
-                {DOC_TYPES.map(t => (
-                  <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <MobileSelect
+              value={docType}
+              onValueChange={setDocType}
+              options={DOC_TYPES}
+              label="Document Type"
+              placeholder="Select type"
+            />
             <Input placeholder="Operator / Company name" value={operatorName} onChange={(e) => setOperatorName(e.target.value)} />
           </div>
 
