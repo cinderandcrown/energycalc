@@ -145,32 +145,44 @@ CRITICAL INSTRUCTIONS:
       }
     });
 
-    const commodities = result?.commodities || [];
-    console.log(`Fetched ${commodities.length} fresh commodity prices`);
+    const freshCommodities = result?.commodities || [];
+    console.log(`Fetched ${freshCommodities.length} fresh commodity prices`);
 
-    // Save to cache
-    if (commodities.length > 0) {
+    // Merge strategy: prefer fresh data, but keep any cached commodities
+    // that the AI skipped this time so we don't lose coverage
+    let mergedCommodities = freshCommodities;
+    if (freshCommodities.length > 0 && entry?.data?.commodities?.length > 0) {
+      const freshSymbols = new Set(freshCommodities.map(c => c.symbol));
+      const retained = entry.data.commodities.filter(c => !freshSymbols.has(c.symbol));
+      if (retained.length > 0) {
+        console.log(`Retaining ${retained.length} cached commodities the AI skipped: ${retained.map(c => c.symbol).join(', ')}`);
+        mergedCommodities = [...freshCommodities, ...retained];
+      }
+    }
+
+    // Save merged result to cache
+    if (mergedCommodities.length > 0) {
       const fetchedAt = new Date().toISOString();
       const existing = await base44.asServiceRole.entities.CommodityCache.filter({ cache_key: CACHE_KEY });
       if (existing.length > 0) {
         await base44.asServiceRole.entities.CommodityCache.update(existing[0].id, {
-          data: { commodities },
+          data: { commodities: mergedCommodities },
           fetched_at: fetchedAt
         });
       } else {
         await base44.asServiceRole.entities.CommodityCache.create({
           cache_key: CACHE_KEY,
-          data: { commodities },
+          data: { commodities: mergedCommodities },
           fetched_at: fetchedAt
         });
       }
-      console.log('Cache updated with fresh prices');
+      console.log(`Cache updated: ${mergedCommodities.length} commodities (${freshCommodities.length} fresh + ${mergedCommodities.length - freshCommodities.length} retained)`);
     }
 
     return Response.json({
-      commodities,
+      commodities: mergedCommodities,
       fetchedAt: new Date().toISOString(),
-      count: commodities.length,
+      count: mergedCommodities.length,
       cached: false
     });
   } catch (error) {
