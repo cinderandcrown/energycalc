@@ -59,7 +59,11 @@ export default function MetalSelector({ selectedIndex, onChange }) {
 
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-border bg-card hover:border-foreground/30 transition-colors text-left"
+        role="combobox"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        aria-label={`Metal / Material: ${selected?.name || 'Select metal'}`}
+        className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-border bg-card hover:border-foreground/30 transition-colors text-left focus-visible:ring-2 focus-visible:ring-ring"
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="text-base">{METAL_CATEGORY_ICONS[selected?.category] || "🔶"}</span>
@@ -114,7 +118,7 @@ export default function MetalSelector({ selectedIndex, onChange }) {
           </div>
 
           {/* Metal list */}
-          <div className="max-h-64 overflow-y-auto">
+          <div className="max-h-64 overflow-y-auto" role="listbox" aria-label="Metals">
             {filtered.length === 0 ? (
               <div className="py-6 text-center text-sm text-muted-foreground">No metals found</div>
             ) : (

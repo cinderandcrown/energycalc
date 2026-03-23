@@ -127,9 +127,29 @@
   }
 
   /* Prevent text selection on interactive elements */
-  button, a, nav, [role="button"], [role="tab"], label {
+  button, a, nav, [role="button"], [role="tab"], [role="option"], label {
     -webkit-user-select: none;
     user-select: none;
+  }
+
+  /* ADA: Visible focus indicators for keyboard users */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Skip-to-content link for screen readers */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 
   /* iOS safe area support */
@@ -196,29 +216,13 @@
     display: none;
   }
 
-  /* Global: hide scrollbars on all overflow containers for native polish */
+  /* Global: hide all browser scrollbars for native app polish */
   * {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--border)) transparent;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE / Edge */
   }
   *::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-  *::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  *::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 999px;
-  }
-  @media (max-width: 639px) {
-    * {
-      scrollbar-width: none;
-    }
-    *::-webkit-scrollbar {
-      display: none;
-    }
+    display: none; /* Chrome, Safari, Opera */
   }
 
   /* Oil drip animation for fun transitions */

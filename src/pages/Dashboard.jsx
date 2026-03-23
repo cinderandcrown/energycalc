@@ -227,10 +227,19 @@ export default function Dashboard() {
   const recent = calculations.slice(0, 5);
 
   const toggleFavorite = async (calc) => {
-    await base44.entities.Calculation.update(calc.id, { is_favorite: !calc.is_favorite });
+    const newVal = !calc.is_favorite;
+    // Optimistic update
     setCalculations((prev) =>
-      prev.map((c) => (c.id === calc.id ? { ...c, is_favorite: !c.is_favorite } : c))
+      prev.map((c) => (c.id === calc.id ? { ...c, is_favorite: newVal } : c))
     );
+    try {
+      await base44.entities.Calculation.update(calc.id, { is_favorite: newVal });
+    } catch {
+      // Revert on failure
+      setCalculations((prev) =>
+        prev.map((c) => (c.id === calc.id ? { ...c, is_favorite: calc.is_favorite } : c))
+      );
+    }
   };
 
   const handlePullRefresh = useCallback(async () => {

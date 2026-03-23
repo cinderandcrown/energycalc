@@ -70,6 +70,10 @@ export default function PriceAlertManager() {
       toast({ title: "Price alert created!" });
       loadAlerts();
     },
+    onError: (err) => {
+      toast({ title: "Failed to create alert", description: err?.message || "Please try again.", variant: "destructive" });
+      loadAlerts(); // revert optimistic add
+    },
     onSettled: () => setSaving(false),
   });
 
@@ -83,17 +87,29 @@ export default function PriceAlertManager() {
 
   const toggleActive = async (alert) => {
     const newActive = !alert.is_active;
+    const snapshot = alerts;
     setAlerts(prev => prev.map(a => a.id === alert.id ? { ...a, is_active: newActive, ...(a.is_triggered && newActive ? { is_triggered: false, triggered_at: null, triggered_price: null, dismissed: false } : {}) } : a));
-    await base44.entities.PriceAlert.update(alert.id, {
-      is_active: newActive,
-      ...(alert.is_triggered && newActive ? { is_triggered: false, triggered_at: null, triggered_price: null, dismissed: false } : {}),
-    });
+    try {
+      await base44.entities.PriceAlert.update(alert.id, {
+        is_active: newActive,
+        ...(alert.is_triggered && newActive ? { is_triggered: false, triggered_at: null, triggered_price: null, dismissed: false } : {}),
+      });
+    } catch {
+      setAlerts(snapshot);
+      toast({ title: "Failed to update alert", variant: "destructive" });
+    }
   };
 
   const deleteAlert = async (id) => {
+    const snapshot = alerts;
     setAlerts(prev => prev.filter(a => a.id !== id));
-    await base44.entities.PriceAlert.delete(id);
-    toast({ title: "Alert deleted" });
+    try {
+      await base44.entities.PriceAlert.delete(id);
+      toast({ title: "Alert deleted" });
+    } catch {
+      setAlerts(snapshot);
+      toast({ title: "Failed to delete alert", variant: "destructive" });
+    }
   };
 
   const unit = COMMODITIES.find(c => c.value === commodity)?.unit || "";
@@ -220,6 +236,7 @@ export default function PriceAlertManager() {
                   checked={alert.is_active}
                   onCheckedChange={() => toggleActive(alert)}
                   className="shrink-0"
+                  aria-label={`${alert.is_active ? 'Pause' : 'Activate'} ${alert.commodity} alert`}
                 />
 
                 <Button
