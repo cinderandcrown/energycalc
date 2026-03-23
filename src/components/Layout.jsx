@@ -15,6 +15,7 @@ import NavigationHeader from './navigation/NavigationHeader';
 import BottomTabBar from './navigation/BottomTabBar';
 import MobileDrawer from './navigation/MobileDrawer';
 import useTabNavigationStacks from '@/hooks/useTabNavigationStacks';
+import SupportChatBubble from './support/SupportChatBubble';
 
 /* ── Desktop nav data ── */
 const calcItems = [
@@ -295,6 +296,9 @@ export default function Layout() {
           isAdmin={isAdmin}
         />
       </div>
+
+      {/* Support Chat Bubble */}
+      <SupportChatBubble />
     </div>
   );
 }
