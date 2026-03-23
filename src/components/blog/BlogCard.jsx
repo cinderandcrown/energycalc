@@ -55,12 +55,20 @@ export default function BlogCard({ post, featured = false }) {
         className="group relative rounded-2xl overflow-hidden border border-border bg-card hover:shadow-2xl transition-all duration-500"
       >
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="aspect-[16/10] md:aspect-auto overflow-hidden bg-muted">
-            <img
-              src={imageUrl}
-              alt={post.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
+          <div className="aspect-[16/10] md:aspect-auto overflow-hidden bg-muted relative">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={post.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            ) : (
+              <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} flex items-center justify-center group-hover:scale-105 transition-transform duration-700`}>
+                <span className="text-white/20 text-6xl font-bold uppercase tracking-widest select-none">
+                  {(categoryLabels[post.category] || "Blog").slice(0, 3)}
+                </span>
+              </div>
+            )}
           </div>
           <div className="p-6 md:p-8 flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-3">
