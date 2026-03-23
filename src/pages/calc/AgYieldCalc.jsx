@@ -113,12 +113,12 @@ export default function AgYieldCalc() {
           <CropSelector selectedIndex={inputs.cropIndex} onChange={handleCropChange} />
 
           <InputWithSlider label="Acreage" value={inputs.acreage} onChange={set("acreage")} min={10} max={10000} step={10} suffix="ac" tooltip="Total planted acreage." />
-          <InputWithSlider label={`Yield (${crop.unit})`} value={inputs.yieldPerAcre} onChange={set("yieldPerAcre")} min={1} max={crop.avgYield * 3} step={1} tooltip="Expected yield per acre. National average shown above." />
+          <InputWithSlider label={`Yield (${crop.unit})`} value={inputs.yieldPerAcre} onChange={set("yieldPerAcre")} min={1} max={Math.max(crop.avgYield * 3, 10)} step={crop.avgYield > 1000 ? 50 : crop.avgYield > 100 ? 5 : 1} tooltip={`Expected yield per acre. National avg: ${crop.avgYield.toLocaleString()} ${crop.unit}`} />
           <InputWithSlider label="Projection Years" value={inputs.years} onChange={set("years")} min={1} max={10} step={1} tooltip="Number of years to project forward." />
           <InputWithSlider label="Annual Yield Growth (%)" value={inputs.yieldGrowthPct} onChange={set("yieldGrowthPct")} min={-5} max={10} step={0.5} suffix="%" tooltip="Expected annual improvement in yield through better seed/tech." />
           <InputWithSlider label="Price Volatility Band (%)" value={inputs.priceVolatilityPct} onChange={set("priceVolatilityPct")} min={0} max={50} step={1} suffix="%" tooltip="Range for bull/bear scenario projections." />
           <InputWithSlider label="Crop Insurance (%)" value={inputs.insurancePct} onChange={set("insurancePct")} min={0} max={15} step={0.5} suffix="%" tooltip="Insurance cost as % of revenue." />
-          <InputWithSlider label="Price Override ($/unit)" value={inputs.priceOverride} onChange={set("priceOverride")} min={0} max={100} step={0.1} prefix="$" tooltip="Leave 0 to use live market price." />
+          <InputWithSlider label={`Price Override ($/${crop.unit.split("/")[0]})`} value={inputs.priceOverride} onChange={set("priceOverride")} min={0} max={500} step={0.01} prefix="$" tooltip="Leave 0 to use live market price (if available for this crop)." />
 
           {effectivePrice > 0 && (
             <div className="p-3 rounded-lg bg-drill-green/10 border border-drill-green/30">
