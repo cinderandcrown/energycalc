@@ -7,15 +7,9 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import LivePriceBar from "@/components/calc/LivePriceBar";
 import useCommodityPrices from "@/hooks/useCommodityPrices";
-import { motion } from "framer-motion";
-
-const METALS = [
-  { name: "Copper", density: 8.96, defaultPrice: 4.20, unit: "lb" },
-  { name: "Aluminum", density: 2.70, defaultPrice: 1.15, unit: "lb" },
-  { name: "Steel HRC", density: 7.85, defaultPrice: 0.40, unit: "lb" },
-  { name: "Zinc", density: 7.13, defaultPrice: 1.30, unit: "lb" },
-  { name: "Nickel", density: 8.90, defaultPrice: 7.50, unit: "lb" },
-];
+import MetalSelector from "@/components/calc/MetalSelector";
+import { METAL_DATABASE } from "@/lib/metalData";
+import { Badge } from "@/components/ui/badge";
 
 const DEFAULTS = {
   metalIndex: 0,
@@ -35,13 +29,18 @@ export default function MetalCostBasis() {
   const { commodities, loading: priceLoading, refresh } = useCommodityPrices("industrial_metals");
 
   const set = (key) => (val) => setInputs((p) => ({ ...p, [key]: val }));
-  const metal = METALS[inputs.metalIndex];
+  const metal = METAL_DATABASE[inputs.metalIndex];
 
   const handleMetalChange = (idx) => {
     setInputs(p => ({ ...p, metalIndex: idx }));
   };
 
-  const livePrice = commodities.find(c => c.name?.toLowerCase().includes(metal.name.toLowerCase().split(" ")[0]));
+  // Try matching live price by symbol or first word of name
+  const livePrice = commodities.find(c => {
+    const cName = c.name?.toLowerCase() || "";
+    const metalName = metal.name.toLowerCase().split(" ")[0].replace("(", "");
+    return cName.includes(metalName) || metalName.includes(cName.split(" ")[0]);
+  });
   const effectiveSpot = inputs.spotOverride > 0 ? inputs.spotOverride : (livePrice?.price || metal.defaultPrice);
 
   const results = useMemo(() => {
@@ -79,8 +78,13 @@ export default function MetalCostBasis() {
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Industrial Metal Cost-Basis</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Full landed cost analysis — material, freight, processing, waste & storage</p>
+          <h1 className="text-xl font-bold text-foreground">Metal & Material Cost-Basis</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Full landed cost analysis · {METAL_DATABASE.length} metals across 11 categories</p>
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
+            <Badge className="bg-primary/10 text-primary dark:text-accent border-0 text-[10px]">{metal.category}</Badge>
+            <Badge className="bg-muted text-muted-foreground border-0 text-[10px] font-mono">{metal.symbol}</Badge>
+            <Badge className="bg-muted text-muted-foreground border-0 text-[10px]">{metal.density} g/cm³</Badge>
+          </div>
         </div>
         <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} calcType="metal_cost" inputs={inputs} results={results} />
       </div>
@@ -97,24 +101,7 @@ export default function MetalCostBasis() {
         <div className="space-y-5 rounded-2xl border border-border bg-card p-5">
           <h2 className="text-sm font-semibold text-foreground border-b border-border pb-2">Metal & Cost Parameters</h2>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Metal Type</label>
-            <div className="flex flex-wrap gap-2">
-              {METALS.map((m, i) => (
-                <button
-                  key={m.name}
-                  onClick={() => handleMetalChange(i)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition-colors ${
-                    inputs.metalIndex === i
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                  }`}
-                >
-                  {m.name}
-                </button>
-              ))}
-            </div>
-          </div>
+          <MetalSelector selectedIndex={inputs.metalIndex} onChange={handleMetalChange} />
 
           <InputWithSlider label="Weight (lbs)" value={inputs.weightLbs} onChange={set("weightLbs")} min={100} max={500000} step={100} suffix="lb" tooltip="Total weight of metal being purchased." />
           <InputWithSlider label="Spot Price Override ($/lb)" value={inputs.spotOverride} onChange={set("spotOverride")} min={0} max={50} step={0.01} prefix="$" tooltip="Leave 0 for live spot price." />
