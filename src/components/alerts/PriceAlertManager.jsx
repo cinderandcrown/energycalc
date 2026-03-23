@@ -5,15 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import MobileSelect from "@/components/mobile/MobileSelect";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
 
 const COMMODITIES = [
   { value: "WTI Crude", unit: "/bbl" },
@@ -44,39 +39,61 @@ export default function PriceAlertManager() {
 
   useEffect(() => { loadAlerts(); }, []);
 
-  const handleCreate = async () => {
+  const createMutation = useMutation({
+    mutationFn: async () => {
+      return base44.entities.PriceAlert.create({
+        commodity,
+        direction,
+        threshold: Number(threshold),
+        is_active: true,
+        is_triggered: false,
+        dismissed: false,
+      });
+    },
+    onMutate: () => {
+      setSaving(true);
+      const optimistic = {
+        id: `temp-${Date.now()}`,
+        commodity,
+        direction,
+        threshold: Number(threshold),
+        is_active: true,
+        is_triggered: false,
+        dismissed: false,
+        created_date: new Date().toISOString(),
+      };
+      setAlerts(prev => [optimistic, ...prev]);
+      setThreshold("");
+      setShowForm(false);
+    },
+    onSuccess: () => {
+      toast({ title: "Price alert created!" });
+      loadAlerts();
+    },
+    onSettled: () => setSaving(false),
+  });
+
+  const handleCreate = () => {
     if (!threshold || isNaN(Number(threshold))) {
       toast({ title: "Enter a valid price", variant: "destructive" });
       return;
     }
-    setSaving(true);
-    await base44.entities.PriceAlert.create({
-      commodity,
-      direction,
-      threshold: Number(threshold),
-      is_active: true,
-      is_triggered: false,
-      dismissed: false,
-    });
-    toast({ title: "Price alert created!" });
-    setThreshold("");
-    setShowForm(false);
-    setSaving(false);
-    loadAlerts();
+    createMutation.mutate();
   };
 
   const toggleActive = async (alert) => {
+    const newActive = !alert.is_active;
+    setAlerts(prev => prev.map(a => a.id === alert.id ? { ...a, is_active: newActive, ...(a.is_triggered && newActive ? { is_triggered: false, triggered_at: null, triggered_price: null, dismissed: false } : {}) } : a));
     await base44.entities.PriceAlert.update(alert.id, {
-      is_active: !alert.is_active,
-      // Re-arm: if reactivating a triggered alert, clear trigger state
-      ...(alert.is_triggered && !alert.is_active ? { is_triggered: false, triggered_at: null, triggered_price: null, dismissed: false } : {}),
+      is_active: newActive,
+      ...(alert.is_triggered && newActive ? { is_triggered: false, triggered_at: null, triggered_price: null, dismissed: false } : {}),
     });
-    loadAlerts();
   };
 
   const deleteAlert = async (id) => {
+    setAlerts(prev => prev.filter(a => a.id !== id));
     await base44.entities.PriceAlert.delete(id);
-    loadAlerts();
+    toast({ title: "Alert deleted" });
   };
 
   const unit = COMMODITIES.find(c => c.value === commodity)?.unit || "";
@@ -105,28 +122,23 @@ export default function PriceAlertManager() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <Label className="text-xs mb-1.5 block">Commodity</Label>
-              <Select value={commodity} onValueChange={setCommodity}>
-                <SelectTrigger className="min-h-[44px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {COMMODITIES.map(c => (
-                    <SelectItem key={c.value} value={c.value}>{c.value}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <MobileSelect
+                value={commodity}
+                onValueChange={setCommodity}
+                options={COMMODITIES.map(c => ({ value: c.value, label: c.value }))}
+                label="Commodity"
+                placeholder="Select commodity"
+              />
             </div>
             <div>
               <Label className="text-xs mb-1.5 block">Direction</Label>
-              <Select value={direction} onValueChange={setDirection}>
-                <SelectTrigger className="min-h-[44px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="above">Goes above</SelectItem>
-                  <SelectItem value="below">Falls below</SelectItem>
-                </SelectContent>
-              </Select>
+              <MobileSelect
+                value={direction}
+                onValueChange={setDirection}
+                options={[{ value: "above", label: "Goes above" }, { value: "below", label: "Falls below" }]}
+                label="Direction"
+                placeholder="Select direction"
+              />
             </div>
             <div>
               <Label className="text-xs mb-1.5 block">Price ({unit})</Label>
@@ -215,6 +227,7 @@ export default function PriceAlertManager() {
                   size="icon"
                   className="w-7 h-7 shrink-0 text-muted-foreground hover:text-destructive"
                   onClick={() => deleteAlert(alert.id)}
+                  aria-label="Delete alert"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </Button>
