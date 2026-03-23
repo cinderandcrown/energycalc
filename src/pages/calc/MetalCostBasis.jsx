@@ -104,20 +104,22 @@ export default function MetalCostBasis() {
           <MetalSelector selectedIndex={inputs.metalIndex} onChange={handleMetalChange} />
 
           <InputWithSlider label="Weight (lbs)" value={inputs.weightLbs} onChange={set("weightLbs")} min={100} max={500000} step={100} suffix="lb" tooltip="Total weight of metal being purchased." />
-          <InputWithSlider label="Spot Price Override ($/lb)" value={inputs.spotOverride} onChange={set("spotOverride")} min={0} max={50} step={0.01} prefix="$" tooltip="Leave 0 for live spot price." />
-          <InputWithSlider label="Freight Cost ($/lb)" value={inputs.freightPerLb} onChange={set("freightPerLb")} min={0} max={1} step={0.01} prefix="$" tooltip="Shipping and transportation cost per pound." />
-          <InputWithSlider label="Processing Cost ($/lb)" value={inputs.processingPerLb} onChange={set("processingPerLb")} min={0} max={2} step={0.01} prefix="$" tooltip="Cutting, forming, or finishing cost per pound." />
+          <InputWithSlider label={`Spot Price Override ($/${metal.unit})`} value={inputs.spotOverride} onChange={set("spotOverride")} min={0} max={Math.max(metal.defaultPrice * 3, 50)} step={metal.defaultPrice > 100 ? 1 : metal.defaultPrice > 10 ? 0.1 : 0.01} prefix="$" tooltip={`Leave 0 for default/live price. Current default: $${metal.defaultPrice.toLocaleString()}/${metal.unit}`} />
+          <InputWithSlider label={`Freight Cost ($/${metal.unit})`} value={inputs.freightPerLb} onChange={set("freightPerLb")} min={0} max={Math.max(metal.defaultPrice * 0.1, 1)} step={0.01} prefix="$" tooltip="Shipping and transportation cost per unit." />
+          <InputWithSlider label={`Processing Cost ($/${metal.unit})`} value={inputs.processingPerLb} onChange={set("processingPerLb")} min={0} max={Math.max(metal.defaultPrice * 0.2, 2)} step={0.01} prefix="$" tooltip="Cutting, forming, or finishing cost per unit." />
           <InputWithSlider label="Waste / Scrap (%)" value={inputs.wastePct} onChange={set("wastePct")} min={0} max={25} step={0.5} suffix="%" tooltip="Expected material loss from cutting, machining, etc." />
           <InputWithSlider label="Monthly Storage Cost ($)" value={inputs.storageCostMonthly} onChange={set("storageCostMonthly")} min={0} max={10000} step={50} prefix="$" tooltip="Warehouse or storage cost per month." />
           <InputWithSlider label="Hold Period (months)" value={inputs.holdMonths} onChange={set("holdMonths")} min={0} max={24} step={1} tooltip="How long material is held before use or sale." />
-          <InputWithSlider label="Expected Sell Price ($/lb)" value={inputs.sellPriceOverride} onChange={set("sellPriceOverride")} min={0} max={50} step={0.01} prefix="$" tooltip="Leave 0 to use current spot for P&L estimate." />
+          <InputWithSlider label={`Expected Sell Price ($/${metal.unit})`} value={inputs.sellPriceOverride} onChange={set("sellPriceOverride")} min={0} max={Math.max(metal.defaultPrice * 3, 50)} step={metal.defaultPrice > 100 ? 1 : metal.defaultPrice > 10 ? 0.1 : 0.01} prefix="$" tooltip="Leave 0 to use current spot for P&L estimate." />
 
           {effectiveSpot > 0 && (
             <div className="p-3 rounded-lg bg-primary/10 border border-primary/30">
               <p className="text-xs text-muted-foreground">
-                <strong className="text-foreground">Spot Price:</strong>{" "}
-                <span className="font-mono text-primary dark:text-accent font-bold">${effectiveSpot.toFixed(2)}/lb</span>
-                {inputs.spotOverride > 0 && <span className="ml-1">(manual)</span>}
+                <strong className="text-foreground">Using Price:</strong>{" "}
+                <span className="font-mono text-primary dark:text-accent font-bold">${effectiveSpot.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/{metal.unit}</span>
+                {inputs.spotOverride > 0 && <span className="ml-1">(manual override)</span>}
+                {inputs.spotOverride === 0 && livePrice && <span className="ml-1">(live market)</span>}
+                {inputs.spotOverride === 0 && !livePrice && <span className="ml-1">(default estimate)</span>}
               </p>
             </div>
           )}
