@@ -44,7 +44,8 @@ const categoryGradients = {
 
 export default function BlogCard({ post, featured = false }) {
   const slug = post.slug || post.id;
-  const imageUrl = post.featured_image_url || getPlaceholder(post.id);
+  const imageUrl = post.featured_image_url;
+  const gradientFallback = categoryGradients[post.category] || "from-petroleum via-[#0e2f55] to-[#1a3a6b]";
   const catColor = categoryColors[post.category] || "bg-primary/10 text-primary";
 
   if (featured) {
