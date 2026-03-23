@@ -5,7 +5,7 @@ import {
 } from "recharts";
 import { computeAllBrackets } from "./TaxImpactEngine";
 
-const BRACKET_COLORS = ["#D4A843", "#2E7D32", "#1976D2", "#9C27B0"];
+const BRACKET_COLORS = ["hsl(var(--crude-gold))", "hsl(var(--drill-green))", "hsl(220, 80%, 55%)", "hsl(270, 60%, 55%)"];
 
 export default function TaxImpactROIChart({ params, activeBrackets }) {
   const allBrackets = useMemo(() => computeAllBrackets(params), [params]);
@@ -49,7 +49,7 @@ export default function TaxImpactROIChart({ params, activeBrackets }) {
               formatter={(value) => value.replace("roi_", "@ ")}
               wrapperStyle={{ fontSize: 11 }}
             />
-            <ReferenceLine y={100} stroke="#2E7D32" strokeDasharray="4 4" label={{ value: "100% ROI", fontSize: 10, fill: "#2E7D32" }} />
+            <ReferenceLine y={100} stroke="hsl(var(--drill-green))" strokeDasharray="4 4" label={{ value: "100% ROI", fontSize: 10, fill: "hsl(var(--drill-green))" }} />
 
             {allBrackets.map((b, i) =>
               activeBrackets.includes(i) ? (

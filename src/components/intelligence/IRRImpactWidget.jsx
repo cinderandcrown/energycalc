@@ -160,10 +160,10 @@ export default function IRRImpactWidget({ calc, liveOilPrice, liveGasPrice }) {
                 contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 12, fontSize: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
                 formatter={(v) => [`${v.toFixed(2)}%`, "IRR"]}
               />
-              <ReferenceLine y={savedIRR} stroke="#6B7280" strokeDasharray="4 4" label={{ value: `Saved: ${savedIRR.toFixed(1)}%`, position: "right", fontSize: 9, fill: "#6B7280" }} />
+              <ReferenceLine y={savedIRR} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" label={{ value: `Saved: ${savedIRR.toFixed(1)}%`, position: "right", fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
               <Bar dataKey="irr" radius={[6, 6, 0, 0]}>
                 {scenarios.map((s, i) => (
-                  <Cell key={i} fill={s.highlight ? "#D4A843" : s.irr >= savedIRR ? "#2E7D32" : "#C62828"} opacity={s.highlight ? 1 : 0.75} />
+                  <Cell key={i} fill={s.highlight ? "hsl(var(--crude-gold))" : s.irr >= savedIRR ? "hsl(var(--drill-green))" : "hsl(var(--flare-red))"} opacity={s.highlight ? 1 : 0.75} />
                 ))}
               </Bar>
             </BarChart>

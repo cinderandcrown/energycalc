@@ -244,8 +244,8 @@ export default function RateOfReturn() {
               const l = { cumulative: "Cumulative Cash Flow", sp500: "S&P 500 Equiv." };
               return <span className="text-xs">{l[v] || v}</span>;
             }} />
-            <Line type="monotone" dataKey="cumulative" stroke="#2E7D32" strokeWidth={2.5} dot={false} name="cumulative" />
-            <Line type="monotone" dataKey="sp500" stroke="#6B7280" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="sp500" />
+            <Line type="monotone" dataKey="cumulative" stroke="hsl(var(--drill-green))" strokeWidth={2.5} dot={false} name="cumulative" />
+            <Line type="monotone" dataKey="sp500" stroke="hsl(var(--muted-foreground))" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="sp500" />
           </LineChart>
         </ResponsiveContainer>
       </div>

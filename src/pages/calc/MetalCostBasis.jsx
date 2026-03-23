@@ -72,7 +72,7 @@ export default function MetalCostBasis() {
     return { materialCost, freightCost, processingCost, wasteCost, storageCost, totalCost, costPerLb, usableWeight, saleRevenue, profitLoss, margin, breakEvenSellPrice, costBreakdown };
   }, [inputs, effectiveSpot, metal]);
 
-  const barColors = ["#c27a30", "#6B7280", "#3b82f6", "#ef4444", "#8b5cf6"];
+  const barColors = ["hsl(var(--crude-gold))", "hsl(var(--muted-foreground))", "hsl(220, 80%, 55%)", "hsl(var(--flare-red))", "hsl(270, 60%, 55%)"];
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">

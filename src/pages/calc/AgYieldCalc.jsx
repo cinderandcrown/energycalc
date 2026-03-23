@@ -164,9 +164,9 @@ export default function AgYieldCalc() {
               <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} />
               <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} formatter={(v) => [`$${v.toLocaleString()}`, ""]} />
               <Legend iconType="circle" iconSize={8} />
-              <Line type="monotone" dataKey="profit" stroke="#2E7D32" strokeWidth={2.5} dot={false} name="Base" />
-              <Line type="monotone" dataKey="bearProfit" stroke="#d32f2f" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="Bear" />
-              <Line type="monotone" dataKey="bullProfit" stroke="#1976d2" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="Bull" />
+              <Line type="monotone" dataKey="profit" stroke="hsl(var(--drill-green))" strokeWidth={2.5} dot={false} name="Base" />
+              <Line type="monotone" dataKey="bearProfit" stroke="hsl(var(--flare-red))" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="Bear" />
+              <Line type="monotone" dataKey="bullProfit" stroke="hsl(220, 80%, 55%)" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="Bull" />
             </LineChart>
           </ResponsiveContainer>
         </div>

@@ -109,7 +109,7 @@ export default function LivestockCalc() {
   const fmt = (v) => "$" + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   const fmtDec = (v) => "$" + v.toFixed(2);
 
-  const chartColors = ["#0B2545", "#D4A843", "#2E7D32", "#6B7280", "#9b59b6"];
+  const chartColors = ["hsl(var(--primary))", "hsl(var(--crude-gold))", "hsl(var(--drill-green))", "hsl(var(--muted-foreground))", "hsl(270, 60%, 55%)"];
 
   const summaryCards = [
     { label: "Total Revenue", value: fmt(results.totalRevenue), icon: DollarSign, color: "text-drill-green", bg: "bg-drill-green/10" },

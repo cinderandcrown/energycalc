@@ -19,9 +19,9 @@ export default function TaxSavingsBreakdown({ calculations }) {
   );
 
   const pieData = [
-    { name: "IDC Tax Savings", value: totals.idcTaxSavings, color: "#D4A843" },
-    { name: "Tangible Depreciation Savings", value: totals.tangibleTaxSavings, color: "#0B2545" },
-    { name: "Net Out-of-Pocket", value: totals.netOutOfPocket, color: "#2E7D32" },
+    { name: "IDC Tax Savings", value: totals.idcTaxSavings, color: "hsl(var(--crude-gold))" },
+    { name: "Tangible Depreciation Savings", value: totals.tangibleTaxSavings, color: "hsl(var(--primary))" },
+    { name: "Net Out-of-Pocket", value: totals.netOutOfPocket, color: "hsl(var(--drill-green))" },
   ];
 
   const effectiveRate = totals.totalInvestment > 0

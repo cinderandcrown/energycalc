@@ -18,12 +18,12 @@ export default function SEOTrendChart({ data }) {
         <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
           <defs>
             <linearGradient id="clicksGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              <stop offset="5%" stopColor="hsl(220, 80%, 55%)" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="hsl(220, 80%, 55%)" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="impressionsGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#a855f7" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="#a855f7" stopOpacity={0} />
+              <stop offset="5%" stopColor="hsl(270, 60%, 55%)" stopOpacity={0.2} />
+              <stop offset="95%" stopColor="hsl(270, 60%, 55%)" stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -35,8 +35,8 @@ export default function SEOTrendChart({ data }) {
             labelStyle={{ fontWeight: 600 }}
           />
           <Legend iconType="circle" iconSize={8} />
-          <Area yAxisId="right" type="monotone" dataKey="impressions" stroke="#a855f7" fill="url(#impressionsGrad)" strokeWidth={2} name="Impressions" />
-          <Area yAxisId="left" type="monotone" dataKey="clicks" stroke="#3b82f6" fill="url(#clicksGrad)" strokeWidth={2} name="Clicks" />
+          <Area yAxisId="right" type="monotone" dataKey="impressions" stroke="hsl(270, 60%, 55%)" fill="url(#impressionsGrad)" strokeWidth={2} name="Impressions" />
+          <Area yAxisId="left" type="monotone" dataKey="clicks" stroke="hsl(220, 80%, 55%)" fill="url(#clicksGrad)" strokeWidth={2} name="Clicks" />
         </AreaChart>
       </ResponsiveContainer>
     </div>

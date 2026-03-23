@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from 'recharts';
 
-const COLORS = ['#3b82f6', '#8b5cf6', '#D4A843', '#2E7D32', '#ef4444', '#06b6d4', '#f59e0b', '#ec4899', '#6366f1', '#14b8a6'];
+const COLORS = ['hsl(220, 80%, 55%)', 'hsl(270, 60%, 55%)', 'hsl(var(--crude-gold))', 'hsl(var(--drill-green))', 'hsl(var(--flare-red))', 'hsl(190, 80%, 45%)', 'hsl(25, 90%, 55%)', 'hsl(330, 80%, 55%)', 'hsl(240, 60%, 60%)', 'hsl(170, 70%, 45%)'];
 
 export default function ConversionChart({ rows }) {
   const chartData = rows.slice(0, 10).map(r => ({
@@ -25,8 +25,8 @@ export default function ConversionChart({ rows }) {
             formatter={(v, name) => [`${v}%`, name]}
           />
           <Legend iconType="circle" iconSize={8} />
-          <Bar dataKey="Conversion Rate" fill="#2E7D32" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="Engagement Rate" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="Conversion Rate" fill="hsl(var(--drill-green))" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="Engagement Rate" fill="hsl(220, 80%, 55%)" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

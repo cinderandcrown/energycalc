@@ -150,8 +150,8 @@ export default function BreakEvenAnalysis({ calc, liveOilPrice, liveGasPrice }) 
             <AreaChart data={analysis.points} margin={{ top: 10, right: 10, left: 10, bottom: 5 }}>
               <defs>
                 <linearGradient id="netFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2E7D32" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="#2E7D32" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(var(--drill-green))" stopOpacity={0.15} />
+                  <stop offset="95%" stopColor="hsl(var(--drill-green))" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -164,12 +164,12 @@ export default function BreakEvenAnalysis({ calc, liveOilPrice, liveGasPrice }) 
               />
               <ReferenceLine y={0} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" strokeOpacity={0.5} />
               {analysis.livePrice && (
-                <ReferenceLine x={analysis.livePrice} stroke="#D4A843" strokeWidth={2} strokeDasharray="6 4" label={{ value: "LIVE", position: "top", fontSize: 9, fontWeight: 700, fill: "#D4A843" }} />
+                <ReferenceLine x={analysis.livePrice} stroke="hsl(var(--crude-gold))" strokeWidth={2} strokeDasharray="6 4" label={{ value: "LIVE", position: "top", fontSize: 9, fontWeight: 700, fill: "hsl(var(--crude-gold))" }} />
               )}
               {analysis.savedPrice && (
-                <ReferenceLine x={analysis.savedPrice} stroke="#6B7280" strokeDasharray="4 4" label={{ value: "Saved", position: "top", fontSize: 9, fill: "#6B7280" }} />
+                <ReferenceLine x={analysis.savedPrice} stroke="hsl(var(--muted-foreground))" strokeDasharray="4 4" label={{ value: "Saved", position: "top", fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
               )}
-              <Area type="monotone" dataKey="net" stroke="#2E7D32" strokeWidth={2.5} fill="url(#netFill)" dot={false} />
+              <Area type="monotone" dataKey="net" stroke="hsl(var(--drill-green))" strokeWidth={2.5} fill="url(#netFill)" dot={false} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

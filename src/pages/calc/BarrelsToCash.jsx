@@ -175,8 +175,8 @@ export default function BarrelsToCash() {
               formatter={(v, name) => [`$${v.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`, name === "netIncome" ? "Net Income" : "Gross Revenue"]}
             />
             <Legend iconType="circle" iconSize={8} formatter={(v) => <span className="text-xs">{v === "netIncome" ? "Net Income" : "Gross Revenue"}</span>} />
-            <Line type="monotone" dataKey="grossRevenue" stroke="#D4A843" strokeWidth={2} dot={false} name="grossRevenue" />
-            <Line type="monotone" dataKey="netIncome" stroke="#2E7D32" strokeWidth={2} dot={false} name="netIncome" />
+            <Line type="monotone" dataKey="grossRevenue" stroke="hsl(var(--crude-gold))" strokeWidth={2} dot={false} name="grossRevenue" />
+            <Line type="monotone" dataKey="netIncome" stroke="hsl(var(--drill-green))" strokeWidth={2} dot={false} name="netIncome" />
           </LineChart>
         </ResponsiveContainer>
       </div>

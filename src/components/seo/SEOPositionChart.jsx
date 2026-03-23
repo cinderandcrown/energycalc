@@ -15,10 +15,10 @@ export default function SEOPositionChart({ rows }) {
     }));
 
   const getColor = (pos) => {
-    if (pos <= 3) return '#2E7D32';
-    if (pos <= 10) return '#3b82f6';
-    if (pos <= 20) return '#D4A843';
-    return '#ef4444';
+    if (pos <= 3) return 'hsl(var(--drill-green))';
+    if (pos <= 10) return 'hsl(220, 80%, 55%)';
+    if (pos <= 20) return 'hsl(var(--crude-gold))';
+    return 'hsl(var(--flare-red))';
   };
 
   return (
@@ -26,7 +26,7 @@ export default function SEOPositionChart({ rows }) {
       <h3 className="text-sm font-semibold text-foreground mb-1">CTR vs Position Map</h3>
       <p className="text-[10px] text-muted-foreground mb-4">Bubble size = impressions · Color = position rank</p>
       <div className="flex gap-3 mb-3 flex-wrap">
-        {[{ c: '#2E7D32', l: 'Top 3' }, { c: '#3b82f6', l: 'Page 1' }, { c: '#D4A843', l: 'Page 2' }, { c: '#ef4444', l: 'Page 3+' }].map(i => (
+        {[{ c: 'hsl(var(--drill-green))', l: 'Top 3' }, { c: 'hsl(220, 80%, 55%)', l: 'Page 1' }, { c: 'hsl(var(--crude-gold))', l: 'Page 2' }, { c: 'hsl(var(--flare-red))', l: 'Page 3+' }].map(i => (
           <span key={i.l} className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: i.c }} />
             {i.l}

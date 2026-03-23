@@ -5,7 +5,7 @@ import {
 } from "recharts";
 import { TAX_BRACKETS, computeAllBrackets } from "./TaxImpactEngine";
 
-const BRACKET_COLORS = ["#D4A843", "#2E7D32", "#1976D2", "#9C27B0"];
+const BRACKET_COLORS = ["hsl(var(--crude-gold))", "hsl(var(--drill-green))", "hsl(220, 80%, 55%)", "hsl(270, 60%, 55%)"];
 
 function fmt(v) {
   if (Math.abs(v) >= 1000000) return `$${(v / 1000000).toFixed(1)}M`;
@@ -63,14 +63,14 @@ export default function TaxImpactChart({ params, activeBrackets }) {
             <Area
               type="monotone"
               dataKey="invested"
-              stroke="#888"
+              stroke="hsl(var(--muted-foreground))"
               strokeDasharray="6 3"
               fill="none"
               name="Total Invested"
               strokeWidth={1.5}
             />
 
-            <ReferenceLine y={0} stroke="#888" strokeDasharray="3 3" />
+            <ReferenceLine y={0} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" />
 
             {allBrackets.map((b, i) =>
               activeBrackets.includes(i) ? (

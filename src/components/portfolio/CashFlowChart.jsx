@@ -10,7 +10,7 @@ export default function CashFlowChart({ calculations }) {
 
   if (productionCalcs.length === 0) return null;
 
-  const colors = ["#D4A843", "#2E7D32", "#0B2545", "#7B3F00", "#9b59b6", "#e74c3c"];
+  const colors = ["hsl(var(--crude-gold))", "hsl(var(--drill-green))", "hsl(var(--primary))", "hsl(25, 90%, 55%)", "hsl(270, 60%, 55%)", "hsl(var(--flare-red))"];
 
   const data = productionCalcs.map((c, i) => ({
     name: c.name.length > 18 ? c.name.slice(0, 16) + "…" : c.name,

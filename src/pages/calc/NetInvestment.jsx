@@ -65,9 +65,9 @@ export default function NetInvestment() {
   }, [inputs]);
 
   const pieData = [
-    { name: "IDC Tax Savings", value: results.idcTaxSavings, color: "#D4A843" },
-    { name: "Tangible Tax Savings (Yr 1)", value: results.tangibleTaxSavings, color: "#0B2545" },
-    { name: "Net Out-of-Pocket", value: results.netInvestment, color: "#2E7D32" },
+    { name: "IDC Tax Savings", value: results.idcTaxSavings, color: "hsl(var(--crude-gold))" },
+    { name: "Tangible Tax Savings (Yr 1)", value: results.tangibleTaxSavings, color: "hsl(var(--primary))" },
+    { name: "Net Out-of-Pocket", value: results.netInvestment, color: "hsl(var(--drill-green))" },
   ];
 
   const getInputs = () => inputs;
