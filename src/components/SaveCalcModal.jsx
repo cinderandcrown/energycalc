@@ -24,12 +24,15 @@ export default function SaveCalcModal({ open, onClose, calcType, inputs, results
       results,
       is_favorite: false,
     }),
-    onMutate: () => {
-      setSaving(true);
+    onMutate: () => setSaving(true),
+    onSuccess: () => {
       toast({ title: "Calculation saved!", description: `"${name}" has been saved to My Scenarios.` });
       onClose();
       setName("");
       setNotes("");
+    },
+    onError: (err) => {
+      toast({ title: "Failed to save", description: err?.message || "Something went wrong. Please try again.", variant: "destructive" });
     },
     onSettled: () => setSaving(false),
   });
