@@ -16,11 +16,11 @@ import AdBanner from "@/components/ads/AdBanner";
 
 
 const PLAN = {
-  name: "EnergyCalc Pro",
+  name: "Commodity Investor+",
   price: "$10",
   period: "/mo",
   productId: "prod_UC1nAY3emodE1H",
-  description: "Full access to every tool, calculator, and AI-powered feature on the platform.",
+  description: "Full access to every commodity calculator, AI-powered analysis tool, and investor protection feature.",
   features: [
     "All 8 investment calculators",
     "Unlimited saved calculations",
@@ -40,8 +40,8 @@ const FEATURES = [
   { icon: ShieldAlert, title: "AI Operator Screener", desc: "Enter any operator's name and get an instant AI background check — red flags, known issues, regulatory actions, and verification steps. Your first line of defense." },
   { icon: Shield, title: "PPM Red Flag Analyzer", desc: "Paste any PPM, JV agreement, or subscription document. Our AI scores risk 1–10, flags predatory clauses, and tells you what's missing." },
   { icon: Calculator, title: "8 Professional Calculators", desc: "Oil, gas, gold purity, 100+ industrial metals, 120+ agricultural crops, rate of return, net investment, and multi-year tax impact — model any commodity deal." },
-  { icon: BookOpen, title: "Fraud Pattern Library", desc: "Learn the 6 most common oil & gas fraud schemes — promissory note traps, cost stuffing, ORRI schemes, and more. Based on SEC & FBI enforcement actions." },
-  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, metals, and commodity prices with AI market commentary. Track what your commodities are worth today across every sector." },
+  { icon: BookOpen, title: "Fraud Pattern Library", desc: "Learn the most common commodity investment fraud schemes — promissory note traps, cost stuffing, ORRI schemes, and more. Based on SEC & FBI enforcement actions." },
+  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time commodity prices across oil, gas, metals, agriculture, and more — with AI market commentary. Track what your investments are worth today." },
   { icon: Zap, title: "Tax Optimization Tools", desc: "Model IDC deductions, percentage depletion, and MACRS depreciation. See your true after-tax cost before you sign anything." },
 ];
 
@@ -111,12 +111,12 @@ export default function Landing() {
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-9 h-9 rounded-xl object-contain" />
+            <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="Commodity Investor+" className="w-9 h-9 rounded-xl object-contain" />
             <div className="leading-none">
               <span className="font-bold text-base tracking-tight">
-                <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
+                <span className="text-primary dark:text-accent">Commodity</span> <span className="text-foreground">Investor</span><span className="text-crude-gold">+</span>
               </span>
-              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Pro · Commodity Energy Intelligence</span>
+              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Trusted Commodity Market Intelligence</span>
             </div>
           </Link>
 
@@ -170,9 +170,9 @@ export default function Landing() {
               <ShieldAlert className="w-6 h-6 text-flare-red" />
             </div>
             <div>
-              <h2 className="font-bold text-foreground text-lg mb-2">Our Mission: Stop Oil & Gas Investment Fraud</h2>
+              <h2 className="font-bold text-foreground text-lg mb-2">Our Mission: Protect Commodity Investors</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                The FBI estimates <strong className="text-foreground">$10 billion+</strong> is lost annually to oil and gas investment fraud. From promissory note schemes to cost-stuffing operators, predatory promoters hide behind complex PPM language, shell companies, and Reg D exemptions. <strong className="text-foreground">We built EnergyCalc Pro to arm investors with the tools to fight back.</strong>
+                The FBI estimates <strong className="text-foreground">billions</strong> are lost annually to commodity investment fraud — across oil & gas, precious metals, agriculture, and more. From promissory note schemes to cost-stuffing operators, predatory promoters hide behind complex documents. <strong className="text-foreground">We built Commodity Investor+ to arm investors with the tools to fight back across every commodity sector.</strong>
               </p>
               <div className="flex flex-wrap gap-2">
                 <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">AI Operator Vetting</Badge>
@@ -191,7 +191,7 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">8 Calculators. Every Commodity. Every Angle.</h2>
-            <p className="text-muted-foreground text-sm">Oil, gas, gold, 100+ metals, 120+ crops, rare earth, battery metals — the most comprehensive commodity toolkit anywhere.</p>
+            <p className="text-muted-foreground text-sm">Oil, gas, gold, silver, copper, 100+ metals, 120+ crops, livestock — the most comprehensive commodity investment toolkit anywhere.</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
             {CALCS.map((c, i) => {
@@ -225,7 +225,7 @@ export default function Landing() {
       <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Your Complete Investor Protection Arsenal</h2>
-          <p className="text-muted-foreground text-sm max-w-xl mx-auto">Built to protect you from bad deals, bad operators, and bad math. Every tool an oil & gas investor needs to make informed decisions.</p>
+          <p className="text-muted-foreground text-sm max-w-xl mx-auto">Built to protect you from bad deals, bad operators, and bad math. Every tool a commodity investor needs to make informed decisions.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((f, i) => {
@@ -324,7 +324,7 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto flex flex-col items-center gap-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 w-full">
             <p className="text-[10px] text-muted-foreground text-center sm:text-left leading-relaxed max-w-lg">
-              © {new Date().getFullYear()} EnergyCalc Pro. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, solar, wind, uranium, and other commodity energy sectors. Not affiliated with FINRA, SEC, or any regulatory body.
+              © {new Date().getFullYear()} Commodity Investor+. Not a registered broker-dealer or investment advisor. All calculations are illustrative only. Covers oil, gas, precious metals, industrial metals, agriculture, livestock, and other commodity sectors. Not affiliated with FINRA, SEC, or any regulatory body.
             </p>
             <div className="flex items-center gap-4">
               <Link to="/blog" className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2">Blog</Link>

@@ -28,16 +28,16 @@ export default function NavigationHeader({ onMenuToggle, menuOpen, desktopNav, c
           <Link to="/dashboard" className="flex items-center gap-2.5">
             <img
               src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png"
-              alt="EnergyCalc Pro"
+              alt="Commodity Investor+"
               className="w-8 h-8 rounded-lg shrink-0 object-contain"
             />
             <div className="leading-none">
               <span className="font-semibold text-[15px] tracking-tight">
-                <span className="text-primary dark:text-accent">Energy</span>
-                <span className="text-foreground">Calc</span>
+                <span className="text-primary dark:text-accent">Commodity</span>
+                <span className="text-foreground"> Investor</span><span className="text-crude-gold">+</span>
               </span>
               <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-[0.08em] -mt-0.5">
-                Pro · Commodity Energy Intelligence
+              Trusted Commodity Market Intelligence
               </span>
             </div>
           </Link>

@@ -10,7 +10,7 @@ export default function DisclaimerFooter() {
       <div className="flex gap-3">
         <AlertTriangle className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
         <p className="text-xs text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">Disclaimer:</strong> This calculator is provided for informational and educational purposes only and does not constitute investment advice, tax advice, legal advice, or a recommendation or solicitation to purchase, sell, or hold any security, commodity, or financial instrument. All outputs are hypothetical, illustrative, and based entirely on user-provided inputs and generalized assumptions — they do not reflect actual investment performance or guaranteed future results. Oil and gas investments are speculative and involve a high degree of risk, including total loss of invested capital.
+          <strong className="text-foreground">Disclaimer:</strong> This calculator is provided for informational and educational purposes only and does not constitute investment advice, tax advice, legal advice, or a recommendation or solicitation to purchase, sell, or hold any security, commodity, or financial instrument. All outputs are hypothetical, illustrative, and based entirely on user-provided inputs and generalized assumptions — they do not reflect actual investment performance or guaranteed future results. Commodity investments are speculative and involve a high degree of risk, including total loss of invested capital.
         </p>
       </div>
       <div className="flex gap-3">

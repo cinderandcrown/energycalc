@@ -9,14 +9,14 @@ const TAGLINES = [
   "The money's in the ground. The risk is in the paperwork.",
   "They'll tell you it's a sure thing. It never is.",
   "Run your numbers. Vet the operator. Then decide.",
-  "In this business, due diligence isn't optional — it's survival.",
+  "In commodities, due diligence isn't optional — it's survival.",
 ];
 
 const STATS = [
-  { value: "$10B+", label: "Lost to oil & gas fraud annually" },
+  { value: "$10B+", label: "Lost to commodity fraud annually" },
   { value: "65–80%", label: "Year-1 IDC tax write-off" },
-  { value: "25–40%", label: "Avg IRR, producing wells" },
-  { value: "8", label: "Commodity calculators" },
+  { value: "9", label: "Commodity sectors covered" },
+  { value: "8", label: "Professional calculators" },
 ];
 
 export default function HeroContent({ scrollToPricing, handleSignIn }) {
@@ -87,7 +87,7 @@ export default function HeroContent({ scrollToPricing, handleSignIn }) {
         transition={{ delay: 0.7, duration: 0.5 }}
         className="text-center text-white/40 text-sm max-w-xl mx-auto leading-relaxed mb-10"
       >
-        AI-powered deal analysis, operator vetting, PPM red-flag scanning, and 8 commodity calculators.
+        AI-powered deal analysis, operator vetting, PPM red-flag scanning, and 8 commodity calculators — covering oil, gas, metals, agriculture, and more.
         Built for the people writing the checks.
       </motion.p>
 
@@ -145,7 +145,7 @@ export default function HeroContent({ scrollToPricing, handleSignIn }) {
         transition={{ delay: 1.5, duration: 0.8 }}
         className="text-center text-white/20 text-[11px] mt-10 tracking-wide uppercase"
       >
-        Oil, Gas, Gold, Silver, Copper, Agriculture, Livestock, Rare Earth — All Sectors. One Platform.
+        Oil · Gas · Gold · Silver · Copper · Agriculture · Livestock · Rare Earth · Battery Metals — All Sectors. One Platform.
       </motion.p>
     </div>
   );

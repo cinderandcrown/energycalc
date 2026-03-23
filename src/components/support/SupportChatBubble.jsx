@@ -20,7 +20,7 @@ export default function SupportChatBubble() {
                 <MessageCircle className="w-4 h-4 text-crude-gold" />
               </div>
               <div>
-                <p className="text-sm font-semibold">EnergyCalc Support</p>
+                <p className="text-sm font-semibold">Commodity Investor+ Support</p>
                 <p className="text-[10px] text-white/60">AI-Powered Assistance</p>
               </div>
             </div>

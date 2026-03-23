@@ -4,7 +4,7 @@ import { Send, Loader2 } from "lucide-react";
 import SupportMessageBubble from "./SupportMessageBubble";
 
 const AGENT_NAME = "customer_service";
-const GREETING = "Welcome to EnergyCalc Pro! How can I help protect your investments today?";
+const GREETING = "Welcome to Commodity Investor+! How can I help protect your investments today?";
 
 export default function SupportChat() {
   const [conversation, setConversation] = useState(null);

@@ -5,7 +5,7 @@ import SupportMessageBubble from "@/components/support/SupportMessageBubble";
 import { Button } from "@/components/ui/button";
 
 const AGENT_NAME = "customer_service";
-const GREETING = "Welcome to EnergyCalc Pro! How can I help protect your investments today?";
+const GREETING = "Welcome to Commodity Investor+! How can I help protect your investments today?";
 
 export default function Support() {
   const [conversations, setConversations] = useState([]);
@@ -156,7 +156,7 @@ export default function Support() {
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div className="flex-1">
-          <p className="text-sm font-semibold text-foreground">EnergyCalc Support</p>
+          <p className="text-sm font-semibold text-foreground">Commodity Investor+ Support</p>
           <p className="text-[10px] text-muted-foreground">AI-Powered Assistance</p>
         </div>
       </div>
