@@ -196,6 +196,31 @@
     display: none;
   }
 
+  /* Global: hide scrollbars on all overflow containers for native polish */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 999px;
+  }
+  @media (max-width: 639px) {
+    * {
+      scrollbar-width: none;
+    }
+    *::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   /* Oil drip animation for fun transitions */
   @keyframes oil-drip {
     0% { transform: translateY(-100%) scaleY(0.3); opacity: 0.8; }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,22 +15,28 @@ export default function SaveCalcModal({ open, onClose, calcType, inputs, results
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
 
-  const handleSave = async () => {
-    if (!name.trim()) return;
-    setSaving(true);
-    await base44.entities.Calculation.create({
+  const saveMutation = useMutation({
+    mutationFn: () => base44.entities.Calculation.create({
       calc_type: calcType,
       name: name.trim(),
       notes,
       inputs,
       results,
       is_favorite: false,
-    });
-    toast({ title: "Calculation saved!", description: `"${name}" has been saved to My Scenarios.` });
-    setSaving(false);
-    onClose();
-    setName("");
-    setNotes("");
+    }),
+    onMutate: () => {
+      setSaving(true);
+      toast({ title: "Calculation saved!", description: `"${name}" has been saved to My Scenarios.` });
+      onClose();
+      setName("");
+      setNotes("");
+    },
+    onSettled: () => setSaving(false),
+  });
+
+  const handleSave = () => {
+    if (!name.trim()) return;
+    saveMutation.mutate();
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { useMutation } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus, GitCompareArrows, Zap, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -66,16 +67,23 @@ export default function Scenarios() {
 
   useEffect(() => { loadData(); }, [loadData]);
 
-  const toggleFavorite = async (calc) => {
-    await base44.entities.Calculation.update(calc.id, { is_favorite: !calc.is_favorite });
-    setCalculations((prev) => prev.map((c) => (c.id === calc.id ? { ...c, is_favorite: !c.is_favorite } : c)));
-  };
+  const toggleFavMutation = useMutation({
+    mutationFn: ({ id, isFav }) => base44.entities.Calculation.update(id, { is_favorite: !isFav }),
+    onMutate: ({ id, isFav }) => {
+      setCalculations(prev => prev.map(c => c.id === id ? { ...c, is_favorite: !isFav } : c));
+    },
+  });
 
-  const deleteCalc = async (id) => {
-    await base44.entities.Calculation.delete(id);
-    setCalculations((prev) => prev.filter((c) => c.id !== id));
-    toast({ title: "Deleted", description: "Calculation removed." });
-  };
+  const deleteMutation = useMutation({
+    mutationFn: (id) => base44.entities.Calculation.delete(id),
+    onMutate: (id) => {
+      setCalculations(prev => prev.filter(c => c.id !== id));
+      toast({ title: "Deleted", description: "Calculation removed." });
+    },
+  });
+
+  const toggleFavorite = (calc) => toggleFavMutation.mutate({ id: calc.id, isFav: calc.is_favorite });
+  const deleteCalc = (id) => deleteMutation.mutate(id);
 
   const favorites = calculations.filter((c) => c.is_favorite);
   const others = calculations.filter((c) => !c.is_favorite);
@@ -188,15 +196,15 @@ function CalcList({ items, onToggleFav, onDelete, analyzingId, onAnalyze }) {
                 </div>
               )}
               <div className="flex items-center gap-1 shrink-0">
-                <Button variant="ghost" size="icon" className="w-9 h-9 sm:w-7 sm:h-7" onClick={() => onToggleFav(calc)}>
+                <Button variant="ghost" size="icon" className="w-9 h-9 sm:w-7 sm:h-7" onClick={() => onToggleFav(calc)} aria-label={calc.is_favorite ? "Remove from favorites" : "Add to favorites"}>
                   <Star className={`w-4 h-4 sm:w-3.5 sm:h-3.5 ${calc.is_favorite ? "text-crude-gold fill-crude-gold" : "text-muted-foreground"}`} />
                 </Button>
-                <Button variant="ghost" size="icon" className="w-9 h-9 sm:w-7 sm:h-7 text-crude-gold" onClick={() => onAnalyze(analyzingId === calc.id ? null : calc.id)} title="AI Deal Analysis">
+                <Button variant="ghost" size="icon" className="w-9 h-9 sm:w-7 sm:h-7 text-crude-gold" onClick={() => onAnalyze(analyzingId === calc.id ? null : calc.id)} aria-label="AI Deal Analysis">
                   <Zap className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="w-9 h-9 sm:w-7 sm:h-7 text-muted-foreground hover:text-destructive">
+                    <Button variant="ghost" size="icon" className="w-9 h-9 sm:w-7 sm:h-7 text-muted-foreground hover:text-destructive" aria-label="Delete calculation">
                       <Trash2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                     </Button>
                   </AlertDialogTrigger>
