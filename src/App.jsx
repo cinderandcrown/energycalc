@@ -31,9 +31,11 @@ import TaxImpact from '@/pages/calc/TaxImpact';
 import GoldPurityCalc from '@/pages/calc/GoldPurityCalc';
 import AgYieldCalc from '@/pages/calc/AgYieldCalc';
 import MetalCostBasis from '@/pages/calc/MetalCostBasis';
+import MyAccount from '@/pages/MyAccount';
 
 // Layout
 import Layout from '@/components/Layout';
+import SubscriptionGate from '@/components/SubscriptionGate';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -67,30 +69,36 @@ const AuthenticatedApp = () => {
 
       {/* Authenticated pages with Layout */}
       <Route element={<Layout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/markets" element={<Markets />} />
-        <Route path="/intelligence" element={<MarketIntelligence />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/investor-protection" element={<InvestorProtection />} />
-        <Route path="/reg-d" element={<RegDGuide />} />
-        <Route path="/honest-guide" element={<HonestGuide />} />
-        <Route path="/operator-screener" element={<OperatorScreener />} />
-        <Route path="/tax-strategies" element={<TaxStrategies />} />
-        <Route path="/scenarios" element={<Scenarios />} />
-        <Route path="/web3" element={<Web3Energy />} />
-        <Route path="/learn" element={<Learn />} />
+        {/* Settings & Account — always accessible when logged in */}
         <Route path="/settings" element={<Settings />} />
-        <Route path="/compare" element={<Compare />} />
+        <Route path="/account" element={<MyAccount />} />
 
-        {/* Calculators */}
-        <Route path="/calc/net-investment" element={<NetInvestment />} />
-        <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
-        <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
-        <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
-        <Route path="/calc/tax-impact" element={<TaxImpact />} />
-        <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
-        <Route path="/calc/ag-yield" element={<AgYieldCalc />} />
-        <Route path="/calc/metal-cost" element={<MetalCostBasis />} />
+        {/* Subscription-gated pages */}
+        <Route element={<SubscriptionGate />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/markets" element={<Markets />} />
+          <Route path="/intelligence" element={<MarketIntelligence />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/investor-protection" element={<InvestorProtection />} />
+          <Route path="/reg-d" element={<RegDGuide />} />
+          <Route path="/honest-guide" element={<HonestGuide />} />
+          <Route path="/operator-screener" element={<OperatorScreener />} />
+          <Route path="/tax-strategies" element={<TaxStrategies />} />
+          <Route path="/scenarios" element={<Scenarios />} />
+          <Route path="/web3" element={<Web3Energy />} />
+          <Route path="/learn" element={<Learn />} />
+          <Route path="/compare" element={<Compare />} />
+
+          {/* Calculators */}
+          <Route path="/calc/net-investment" element={<NetInvestment />} />
+          <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
+          <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
+          <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
+          <Route path="/calc/tax-impact" element={<TaxImpact />} />
+          <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
+          <Route path="/calc/ag-yield" element={<AgYieldCalc />} />
+          <Route path="/calc/metal-cost" element={<MetalCostBasis />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
