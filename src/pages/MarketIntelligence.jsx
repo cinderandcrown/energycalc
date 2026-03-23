@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Activity, AlertTriangle } from "lucide-react";
+import { Activity, AlertTriangle, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 import LivePriceBar from "../components/intelligence/LivePriceBar";
+import MarketSentimentGauge from "../components/intelligence/MarketSentimentGauge";
+import MarketBrief from "../components/intelligence/MarketBrief";
 import CalcSelector from "../components/intelligence/CalcSelector";
 import BreakEvenAnalysis from "../components/intelligence/BreakEvenAnalysis";
 import IRRImpactWidget from "../components/intelligence/IRRImpactWidget";
@@ -61,11 +64,9 @@ export default function MarketIntelligence() {
 
   const selectedCalc = calculations.find(c => c.id === selectedCalcId);
 
-  // Extract live WTI and NG prices
   const liveOilPrice = prices.find(p => p.label === "WTI Crude")?.price ?? null;
   const liveGasPrice = prices.find(p => p.label === "Natural Gas")?.price ?? null;
 
-  // Enrich rate_of_return calcs with saved prices for scaling
   const enrichedCalc = selectedCalc ? {
     ...selectedCalc,
     _savedOilPrice: selectedCalc.inputs?.oilPrice || 70,
@@ -74,60 +75,111 @@ export default function MarketIntelligence() {
 
   return (
     <PullToRefresh onRefresh={handlePullRefresh}>
-    <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-      {/* Header */}
-      <PageHeader
-        title="Market Intelligence"
-        subtitle="Live prices overlaid on your saved models — see how markets shift your returns"
-        icon={Activity}
-      />
+      <div className="max-w-5xl mx-auto px-4 py-6 space-y-6">
 
-      {/* Live prices */}
-      <LivePriceBar prices={prices} refreshing={refreshing} onRefresh={fetchPrices} lastUpdated={lastUpdated} />
+        {/* ── Hero Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="relative rounded-2xl overflow-hidden"
+        >
+          {/* Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-petroleum via-[#0e2f55] to-[#1a3a6b]" />
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: "radial-gradient(circle at 20% 80%, rgba(212,168,67,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(46,125,50,0.2) 0%, transparent 50%)"
+          }} />
 
-      {/* Margin safety callout */}
-      {liveOilPrice && (
-        <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-4 flex gap-3">
-          <AlertTriangle className="w-4 h-4 text-crude-gold shrink-0 mt-0.5" />
-          <div>
-            <p className="text-xs text-foreground font-semibold">Live Market Context</p>
-            <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-              WTI is at <strong className="text-foreground">${liveOilPrice.toFixed(2)}/bbl</strong>
-              {liveGasPrice && <> and Henry Hub at <strong className="text-foreground">${liveGasPrice.toFixed(2)}/MMBtu</strong></>}.
-              Select a saved calculation below to see how these prices impact your break-even, net income, and projected IRR compared to the assumptions in your original model.
-            </p>
+          <div className="relative px-5 py-6 sm:px-8 sm:py-8">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Activity className="w-5 h-5 text-crude-gold" />
+                  <span className="text-crude-gold/80 text-[10px] font-bold uppercase tracking-[0.2em]">Real-Time Analysis</span>
+                </div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                  Market Intelligence
+                </h1>
+                <p className="text-white/60 text-sm mt-1.5 max-w-md leading-relaxed">
+                  Live commodity prices overlaid on your saved models — see exactly how the market shifts your returns in real time
+                </p>
+              </div>
+              <div className="hidden sm:flex items-center gap-2 shrink-0 mt-1">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
+                  <Zap className="w-3 h-3 text-crude-gold" />
+                  <span className="text-[10px] text-white/80 font-semibold">
+                    {prices.filter(p => p.price != null).length} feeds active
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
+        </motion.div>
+
+        {/* ── Live Price Ticker ── */}
+        <LivePriceBar prices={prices} refreshing={refreshing} onRefresh={fetchPrices} lastUpdated={lastUpdated} />
+
+        {/* ── Sentiment + AI Brief side-by-side on desktop ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <MarketSentimentGauge prices={prices} />
+          <MarketBrief prices={prices} />
         </div>
-      )}
 
-      {/* Calc selector */}
-      {isLoading ? (
-        <div className="rounded-xl border border-border bg-card p-8 text-center">
-          <div className="w-6 h-6 border-2 border-muted border-t-primary rounded-full animate-spin mx-auto mb-2" />
-          <p className="text-xs text-muted-foreground">Loading saved calculations...</p>
-        </div>
-      ) : (
-        <CalcSelector calculations={calculations} selectedId={selectedCalcId} onSelect={setSelectedCalcId} />
-      )}
+        {/* ── Market context callout ── */}
+        {liveOilPrice && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.35 }}
+            className="rounded-xl border border-crude-gold/20 bg-gradient-to-r from-crude-gold/5 to-transparent p-4 flex gap-3"
+          >
+            <div className="w-8 h-8 rounded-lg bg-crude-gold/10 flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-4 h-4 text-crude-gold" />
+            </div>
+            <div>
+              <p className="text-xs text-foreground font-bold">Live Market Context</p>
+              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                WTI is at <strong className="text-foreground font-mono">${liveOilPrice.toFixed(2)}/bbl</strong>
+                {liveGasPrice && <> and Henry Hub at <strong className="text-foreground font-mono">${liveGasPrice.toFixed(2)}/MMBtu</strong></>}.
+                Select a saved model below to see how these prices impact your break-even, net income, and projected IRR.
+              </p>
+            </div>
+          </motion.div>
+        )}
 
-      {/* Analysis widgets */}
-      {enrichedCalc && (enrichedCalc.calc_type === "barrels_to_cash" || enrichedCalc.calc_type === "natgas_to_cash") && (
-        <BreakEvenAnalysis calc={enrichedCalc} liveOilPrice={liveOilPrice} liveGasPrice={liveGasPrice} />
-      )}
+        {/* ── Saved Models Selector ── */}
+        {isLoading ? (
+          <div className="rounded-2xl border border-border bg-card p-10 text-center space-y-3">
+            <div className="w-8 h-8 border-2 border-muted border-t-crude-gold rounded-full animate-spin mx-auto" />
+            <p className="text-xs text-muted-foreground">Loading your saved models...</p>
+          </div>
+        ) : (
+          <CalcSelector calculations={calculations} selectedId={selectedCalcId} onSelect={setSelectedCalcId} />
+        )}
 
-      {enrichedCalc && enrichedCalc.calc_type === "rate_of_return" && (
-        <IRRImpactWidget calc={enrichedCalc} liveOilPrice={liveOilPrice} liveGasPrice={liveGasPrice} />
-      )}
+        {/* ── Analysis Widgets ── */}
+        {enrichedCalc && (enrichedCalc.calc_type === "barrels_to_cash" || enrichedCalc.calc_type === "natgas_to_cash") && (
+          <BreakEvenAnalysis calc={enrichedCalc} liveOilPrice={liveOilPrice} liveGasPrice={liveGasPrice} />
+        )}
 
-      {/* No selection hint */}
-      {!enrichedCalc && calculations.length > 0 && (
-        <div className="rounded-xl border border-dashed border-border p-8 text-center">
-          <p className="text-sm text-muted-foreground">Select a saved calculation above to see live market impact analysis.</p>
-        </div>
-      )}
+        {enrichedCalc && enrichedCalc.calc_type === "rate_of_return" && (
+          <IRRImpactWidget calc={enrichedCalc} liveOilPrice={liveOilPrice} liveGasPrice={liveGasPrice} />
+        )}
 
-      <DisclaimerFooter />
-    </div>
+        {/* No selection hint */}
+        {!enrichedCalc && calculations.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="rounded-2xl border-2 border-dashed border-border p-10 text-center"
+          >
+            <Activity className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground font-medium">Select a saved model above to see live market impact analysis</p>
+          </motion.div>
+        )}
+
+        <DisclaimerFooter />
+      </div>
     </PullToRefresh>
   );
 }
