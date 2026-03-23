@@ -216,6 +216,20 @@ export default function Layout() {
               isMoreActive={moreNav.some(n => location.pathname === n.path)}
               location={location}
             />
+
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  location.pathname.startsWith('/admin')
+                    ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                <Shield className="w-4 h-4" />
+                Admin
+              </Link>
+            )}
           </nav>
 
           {/* Tablet hamburger (sm to lg) */}
