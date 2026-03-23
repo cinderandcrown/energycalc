@@ -124,6 +124,7 @@ export default function Landing() {
           <nav className="hidden md:flex items-center gap-6">
             <button onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</button>
             <button onClick={scrollToPricing} className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</button>
+            <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
             <Link to="/legal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Legal</Link>
           </nav>
 
