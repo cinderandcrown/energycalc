@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus, GitCompareArrows, Zap } from "lucide-react";
+import { Calculator, Droplets, Flame, TrendingUp, Star, Trash2, FolderPlus, GitCompareArrows, Zap, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/components/mobile/PageHeader";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
 import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
@@ -56,12 +58,13 @@ export default function Scenarios() {
   const [analyzingId, setAnalyzingId] = useState(null);
   const { toast } = useToast();
 
-  useEffect(() => {
-    base44.entities.Calculation.list("-created_date", 50).then((data) => {
-      setCalculations(data);
-      setLoading(false);
-    });
+  const loadData = useCallback(async () => {
+    const data = await base44.entities.Calculation.list("-created_date", 50);
+    setCalculations(data);
+    setLoading(false);
   }, []);
+
+  useEffect(() => { loadData(); }, [loadData]);
 
   const toggleFavorite = async (calc) => {
     await base44.entities.Calculation.update(calc.id, { is_favorite: !calc.is_favorite });
@@ -90,12 +93,14 @@ export default function Scenarios() {
   }
 
   return (
+    <PullToRefresh onRefresh={loadData}>
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-foreground">My Scenarios</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">{calculations.length} saved calculation{calculations.length !== 1 ? "s" : ""}</p>
-        </div>
+        <PageHeader
+          title="My Scenarios"
+          subtitle={`${calculations.length} saved calculation${calculations.length !== 1 ? "s" : ""}`}
+          icon={FolderOpen}
+        />
         <div className="flex items-center gap-2">
           {calculations.length >= 2 && (
             <Link to="/compare">
@@ -143,6 +148,7 @@ export default function Scenarios() {
         </section>
       )}
     </div>
+    </PullToRefresh>
   );
 }
 

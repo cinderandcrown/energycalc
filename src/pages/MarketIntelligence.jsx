@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Activity, AlertTriangle } from "lucide-react";
 import LivePriceBar from "../components/intelligence/LivePriceBar";
 import CalcSelector from "../components/intelligence/CalcSelector";
 import BreakEvenAnalysis from "../components/intelligence/BreakEvenAnalysis";
 import IRRImpactWidget from "../components/intelligence/IRRImpactWidget";
 import DisclaimerFooter from "../components/DisclaimerFooter";
+import PageHeader from "@/components/mobile/PageHeader";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
 
 const defaultPrices = [
   { label: "WTI Crude", price: null, change: 0, changePct: 0, unit: "/bbl" },
@@ -38,6 +40,15 @@ export default function MarketIntelligence() {
     setRefreshing(false);
   };
 
+  const queryClient = useQueryClient();
+
+  const handlePullRefresh = useCallback(async () => {
+    await Promise.all([
+      fetchPrices(),
+      queryClient.invalidateQueries({ queryKey: ["calculations"] }),
+    ]);
+  }, [queryClient]);
+
   useEffect(() => { fetchPrices(); }, []);
 
   // Auto-select first eligible calc
@@ -62,17 +73,14 @@ export default function MarketIntelligence() {
   } : null;
 
   return (
+    <PullToRefresh onRefresh={handlePullRefresh}>
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-          <Activity className="w-5 h-5 text-crude-gold" />
-          Market Intelligence
-        </h1>
-        <p className="text-sm text-muted-foreground mt-0.5">
-          Live commodity prices overlaid on your saved models — see how the market shifts your returns in real time
-        </p>
-      </div>
+      <PageHeader
+        title="Market Intelligence"
+        subtitle="Live prices overlaid on your saved models — see how markets shift your returns"
+        icon={Activity}
+      />
 
       {/* Live prices */}
       <LivePriceBar prices={prices} refreshing={refreshing} onRefresh={fetchPrices} lastUpdated={lastUpdated} />
@@ -120,5 +128,6 @@ export default function MarketIntelligence() {
 
       <DisclaimerFooter />
     </div>
+    </PullToRefresh>
   );
 }
