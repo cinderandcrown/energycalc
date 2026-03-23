@@ -23,7 +23,7 @@ export default function Settings() {
   const [portalLoading, setPortalLoading] = useState(false);
   const { toast } = useToast();
 
-  const isProActive = user?.subscription_status === "active";
+  const isProActive = user?.subscription_status === "active" || user?.subscription_status === "trialing";
 
   const handleUpgrade = async () => {
     if (window.self !== window.top) {
@@ -94,15 +94,26 @@ export default function Settings() {
               <Zap className="w-4 h-4 text-crude-gold" />
               <span className="text-crude-gold text-xs font-semibold uppercase tracking-wide">Current Plan</span>
             </div>
-            <h2 className="text-white font-bold text-lg">{isProActive ? "EnergyCalc Pro" : "Free Tier"}</h2>
+            <h2 className="text-white font-bold text-lg">
+              {user?.subscription_status === "active" ? "EnergyCalc Pro" : 
+               user?.subscription_status === "trialing" ? "Free Trial" : "No Active Plan"}
+            </h2>
             <p className="text-white/60 text-xs mt-1">
-              {isProActive
+              {user?.subscription_status === "active"
                 ? "Full access to all tools and calculators."
-                : "Up to 3 saved calculations. Upgrade for unlimited access."}
+                : user?.subscription_status === "trialing"
+                ? "Free trial active. Your card will be charged after trial ends."
+                : "Subscribe to unlock all tools and calculators."}
             </p>
           </div>
-          <Badge className={`font-semibold text-xs ${isProActive ? "bg-drill-green text-white" : "bg-crude-gold text-petroleum"}`}>
-            {isProActive ? "PRO" : "FREE"}
+          <Badge className={`font-semibold text-xs ${
+            user?.subscription_status === "active" ? "bg-drill-green text-white" : 
+            user?.subscription_status === "trialing" ? "bg-crude-gold text-petroleum" : 
+            "bg-muted text-muted-foreground"
+          }`}>
+            {user?.subscription_status === "active" ? "PRO" : 
+             user?.subscription_status === "trialing" ? "TRIAL" : 
+             "INACTIVE"}
           </Badge>
         </div>
 

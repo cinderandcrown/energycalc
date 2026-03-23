@@ -278,9 +278,10 @@ export default function Landing() {
               disabled={!!checkoutLoading}
               className="w-full gap-2 font-semibold h-12 text-base bg-crude-gold text-petroleum hover:bg-crude-gold/90"
             >
-              {checkoutLoading === PLAN.productId ? "Redirecting to Checkout..." : "Get Started — $10/mo"}
+              {checkoutLoading === PLAN.productId ? "Redirecting to Checkout..." : "Start 3-Day Free Trial — Then $10/mo"}
               {checkoutLoading !== PLAN.productId && <ArrowRight className="w-4 h-4" />}
             </Button>
+            <p className="text-[11px] text-muted-foreground mt-2 text-center">No charge for 3 days. Cancel anytime before trial ends.</p>
           </motion.div>
         </div>
       </section>
