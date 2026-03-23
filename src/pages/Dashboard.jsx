@@ -6,7 +6,7 @@ import {
   Calculator, Droplets, Flame, TrendingUp, Star,
   ChevronRight, RefreshCw, Zap, Shield, DollarSign,
   BarChart3, ArrowUpRight, BookOpen, ShieldAlert, Search, AlertTriangle,
-  Gem, Wheat, Factory
+  Gem, Wheat, Factory, Beef
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -77,6 +77,14 @@ const calcCards = [
     color: "from-[#1a4a6b] to-[#0f3550]",
     badge: "Industrial Metals",
   },
+  {
+    title: "Livestock",
+    description: "Profit, break-even, and ROI for cattle and hog operations",
+    icon: Beef,
+    path: "/calc/livestock",
+    color: "from-[#6b3a1a] to-[#4a2810]",
+    badge: "Livestock",
+  },
 ];
 
 const typeLabels = {
@@ -88,6 +96,7 @@ const typeLabels = {
   gold_purity: "Gold Purity",
   ag_yield: "Ag Yield",
   metal_cost: "Metal Cost",
+  livestock: "Livestock",
 };
 
 const typeIcons = {
@@ -99,6 +108,7 @@ const typeIcons = {
   gold_purity: Gem,
   ag_yield: Wheat,
   metal_cost: Factory,
+  livestock: Beef,
 };
 
 const typePaths = {
@@ -110,6 +120,7 @@ const typePaths = {
   gold_purity: "/calc/gold-purity",
   ag_yield: "/calc/ag-yield",
   metal_cost: "/calc/metal-cost",
+  livestock: "/calc/livestock",
 };
 
 const defaultPriceData = [

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper, Globe, Shield, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, Beef, UserCircle, Newspaper, Globe, Shield, ArrowLeft } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
@@ -16,6 +16,7 @@ const calcItems = [
   { path: '/calc/gold-purity', icon: Gem, label: 'Gold Purity', desc: 'Karat, weight & spot value' },
   { path: '/calc/ag-yield', icon: Wheat, label: 'Ag Yield', desc: 'Crop revenue projections' },
   { path: '/calc/metal-cost', icon: Factory, label: 'Metal Cost', desc: 'Industrial metal cost-basis' },
+  { path: '/calc/livestock', icon: Beef, label: 'Livestock', desc: 'Cattle & hog profit analysis' },
 ];
 
 const primaryNav = [

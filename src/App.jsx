@@ -32,6 +32,7 @@ import TaxImpact from '@/pages/calc/TaxImpact';
 import GoldPurityCalc from '@/pages/calc/GoldPurityCalc';
 import AgYieldCalc from '@/pages/calc/AgYieldCalc';
 import MetalCostBasis from '@/pages/calc/MetalCostBasis';
+import LivestockCalc from '@/pages/calc/LivestockCalc';
 import MyAccount from '@/pages/MyAccount';
 import NewsFeedPage from '@/pages/NewsFeed.jsx';
 import SEODashboard from '@/pages/SEODashboard.jsx';
@@ -115,6 +116,7 @@ const AuthenticatedApp = () => {
           <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
           <Route path="/calc/ag-yield" element={<AgYieldCalc />} />
           <Route path="/calc/metal-cost" element={<MetalCostBasis />} />
+          <Route path="/calc/livestock" element={<LivestockCalc />} />
         </Route>
       </Route>
 
