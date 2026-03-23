@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Eye, ArrowUpRight } from "lucide-react";
+import { Calendar, Eye, ArrowUpRight, Droplets, Gem, Factory, Wheat, ShieldAlert, Receipt, BarChart3, Leaf, Globe, BookOpen } from "lucide-react";
 import { format } from "date-fns";
 
 const categoryLabels = {
@@ -42,11 +42,26 @@ const categoryGradients = {
   how_to_guide: "from-indigo-800 via-indigo-700 to-blue-600",
 };
 
+const categoryIcons = {
+  oil_gas: Droplets,
+  precious_metals: Gem,
+  industrial_metals: Factory,
+  agriculture: Wheat,
+  investor_protection: ShieldAlert,
+  tax_strategy: Receipt,
+  market_analysis: BarChart3,
+  energy_transition: Leaf,
+  rare_earth: Globe,
+  how_to_guide: BookOpen,
+};
+
 export default function BlogCard({ post, featured = false }) {
   const slug = post.slug || post.id;
   const imageUrl = post.featured_image_url;
   const gradientFallback = categoryGradients[post.category] || "from-petroleum via-[#0e2f55] to-[#1a3a6b]";
   const catColor = categoryColors[post.category] || "bg-primary/10 text-primary";
+
+  const CatIcon = categoryIcons[post.category] || Droplets;
 
   if (featured) {
     return (
@@ -61,14 +76,17 @@ export default function BlogCard({ post, featured = false }) {
                 src={imageUrl}
                 alt={post.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
               />
-            ) : (
-              <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} flex items-center justify-center group-hover:scale-105 transition-transform duration-700`}>
-                <span className="text-white/20 text-6xl font-bold uppercase tracking-widest select-none">
-                  {(categoryLabels[post.category] || "Blog").slice(0, 3)}
+            ) : null}
+            <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} items-center justify-center group-hover:scale-105 transition-transform duration-700 ${imageUrl ? 'hidden' : 'flex'}`}>
+              <div className="flex flex-col items-center gap-3">
+                <CatIcon className="w-12 h-12 text-white/25" />
+                <span className="text-white/20 text-xs font-bold uppercase tracking-[0.2em]">
+                  {categoryLabels[post.category] || "Blog"}
                 </span>
               </div>
-            )}
+            </div>
           </div>
           <div className="p-6 md:p-8 flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-3">
@@ -117,14 +135,17 @@ export default function BlogCard({ post, featured = false }) {
             src={imageUrl}
             alt={post.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
           />
-        ) : (
-          <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} flex items-center justify-center group-hover:scale-105 transition-transform duration-700`}>
-            <span className="text-white/15 text-5xl font-bold uppercase tracking-widest select-none">
-              {(categoryLabels[post.category] || "Blog").slice(0, 3)}
+        ) : null}
+        <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} items-center justify-center group-hover:scale-105 transition-transform duration-700 ${imageUrl ? 'hidden' : 'flex'}`}>
+          <div className="flex flex-col items-center gap-2">
+            <CatIcon className="w-10 h-10 text-white/25" />
+            <span className="text-white/20 text-[10px] font-bold uppercase tracking-[0.2em]">
+              {categoryLabels[post.category] || "Blog"}
             </span>
           </div>
-        )}
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         <Badge className={`absolute top-3 left-3 ${catColor} border-0 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm`}>
           {categoryLabels[post.category] || post.category}

@@ -6,6 +6,7 @@ import { Search, TrendingUp, Flame, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import BlogCard from "@/components/blog/BlogCard";
+import BlogNav from "@/components/blog/BlogNav";
 import AdBanner from "@/components/ads/AdBanner";
 import AffiliatesSidebar from "@/components/ads/AffiliatesSidebar";
 
@@ -44,6 +45,7 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen">
+      <BlogNav />
       {/* Hero header */}
       <div className="relative overflow-hidden border-b border-border bg-gradient-to-br from-petroleum via-petroleum/95 to-petroleum/80 dark:from-card dark:via-card dark:to-card">
         <div className="absolute inset-0 opacity-10">

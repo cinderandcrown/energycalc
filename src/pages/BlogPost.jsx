@@ -2,26 +2,42 @@ import { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { ArrowLeft, Calendar, Tag, Eye, Share2, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, Eye, Share2, Clock, Droplets, Gem, Factory, Wheat, ShieldAlert, Receipt, BarChart3, Leaf, Globe, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import BlogNav from "@/components/blog/BlogNav";
 import AdBanner from "@/components/ads/AdBanner";
 import AffiliatesSidebar from "@/components/ads/AffiliatesSidebar";
 import { categoryLabels, categoryColors } from "@/components/blog/BlogCard";
 
-const PLACEHOLDER_IMAGES = [
-  "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1200&h=600&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&h=600&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&h=600&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1200&h=600&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=1200&h=600&fit=crop&q=80",
-];
+const categoryIcons = {
+  oil_gas: Droplets,
+  precious_metals: Gem,
+  industrial_metals: Factory,
+  agriculture: Wheat,
+  investor_protection: ShieldAlert,
+  tax_strategy: Receipt,
+  market_analysis: BarChart3,
+  energy_transition: Leaf,
+  rare_earth: Globe,
+  how_to_guide: BookOpen,
+};
 
-function getPlaceholder(id) {
-  const hash = (id || "").split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  return PLACEHOLDER_IMAGES[hash % PLACEHOLDER_IMAGES.length];
-}
+const categoryGradients = {
+  oil_gas: "from-petroleum via-[#0e2f55] to-[#1a3a6b]",
+  precious_metals: "from-yellow-700 via-yellow-600 to-amber-500",
+  industrial_metals: "from-slate-600 via-slate-500 to-blue-600",
+  agriculture: "from-green-800 via-green-700 to-emerald-600",
+  investor_protection: "from-red-800 via-red-700 to-rose-600",
+  tax_strategy: "from-purple-800 via-purple-700 to-violet-600",
+  market_analysis: "from-cyan-800 via-cyan-700 to-teal-600",
+  energy_transition: "from-emerald-800 via-emerald-700 to-green-500",
+  rare_earth: "from-orange-800 via-orange-700 to-amber-600",
+  how_to_guide: "from-indigo-800 via-indigo-700 to-blue-600",
+};
+
+// Removed broken Unsplash placeholders — using gradient + icon fallbacks instead
 
 function estimateReadTime(content) {
   if (!content) return 1;
@@ -78,20 +94,34 @@ export default function BlogPostPage() {
     );
   }
 
-  const imageUrl = post.featured_image_url || getPlaceholder(post.id);
+  const imageUrl = post.featured_image_url;
   const shareUrl = window.location.href;
   const readTime = estimateReadTime(post.content);
   const catColor = categoryColors[post.category] || "bg-primary/10 text-primary";
+  const gradientFallback = categoryGradients[post.category] || "from-petroleum via-[#0e2f55] to-[#1a3a6b]";
+  const CatIcon = categoryIcons[post.category] || Droplets;
 
   return (
     <div>
+      <BlogNav />
       {/* Hero image */}
       <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden bg-muted">
-        <img
-          src={imageUrl}
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={post.title}
+            className="w-full h-full object-cover"
+            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+          />
+        ) : null}
+        <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} items-center justify-center ${imageUrl ? 'hidden' : 'flex'}`}>
+          <div className="flex flex-col items-center gap-3">
+            <CatIcon className="w-16 h-16 text-white/20" />
+            <span className="text-white/15 text-sm font-bold uppercase tracking-[0.25em]">
+              {categoryLabels[post.category] || "Blog"}
+            </span>
+          </div>
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 max-w-4xl mx-auto">
           <Link
