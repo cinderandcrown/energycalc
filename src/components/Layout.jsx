@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper, Globe } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper, Globe, Shield } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 import TrialBanner from './TrialBanner';
@@ -144,6 +145,11 @@ export default function Layout() {
   const [mobileCalcOpen, setMobileCalcOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCalcOpen, setDrawerCalcOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(u => setIsAdmin(u?.role === 'admin')).catch(() => {});
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem('energycalc-theme');
