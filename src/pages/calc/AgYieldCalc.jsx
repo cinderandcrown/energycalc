@@ -7,15 +7,9 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import LivePriceBar from "@/components/calc/LivePriceBar";
 import useCommodityPrices from "@/hooks/useCommodityPrices";
-import { motion } from "framer-motion";
-
-const CROPS = [
-  { name: "Corn", avgYield: 175, unit: "bu/acre", costPerAcre: 850 },
-  { name: "Wheat", avgYield: 50, unit: "bu/acre", costPerAcre: 450 },
-  { name: "Soybeans", avgYield: 50, unit: "bu/acre", costPerAcre: 550 },
-  { name: "Coffee", avgYield: 1500, unit: "lb/acre", costPerAcre: 3000 },
-  { name: "Cotton", avgYield: 800, unit: "lb/acre", costPerAcre: 750 },
-];
+import CropSelector from "@/components/calc/CropSelector";
+import { CROP_DATABASE } from "@/lib/cropData";
+import { Badge } from "@/components/ui/badge";
 
 const DEFAULTS = {
   cropIndex: 0,
@@ -34,13 +28,18 @@ export default function AgYieldCalc() {
   const { commodities, loading: priceLoading, refresh } = useCommodityPrices("agriculture");
 
   const set = (key) => (val) => setInputs((p) => ({ ...p, [key]: val }));
-  const crop = CROPS[inputs.cropIndex];
+  const crop = CROP_DATABASE[inputs.cropIndex];
 
   const handleCropChange = (idx) => {
-    setInputs(p => ({ ...p, cropIndex: idx, yieldPerAcre: CROPS[idx].avgYield }));
+    setInputs(p => ({ ...p, cropIndex: idx, yieldPerAcre: CROP_DATABASE[idx].avgYield }));
   };
 
-  const livePrice = commodities.find(c => c.name?.toLowerCase().includes(crop.name.toLowerCase()));
+  // Try matching live price by name (works for major commodities)
+  const livePrice = commodities.find(c => {
+    const cName = c.name?.toLowerCase() || "";
+    const cropName = crop.name.toLowerCase();
+    return cName.includes(cropName.split(" ")[0].toLowerCase()) || cropName.includes(cName.split(" ")[0].toLowerCase());
+  });
   const effectivePrice = inputs.priceOverride > 0 ? inputs.priceOverride : (livePrice?.price || 0);
 
   const results = useMemo(() => {
@@ -89,7 +88,12 @@ export default function AgYieldCalc() {
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-xl font-bold text-foreground">Agricultural Yield Projections</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Multi-year crop revenue forecasting with live commodity prices</p>
+          <p className="text-sm text-muted-foreground mt-0.5">Multi-year crop revenue forecasting · {CROP_DATABASE.length} crops across 12 categories</p>
+          <div className="flex flex-wrap gap-1.5 mt-1.5">
+            <Badge className="bg-drill-green/10 text-drill-green border-0 text-[10px]">{crop.category}</Badge>
+            <Badge className="bg-muted text-muted-foreground border-0 text-[10px]">{crop.avgYield.toLocaleString()} {crop.unit} avg</Badge>
+            <Badge className="bg-muted text-muted-foreground border-0 text-[10px]">${crop.costPerAcre.toLocaleString()}/ac cost</Badge>
+          </div>
         </div>
         <CalcActionBar onSave={() => setSaveOpen(true)} onReset={() => setInputs(DEFAULTS)} calcType="ag_yield" inputs={inputs} results={{ ...results, projections: undefined }} />
       </div>
@@ -106,25 +110,7 @@ export default function AgYieldCalc() {
         <div className="space-y-5 rounded-2xl border border-border bg-card p-5">
           <h2 className="text-sm font-semibold text-foreground border-b border-border pb-2">Crop & Field Parameters</h2>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Crop Type</label>
-            <div className="flex flex-wrap gap-2">
-              {CROPS.map((c, i) => (
-                <button
-                  key={c.name}
-                  onClick={() => handleCropChange(i)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition-colors ${
-                    inputs.cropIndex === i
-                      ? "bg-drill-green text-white border-drill-green"
-                      : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                  }`}
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
-            <p className="text-xs text-muted-foreground">Avg yield: {crop.avgYield} {crop.unit} · Cost: ${crop.costPerAcre}/acre</p>
-          </div>
+          <CropSelector selectedIndex={inputs.cropIndex} onChange={handleCropChange} />
 
           <InputWithSlider label="Acreage" value={inputs.acreage} onChange={set("acreage")} min={10} max={10000} step={10} suffix="ac" tooltip="Total planted acreage." />
           <InputWithSlider label={`Yield (${crop.unit})`} value={inputs.yieldPerAcre} onChange={set("yieldPerAcre")} min={1} max={crop.avgYield * 3} step={1} tooltip="Expected yield per acre. National average shown above." />
