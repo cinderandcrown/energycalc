@@ -72,6 +72,7 @@
     font-family: 'Inter', sans-serif;
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -81,6 +82,27 @@
   /* Prevent iOS auto-zoom on form focus */
   input, select, textarea {
     font-size: 16px !important;
+  }
+
+  /* Mobile accessibility: larger base text & tap targets */
+  @media (max-width: 639px) {
+    body {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    p {
+      font-size: 0.9375rem; /* 15px */
+      line-height: 1.6;
+    }
+
+    button, a, [role="button"] {
+      min-height: 44px;
+    }
+
+    label {
+      font-size: 0.9375rem;
+    }
   }
 
   /* Prevent text selection on interactive elements */

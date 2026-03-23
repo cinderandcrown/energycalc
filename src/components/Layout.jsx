@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper, Globe, Shield } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper, Globe, Shield, ArrowLeft } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
@@ -144,11 +144,15 @@ function CalcDropdown({ isCalcActive }) {
 
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(true);
   const [mobileCalcOpen, setMobileCalcOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerCalcOpen, setDrawerCalcOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // Show back button on mobile for sub-pages
+  const isSubPage = location.pathname !== '/dashboard';
 
   useEffect(() => {
     base44.auth.me().then(u => setIsAdmin(u?.role === 'admin')).catch(() => {});
@@ -186,15 +190,27 @@ export default function Layout() {
       {/* Top Bar */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md oil-shimmer">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/dashboard" className="flex items-center gap-2.5">
-            <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-8 h-8 rounded-lg shrink-0 object-contain" />
-            <div className="leading-none">
-              <span className="font-bold text-sm tracking-tight">
-                <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
-              </span>
-              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Commodity Energy Intelligence</span>
-            </div>
-          </Link>
+          <div className="flex items-center gap-2">
+            {/* Mobile back button */}
+            {isSubPage && (
+              <button
+                onClick={() => navigate(-1)}
+                className="sm:hidden w-10 h-10 rounded-xl flex items-center justify-center -ml-1 active:scale-95 transition-transform text-foreground"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+            )}
+            <Link to="/dashboard" className="flex items-center gap-2.5">
+              <img src="https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png" alt="EnergyCalc Pro" className="w-8 h-8 rounded-lg shrink-0 object-contain" />
+              <div className="leading-none">
+                <span className="font-bold text-sm tracking-tight">
+                  <span className="text-primary dark:text-accent">Energy</span><span className="text-foreground">Calc</span>
+                </span>
+                <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">Pro · Commodity Energy Intelligence</span>
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Nav (lg and up) */}
           <nav className="hidden lg:flex items-center gap-1">
