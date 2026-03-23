@@ -11,6 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
+import AdBanner from "@/components/ads/AdBanner";
+import InContentAd from "@/components/ads/InContentAd";
 
 const calcCards = [
   {
@@ -369,6 +371,9 @@ export default function Dashboard() {
         </div>
       </section>
 
+      {/* In-content ad after educational section */}
+      <InContentAd slot="DASH_MID_1" />
+
       {/* Tax Advantage Breakdown */}
       <section>
         <h2 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">Tax Advantages at a Glance</h2>
@@ -432,6 +437,9 @@ export default function Dashboard() {
           </div>
         </section>
       )}
+
+      {/* In-content ad before calculators */}
+      <InContentAd slot="DASH_MID_2" />
 
       {/* Calculators */}
       <section>
@@ -509,6 +517,9 @@ export default function Dashboard() {
           </Link>
         </div>
       )}
+
+      {/* Bottom ad */}
+      <AdBanner slot="DASH_BOTTOM" format="horizontal" className="rounded-xl" />
 
       {/* Footer Disclaimer */}
       <div className="pb-4 pt-2 text-center">
