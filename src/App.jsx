@@ -36,6 +36,13 @@ import NewsFeedPage from '@/pages/NewsFeed.jsx';
 import SEODashboard from '@/pages/SEODashboard.jsx';
 import AnalyticsDashboard from '@/pages/AnalyticsDashboard.jsx';
 
+// Admin
+import AdminGuard from '@/components/admin/AdminGuard';
+import AdminLayout from '@/components/admin/AdminLayout';
+import AdminOverview from '@/pages/admin/AdminOverview';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminMarketing from '@/pages/admin/AdminMarketing';
+
 // Layout
 import Layout from '@/components/Layout';
 import SubscriptionGate from '@/components/SubscriptionGate';
@@ -92,8 +99,6 @@ const AuthenticatedApp = () => {
           <Route path="/learn" element={<Learn />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/news" element={<NewsFeedPage />} />
-          <Route path="/seo" element={<SEODashboard />} />
-          <Route path="/analytics" element={<AnalyticsDashboard />} />
 
           {/* Calculators */}
           <Route path="/calc/net-investment" element={<NetInvestment />} />
@@ -104,6 +109,20 @@ const AuthenticatedApp = () => {
           <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
           <Route path="/calc/ag-yield" element={<AgYieldCalc />} />
           <Route path="/calc/metal-cost" element={<MetalCostBasis />} />
+        </Route>
+      </Route>
+
+      {/* Admin Portal */}
+      <Route element={<Layout />}>
+        <Route element={<AdminGuard />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminOverview />} />
+            <Route path="/admin/seo" element={<SEODashboard />} />
+            <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
+            <Route path="/admin/news" element={<NewsFeedPage />} />
+            <Route path="/admin/marketing" element={<AdminMarketing />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+          </Route>
         </Route>
       </Route>
 
