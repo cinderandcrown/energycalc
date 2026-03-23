@@ -120,12 +120,20 @@ export default function AgYieldCalc() {
           <InputWithSlider label="Crop Insurance (%)" value={inputs.insurancePct} onChange={set("insurancePct")} min={0} max={15} step={0.5} suffix="%" tooltip="Insurance cost as % of revenue." />
           <InputWithSlider label={`Price Override ($/${crop.unit.split("/")[0]})`} value={inputs.priceOverride} onChange={set("priceOverride")} min={0} max={500} step={0.01} prefix="$" tooltip="Leave 0 to use live market price (if available for this crop)." />
 
-          {effectivePrice > 0 && (
+          {effectivePrice > 0 ? (
             <div className="p-3 rounded-lg bg-drill-green/10 border border-drill-green/30">
               <p className="text-xs text-muted-foreground">
                 <strong className="text-foreground">Using Price:</strong>{" "}
                 <span className="font-mono text-drill-green font-bold">${effectivePrice.toFixed(2)}/{crop.unit.split("/")[0]}</span>
-                {inputs.priceOverride > 0 && <span className="ml-1">(manual)</span>}
+                {inputs.priceOverride > 0 && <span className="ml-1">(manual override)</span>}
+                {inputs.priceOverride === 0 && livePrice && <span className="ml-1">(live market)</span>}
+              </p>
+            </div>
+          ) : (
+            <div className="p-3 rounded-lg bg-crude-gold/10 border border-crude-gold/30">
+              <p className="text-xs text-muted-foreground">
+                <strong className="text-foreground">No live price available for {crop.name}.</strong>{" "}
+                Use the Price Override slider above to enter a market price for accurate projections.
               </p>
             </div>
           )}
