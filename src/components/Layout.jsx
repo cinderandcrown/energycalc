@@ -5,6 +5,7 @@ import { base44 } from '@/api/base44Client';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 import TrialBanner from './TrialBanner';
+import DashboardAdSidebar from './ads/DashboardAdSidebar';
 
 const calcItems = [
   { path: '/calc/net-investment', icon: TrendingUp, label: 'Net Investment', desc: 'Tax savings & IDC' },
