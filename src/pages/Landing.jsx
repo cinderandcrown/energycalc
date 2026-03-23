@@ -257,6 +257,7 @@ export default function Landing() {
             <p className="text-xs text-muted-foreground">Professional-grade platforms used by commodity investors and energy traders.</p>
           </div>
           <AffiliatesSidebar compact />
+          <AdBanner slot="LANDING_MID_2" format="horizontal" className="rounded-xl mt-6" />
         </div>
       </section>
 
@@ -310,11 +311,6 @@ export default function Landing() {
       </section>
 
 
-
-      {/* ═══════ AD BANNER ═══════ */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
-        <AdBanner slot="LANDING_BOTTOM" format="horizontal" className="rounded-xl" />
-      </div>
 
       {/* ═══════ CTA ═══════ */}
       <section className="border-t border-border bg-gradient-to-b from-petroleum to-[#071a33]">
