@@ -1,275 +1,277 @@
 import { motion } from "framer-motion";
 
 /**
- * Animated hero background with gradient mesh, floating particles,
- * and pulsing radial glows for depth and energy.
+ * Cinematic "There Will Be Blood" style hero —
+ * dark crude textures, silhouetted derricks against fire-lit sky,
+ * animated oil gusher, dripping crude, and smoke haze.
  */
 
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+// Oil drip columns — thick crude dripping down from top
+const DRIPS = [
+  { left: "8%", delay: 0, height: "35%", width: 6, duration: 4 },
+  { left: "15%", delay: 1.2, height: "22%", width: 4, duration: 3.5 },
+  { left: "23%", delay: 2.5, height: "40%", width: 8, duration: 5 },
+  { left: "42%", delay: 0.8, height: "18%", width: 3, duration: 3 },
+  { left: "58%", delay: 3.2, height: "30%", width: 5, duration: 4.5 },
+  { left: "71%", delay: 1.8, height: "25%", width: 7, duration: 3.8 },
+  { left: "85%", delay: 0.5, height: "33%", width: 4, duration: 4.2 },
+  { left: "93%", delay: 2.1, height: "20%", width: 6, duration: 3.2 },
+];
+
+// Embers / sparks floating up from the glow
+const EMBERS = Array.from({ length: 14 }, (_, i) => ({
   id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: 2 + Math.random() * 4,
-  duration: 4 + Math.random() * 6,
-  delay: Math.random() * 3,
-  drift: 10 + Math.random() * 30,
+  x: 15 + Math.random() * 70,
+  size: 1.5 + Math.random() * 3,
+  duration: 3 + Math.random() * 4,
+  delay: Math.random() * 4,
+  drift: 5 + Math.random() * 15,
 }));
 
 export default function HeroBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-petroleum via-[#081e3e] to-background" />
+      {/* Deep crude black base */}
+      <div className="absolute inset-0" style={{
+        background: "linear-gradient(180deg, #030508 0%, #0a0d12 20%, #0B2545 55%, #0d1a2e 80%, hsl(var(--background)) 100%)",
+      }} />
 
-      {/* Animated gradient orbs — create a living mesh effect */}
+      {/* Fiery horizon glow — like burning gas flares on the horizon */}
+      <div className="absolute inset-x-0 bottom-[25%] h-[35%]" style={{
+        background: "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(180,80,10,0.15) 0%, rgba(212,168,67,0.06) 40%, transparent 70%)",
+      }} />
       <motion.div
-        className="absolute rounded-full"
+        className="absolute inset-x-0 bottom-[28%] h-[25%]"
         style={{
-          width: "60vw",
-          height: "60vw",
-          maxWidth: 700,
-          maxHeight: 700,
-          top: "-15%",
-          right: "-10%",
-          background: "radial-gradient(circle, rgba(212,168,67,0.12) 0%, transparent 70%)",
-          filter: "blur(60px)",
+          background: "radial-gradient(ellipse 60% 40% at 50% 100%, rgba(200,100,20,0.12) 0%, transparent 60%)",
         }}
-        animate={{
-          x: [0, 30, -20, 0],
-          y: [0, -20, 15, 0],
-          scale: [1, 1.08, 0.95, 1],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       />
 
+      {/* Gas flare glow — right side */}
       <motion.div
-        className="absolute rounded-full"
+        className="absolute"
         style={{
-          width: "50vw",
-          height: "50vw",
-          maxWidth: 600,
-          maxHeight: 600,
-          bottom: "-10%",
-          left: "-8%",
-          background: "radial-gradient(circle, rgba(212,168,67,0.08) 0%, transparent 70%)",
-          filter: "blur(50px)",
+          right: "15%",
+          bottom: "35%",
+          width: 120,
+          height: 120,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,140,20,0.2) 0%, rgba(212,168,67,0.08) 50%, transparent 70%)",
+          filter: "blur(30px)",
         }}
         animate={{
-          x: [0, -25, 20, 0],
-          y: [0, 25, -15, 0],
-          scale: [1, 0.92, 1.06, 1],
+          scale: [1, 1.3, 0.9, 1.15, 1],
+          opacity: [0.5, 0.8, 0.4, 0.7, 0.5],
         }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
 
+      {/* Secondary flare — left */}
       <motion.div
-        className="absolute rounded-full"
+        className="absolute"
         style={{
-          width: "35vw",
-          height: "35vw",
-          maxWidth: 450,
-          maxHeight: 450,
-          top: "30%",
-          left: "30%",
-          background: "radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)",
-          filter: "blur(50px)",
+          left: "20%",
+          bottom: "32%",
+          width: 80,
+          height: 80,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,100,10,0.15) 0%, transparent 70%)",
+          filter: "blur(25px)",
         }}
         animate={{
-          x: [0, 20, -15, 0],
-          y: [0, -15, 20, 0],
-          scale: [1, 1.1, 0.9, 1],
+          scale: [1, 1.2, 0.85, 1],
+          opacity: [0.3, 0.6, 0.3],
         }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
       />
 
-      {/* Floating golden particles */}
-      {PARTICLES.map((p) => (
+      {/* ═══ DERRICK SILHOUETTES ═══ */}
+      {/* Main derrick — center-right, tall and imposing */}
+      <div className="absolute bottom-[18%] right-[12%] sm:right-[18%] w-24 sm:w-32 md:w-40 opacity-[0.12] pointer-events-none">
+        <svg viewBox="0 0 120 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60,0 L35,280 L85,280 Z" fill="#0a0a0a" stroke="rgba(212,168,67,0.15)" strokeWidth="0.5" />
+          {/* Internal lattice */}
+          <line x1="48" y1="60" x2="72" y2="60" stroke="rgba(30,30,30,0.8)" strokeWidth="1" />
+          <line x1="45" y1="120" x2="75" y2="120" stroke="rgba(30,30,30,0.8)" strokeWidth="1" />
+          <line x1="42" y1="180" x2="78" y2="180" stroke="rgba(30,30,30,0.8)" strokeWidth="1" />
+          <line x1="39" y1="240" x2="81" y2="240" stroke="rgba(30,30,30,0.8)" strokeWidth="1" />
+          {/* Crown block */}
+          <rect x="52" y="0" width="16" height="8" fill="#080808" />
+          {/* Base */}
+          <rect x="25" y="278" width="70" height="6" fill="#0a0a0a" rx="1" />
+        </svg>
+      </div>
+
+      {/* Smaller distant derrick — far left */}
+      <div className="absolute bottom-[20%] left-[8%] sm:left-[12%] w-12 sm:w-16 md:w-20 opacity-[0.08] pointer-events-none">
+        <svg viewBox="0 0 120 300" fill="none">
+          <path d="M60,0 L35,280 L85,280 Z" fill="#070707" />
+          <rect x="52" y="0" width="16" height="8" fill="#060606" />
+          <rect x="25" y="278" width="70" height="6" fill="#070707" rx="1" />
+        </svg>
+      </div>
+
+      {/* Third derrick — mid-left distance */}
+      <div className="hidden sm:block absolute bottom-[22%] left-[30%] w-10 md:w-14 opacity-[0.06] pointer-events-none">
+        <svg viewBox="0 0 120 300" fill="none">
+          <path d="M60,0 L35,280 L85,280 Z" fill="#080808" />
+          <rect x="25" y="278" width="70" height="6" fill="#080808" rx="1" />
+        </svg>
+      </div>
+
+      {/* ═══ OIL GUSHER — erupting from center-right derrick ═══ */}
+      <div className="absolute bottom-[38%] sm:bottom-[42%] right-[16%] sm:right-[22%] pointer-events-none" style={{ width: 60 }}>
+        {/* Main gusher column */}
         <motion.div
-          key={p.id}
-          className="absolute rounded-full bg-crude-gold/40"
           style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
+            width: 8,
+            marginLeft: 26,
+            borderRadius: "4px 4px 0 0",
+            background: "linear-gradient(180deg, rgba(20,15,10,0.9) 0%, rgba(40,30,15,0.7) 50%, rgba(20,15,10,0.3) 100%)",
           }}
           animate={{
-            y: [-p.drift, p.drift, -p.drift],
-            x: [0, p.drift * 0.3, 0],
-            opacity: [0.15, 0.5, 0.15],
+            height: [60, 90, 70, 85, 60],
+            opacity: [0.7, 0.9, 0.7],
+          }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Spray splatter — left */}
+        <motion.div
+          className="absolute"
+          style={{
+            top: 0,
+            left: 5,
+            width: 20,
+            height: 30,
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse, rgba(15,12,8,0.6) 0%, transparent 70%)",
+          }}
+          animate={{
+            y: [-5, -15, -5],
+            x: [-3, -8, -3],
+            scale: [0.8, 1.2, 0.8],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Spray splatter — right */}
+        <motion.div
+          className="absolute"
+          style={{
+            top: 0,
+            right: 5,
+            width: 18,
+            height: 25,
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse, rgba(15,12,8,0.5) 0%, transparent 70%)",
+          }}
+          animate={{
+            y: [-3, -12, -3],
+            x: [3, 10, 3],
+            scale: [0.9, 1.3, 0.9],
+            opacity: [0.2, 0.5, 0.2],
+          }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+        />
+      </div>
+
+      {/* ═══ CRUDE OIL DRIPS — from top, thick and viscous ═══ */}
+      {DRIPS.map((d, i) => (
+        <motion.div
+          key={i}
+          className="absolute top-0 rounded-b-full"
+          style={{
+            left: d.left,
+            width: d.width,
+            background: "linear-gradient(180deg, rgba(8,5,2,0.9) 0%, rgba(20,15,8,0.7) 60%, rgba(30,22,10,0.3) 85%, transparent 100%)",
+          }}
+          initial={{ height: "0%" }}
+          animate={{
+            height: ["0%", d.height, d.height, "0%"],
           }}
           transition={{
-            duration: p.duration,
+            duration: d.duration,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: p.delay,
+            delay: d.delay,
+            times: [0, 0.4, 0.7, 1],
           }}
         />
       ))}
 
-      {/* Subtle scanline/grid overlay for texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
+      {/* ═══ RISING EMBERS / SPARKS ═══ */}
+      {EMBERS.map((e) => (
+        <motion.div
+          key={e.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${e.x}%`,
+            bottom: "25%",
+            width: e.size,
+            height: e.size,
+            background: `radial-gradient(circle, rgba(255,${120 + Math.random() * 80},20,0.8) 0%, rgba(212,168,67,0.4) 60%, transparent 100%)`,
+          }}
+          animate={{
+            y: [0, -(80 + e.drift * 3), -(160 + e.drift * 5)],
+            x: [0, e.drift, -e.drift * 0.5],
+            opacity: [0, 0.7, 0],
+            scale: [0.5, 1, 0.3],
+          }}
+          transition={{
+            duration: e.duration,
+            repeat: Infinity,
+            ease: "easeOut",
+            delay: e.delay,
+          }}
+        />
+      ))}
+
+      {/* ═══ SMOKE / HAZE LAYERS ═══ */}
+      <motion.div
+        className="absolute inset-x-0 bottom-[20%] h-[30%]"
         style={{
-          backgroundImage: "linear-gradient(0deg, transparent 95%, rgba(212,168,67,0.4) 95%), linear-gradient(90deg, transparent 95%, rgba(212,168,67,0.4) 95%)",
-          backgroundSize: "40px 40px",
+          background: "linear-gradient(0deg, transparent 0%, rgba(20,18,14,0.15) 30%, rgba(30,25,18,0.08) 60%, transparent 100%)",
+          filter: "blur(40px)",
         }}
+        animate={{ x: [0, 30, -20, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute inset-x-0 bottom-[30%] h-[20%]"
+        style={{
+          background: "linear-gradient(0deg, transparent 0%, rgba(15,12,8,0.1) 50%, transparent 100%)",
+          filter: "blur(50px)",
+        }}
+        animate={{ x: [0, -40, 25, 0] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* ═══ Oil & Gas Imagery ═══ */}
-      {/* Oil derrick — right side */}
-      <svg
-        className="absolute right-[5%] bottom-[8%] w-32 sm:w-44 md:w-56 opacity-[0.06] pointer-events-none"
-        viewBox="0 0 200 400"
-        fill="none"
-        stroke="rgba(212,168,67,0.6)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      >
-        {/* Derrick tower */}
-        <line x1="100" y1="20" x2="60" y2="380" />
-        <line x1="100" y1="20" x2="140" y2="380" />
-        {/* Cross braces */}
-        <line x1="72" y1="100" x2="128" y2="100" />
-        <line x1="76" y1="160" x2="124" y2="160" />
-        <line x1="80" y1="220" x2="120" y2="220" />
-        <line x1="84" y1="280" x2="116" y2="280" />
-        <line x1="88" y1="340" x2="112" y2="340" />
-        {/* X braces */}
-        <line x1="72" y1="100" x2="124" y2="160" />
-        <line x1="128" y1="100" x2="76" y2="160" />
-        <line x1="76" y1="160" x2="120" y2="220" />
-        <line x1="124" y1="160" x2="80" y2="220" />
-        <line x1="80" y1="220" x2="116" y2="280" />
-        <line x1="120" y1="220" x2="84" y2="280" />
-        {/* Horsehead pump */}
-        <line x1="100" y1="20" x2="150" y2="40" />
-        <line x1="150" y1="40" x2="160" y2="60" />
-        <ellipse cx="160" cy="60" rx="8" ry="5" />
-        {/* Base platform */}
-        <line x1="45" y1="380" x2="155" y2="380" />
-        <line x1="50" y1="390" x2="150" y2="390" />
-      </svg>
+      {/* Dark ground plane — flat earth silhouette */}
+      <div className="absolute inset-x-0 bottom-[16%] h-[4%]" style={{
+        background: "linear-gradient(0deg, transparent 0%, rgba(5,3,1,0.2) 40%, rgba(5,3,1,0.15) 100%)",
+      }} />
 
-      {/* Pumpjack — left side, animated */}
-      <motion.svg
-        className="absolute left-[3%] sm:left-[6%] bottom-[10%] w-36 sm:w-48 md:w-60 opacity-[0.05] pointer-events-none"
-        viewBox="0 0 300 200"
-        fill="none"
-        stroke="rgba(212,168,67,0.5)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {/* Base & support */}
-        <line x1="20" y1="180" x2="280" y2="180" />
-        <line x1="120" y1="180" x2="120" y2="100" />
-        <line x1="110" y1="100" x2="130" y2="100" />
-        {/* Walking beam — animated pivot */}
-        <motion.g
-          style={{ originX: "120px", originY: "100px", transformBox: "fill-box" }}
-          animate={{ rotate: [-8, 8, -8] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <line x1="40" y1="95" x2="200" y2="95" strokeWidth="2.5" />
-          {/* Horsehead */}
-          <path d="M40,95 Q30,90 28,100 Q26,110 35,112" strokeWidth="2" />
-          {/* Counterweight */}
-          <rect x="180" y="88" width="25" height="14" rx="2" strokeWidth="1.5" />
-        </motion.g>
-        {/* Samson post */}
-        <line x1="115" y1="100" x2="105" y2="180" />
-        <line x1="125" y1="100" x2="135" y2="180" />
-        {/* Pitman arm hinge */}
-        <circle cx="120" cy="100" r="4" strokeWidth="1.5" />
-        {/* Sucker rod (polished rod going down) */}
-        <motion.line
-          x1="35" y1="112" x2="35" y2="180"
-          strokeWidth="1"
-          strokeDasharray="4 3"
-          animate={{ y1: [112, 118, 112] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.svg>
+      {/* Crude oil pooling at bottom — viscous sheen */}
+      <div className="absolute inset-x-0 bottom-0 h-[18%]" style={{
+        background: "linear-gradient(0deg, hsl(var(--background)) 30%, rgba(15,12,8,0.4) 70%, rgba(20,15,8,0.15) 100%)",
+      }} />
+      {/* Oil sheen shimmer on the pool */}
+      <motion.div
+        className="absolute inset-x-0 bottom-0 h-[12%]"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, rgba(212,168,67,0.04) 20%, rgba(100,60,20,0.06) 40%, rgba(212,168,67,0.03) 60%, transparent 80%)",
+          backgroundSize: "200% 100%",
+        }}
+        animate={{ backgroundPosition: ["-100% 0", "200% 0"] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
 
-      {/* Pipeline / flow lines — bottom decorative */}
-      <svg
-        className="absolute bottom-0 left-0 w-full h-24 sm:h-32 opacity-[0.04] pointer-events-none"
-        viewBox="0 0 1200 120"
-        fill="none"
-        stroke="rgba(212,168,67,0.5)"
-        strokeWidth="1.5"
-        preserveAspectRatio="none"
-      >
-        {/* Main pipeline */}
-        <path d="M-20,80 Q200,80 300,60 Q400,40 500,50 Q600,60 700,45 Q800,30 900,50 Q1000,70 1100,55 Q1200,40 1250,50" />
-        {/* Secondary line */}
-        <path d="M-20,100 Q150,100 250,90 Q350,80 500,85 Q650,90 800,75 Q950,60 1100,80 Q1200,90 1250,85" strokeDasharray="8 4" />
-        {/* Valve nodes */}
-        <circle cx="300" cy="60" r="5" />
-        <circle cx="700" cy="45" r="5" />
-        <circle cx="1100" cy="55" r="5" />
-        {/* Flow arrows */}
-        <path d="M480,50 L495,45 L495,55 Z" fill="rgba(212,168,67,0.3)" stroke="none" />
-        <path d="M880,50 L895,45 L895,55 Z" fill="rgba(212,168,67,0.3)" stroke="none" />
-      </svg>
-
-      {/* Faint barrel/gauge cluster — top-left corner */}
-      <svg
-        className="absolute top-[12%] left-[8%] w-16 sm:w-20 opacity-[0.05] pointer-events-none"
-        viewBox="0 0 80 100"
-        fill="none"
-        stroke="rgba(212,168,67,0.5)"
-        strokeWidth="1.2"
-      >
-        {/* Barrel */}
-        <ellipse cx="40" cy="15" rx="28" ry="10" />
-        <ellipse cx="40" cy="85" rx="28" ry="10" />
-        <line x1="12" y1="15" x2="12" y2="85" />
-        <line x1="68" y1="15" x2="68" y2="85" />
-        {/* Hoops */}
-        <ellipse cx="40" cy="35" rx="28" ry="6" strokeDasharray="4 3" />
-        <ellipse cx="40" cy="65" rx="28" ry="6" strokeDasharray="4 3" />
-      </svg>
-
-      {/* Pressure gauge — top-right area */}
-      <motion.svg
-        className="absolute top-[15%] right-[10%] w-14 sm:w-18 opacity-[0.05] pointer-events-none"
-        viewBox="0 0 80 80"
-        fill="none"
-        stroke="rgba(212,168,67,0.5)"
-        strokeWidth="1.2"
-      >
-        <circle cx="40" cy="40" r="35" />
-        <circle cx="40" cy="40" r="30" strokeDasharray="3 3" />
-        {/* Tick marks */}
-        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270].map((deg) => {
-          const rad = (deg * Math.PI) / 180;
-          const x1 = 40 + Math.cos(rad) * 26;
-          const y1 = 40 + Math.sin(rad) * 26;
-          const x2 = 40 + Math.cos(rad) * 30;
-          const y2 = 40 + Math.sin(rad) * 30;
-          return <line key={deg} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth="1" />;
-        })}
-        {/* Animated needle */}
-        <motion.line
-          x1="40"
-          y1="40"
-          x2="40"
-          y2="14"
-          strokeWidth="1.5"
-          stroke="rgba(212,168,67,0.6)"
-          style={{ originX: "40px", originY: "40px", transformBox: "fill-box" }}
-          animate={{ rotate: [-40, 50, -40] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <circle cx="40" cy="40" r="3" fill="rgba(212,168,67,0.3)" />
-      </motion.svg>
-
-      {/* Top vignette */}
-      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-petroleum/50 to-transparent" />
+      {/* Top vignette — heavy darkness */}
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#030508] via-[#030508]/60 to-transparent" />
       {/* Bottom fade into page */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </div>
   );
 }
