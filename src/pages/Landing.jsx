@@ -20,7 +20,7 @@ const PLAN = {
   productId: "prod_UC1nAY3emodE1H",
   description: "Full access to every tool, calculator, and AI-powered feature on the platform.",
   features: [
-    "All 5 investment calculators",
+    "All 8 investment calculators",
     "Unlimited saved calculations",
     "AI PPM Document Analyzer",
     "AI Operator Screener",
@@ -37,9 +37,9 @@ const PLAN = {
 const FEATURES = [
   { icon: ShieldAlert, title: "AI Operator Screener", desc: "Enter any operator's name and get an instant AI background check — red flags, known issues, regulatory actions, and verification steps. Your first line of defense." },
   { icon: Shield, title: "PPM Red Flag Analyzer", desc: "Paste any PPM, JV agreement, or subscription document. Our AI scores risk 1–10, flags predatory clauses, and tells you what's missing." },
-  { icon: Calculator, title: "5 Deal Calculators", desc: "Net Investment, Barrels-to-Cash, Nat Gas-to-Cash, Rate of Return, and Multi-Year Tax Impact — model the real economics before committing capital." },
+  { icon: Calculator, title: "8 Professional Calculators", desc: "Oil, gas, gold purity, 100+ industrial metals, 120+ agricultural crops, rate of return, net investment, and multi-year tax impact — model any commodity deal." },
   { icon: BookOpen, title: "Fraud Pattern Library", desc: "Learn the 6 most common oil & gas fraud schemes — promissory note traps, cost stuffing, ORRI schemes, and more. Based on SEC & FBI enforcement actions." },
-  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, and commodity prices with AI market commentary. Know what your barrels are worth today." },
+  { icon: BarChart3, title: "Live Market Intelligence", desc: "Real-time crude oil, natural gas, metals, and commodity prices with AI market commentary. Track what your commodities are worth today across every sector." },
   { icon: Zap, title: "Tax Optimization Tools", desc: "Model IDC deductions, percentage depletion, and MACRS depreciation. See your true after-tax cost before you sign anything." },
 ];
 
@@ -49,6 +49,9 @@ const CALCS = [
   { icon: Flame, label: "Nat Gas to Cash", desc: "MCF/day → net monthly income" },
   { icon: Percent, label: "Rate of Return", desc: "IRR, payout period & ROI" },
   { icon: TrendingUp, label: "Tax Impact", desc: "5-year cumulative tax model" },
+  { icon: Star, label: "Gold Purity", desc: "Karat, weight & spot valuation" },
+  { icon: Search, label: "120+ Crop Yields", desc: "Ag revenue per acre projections" },
+  { icon: Lock, label: "100+ Metals", desc: "Full landed cost-basis analysis" },
 ];
 
 export default function Landing() {
@@ -183,10 +186,10 @@ export default function Landing() {
       <section className="border-b border-border bg-card/40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">5 Calculators. Every Deal Angle.</h2>
-            <p className="text-muted-foreground text-sm">Built around how commodity energy deals actually work — oil, gas, and beyond.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">8 Calculators. Every Commodity. Every Angle.</h2>
+            <p className="text-muted-foreground text-sm">Oil, gas, gold, 100+ metals, 120+ crops, rare earth, battery metals — the most comprehensive commodity toolkit anywhere.</p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
             {CALCS.map((c, i) => {
               const Icon = c.icon;
               return (
