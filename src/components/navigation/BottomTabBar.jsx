@@ -6,10 +6,10 @@ import {
 } from "lucide-react";
 
 const TABS = [
-  { path: "/dashboard", icon: LayoutDashboard, label: "Home" },
-  { path: "/markets", icon: BarChart3, label: "Markets" },
-  { path: "/energy-literacy", icon: BookOpen, label: "Learn" },
-  { path: "/investor-protection", icon: ShieldAlert, label: "Protect" },
+  { key: "home", path: "/dashboard", icon: LayoutDashboard, label: "Home" },
+  { key: "markets", path: "/markets", icon: BarChart3, label: "Markets" },
+  { key: "learn", path: "/energy-literacy", icon: BookOpen, label: "Learn" },
+  { key: "protect", path: "/investor-protection", icon: ShieldAlert, label: "Protect" },
 ];
 
 const CALC_ITEMS = [
@@ -26,16 +26,21 @@ const CALC_ITEMS = [
 
 const calcPaths = CALC_ITEMS.map(c => c.path);
 
-export default function BottomTabBar({ onMorePress }) {
+export default function BottomTabBar({ onMorePress, onTabPress, activeTab }) {
   const location = useLocation();
   const [calcOpen, setCalcOpen] = useState(false);
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + "/");
   const isCalcActive = calcPaths.some(p => location.pathname === p);
 
+  const handleTabPress = (tab) => {
+    setCalcOpen(false);
+    if (onTabPress) onTabPress(tab.key);
+  };
+
   return (
     <nav
-      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border"
+      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-xl border-t border-border"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       {/* Calc sub-menu */}
@@ -46,50 +51,55 @@ export default function BottomTabBar({ onMorePress }) {
               key={path}
               to={path}
               onClick={() => setCalcOpen(false)}
-              className={`flex items-center gap-2 px-3 min-h-[44px] bg-card transition-colors ${
+              className={`flex items-center gap-2.5 px-3.5 min-h-[48px] bg-card transition-colors active:bg-muted ${
                 isActive(path) ? "text-primary dark:text-accent" : "text-muted-foreground"
               }`}
             >
               <Icon className="w-4 h-4 shrink-0" />
-              <span className="text-xs font-medium">{label}</span>
+              <span className="text-[13px] font-medium">{label}</span>
             </Link>
           ))}
         </div>
       )}
 
       <div className="grid grid-cols-6">
-        {TABS.map(({ path, icon: Icon, label }) => (
-          <Link
-            key={path}
-            to={path}
-            onClick={() => setCalcOpen(false)}
-            className={`flex flex-col items-center justify-center gap-0.5 min-h-[50px] text-xs transition-colors ${
-              isActive(path) ? "text-primary dark:text-accent" : "text-muted-foreground"
-            }`}
-          >
-            <Icon className="w-5 h-5" />
-            <span className="text-[10px]">{label}</span>
-          </Link>
-        ))}
+        {TABS.map((tab) => {
+          const Icon = tab.icon;
+          const active = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => handleTabPress(tab)}
+              className={`flex flex-col items-center justify-center gap-[3px] min-h-[50px] transition-colors active:scale-95 ${
+                active ? "text-primary dark:text-accent" : "text-muted-foreground"
+              }`}
+            >
+              <Icon className="w-[22px] h-[22px]" strokeWidth={active ? 2.2 : 1.8} />
+              <span className={`text-[10px] leading-none ${active ? "font-semibold" : "font-medium"}`}>
+                {tab.label}
+              </span>
+            </button>
+          );
+        })}
 
         {/* Calculators toggle */}
         <button
-          onClick={() => { setCalcOpen(!calcOpen); }}
-          className={`flex flex-col items-center justify-center gap-0.5 min-h-[50px] text-xs transition-colors ${
+          onClick={() => setCalcOpen(!calcOpen)}
+          className={`flex flex-col items-center justify-center gap-[3px] min-h-[50px] transition-colors active:scale-95 ${
             isCalcActive || calcOpen ? "text-primary dark:text-accent" : "text-muted-foreground"
           }`}
         >
-          <Calculator className="w-5 h-5" />
-          <span className="text-[10px]">Calc</span>
+          <Calculator className="w-[22px] h-[22px]" strokeWidth={isCalcActive ? 2.2 : 1.8} />
+          <span className={`text-[10px] leading-none ${isCalcActive ? "font-semibold" : "font-medium"}`}>Calc</span>
         </button>
 
         {/* More */}
         <button
           onClick={() => { setCalcOpen(false); onMorePress(); }}
-          className="flex flex-col items-center justify-center gap-0.5 min-h-[50px] text-xs text-muted-foreground"
+          className="flex flex-col items-center justify-center gap-[3px] min-h-[50px] text-muted-foreground transition-colors active:scale-95"
         >
-          <Menu className="w-5 h-5" />
-          <span className="text-[10px]">More</span>
+          <Menu className="w-[22px] h-[22px]" strokeWidth={1.8} />
+          <span className="text-[10px] leading-none font-medium">More</span>
         </button>
       </div>
     </nav>

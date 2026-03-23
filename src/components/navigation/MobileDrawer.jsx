@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, BarChart3, Newspaper, BookOpen, Activity, PieChart,
   ShieldAlert, Globe, FileText, Scale, Search, Landmark, FolderOpen,
-  Blocks, UserCircle, Settings, Shield, Calculator, X
+  Blocks, UserCircle, Settings, Shield, X
 } from "lucide-react";
 import { CALC_ITEMS } from "./BottomTabBar";
 
@@ -41,16 +41,17 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
 
       {/* Drawer panel */}
       <div
-        className={`fixed top-0 right-0 bottom-0 z-40 w-72 flex flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 bottom-0 z-40 w-[280px] flex flex-col bg-card border-l border-border shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
+        style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 h-14 border-b border-border">
-          <span className="font-bold text-sm text-foreground">Menu</span>
+        <div className="flex items-center justify-between px-5 h-[50px] border-b border-border">
+          <span className="font-semibold text-[15px] text-foreground tracking-tight">Menu</span>
           <button
             onClick={onClose}
-            className="w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground"
+            className="w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground active:opacity-60"
           >
             <X className="w-5 h-5" />
           </button>
@@ -58,7 +59,7 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
 
         {/* Nav items */}
         <div
-          className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5"
+          className="flex-1 overflow-y-auto py-2 px-3 space-y-px"
           style={{ overscrollBehavior: "contain" }}
         >
           {NAV_ITEMS.map(({ path, icon: Icon, label }) => (
@@ -66,13 +67,13 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
               key={path}
               to={path}
               onClick={onClose}
-              className={`flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 px-3 min-h-[46px] rounded-xl text-[15px] font-medium transition-colors active:bg-muted ${
                 isActive(path)
-                  ? "bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  ? "bg-primary/8 text-primary dark:bg-accent/8 dark:text-accent"
+                  : "text-foreground/70 hover:text-foreground hover:bg-muted"
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-[18px] h-[18px]" strokeWidth={1.8} />
               {label}
             </Link>
           ))}
@@ -83,13 +84,13 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
               <Link
                 to="/admin"
                 onClick={onClose}
-                className={`flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-3 min-h-[46px] rounded-xl text-[15px] font-medium transition-colors active:bg-muted ${
                   location.pathname.startsWith("/admin")
-                    ? "bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    ? "bg-primary/8 text-primary dark:bg-accent/8 dark:text-accent"
+                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
                 }`}
               >
-                <Shield className="w-4 h-4" />
+                <Shield className="w-[18px] h-[18px]" strokeWidth={1.8} />
                 Admin Portal
               </Link>
             </div>
@@ -97,7 +98,7 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
 
           {/* Calculators */}
           <div className="pt-2 border-t border-border mt-2">
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold px-3 mb-1">
+            <p className="text-[11px] text-muted-foreground uppercase tracking-[0.08em] font-semibold px-3 mb-1">
               Calculators
             </p>
             {CALC_ITEMS.map(({ path, icon: Icon, label }) => (
@@ -105,13 +106,13 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
                 key={path}
                 to={path}
                 onClick={onClose}
-                className={`flex items-center gap-3 px-3 min-h-[44px] rounded-lg text-sm transition-colors ${
+                className={`flex items-center gap-3 px-3 min-h-[46px] rounded-xl text-[15px] transition-colors active:bg-muted ${
                   isActive(path)
                     ? "text-primary dark:text-accent font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    : "text-foreground/70 hover:text-foreground hover:bg-muted"
                 }`}
               >
-                <Icon className="w-4 h-4 shrink-0" />
+                <Icon className="w-[18px] h-[18px] shrink-0" strokeWidth={1.8} />
                 {label}
               </Link>
             ))}
@@ -120,13 +121,13 @@ export default function MobileDrawer({ open, onClose, isAdmin }) {
 
         {/* Footer */}
         <div
-          className="border-t border-border px-4 py-3"
+          className="border-t border-border px-5 py-3"
           style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom, 0px))" }}
         >
           <Link
             to="/legal"
             onClick={onClose}
-            className="text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-2 block"
+            className="text-[11px] text-muted-foreground hover:text-foreground underline underline-offset-2 block"
           >
             Legal & Privacy
           </Link>

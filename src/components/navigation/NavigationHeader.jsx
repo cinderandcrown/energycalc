@@ -1,27 +1,27 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowLeft, Menu, X } from "lucide-react";
-import useRouteDepth from "@/hooks/useRouteDepth";
 
 /**
- * Global header with back button logic based on route depth.
- * Shows back arrow on sub-pages (depth >= 2 or non-root tabs).
+ * Global iOS-style header with safe-area-inset-top support.
+ * Shows a native-feeling back button when canGoBack is true.
+ * Uses consistent SF-style typography and spacing.
  */
-export default function NavigationHeader({ onMenuToggle, menuOpen, desktopNav }) {
-  const navigate = useNavigate();
-  const { showBack } = useRouteDepth();
-
+export default function NavigationHeader({ onMenuToggle, menuOpen, desktopNav, canGoBack, onGoBack }) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md oil-shimmer">
-      <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {/* Mobile back button — only when on a sub-page */}
-          {showBack && (
+    <header
+      className="sticky top-0 z-50 border-b border-border/80 bg-card/80 backdrop-blur-xl backdrop-saturate-150"
+      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 h-[50px] flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          {/* Mobile back button — iOS style with chevron */}
+          {canGoBack && (
             <button
-              onClick={() => navigate(-1)}
-              className="sm:hidden w-10 h-10 rounded-xl flex items-center justify-center -ml-1 active:scale-95 transition-transform text-foreground"
+              onClick={onGoBack}
+              className="sm:hidden flex items-center gap-0.5 -ml-2 px-1.5 min-h-[44px] min-w-[44px] active:opacity-60 transition-opacity"
               aria-label="Go back"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-[22px] h-[22px] text-primary dark:text-accent" strokeWidth={2.2} />
             </button>
           )}
 
@@ -32,11 +32,11 @@ export default function NavigationHeader({ onMenuToggle, menuOpen, desktopNav })
               className="w-8 h-8 rounded-lg shrink-0 object-contain"
             />
             <div className="leading-none">
-              <span className="font-bold text-sm tracking-tight">
+              <span className="font-semibold text-[15px] tracking-tight">
                 <span className="text-primary dark:text-accent">Energy</span>
                 <span className="text-foreground">Calc</span>
               </span>
-              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest -mt-0.5">
+              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-[0.08em] -mt-0.5">
                 Pro · Commodity Energy Intelligence
               </span>
             </div>
