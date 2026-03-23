@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import FraudPatternsTab from "../components/investor/FraudPatternsTab";
 import PPMUploadAnalyzer from "../components/investor/PPMUploadAnalyzer";
+import AdBanner from "@/components/ads/AdBanner";
 
 // ─── PPM Red Flag Checklist ───────────────────────────────────────────────
 const ppmRedFlags = [
@@ -516,6 +517,8 @@ export default function InvestorProtection() {
         </div>
       </div>
 
+      <AdBanner slot="PROTECT_TOP" format="horizontal" className="rounded-xl" />
+
       <Tabs defaultValue="upload">
         <TabsList className="w-full grid grid-cols-5 h-auto gap-1 p-1">
           <TabsTrigger value="upload" className="text-xs py-2">Upload PPM</TabsTrigger>
@@ -679,6 +682,8 @@ export default function InvestorProtection() {
 
         </TabsContent>
       </Tabs>
+
+      <AdBanner slot="PROTECT_BOTTOM" format="horizontal" className="rounded-xl" />
     </div>
   );
 }
