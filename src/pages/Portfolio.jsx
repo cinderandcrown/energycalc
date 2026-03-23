@@ -1,9 +1,11 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
 import { BarChart3, Calculator, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/components/mobile/PageHeader";
+import PullToRefresh from "@/components/mobile/PullToRefresh";
 
 import PortfolioSummaryCards from "../components/portfolio/PortfolioSummaryCards";
 import TaxSavingsBreakdown from "../components/portfolio/TaxSavingsBreakdown";
@@ -15,12 +17,13 @@ export default function Portfolio() {
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    base44.entities.Calculation.list("-created_date", 100).then((data) => {
-      setCalculations(data);
-      setLoading(false);
-    });
+  const loadData = useCallback(async () => {
+    const data = await base44.entities.Calculation.list("-created_date", 100);
+    setCalculations(data);
+    setLoading(false);
   }, []);
+
+  useEffect(() => { loadData(); }, [loadData]);
 
   const stats = useMemo(() => {
     let totalInvested = 0;
@@ -85,22 +88,19 @@ export default function Portfolio() {
   }
 
   return (
+    <PullToRefresh onRefresh={loadData}>
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
         <div className="flex items-center justify-between flex-wrap gap-3">
-          <div>
-            <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-primary dark:text-accent" />
-              Portfolio Analytics
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Aggregated view of all your saved calculations and projections
-            </p>
-          </div>
+          <PageHeader
+            title="Portfolio Analytics"
+            subtitle="Aggregated view of all your saved calculations and projections"
+            icon={BarChart3}
+          />
           <Link to="/scenarios">
-            <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-              View All Scenarios <ArrowRight className="w-3.5 h-3.5" />
+            <Button size="sm" variant="outline" className="gap-1.5 text-sm min-h-[44px]">
+              View All Scenarios <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
         </div>
@@ -123,10 +123,11 @@ export default function Portfolio() {
 
       {/* Disclaimer */}
       <div className="pb-4 pt-2 text-center">
-        <p className="text-[10px] text-muted-foreground leading-relaxed max-w-lg mx-auto">
+        <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto">
           Portfolio analytics are based on your saved calculation inputs and projections. Actual results will vary based on commodity prices, production rates, and market conditions. This is not investment advice.
         </p>
       </div>
     </div>
+    </PullToRefresh>
   );
 }

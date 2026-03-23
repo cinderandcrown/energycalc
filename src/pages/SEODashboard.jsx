@@ -3,13 +3,14 @@ import { base44 } from '@/api/base44Client';
 import { Search, RefreshCw, Globe, BarChart3, Sparkles, TrendingUp, Target, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import KeywordTable from '@/components/seo/KeywordTable';
 import SEOMetricCards from '@/components/seo/SEOMetricCards';
 import SEOTrendChart from '@/components/seo/SEOTrendChart';
 import SEOPositionChart from '@/components/seo/SEOPositionChart';
 import SEOOpportunities from '@/components/seo/SEOOpportunities';
+import PageHeader from '@/components/mobile/PageHeader';
+import PullToRefresh from '@/components/mobile/PullToRefresh';
+import MobileSelect from '@/components/mobile/MobileSelect';
 
 export default function SEODashboard() {
   const [sites, setSites] = useState([]);
@@ -67,69 +68,56 @@ export default function SEODashboard() {
     setLoading(false);
   };
 
+  const siteOptions = sites.map(s => ({ value: s.siteUrl, label: s.siteUrl }));
+  const daysOptions = [
+    { value: "7", label: "Last 7 days" },
+    { value: "28", label: "Last 28 days" },
+    { value: "90", label: "Last 90 days" },
+  ];
+  const tabOptions = [
+    { value: "overview", label: "Overview" },
+    { value: "opportunities", label: "Opportunities" },
+    { value: "explorer", label: "Explorer" },
+  ];
+
   return (
+    <PullToRefresh onRefresh={fetchAllData}>
     <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <Search className="w-4.5 h-4.5 text-white" />
-            </div>
-            SEO Command Center
-          </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Google Search Console · Keywords, trends, opportunities & rankings intelligence
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-[10px] gap-1">
+        <PageHeader title="SEO Command Center" subtitle="Google Search Console · Keywords, trends & rankings" icon={Search}>
+          <Badge variant="outline" className="text-xs gap-1 mt-1.5">
             <Sparkles className="w-3 h-3" />
             {data?.rows?.length || 0} keywords tracked
           </Badge>
-          <Button variant="outline" size="sm" onClick={fetchAllData} disabled={loading || !selectedSite} className="gap-1.5">
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            Refresh All
-          </Button>
-        </div>
+        </PageHeader>
+        <Button variant="outline" size="sm" onClick={fetchAllData} disabled={loading || !selectedSite} className="gap-1.5 min-h-[44px]">
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          Refresh All
+        </Button>
       </div>
 
-      {/* Controls */}
-      <div className="flex flex-wrap gap-3 items-center rounded-xl border border-border bg-card/50 p-3">
-        <div className="flex items-center gap-2">
-          <Globe className="w-4 h-4 text-muted-foreground" />
-          <Select value={selectedSite} onValueChange={setSelectedSite} disabled={loadingSites}>
-            <SelectTrigger className="w-64">
-              <SelectValue placeholder={loadingSites ? 'Loading sites...' : 'Select site'} />
-            </SelectTrigger>
-            <SelectContent>
-              {sites.map(s => (
-                <SelectItem key={s.siteUrl} value={s.siteUrl}>{s.siteUrl}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <Select value={String(days)} onValueChange={v => setDays(Number(v))}>
-          <SelectTrigger className="w-36">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="28">Last 28 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <div className="ml-auto">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList>
-              <TabsTrigger value="overview" className="text-xs gap-1"><BarChart3 className="w-3 h-3" />Overview</TabsTrigger>
-              <TabsTrigger value="opportunities" className="text-xs gap-1"><Target className="w-3 h-3" />Opportunities</TabsTrigger>
-              <TabsTrigger value="explorer" className="text-xs gap-1"><Search className="w-3 h-3" />Explorer</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+      {/* Controls — mobile-friendly selects */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 rounded-xl border border-border bg-card/50 p-3">
+        <MobileSelect
+          value={selectedSite}
+          onValueChange={setSelectedSite}
+          options={siteOptions}
+          label="Select Site"
+          placeholder={loadingSites ? 'Loading sites...' : 'Select site'}
+        />
+        <MobileSelect
+          value={String(days)}
+          onValueChange={v => setDays(Number(v))}
+          options={daysOptions}
+          label="Time Range"
+        />
+        <MobileSelect
+          value={activeTab}
+          onValueChange={setActiveTab}
+          options={tabOptions}
+          label="View"
+        />
       </div>
 
       {/* Loading */}
@@ -221,13 +209,14 @@ export default function SEODashboard() {
       )}
 
       {/* Footer */}
-      <div className="rounded-lg border border-border bg-muted/30 p-3 flex items-start gap-2.5">
-        <TrendingUp className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
-        <p className="text-[10px] text-muted-foreground leading-relaxed">
+      <div className="rounded-lg border border-border bg-muted/30 p-3.5 flex items-start gap-2.5">
+        <TrendingUp className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+        <p className="text-xs text-muted-foreground leading-relaxed">
           Data from Google Search Console. Positions are averages — actual rankings vary by location, device, and personalization. 
           Use opportunities to prioritize content optimization. Data may have a 2–3 day delay.
         </p>
       </div>
     </div>
+    </PullToRefresh>
   );
 }
