@@ -314,6 +314,11 @@ export default function Landing() {
 
 
 
+      {/* ═══════ AD BANNER ═══════ */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
+        <AdBanner slot="LANDING_BOTTOM" format="horizontal" className="rounded-xl" />
+      </div>
+
       {/* ═══════ CTA ═══════ */}
       <section className="border-t border-border bg-gradient-to-b from-petroleum to-[#071a33]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 text-center">
