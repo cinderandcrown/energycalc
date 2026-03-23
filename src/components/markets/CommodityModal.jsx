@@ -5,12 +5,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, TrendingDown, ExternalLink, Loader2, AlertTriangle, Zap } from "lucide-react";
 
-const CHART_LINKS = {
-  WTI: "https://oilprice.com/oil-price-charts/45",
-  BRENT: "https://oilprice.com/oil-price-charts/46",
-  NG: "https://oilprice.com/oil-price-charts/49",
-  HO: "https://oilprice.com/oil-price-charts/50",
-};
+function getTradingViewSymbol(symbol) {
+  const map = {
+    WTI: "USOIL", BRENT: "UKOIL", NG: "NATGAS", HO: "HO1!",
+    RB: "RB1!", XAU: "GOLD", XAG: "SILVER", XPT: "PLATINUM",
+    XPD: "PALLADIUM", HG: "COPPER", ZC: "CORN", ZW: "WHEAT",
+    ZS: "SOYBEAN", KC: "COFFEE", CT: "COTTON", SB: "SUGAR",
+    CC: "COCOA", LE: "CATTLE", HE: "LEANHOGS", LBS: "LUMBER",
+    ALI: "ALUMINUM", NI: "NICKEL", ZN: "ZINC",
+  };
+  return map[symbol] || symbol;
+}
 
 export default function CommodityModal({ commodity, open, onClose }) {
   const [analysis, setAnalysis] = useState(null);
@@ -26,16 +31,16 @@ export default function CommodityModal({ commodity, open, onClose }) {
   const fetchAnalysis = async () => {
     setLoading(true);
     const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are an energy commodity analyst. Provide a brief market analysis for ${commodity.label} (${commodity.symbol}) as of today (${new Date().toDateString()}).
+      prompt: `You are a commodity market analyst. Provide a brief market analysis for ${commodity.name} (${commodity.symbol}) priced at $${commodity.price} ${commodity.unit} as of today (${new Date().toDateString()}).
 
 Search for the latest real data on this commodity.
 
 Return JSON with:
-1. "stats": { "high52w": number (52-week high price), "low52w": number (52-week low price), "avgPrice": number (recent average price), "volatility": string ("Low"|"Medium"|"High"), "volume": string (approximate daily trading volume like "1.2M bbl/day" for oil or "15.3 Bcf/day" for gas) }
-2. "analysis": 3-4 sentence expert analysis of current ${commodity.label} price action, key supply/demand drivers, and near-term outlook. Reference specific real factors (OPEC decisions, inventory data, weather, geopolitics).
-3. "keyFactors": array of 3-4 strings, each a brief bullet point about a key price driver right now.
+1. "stats": { "high52w": number (52-week high price), "low52w": number (52-week low price), "avgPrice": number (recent avg), "volatility": string ("Low"|"Medium"|"High"), "volume": string (approximate daily volume with units) }
+2. "analysis": 3-4 sentence expert analysis of current price action, key supply/demand drivers, and near-term outlook. Reference specific real factors.
+3. "keyFactors": array of 3-4 strings, each a brief bullet about a key price driver.
 
-CRITICAL: Only use data you can verify from real sources. Do not make up numbers. If you're not sure about a stat, provide your best estimate and say "approx."`,
+CRITICAL: Only use data you can verify. If unsure, say "approx." Do not fabricate.`,
       add_context_from_internet: true,
       response_json_schema: {
         type: "object",
@@ -62,8 +67,13 @@ CRITICAL: Only use data you can verify from real sources. Do not make up numbers
 
   if (!commodity) return null;
 
-  const up = commodity.changePct >= 0;
-  const chartLink = CHART_LINKS[commodity.symbol] || "https://oilprice.com/oil-price-charts";
+  const up = (commodity.changePct || 0) >= 0;
+  const tvSymbol = getTradingViewSymbol(commodity.symbol);
+
+  const formatPrice = (p) => {
+    if (p == null) return "N/A";
+    return `$${p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -72,47 +82,54 @@ CRITICAL: Only use data you can verify from real sources. Do not make up numbers
           <div className="flex items-start justify-between gap-3">
             <div>
               <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
-                {commodity.label}
+                {commodity.name}
                 <Badge variant="secondary" className="text-[10px]">{commodity.symbol}</Badge>
               </DialogTitle>
               <p className="text-xs text-muted-foreground mt-0.5">{commodity.category} · {commodity.unit}</p>
             </div>
             <div className="text-right">
-              <p className="font-mono font-bold text-2xl text-foreground">${commodity.price?.toFixed(2)}</p>
+              <p className="font-mono font-bold text-2xl text-foreground">{formatPrice(commodity.price)}</p>
               <div className={`flex items-center gap-1 justify-end text-sm font-semibold ${up ? "text-drill-green" : "text-flare-red"}`}>
                 {up ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
-                <span>{up ? "+" : ""}{commodity.change?.toFixed(3)} ({up ? "+" : ""}{commodity.changePct?.toFixed(2)}%)</span>
+                <span>{up ? "+" : ""}{commodity.change?.toFixed(2)} ({up ? "+" : ""}{commodity.changePct?.toFixed(2)}%)</span>
               </div>
             </div>
           </div>
         </DialogHeader>
 
         <div className="p-5 space-y-5">
-          {/* Live Price Source Notice */}
+          {/* Live marker */}
           <div className="rounded-lg border border-border bg-muted/30 p-3 flex items-start gap-2.5">
             <div className="w-2 h-2 rounded-full bg-drill-green animate-pulse mt-1.5 shrink-0" />
             <p className="text-xs text-muted-foreground">
-              <strong className="text-foreground">Live price</strong> scraped directly from OilPrice.com. This is the real current market price, not an estimate.
+              <strong className="text-foreground">Live price</strong> sourced via AI web search from major financial data providers. May have a short delay from real-time.
             </p>
           </div>
 
-          {/* View Real Charts CTA */}
+          {/* Charts CTA */}
           <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-4">
             <p className="text-xs font-semibold text-foreground mb-2">Historical Price Charts</p>
             <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-              For accurate historical charts with real tick-by-tick data, use a dedicated financial data provider. We don't generate synthetic chart data.
+              For tick-by-tick historical charts, use a dedicated financial data provider.
             </p>
             <div className="flex gap-2 flex-wrap">
-              <a href={chartLink} target="_blank" rel="noopener noreferrer">
-                <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-                  <ExternalLink className="w-3 h-3" /> OilPrice.com Charts
-                </Button>
-              </a>
-              <a href={`https://www.tradingview.com/symbols/${commodity.symbol === "WTI" ? "USOIL" : commodity.symbol === "BRENT" ? "UKOIL" : commodity.symbol === "NG" ? "NATGAS" : "HO1!"}/`} target="_blank" rel="noopener noreferrer">
+              <a href={`https://www.tradingview.com/symbols/${tvSymbol}/`} target="_blank" rel="noopener noreferrer">
                 <Button size="sm" variant="outline" className="gap-1.5 text-xs">
                   <ExternalLink className="w-3 h-3" /> TradingView
                 </Button>
               </a>
+              <a href={`https://tradingeconomics.com/commodity/${commodity.name?.toLowerCase().replace(/\s+/g, "-")}`} target="_blank" rel="noopener noreferrer">
+                <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+                  <ExternalLink className="w-3 h-3" /> Trading Economics
+                </Button>
+              </a>
+              {commodity.category === "Precious Metals" && (
+                <a href="https://www.kitco.com/charts/" target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+                    <ExternalLink className="w-3 h-3" /> Kitco
+                  </Button>
+                </a>
+              )}
             </div>
           </div>
 
@@ -123,18 +140,16 @@ CRITICAL: Only use data you can verify from real sources. Do not make up numbers
             </div>
           ) : analysis ? (
             <>
-              {/* Stats Grid */}
               {analysis.stats && (
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                  <StatCard label="52W High" value={`$${analysis.stats.high52w?.toFixed(2)}`} />
-                  <StatCard label="52W Low" value={`$${analysis.stats.low52w?.toFixed(2)}`} />
-                  <StatCard label="Avg Price" value={`$${analysis.stats.avgPrice?.toFixed(2)}`} />
+                  <StatCard label="52W High" value={formatPrice(analysis.stats.high52w)} />
+                  <StatCard label="52W Low" value={formatPrice(analysis.stats.low52w)} />
+                  <StatCard label="Avg Price" value={formatPrice(analysis.stats.avgPrice)} />
                   <StatCard label="Volatility" value={analysis.stats.volatility} />
                   <StatCard label="Volume" value={analysis.stats.volume} />
                 </div>
               )}
 
-              {/* Key Factors */}
               {analysis.keyFactors?.length > 0 && (
                 <div className="rounded-xl border border-border bg-card p-4">
                   <p className="text-xs font-semibold text-foreground mb-2">Key Price Drivers</p>
@@ -149,7 +164,6 @@ CRITICAL: Only use data you can verify from real sources. Do not make up numbers
                 </div>
               )}
 
-              {/* AI Analysis */}
               {analysis.analysis && (
                 <div className="rounded-xl border border-crude-gold/30 bg-crude-gold/5 p-4">
                   <div className="flex items-center gap-1.5 mb-2">
@@ -160,22 +174,20 @@ CRITICAL: Only use data you can verify from real sources. Do not make up numbers
                 </div>
               )}
 
-              {/* AI Disclaimer */}
               <div className="flex items-start gap-2 p-3 rounded-lg bg-muted/30 border border-border">
                 <AlertTriangle className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
                 <p className="text-[10px] text-muted-foreground leading-relaxed">
-                  Stats and analysis above are AI-generated using web search and may contain approximations. Always verify critical data points with official sources like CME Group, EIA, or your broker before making investment decisions.
+                  Stats and analysis are AI-generated via web search and may contain approximations. Verify with CME Group, LME, Kitco, or your broker before making investment decisions.
                 </p>
               </div>
             </>
           ) : null}
 
-          {/* Source Footer */}
           <div className="flex items-center justify-between pt-2 border-t border-border">
-            <p className="text-[10px] text-muted-foreground">Live price from OilPrice.com · Analysis by AI</p>
-            <a href="https://oilprice.com" target="_blank" rel="noopener noreferrer">
+            <p className="text-[10px] text-muted-foreground">AI-sourced pricing · Analysis by AI</p>
+            <a href="https://tradingeconomics.com/commodities" target="_blank" rel="noopener noreferrer">
               <Button size="sm" variant="ghost" className="gap-1.5 text-xs text-muted-foreground hover:text-foreground">
-                <ExternalLink className="w-3 h-3" /> OilPrice.com
+                <ExternalLink className="w-3 h-3" /> Trading Economics
               </Button>
             </a>
           </div>
