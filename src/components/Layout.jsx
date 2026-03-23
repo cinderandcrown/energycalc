@@ -33,8 +33,6 @@ const moreNav = [
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/web3', icon: Blocks, label: 'Web3' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
-  { path: '/seo', icon: Globe, label: 'SEO Keywords' },
-  { path: '/analytics', icon: BarChart3, label: 'Analytics' },
   { path: '/account', icon: UserCircle, label: 'My Account' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
