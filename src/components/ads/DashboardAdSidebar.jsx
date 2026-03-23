@@ -16,6 +16,9 @@ export default function DashboardAdSidebar() {
 
       {/* Second AdSense unit */}
       <AdBanner slot="DASHBOARD_SIDE_2" format="auto" className="rounded-xl overflow-hidden" />
+
+      {/* Third AdSense unit — sticky bottom */}
+      <AdBanner slot="DASHBOARD_SIDE_3" format="auto" className="rounded-xl overflow-hidden" />
     </div>
   );
 }
