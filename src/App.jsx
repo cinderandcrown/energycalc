@@ -148,9 +148,9 @@ function App() {
       <QueryClientProvider client={queryClientInstance}>
         <Router>
           <AuthenticatedApp />
+          <CookieConsent />
         </Router>
         <Toaster />
-        <CookieConsent />
       </QueryClientProvider>
     </AuthProvider>
   )
