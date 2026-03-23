@@ -29,6 +29,7 @@ const primaryNav = [
 ];
 
 const moreNav = [
+  { path: '/blog', icon: Globe, label: 'Blog' },
   { path: '/reg-d', icon: FileText, label: 'Reg D Guide' },
   { path: '/honest-guide', icon: Scale, label: 'Honest Guide' },
   { path: '/operator-screener', icon: Search, label: 'Vet Operator' },
