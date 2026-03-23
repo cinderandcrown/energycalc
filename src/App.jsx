@@ -34,6 +34,7 @@ import MetalCostBasis from '@/pages/calc/MetalCostBasis';
 import MyAccount from '@/pages/MyAccount';
 import NewsFeedPage from '@/pages/NewsFeed.jsx';
 import SEODashboard from '@/pages/SEODashboard.jsx';
+import AnalyticsDashboard from '@/pages/AnalyticsDashboard.jsx';
 
 // Layout
 import Layout from '@/components/Layout';
@@ -92,6 +93,7 @@ const AuthenticatedApp = () => {
           <Route path="/compare" element={<Compare />} />
           <Route path="/news" element={<NewsFeedPage />} />
           <Route path="/seo" element={<SEODashboard />} />
+          <Route path="/analytics" element={<AnalyticsDashboard />} />
 
           {/* Calculators */}
           <Route path="/calc/net-investment" element={<NetInvestment />} />
