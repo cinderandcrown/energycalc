@@ -9,6 +9,7 @@ import { ResultCard, HeroResultCard } from "@/components/ui/ResultCard";
 import CalcActionBar from "@/components/CalcActionBar";
 import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import NetInvestmentExplainers from "@/components/calc/NetInvestmentExplainers";
@@ -220,6 +221,7 @@ export default function NetInvestment() {
         </div>
       </div>
 
+      <InContentAd slot="CALC_NET_MID" />
       <GeoDueDiligence calcType="net_investment" />
       <AIWellEvaluator />
       <DisclaimerFooter />

@@ -5,6 +5,7 @@ import { ResultCard, HeroResultCard } from "@/components/ui/ResultCard";
 import CalcActionBar from "@/components/CalcActionBar";
 import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import BarrelsToCashExplainers from "@/components/calc/BarrelsToCashExplainers";
@@ -205,6 +206,7 @@ export default function BarrelsToCash() {
         </table>
       </div>
 
+      <InContentAd slot="CALC_OIL_MID" />
       <GeoDueDiligence calcType="barrels_to_cash" />
       <AIWellEvaluator />
       <DisclaimerFooter />
