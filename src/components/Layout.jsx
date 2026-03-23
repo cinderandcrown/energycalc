@@ -172,7 +172,7 @@ export default function Layout() {
   const mobileTabItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Home' },
     { path: '/markets', icon: BarChart3, label: 'Markets' },
-    { path: '/portfolio', icon: PieChart, label: 'Portfolio' },
+    { path: '/energy-literacy', icon: BookOpen, label: 'Learn' },
     { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
   ];
 
