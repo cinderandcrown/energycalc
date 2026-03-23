@@ -194,7 +194,7 @@ export default function Landing() {
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">9 Calculators. Every Commodity. Every Angle.</h2>
             <p className="text-muted-foreground text-sm">Oil, gas, gold, silver, copper, 100+ metals, 120+ crops, livestock — the most comprehensive commodity investment toolkit anywhere.</p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             {CALCS.map((c, i) => {
               const Icon = c.icon;
               return (
