@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
 
 /**
- * Returns the depth of the current route and whether a back button should be shown.
- * Root-level tabs (e.g. /dashboard, /markets) are depth 1 — no back button.
- * Sub-pages (e.g. /calc/net-investment, /admin/users) are depth 2+ — show back button.
+ * Returns the depth of the current route.
+ * Used by components that need route awareness outside of the tab stack system.
+ * The primary back-navigation is handled by useTabNavigationStacks in Layout.
  */
 
 const ROOT_PATHS = new Set([
