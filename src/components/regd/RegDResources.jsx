@@ -73,7 +73,7 @@ export default function RegDResources() {
       <div className="rounded-lg bg-muted/30 border border-border p-3">
         <p className="text-[10px] text-muted-foreground leading-relaxed">
           <strong className="text-foreground">Disclaimer:</strong> Links are provided for informational purposes and direct to official U.S. government or regulatory websites. 
-          EnergyCalc Pro is not affiliated with the SEC, FINRA, NASAA, or any regulatory body. Always consult a qualified securities attorney for legal advice specific to your situation.
+          Commodity Investor+ is not affiliated with the SEC, FINRA, NASAA, or any regulatory body. Always consult a qualified securities attorney for legal advice specific to your situation.
         </p>
       </div>
     </div>
