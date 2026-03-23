@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
     }
 
     const { accessToken } = await base44.asServiceRole.connectors.getConnection("googlebigquery");
-    const { action, projectId, datasetId, query: sqlQuery } = await req.json();
+    const { action, projectId, datasetId, tableId, query: sqlQuery } = await req.json();
 
     const headers = {
       'Authorization': `Bearer ${accessToken}`,
@@ -65,10 +65,16 @@ Deno.serve(async (req) => {
 
     // Action: get table schema
     if (action === 'getSchema') {
-      if (!projectId || !datasetId) return Response.json({ error: 'projectId, datasetId required' }, { status: 400 });
-      const { tableId } = await req.json().catch(() => ({}));
-      // Already parsed above, re-parse won't work. Let's get tableId from the original parse.
-      return Response.json({ error: 'Pass tableId in request body' }, { status: 400 });
+      if (!projectId || !datasetId || !tableId) return Response.json({ error: 'projectId, datasetId, tableId required' }, { status: 400 });
+      const res = await fetch(`https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/datasets/${datasetId}/tables/${tableId}`, { headers });
+      if (!res.ok) {
+        const err = await res.text();
+        console.error('BigQuery getSchema error:', err);
+        return Response.json({ error: `BigQuery API error: ${res.status}` }, { status: 500 });
+      }
+      const data = await res.json();
+      const fields = (data.schema?.fields || []).map(f => ({ name: f.name, type: f.type, mode: f.mode }));
+      return Response.json({ fields, numRows: data.numRows });
     }
 
     // Action: run query
