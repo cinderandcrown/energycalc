@@ -1,73 +1,70 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
-import { Send, Loader2, MessageCircle, Plus, ChevronLeft, Trash2 } from "lucide-react";
+import { Send, Loader2, MessageCircle, RotateCcw } from "lucide-react";
 import SupportMessageBubble from "@/components/support/SupportMessageBubble";
-import { Button } from "@/components/ui/button";
 
 const AGENT_NAME = "customer_service";
-const GREETING = "Welcome to Commodity Investor+! How can I help protect your investments today?";
+const GREETING = "Welcome to Commodity Investor+ Support! How can I help you today?";
+const STORAGE_KEY = "ci_support_convo_v2";
 
 export default function Support() {
-  const [conversations, setConversations] = useState([]);
-  const [activeConvo, setActiveConvo] = useState(null);
+  const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [showList, setShowList] = useState(true);
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Load conversations
+  // Load or create a single persistent conversation
   useEffect(() => {
-    loadConversations();
+    const init = async () => {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const existing = await base44.agents.getConversation(stored);
+        if (existing?.id) {
+          setConversation(existing);
+          setMessages(existing.messages || []);
+          setLoading(false);
+          return;
+        }
+      }
+      await createConversation();
+    };
+    init();
   }, []);
 
-  const loadConversations = async () => {
-    setLoading(true);
-    const convos = await base44.agents.listConversations({ agent_name: AGENT_NAME });
-    setConversations(convos || []);
+  const createConversation = async () => {
+    const convo = await base44.agents.createConversation({
+      agent_name: AGENT_NAME,
+      metadata: { name: "Support" },
+    });
+    localStorage.setItem(STORAGE_KEY, convo.id);
+    setConversation(convo);
+    setMessages([]);
     setLoading(false);
   };
 
-  // Subscribe to active conversation
+  // Subscribe to real-time updates
   useEffect(() => {
-    if (!activeConvo?.id) return;
-    const unsub = base44.agents.subscribeToConversation(activeConvo.id, (data) => {
+    if (!conversation?.id) return;
+    const unsub = base44.agents.subscribeToConversation(conversation.id, (data) => {
       setMessages(data.messages || []);
     });
     return () => unsub();
-  }, [activeConvo?.id]);
+  }, [conversation?.id]);
 
-  // Scroll to bottom
+  // Auto-scroll
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages]);
 
-  const openConversation = async (convo) => {
-    const full = await base44.agents.getConversation(convo.id);
-    setActiveConvo(full);
-    setMessages(full.messages || []);
-    setShowList(false);
-  };
-
-  const startNewConversation = async () => {
-    const convo = await base44.agents.createConversation({
-      agent_name: AGENT_NAME,
-      metadata: { name: `Support Chat — ${new Date().toLocaleDateString()}` },
-    });
-    setActiveConvo(convo);
-    setMessages([]);
-    setShowList(false);
-    await loadConversations();
-  };
-
   const handleSend = async () => {
     const text = input.trim();
-    if (!text || sending || !activeConvo) return;
+    if (!text || sending || !conversation) return;
     setInput("");
     setSending(true);
-    await base44.agents.addMessage(activeConvo, { role: "user", content: text });
+    await base44.agents.addMessage(conversation, { role: "user", content: text });
     setSending(false);
     inputRef.current?.focus();
   };
@@ -79,6 +76,11 @@ export default function Support() {
     }
   };
 
+  const handleReset = async () => {
+    setLoading(true);
+    await createConversation();
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -87,78 +89,25 @@ export default function Support() {
     );
   }
 
-  // Conversation list view
-  if (showList || !activeConvo) {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-foreground">Support</h1>
-            <p className="text-sm text-muted-foreground">Chat with our AI assistant</p>
-          </div>
-          <Button onClick={startNewConversation} className="gap-1.5 bg-crude-gold text-petroleum hover:bg-crude-gold/90">
-            <Plus className="w-4 h-4" /> New Chat
-          </Button>
-        </div>
-
-        {conversations.length === 0 ? (
-          <div className="text-center py-16 space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-crude-gold/10 flex items-center justify-center mx-auto">
-              <MessageCircle className="w-8 h-8 text-crude-gold" />
-            </div>
-            <div>
-              <p className="font-medium text-foreground">No conversations yet</p>
-              <p className="text-sm text-muted-foreground mt-1">Start a chat to get help with your account, tools, or anything else.</p>
-            </div>
-            <Button onClick={startNewConversation} className="bg-crude-gold text-petroleum hover:bg-crude-gold/90">
-              Start a Conversation
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {conversations.map((convo) => {
-              const lastMsg = convo.messages?.[convo.messages.length - 1];
-              return (
-                <button
-                  key={convo.id}
-                  onClick={() => openConversation(convo)}
-                  className="w-full flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-colors text-left"
-                >
-                  <div className="w-9 h-9 rounded-full bg-petroleum flex items-center justify-center shrink-0">
-                    <span className="text-crude-gold text-xs font-bold">EC</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">
-                      {convo.metadata?.name || "Support Chat"}
-                    </p>
-                    <p className="text-xs text-muted-foreground truncate mt-0.5">
-                      {lastMsg?.content?.slice(0, 80) || "No messages yet"}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-1">
-                      {new Date(convo.updated_date || convo.created_date).toLocaleDateString()}
-                    </p>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // Active conversation view
   return (
     <div className="flex flex-col h-[calc(100vh-120px)] sm:h-[calc(100vh-80px)] max-w-2xl mx-auto">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-border shrink-0">
-        <button onClick={() => setShowList(true)} className="w-8 h-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors">
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <div className="flex-1">
-          <p className="text-sm font-semibold text-foreground">Commodity Investor+ Support</p>
-          <p className="text-[10px] text-muted-foreground">AI-Powered Assistance</p>
+        <div className="w-9 h-9 rounded-full bg-petroleum flex items-center justify-center shrink-0">
+          <MessageCircle className="w-4 h-4 text-crude-gold" />
         </div>
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-foreground">Customer Support</p>
+          <p className="text-xs text-muted-foreground">AI-Powered Assistance</p>
+        </div>
+        <button
+          onClick={handleReset}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          title="Start fresh conversation"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          New Chat
+        </button>
       </div>
 
       {/* Messages */}
@@ -191,7 +140,7 @@ export default function Support() {
           <button
             onClick={handleSend}
             disabled={!input.trim() || sending}
-            className="w-10 h-10 rounded-xl bg-crude-gold text-petroleum flex items-center justify-center hover:bg-crude-gold/90 transition-colors disabled:opacity-40 shrink-0"
+            className="w-11 h-11 rounded-xl bg-crude-gold text-petroleum flex items-center justify-center hover:bg-crude-gold/90 transition-colors disabled:opacity-40 shrink-0"
           >
             <Send className="w-4 h-4" />
           </button>
