@@ -20,6 +20,7 @@ import TaxStrategies from '@/pages/TaxStrategies';
 import Scenarios from '@/pages/Scenarios';
 import Web3Energy from '@/pages/Web3Energy';
 import Learn from '@/pages/Learn';
+import EnergyLiteracy from '@/pages/EnergyLiteracy';
 import Settings from '@/pages/Settings';
 import Legal from '@/pages/Legal';
 import Compare from '@/pages/Compare';
@@ -97,6 +98,7 @@ const AuthenticatedApp = () => {
           <Route path="/scenarios" element={<Scenarios />} />
           <Route path="/web3" element={<Web3Energy />} />
           <Route path="/learn" element={<Learn />} />
+          <Route path="/energy-literacy" element={<EnergyLiteracy />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/news" element={<NewsFeedPage />} />
 

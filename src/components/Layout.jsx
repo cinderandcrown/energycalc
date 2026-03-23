@@ -21,6 +21,7 @@ const primaryNav = [
   { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/markets', icon: BarChart3, label: 'Markets' },
   { path: '/news', icon: Newspaper, label: 'News' },
+  { path: '/energy-literacy', icon: BookOpen, label: 'Literacy' },
   { path: '/intelligence', icon: Activity, label: 'Intelligence' },
   { path: '/portfolio', icon: PieChart, label: 'Portfolio' },
   { path: '/investor-protection', icon: ShieldAlert, label: 'Protect' },
