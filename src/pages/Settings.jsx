@@ -205,24 +205,24 @@ export default function Settings() {
 
       {/* Legal */}
       <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
-        <div className="flex items-center gap-2 pb-2 border-b border-border mb-2">
-          <Shield className="w-4 h-4 text-muted-foreground" />
-          <h2 className="text-sm font-semibold text-foreground">Legal & Compliance</h2>
+        <div className="flex items-center gap-2 pb-3 border-b border-border mb-2">
+          <Shield className="w-5 h-5 text-muted-foreground" />
+          <h2 className="text-base font-semibold text-foreground">Legal & Compliance</h2>
         </div>
-        <Link to="/legal" className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+        <Link to="/legal" className="w-full flex items-center justify-between py-3 text-base text-foreground hover:text-primary dark:hover:text-accent transition-colors">
           Privacy Policy
-          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+          <ExternalLink className="w-5 h-5 text-muted-foreground" />
         </Link>
-        <Link to="/legal" className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+        <Link to="/legal" className="w-full flex items-center justify-between py-3 text-base text-foreground hover:text-primary dark:hover:text-accent transition-colors">
           Terms of Use
-          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+          <ExternalLink className="w-5 h-5 text-muted-foreground" />
         </Link>
-        <Link to="/legal" className="w-full flex items-center justify-between py-2 text-sm text-foreground hover:text-primary dark:hover:text-accent transition-colors">
+        <Link to="/legal" className="w-full flex items-center justify-between py-3 text-base text-foreground hover:text-primary dark:hover:text-accent transition-colors">
           Full Legal Disclosures
-          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+          <ExternalLink className="w-5 h-5 text-muted-foreground" />
         </Link>
         <div className="pt-3 border-t border-border mt-3">
-          <p className="text-xs text-muted-foreground leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             <strong className="text-foreground">EnergyCalc Pro is not a registered broker-dealer, investment advisor, or FINRA member.</strong> All calculations are illustrative estimates only and do not constitute investment advice, tax advice, or a securities solicitation. Oil &amp; gas investments involve substantial risk including loss of principal. Always consult a licensed CPA, securities attorney, or registered investment advisor.
           </p>
         </div>
