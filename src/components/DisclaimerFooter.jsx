@@ -1,9 +1,12 @@
 import { AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
+import AdBanner from "@/components/ads/AdBanner";
 
 export default function DisclaimerFooter() {
   return (
-    <div className="mt-8 p-4 rounded-xl border border-border bg-muted/50 space-y-2">
+    <>
+    <AdBanner slot="CALC_BOTTOM" format="horizontal" className="mt-6 rounded-xl" />
+    <div className="mt-4 p-4 rounded-xl border border-border bg-muted/50 space-y-2">
       <div className="flex gap-3">
         <AlertTriangle className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
         <p className="text-xs text-muted-foreground leading-relaxed">
@@ -20,5 +23,6 @@ export default function DisclaimerFooter() {
         </p>
       </div>
     </div>
+    </>
   );
 }
