@@ -362,7 +362,9 @@ export default function Layout() {
       </div>
 
       {/* Main Content + Ad Sidebar */}
-      <main className="flex-1 pb-24 sm:pb-0" style={{ overscrollBehavior: 'none' }}>
+      <main className="flex-1 sm:pb-0" style={{ overscrollBehavior: 'none', paddingBottom: 'calc(70px + env(safe-area-inset-bottom, 0px))' }}>
+        {/* On sm+ the bottom nav is hidden, so override the padding */}
+        <style>{`@media (min-width: 640px) { main { padding-bottom: 0 !important; } }`}</style>
         <div className="flex">
           <div className="flex-1 min-w-0">
             <OilPourTransition>

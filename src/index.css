@@ -84,7 +84,7 @@
     font-size: 16px !important;
   }
 
-  /* Mobile accessibility: larger base text & tap targets */
+  /* Mobile accessibility: enforce 44px touch targets & readable text */
   @media (max-width: 639px) {
     body {
       font-size: 16px;
@@ -96,12 +96,23 @@
       line-height: 1.6;
     }
 
-    button, a, [role="button"] {
+    /* Enforce 44×44 minimum for all interactive elements (WCAG 2.5.5) */
+    button:not(.inline-btn),
+    [role="button"],
+    input,
+    select,
+    textarea,
+    a:not(.inline-link) {
       min-height: 44px;
     }
 
     label {
       font-size: 0.9375rem;
+    }
+
+    /* Switch component exception — already has adequate surface area via padding */
+    [role="switch"] {
+      min-height: auto;
     }
   }
 

@@ -1,73 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
 /**
- * Fluid page transition — dark curtain slides up with golden edge,
- * matching the landing page reveal style.
+ * Mobile-native slide-in page transition.
+ * New pages slide in from the right; exiting pages slide out left.
+ * Includes a subtle gold edge accent for brand continuity.
  */
+
+const slideVariants = {
+  enter: { x: "30%", opacity: 0 },
+  center: { x: 0, opacity: 1 },
+  exit: { x: "-15%", opacity: 0 },
+};
+
+const slideTransition = {
+  type: "tween",
+  ease: [0.25, 0.46, 0.45, 0.94],
+  duration: 0.28,
+};
+
 export default function OilPourTransition({ children }) {
   const location = useLocation();
+  const prevPath = useRef(location.pathname);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (prevPath.current !== location.pathname) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      prevPath.current = location.pathname;
+    }
   }, [location.pathname]);
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div key={location.pathname}>
-        {/* Transition overlay */}
-        <motion.div
-          className="fixed inset-0 z-[100] pointer-events-none overflow-hidden"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 0.3, delay: 0.65 }}
-        >
-          {/* Dark curtain — slides up */}
-          <motion.div
-            className="absolute inset-x-0 bottom-0"
-            style={{
-              background: "linear-gradient(0deg, #050208 0%, #0B2545 50%, #0a0a1a 100%)",
-            }}
-            initial={{ height: "100%" }}
-            animate={{ height: "0%" }}
-            transition={{ duration: 0.55, delay: 0.1, ease: [0.77, 0, 0.175, 1] }}
-          />
-
-          {/* Golden edge line */}
-          <motion.div
-            className="absolute inset-x-0 h-[2px]"
-            style={{
-              background: "linear-gradient(90deg, transparent 10%, rgba(212,168,67,0.5) 35%, rgba(212,168,67,0.9) 50%, rgba(212,168,67,0.5) 65%, transparent 90%)",
-              boxShadow: "0 0 20px 6px rgba(212,168,67,0.2)",
-            }}
-            initial={{ bottom: "0%" }}
-            animate={{ bottom: "100%" }}
-            transition={{ duration: 0.55, delay: 0.1, ease: [0.77, 0, 0.175, 1] }}
-          />
-
-          {/* Soft glow trail */}
-          <motion.div
-            className="absolute inset-x-0 h-24"
-            style={{
-              background: "linear-gradient(0deg, transparent 0%, rgba(212,168,67,0.06) 50%, transparent 100%)",
-              filter: "blur(16px)",
-            }}
-            initial={{ bottom: "-5%" }}
-            animate={{ bottom: "105%" }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.77, 0, 0.175, 1] }}
-          />
-        </motion.div>
-
-        {/* Page content */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-        >
-          {children}
-        </motion.div>
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        variants={slideVariants}
+        initial="enter"
+        animate="center"
+        exit="exit"
+        transition={slideTransition}
+        style={{ willChange: "transform, opacity" }}
+      >
+        {children}
       </motion.div>
     </AnimatePresence>
   );
