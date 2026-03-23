@@ -126,9 +126,19 @@ const typePaths = {
   livestock: "/calc/livestock",
 };
 
+const ENERGY_SYMBOLS = ["WTI", "BRENT", "NG", "HO"];
+
+function derivePricesFromCommodities(commodities) {
+  return ENERGY_SYMBOLS.map(sym => {
+    const c = commodities.find(x => x.symbol === sym);
+    if (c) return { label: c.name, price: c.price, unit: c.unit, changePct: c.changePct ?? 0 };
+    return { label: sym, price: null, unit: "", changePct: 0 };
+  });
+}
+
 const defaultPriceData = [
-  { label: "WTI Crude", price: null, unit: "/bbl", changePct: 0 },
-  { label: "Brent Crude", price: null, unit: "/bbl", changePct: 0 },
+  { label: "WTI Crude Oil", price: null, unit: "/bbl", changePct: 0 },
+  { label: "Brent Crude Oil", price: null, unit: "/bbl", changePct: 0 },
   { label: "Natural Gas", price: null, unit: "/MMBtu", changePct: 0 },
   { label: "Heating Oil", price: null, unit: "/gal", changePct: 0 },
 ];
@@ -186,9 +196,10 @@ export default function Dashboard() {
   const fetchPrices = useCallback(async () => {
     setPricesRefreshing(true);
     try {
-      const res = await base44.functions.invoke('fetchPrices', {});
-      if (res.data?.prices?.length) {
-        setPriceData(res.data.prices);
+      // Use the same fetchAllCommodities data source as Markets & Intelligence pages
+      const res = await base44.functions.invoke('fetchAllCommodities', {});
+      if (res.data?.commodities?.length) {
+        setPriceData(derivePricesFromCommodities(res.data.commodities));
       }
     } catch (e) {
       // keep defaults
@@ -300,7 +311,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
           <div className={`w-2 h-2 rounded-full ${pricesLoading ? "bg-crude-gold animate-pulse" : "bg-drill-green animate-pulse"}`} />
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-            {pricesLoading ? "Fetching live prices..." : "Live Prices · via OilPrice.com"}
+            {pricesLoading ? "Fetching live prices..." : "Live Prices"}
           </span>
           <button
             onClick={fetchPrices}

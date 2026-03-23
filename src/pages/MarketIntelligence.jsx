@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Activity, AlertTriangle, Zap, BarChart3, Target, Brain } from "lucide-react";
@@ -17,15 +17,16 @@ import LatestNews from "../components/intelligence/LatestNews";
 import DisclaimerFooter from "../components/DisclaimerFooter";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 
+const ENERGY_SYMBOLS = ["WTI", "BRENT", "NG", "HO"];
+
 const defaultPrices = [
-  { label: "WTI Crude", price: null, change: 0, changePct: 0, unit: "/bbl" },
-  { label: "Brent Crude", price: null, change: 0, changePct: 0, unit: "/bbl" },
+  { label: "WTI Crude Oil", price: null, change: 0, changePct: 0, unit: "/bbl" },
+  { label: "Brent Crude Oil", price: null, change: 0, changePct: 0, unit: "/bbl" },
   { label: "Natural Gas", price: null, change: 0, changePct: 0, unit: "/MMBtu" },
   { label: "Heating Oil", price: null, change: 0, changePct: 0, unit: "/gal" },
 ];
 
 export default function MarketIntelligence() {
-  const [prices, setPrices] = useState(defaultPrices);
   const [allCommodities, setAllCommodities] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
@@ -36,22 +37,25 @@ export default function MarketIntelligence() {
     queryFn: () => base44.entities.Calculation.list("-created_date", 50),
   });
 
+  // Derive the 4 energy prices from the unified allCommodities dataset
+  const prices = useMemo(() => {
+    if (allCommodities.length === 0) return defaultPrices;
+    return ENERGY_SYMBOLS.map(sym => {
+      const c = allCommodities.find(x => x.symbol === sym);
+      if (c) return { label: c.name, price: c.price, change: c.change ?? 0, changePct: c.changePct ?? 0, unit: c.unit };
+      return defaultPrices.find(d => d.label.includes(sym === "WTI" ? "WTI" : sym === "BRENT" ? "Brent" : sym === "NG" ? "Natural Gas" : "Heating")) || defaultPrices[0];
+    });
+  }, [allCommodities]);
+
   const fetchPrices = async () => {
     setRefreshing(true);
     try {
-      const res = await base44.functions.invoke("fetchPrices", {});
-      if (res.data?.prices?.length) {
-        setPrices(res.data.prices);
+      const res = await base44.functions.invoke("fetchAllCommodities", {});
+      if (res.data?.commodities?.length) {
+        setAllCommodities(res.data.commodities);
         setLastUpdated(new Date());
       }
     } catch (e) { /* keep defaults */ }
-    // Also fetch all commodities for the broader intelligence view
-    try {
-      const allRes = await base44.functions.invoke("fetchAllCommodities", {});
-      if (allRes.data?.commodities?.length) {
-        setAllCommodities(allRes.data.commodities);
-      }
-    } catch (e) { /* keep empty */ }
     setRefreshing(false);
   };
 
