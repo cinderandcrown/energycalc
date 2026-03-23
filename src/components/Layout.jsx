@@ -160,7 +160,7 @@ export default function Layout() {
 
   /* ── Desktop nav (rendered inside NavigationHeader) ── */
   const desktopNav = (
-    <nav className="hidden lg:flex items-center gap-1">
+    <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
       {primaryNav.map(({ path, icon: Icon, label }) => (
         <Link key={path} to={path}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive(path) ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
@@ -174,6 +174,13 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* ADA: Skip to main content link */}
+      <a
+        href="#main-content"
+        className="sr-only-focusable fixed top-0 left-0 z-[100] bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold rounded-br-lg focus:not-sr-only"
+      >
+        Skip to main content
+      </a>
       <SiteDisclaimer />
 
       {/* Header — native-style back button via stack manager */}
@@ -241,6 +248,8 @@ export default function Layout() {
 
       {/* Main Content + Ad Sidebar */}
       <main
+        id="main-content"
+        role="main"
         className="flex-1"
         style={{
           overscrollBehavior: 'none',
