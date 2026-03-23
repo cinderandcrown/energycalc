@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
-import { Search, RefreshCw, Globe, BarChart3, Sparkles, TrendingUp, Target } from 'lucide-react';
+import { Search, RefreshCw, Globe, BarChart3, Sparkles, TrendingUp, Target, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -22,6 +22,7 @@ export default function SEODashboard() {
   const [oppsData, setOppsData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingSites, setLoadingSites] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoadingSites(true);
@@ -40,22 +41,29 @@ export default function SEODashboard() {
 
   const fetchAllData = async () => {
     setLoading(true);
-    const [queryRes, trendRes, oppsRes] = await Promise.all([
+    setError(null);
+    const results = await Promise.allSettled([
       base44.functions.invoke('fetchSearchConsole', { siteUrl: selectedSite, days, rowLimit: 200, dimension: 'query' }),
       base44.functions.invoke('fetchSearchConsole', { siteUrl: selectedSite, days, action: 'trend' }),
       base44.functions.invoke('fetchSearchConsole', { siteUrl: selectedSite, days, action: 'opportunities' }),
     ]);
-    setData(queryRes.data);
-    setTrendData(trendRes.data);
-    setOppsData(oppsRes.data);
+    if (results[0].status === 'fulfilled') setData(results[0].value.data);
+    else setError('Unable to fetch keyword data. Make sure this site is verified in Google Search Console.');
+    if (results[1].status === 'fulfilled') setTrendData(results[1].value.data);
+    if (results[2].status === 'fulfilled') setOppsData(results[2].value.data);
     setLoading(false);
   };
 
   const fetchDimensionData = async (dim) => {
     setDimension(dim);
     setLoading(true);
-    const res = await base44.functions.invoke('fetchSearchConsole', { siteUrl: selectedSite, days, rowLimit: 200, dimension: dim });
-    setData(res.data);
+    setError(null);
+    try {
+      const res = await base44.functions.invoke('fetchSearchConsole', { siteUrl: selectedSite, days, rowLimit: 200, dimension: dim });
+      setData(res.data);
+    } catch {
+      setError('Unable to fetch data. Check site verification in Google Search Console.');
+    }
     setLoading(false);
   };
 
@@ -142,6 +150,20 @@ export default function SEODashboard() {
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
             No verified sites in your Google Search Console. Make sure your site is verified and you have access.
           </p>
+        </div>
+      )}
+
+      {/* Error state */}
+      {error && !loading && (
+        <div className="rounded-xl border border-flare-red/30 bg-flare-red/5 p-4 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-flare-red shrink-0 mt-0.5" />
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">Permission Error</h3>
+            <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{error}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-accent underline">Google Search Console</a> and verify this site with the connected Google account.
+            </p>
+          </div>
         </div>
       )}
 
