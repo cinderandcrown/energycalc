@@ -135,7 +135,7 @@ Be authoritative but measured. Use specific price references. No generic filler.
               </div>
 
               <p className="text-[9px] text-muted-foreground italic">
-                AI-generated analysis based on current market data. Not investment advice.
+                AI-generated analysis. May contain errors or hallucinations. This is not investment advice or a trade recommendation. Verify independently and consult a licensed professional.
               </p>
             </motion.div>
           )}

@@ -13,7 +13,7 @@ const TAGLINES = [
 ];
 
 const STATS = [
-  { value: "$10B+", label: "Lost to commodity fraud annually" },
+  { value: "$10B+", label: "Est. lost to commodity fraud (FBI)" },
   { value: "65–80%", label: "Year-1 IDC tax write-off" },
   { value: "9", label: "Commodity sectors covered" },
   { value: "8", label: "Professional calculators" },

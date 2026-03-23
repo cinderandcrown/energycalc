@@ -18,7 +18,7 @@ export default function SupportChat() {
   // Load or create conversation
   useEffect(() => {
     const init = async () => {
-      const stored = localStorage.getItem("energycalc_support_convo");
+      const stored = localStorage.getItem("ci_support_convo");
       if (stored) {
         const existing = await base44.agents.getConversation(stored);
         if (existing?.id) {
@@ -33,7 +33,7 @@ export default function SupportChat() {
         agent_name: AGENT_NAME,
         metadata: { name: "Support Chat" },
       });
-      localStorage.setItem("energycalc_support_convo", convo.id);
+      localStorage.setItem("ci_support_convo", convo.id);
       setConversation(convo);
       setMessages([]);
       setLoading(false);
@@ -80,7 +80,7 @@ export default function SupportChat() {
       agent_name: AGENT_NAME,
       metadata: { name: "Support Chat" },
     });
-    localStorage.setItem("energycalc_support_convo", convo.id);
+    localStorage.setItem("ci_support_convo", convo.id);
     setConversation(convo);
     setMessages([]);
     setLoading(false);

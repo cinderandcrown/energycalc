@@ -180,13 +180,14 @@ export default function WeeklyOutlook({ allCommodities = [] }) {
               <div className="rounded-xl border-2 border-crude-gold/30 bg-crude-gold/5 p-4">
                 <p className="text-[10px] font-bold text-crude-gold uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Lightbulb className="w-3.5 h-3.5" />
-                  Actionable Idea
+                  AI-Generated Perspective
                 </p>
                 <p className="text-sm text-foreground leading-relaxed">{outlook.actionable_idea}</p>
+                <p className="text-[9px] text-muted-foreground mt-2 italic">This is an AI-generated observation, not a trade recommendation. Always do your own research and consult a licensed professional.</p>
               </div>
 
               <p className="text-[9px] text-muted-foreground italic">
-                AI-generated analysis based on current market data. Not investment advice. Always consult a licensed professional.
+                AI-generated analysis based on current market data. May contain errors or hallucinations. This is not investment advice, a trade recommendation, or a solicitation. Always verify independently and consult a licensed professional before acting.
               </p>
             </motion.div>
           )}

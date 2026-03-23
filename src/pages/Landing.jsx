@@ -116,7 +116,7 @@ export default function Landing() {
               <span className="font-bold text-base tracking-tight">
                 <span className="text-primary dark:text-accent">Commodity</span> <span className="text-foreground">Investor</span><span className="text-crude-gold">+</span>
               </span>
-              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Trusted Commodity Market Intelligence</span>
+              <span className="hidden sm:block text-[9px] text-muted-foreground font-medium uppercase tracking-widest">Commodity Market Intelligence</span>
             </div>
           </Link>
 

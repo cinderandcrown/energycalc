@@ -6,10 +6,10 @@ import { Badge } from "@/components/ui/badge";
 
 const LAST_UPDATED = "March 23, 2026";
 const EFFECTIVE_DATE = "March 23, 2026";
-const COMPANY_NAME = "EnergyCalc Pro";
-const COMPANY_ENTITY = "EnergyCalc Pro, LLC";
-const CONTACT_LEGAL = "legal@energycalcpro.com";
-const CONTACT_PRIVACY = "privacy@energycalcpro.com";
+const COMPANY_NAME = "Commodity Investor+";
+const COMPANY_ENTITY = "Commodity Investor+, LLC";
+const CONTACT_LEGAL = "legal@commodityinvestor.app";
+const CONTACT_PRIVACY = "privacy@commodityinvestor.app";
 const GOVERNING_STATE = "Texas";
 const GOVERNING_COUNTY = "Harris County";
 

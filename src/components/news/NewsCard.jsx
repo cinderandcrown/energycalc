@@ -63,9 +63,10 @@ export default function NewsCard({ article, onClick }) {
         <div className="rounded-lg bg-crude-gold/5 border border-crude-gold/20 p-2.5 mb-3">
           <div className="flex items-center gap-1 mb-1">
             <Zap className="w-3 h-3 text-crude-gold" />
-            <span className="text-[10px] font-semibold text-crude-gold uppercase tracking-wide">Investor Implication</span>
+            <span className="text-[10px] font-semibold text-crude-gold uppercase tracking-wide">AI-Generated Analysis</span>
           </div>
           <p className="text-xs text-foreground leading-relaxed">{article.ai_analysis}</p>
+          <p className="text-[9px] text-muted-foreground mt-1 italic">AI-generated. May contain inaccuracies. Not investment advice.</p>
         </div>
       )}
 
