@@ -28,6 +28,9 @@ import BarrelsToCash from '@/pages/calc/BarrelsToCash';
 import NatGasToCash from '@/pages/calc/NatGasToCash';
 import RateOfReturn from '@/pages/calc/RateOfReturn';
 import TaxImpact from '@/pages/calc/TaxImpact';
+import GoldPurityCalc from '@/pages/calc/GoldPurityCalc';
+import AgYieldCalc from '@/pages/calc/AgYieldCalc';
+import MetalCostBasis from '@/pages/calc/MetalCostBasis';
 
 // Layout
 import Layout from '@/components/Layout';
@@ -85,6 +88,9 @@ const AuthenticatedApp = () => {
         <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
         <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
         <Route path="/calc/tax-impact" element={<TaxImpact />} />
+        <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
+        <Route path="/calc/ag-yield" element={<AgYieldCalc />} />
+        <Route path="/calc/metal-cost" element={<MetalCostBasis />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
