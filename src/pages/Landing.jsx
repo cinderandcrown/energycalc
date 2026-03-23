@@ -19,7 +19,7 @@ const PLAN = {
   name: "Commodity Investor+",
   price: "$10",
   period: "/mo",
-  productId: "prod_UC1nAY3emodE1H",
+  productId: import.meta.env.VITE_STRIPE_PRODUCT_ID || "prod_UC1nAY3emodE1H",
   description: "Full access to every commodity calculator, AI-powered analysis tool, and investor protection feature.",
   features: [
     "All 9 investment calculators",

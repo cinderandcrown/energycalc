@@ -37,8 +37,6 @@ const categoryGradients = {
   how_to_guide: "from-indigo-800 via-indigo-700 to-blue-600",
 };
 
-// Removed broken Unsplash placeholders — using gradient + icon fallbacks instead
-
 function estimateReadTime(content) {
   if (!content) return 1;
   const words = content.split(/\s+/).length;

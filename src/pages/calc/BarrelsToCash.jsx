@@ -179,6 +179,15 @@ export default function BarrelsToCash() {
             <Line type="monotone" dataKey="netIncome" stroke="hsl(var(--drill-green))" strokeWidth={2} dot={false} name="netIncome" />
           </LineChart>
         </ResponsiveContainer>
+        <table className="sr-only" aria-label="60-month income projection chart data">
+          <caption>60-Month Income Projection (Decline Curve)</caption>
+          <thead><tr><th scope="col">Month</th><th scope="col">Net Income</th><th scope="col">Gross Revenue</th></tr></thead>
+          <tbody>
+            {results.months.filter((_, i) => i % 12 === 0).map((d, i) => (
+              <tr key={i}><td>{d.label}</td><td>${fmt(d.netIncome)}</td><td>${fmt(d.grossRevenue)}</td></tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* 5-Year Table */}

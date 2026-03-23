@@ -25,7 +25,7 @@ Deno.serve(async (req) => {
       default_settings: {
         invoice_settings: {
           rendering: {
-            template: 'inrtem_1TDdo6C3pmDPDjgXhWQSPadf',
+            template: Deno.env.get("STRIPE_INVOICE_TEMPLATE_ID") || 'inrtem_1TDdo6C3pmDPDjgXhWQSPadf',
           },
         },
       },
@@ -36,7 +36,7 @@ Deno.serve(async (req) => {
           currency: 'usd',
           items: [
             {
-              price: 'price_1TDdkMC3pmDPDjgXQqf6Odcz',
+              price: Deno.env.get("STRIPE_PRICE_ID") || 'price_1TDdkMC3pmDPDjgXQqf6Odcz',
               quantity: 1,
             },
           ],
@@ -52,6 +52,6 @@ Deno.serve(async (req) => {
     return Response.json({ scheduleId: schedule.id, status: schedule.status });
   } catch (error) {
     console.error('Error creating subscription schedule:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

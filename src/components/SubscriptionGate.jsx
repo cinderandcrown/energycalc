@@ -7,8 +7,9 @@ import { Shield, Zap, Clock, CheckCircle2, ArrowRight, Loader2, Lock } from "luc
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
-const PRODUCT_ID = "prod_UC1nAY3emodE1H";
+const PRODUCT_ID = import.meta.env.VITE_STRIPE_PRODUCT_ID || "prod_UC1nAY3emodE1H";
 
 export default function SubscriptionGate() {
   const { loading, hasAccess, isTrialing, trialDaysLeft, status, user } = useSubscription();
@@ -16,8 +17,9 @@ export default function SubscriptionGate() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center min-h-[60vh]" role="status" aria-live="polite">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" aria-hidden="true" />
+        <span className="sr-only">Loading subscription status</span>
       </div>
     );
   }
@@ -33,11 +35,18 @@ export default function SubscriptionGate() {
       return;
     }
     setCheckoutLoading(true);
-    const res = await base44.functions.invoke("stripeCheckout", { productId: PRODUCT_ID });
-    if (res.data?.url) {
-      window.location.href = res.data.url;
+    try {
+      const res = await base44.functions.invoke("stripeCheckout", { productId: PRODUCT_ID });
+      if (res.data?.url) {
+        window.location.href = res.data.url;
+      } else {
+        toast.error("Unable to start checkout. Please try again.");
+      }
+    } catch (err) {
+      toast.error("Checkout failed. Please try again or contact support.");
+    } finally {
+      setCheckoutLoading(false);
     }
-    setCheckoutLoading(false);
   };
 
   return (
@@ -45,7 +54,7 @@ export default function SubscriptionGate() {
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
 
         <div className="w-16 h-16 rounded-2xl bg-crude-gold/10 flex items-center justify-center mx-auto">
-          <Lock className="w-8 h-8 text-crude-gold" />
+          <Lock className="w-8 h-8 text-crude-gold" aria-hidden="true" />
         </div>
 
         <div>
@@ -61,12 +70,12 @@ export default function SubscriptionGate() {
 
         <div className="rounded-2xl border-2 border-crude-gold/40 bg-card p-6 text-left space-y-3">
           <div className="flex items-center gap-2 mb-4">
-            <Zap className="w-5 h-5 text-crude-gold" />
+            <Zap className="w-5 h-5 text-crude-gold" aria-hidden="true" />
             <span className="font-bold text-foreground">Commodity Investor+</span>
             <Badge className="bg-crude-gold/10 text-crude-gold border-0 text-xs ml-auto">$10/mo after trial</Badge>
           </div>
           {[
-            "All 8 investment calculators",
+            "All 9 investment calculators",
             "AI PPM Document Analyzer",
             "AI Operator Screener",
             "Live commodity price feeds",
@@ -74,7 +83,7 @@ export default function SubscriptionGate() {
             "Unlimited saved calculations",
           ].map(f => (
             <div key={f} className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0" aria-hidden="true" />
               <span className="text-sm text-foreground">{f}</span>
             </div>
           ))}
@@ -90,9 +99,9 @@ export default function SubscriptionGate() {
               <><Loader2 className="w-4 h-4 animate-spin" /> Redirecting...</>
             ) : (
               <>
-                <Clock className="w-4 h-4" />
+                <Clock className="w-4 h-4" aria-hidden="true" />
                 {status === "canceled" || status === "inactive" ? "Resubscribe — $10/mo" : "Start 3-Day Free Trial"}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </>
             )}
           </Button>
@@ -105,7 +114,7 @@ export default function SubscriptionGate() {
         </div>
 
         <div className="flex items-center gap-2 justify-center pt-2">
-          <Shield className="w-3.5 h-3.5 text-muted-foreground" />
+          <Shield className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
           <p className="text-[10px] text-muted-foreground">Payments secured by Stripe · Cancel before trial ends to avoid charges</p>
         </div>
       </motion.div>

@@ -141,7 +141,7 @@ export default function MetalCostBasis() {
 
       {/* Cost Breakdown Chart */}
       <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="text-sm font-semibold text-foreground mb-4">Cost Breakdown</h3>
+        <h2 className="text-sm font-semibold text-foreground mb-4">Cost Breakdown</h2>
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={results.costBreakdown} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -155,6 +155,24 @@ export default function MetalCostBasis() {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+        {/* Accessible data table for screen readers */}
+        <table className="sr-only" aria-label="Chart data: Cost Breakdown">
+          <caption>Cost Breakdown</caption>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.costBreakdown.map((row, i) => (
+              <tr key={i}>
+                <td>{row.name}</td>
+                <td>${row.value.toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <DisclaimerFooter />

@@ -58,7 +58,7 @@ export default function CookieConsent() {
       <div className="max-w-lg mx-auto pointer-events-auto rounded-2xl border border-border bg-card shadow-2xl p-5 animate-in slide-in-from-bottom-4 duration-500">
         <div className="flex items-start gap-3">
           <div className="w-9 h-9 rounded-xl bg-primary/10 dark:bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-            <Shield className="w-4.5 h-4.5 text-primary dark:text-accent" />
+            <Shield className="w-4.5 h-4.5 text-primary dark:text-accent" aria-hidden="true" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-foreground mb-1">We value your privacy</p>

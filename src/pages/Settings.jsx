@@ -12,7 +12,7 @@ import PageHeader from "@/components/mobile/PageHeader";
 import AccountDeletion from "@/components/mobile/AccountDeletion";
 import PriceAlertManager from "@/components/alerts/PriceAlertManager";
 
-const PRODUCT_ID = "prod_UC1nAY3emodE1H";
+const PRODUCT_ID = import.meta.env.VITE_STRIPE_PRODUCT_ID || "prod_UC1nAY3emodE1H";
 
 export default function Settings() {
   const [user, setUser] = useState(null);

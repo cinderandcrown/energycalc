@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Info } from "lucide-react";
@@ -15,6 +16,10 @@ export default function InputWithSlider({
   tooltip = "",
   format = (v) => v,
 }) {
+  const autoId = useId();
+  const inputId = `input-slider-${autoId}`;
+  const tooltipId = tooltip ? `tooltip-${autoId}` : undefined;
+
   const handleSliderChange = ([val]) => onChange(val);
   const handleInputChange = (e) => {
     const raw = parseFloat(e.target.value.replace(/[^0-9.-]/g, ""));
@@ -29,14 +34,14 @@ export default function InputWithSlider({
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-1.5">
-        <label className="text-sm font-medium text-foreground">{label}</label>
+        <label htmlFor={inputId} className="text-sm font-medium text-foreground">{label}</label>
         {tooltip && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help shrink-0" />
+                <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help shrink-0" aria-hidden="true" />
               </TooltipTrigger>
-              <TooltipContent className="max-w-xs text-xs" side="top">
+              <TooltipContent id={tooltipId} className="max-w-xs text-xs" side="top">
                 {tooltip}
               </TooltipContent>
             </Tooltip>
@@ -51,14 +56,16 @@ export default function InputWithSlider({
           max={max}
           step={step}
           className="flex-1"
+          aria-label={label}
         />
         <div className="relative shrink-0 w-28">
           {prefix && (
-            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
+            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none" aria-hidden="true">
               {prefix}
             </span>
           )}
           <Input
+            id={inputId}
             type="number"
             value={value}
             onChange={handleInputChange}
@@ -66,9 +73,10 @@ export default function InputWithSlider({
             min={min}
             max={max}
             step={step}
+            aria-label={label}
           />
           {suffix && (
-            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none">
+            <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground pointer-events-none" aria-hidden="true">
               {suffix}
             </span>
           )}

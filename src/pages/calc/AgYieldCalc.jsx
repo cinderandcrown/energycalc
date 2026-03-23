@@ -156,7 +156,7 @@ export default function AgYieldCalc() {
       {/* Projection Chart */}
       {results.projections.length > 0 && effectivePrice > 0 && (
         <div className="rounded-2xl border border-border bg-card p-5">
-          <h3 className="text-sm font-semibold text-foreground mb-4">Profit Projection — Base vs Bear vs Bull</h3>
+          <h2 className="text-sm font-semibold text-foreground mb-4">Profit Projection — Base vs Bear vs Bull</h2>
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={results.projections} margin={{ top: 5, right: 10, left: 10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -169,6 +169,28 @@ export default function AgYieldCalc() {
               <Line type="monotone" dataKey="bullProfit" stroke="hsl(220, 80%, 55%)" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="Bull" />
             </LineChart>
           </ResponsiveContainer>
+          {/* Accessible data table for screen readers */}
+          <table className="sr-only" aria-label="Chart data: Profit Projection — Base vs Bear vs Bull">
+            <caption>Profit Projection — Base vs Bear vs Bull</caption>
+            <thead>
+              <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Base Profit</th>
+                <th scope="col">Bear Profit</th>
+                <th scope="col">Bull Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.projections.map((row, i) => (
+                <tr key={i}>
+                  <td>{row.year}</td>
+                  <td>${row.profit.toLocaleString()}</td>
+                  <td>${row.bearProfit.toLocaleString()}</td>
+                  <td>${row.bullProfit.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 

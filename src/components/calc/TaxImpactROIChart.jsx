@@ -27,7 +27,7 @@ export default function TaxImpactROIChart({ params, activeBrackets }) {
 
   return (
     <div className="rounded-xl border border-border bg-card p-4">
-      <h3 className="text-sm font-bold text-foreground mb-1">Effective ROI by Tax Bracket</h3>
+      <h2 className="text-sm font-bold text-foreground mb-1">Effective ROI by Tax Bracket</h2>
       <p className="text-xs text-muted-foreground mb-4">
         Total return (tax savings + net income) as a percentage of total capital invested — higher brackets amplify the benefit.
       </p>
@@ -67,6 +67,28 @@ export default function TaxImpactROIChart({ params, activeBrackets }) {
             )}
           </LineChart>
         </ResponsiveContainer>
+        {/* Accessible data table for screen readers */}
+        <table className="sr-only" aria-label="Chart data: Effective ROI by Tax Bracket">
+          <caption>Effective ROI by Tax Bracket</caption>
+          <thead>
+            <tr>
+              <th scope="col">Year</th>
+              {allBrackets.map((b, i) =>
+                activeBrackets.includes(i) ? <th key={b.label} scope="col">ROI @ {b.label}</th> : null
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {chartData.map((row, i) => (
+              <tr key={i}>
+                <td>{row.year}</td>
+                {allBrackets.map((b, j) =>
+                  activeBrackets.includes(j) ? <td key={b.label}>{row[`roi_${b.label}`]}%</td> : null
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

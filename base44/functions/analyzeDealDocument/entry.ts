@@ -120,6 +120,6 @@ Be AGGRESSIVE in protecting investors. It's better to flag a false positive than
     return Response.json({ success: true, analysis });
   } catch (error) {
     console.error("Analysis error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

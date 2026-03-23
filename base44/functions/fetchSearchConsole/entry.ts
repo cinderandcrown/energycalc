@@ -35,7 +35,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('Trend API error:', res.status, err);
-        return Response.json({ error: `API error: ${res.status}` }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
       const data = await res.json();
       const rows = (data.rows || []).map(r => ({
@@ -55,7 +55,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('Opportunities API error:', res.status, err);
-        return Response.json({ error: `API error: ${res.status}` }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
       const data = await res.json();
       // Opportunity = high impressions but position > 10 (page 2+), or high impressions low CTR
@@ -88,7 +88,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('Pages API error:', res.status, err);
-        return Response.json({ error: `API error: ${res.status}` }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
       const data = await res.json();
       const rows = (data.rows || []).map(r => ({
@@ -108,7 +108,7 @@ Deno.serve(async (req) => {
     if (!analyticsRes.ok) {
       const errText = await analyticsRes.text();
       console.error('Search Console API error:', analyticsRes.status, errText);
-      return Response.json({ error: `API error: ${analyticsRes.status}`, details: errText }, { status: analyticsRes.status });
+      return Response.json({ error: "API request failed" }, { status: analyticsRes.status });
     }
 
     const data = await analyticsRes.json();
@@ -121,6 +121,6 @@ Deno.serve(async (req) => {
     return Response.json({ rows, startDate, endDate, dimension, totalRows: rows.length });
   } catch (error) {
     console.error('fetchSearchConsole error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });
