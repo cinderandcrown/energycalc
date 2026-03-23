@@ -112,11 +112,19 @@ export default function BlogCard({ post, featured = false }) {
       className="group flex flex-col rounded-2xl border border-border bg-card overflow-hidden hover:border-crude-gold/30 hover:shadow-lg transition-all duration-300"
     >
       <div className="aspect-[16/9] overflow-hidden bg-muted relative">
-        <img
-          src={imageUrl}
-          alt={post.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={post.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+        ) : (
+          <div className={`w-full h-full bg-gradient-to-br ${gradientFallback} flex items-center justify-center group-hover:scale-105 transition-transform duration-700`}>
+            <span className="text-white/15 text-5xl font-bold uppercase tracking-widest select-none">
+              {(categoryLabels[post.category] || "Blog").slice(0, 3)}
+            </span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         <Badge className={`absolute top-3 left-3 ${catColor} border-0 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm`}>
           {categoryLabels[post.category] || post.category}
