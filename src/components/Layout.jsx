@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper } from 'lucide-react';
+import { LayoutDashboard, Calculator, BookOpen, FolderOpen, Settings, BarChart3, ShieldAlert, ChevronDown, TrendingUp, Flame, BarChart2, Percent, Search, Landmark, PieChart, Blocks, Menu, X, Scale, Activity, FileText, Gem, Wheat, Factory, UserCircle, Newspaper, Globe } from 'lucide-react';
 import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 import TrialBanner from './TrialBanner';
@@ -33,6 +33,7 @@ const moreNav = [
   { path: '/scenarios', icon: FolderOpen, label: 'Scenarios' },
   { path: '/web3', icon: Blocks, label: 'Web3' },
   { path: '/learn', icon: BookOpen, label: 'Learn' },
+  { path: '/seo', icon: Globe, label: 'SEO Keywords' },
   { path: '/account', icon: UserCircle, label: 'My Account' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];

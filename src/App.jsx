@@ -33,6 +33,7 @@ import AgYieldCalc from '@/pages/calc/AgYieldCalc';
 import MetalCostBasis from '@/pages/calc/MetalCostBasis';
 import MyAccount from '@/pages/MyAccount';
 import NewsFeedPage from '@/pages/NewsFeed.jsx';
+import SEODashboard from '@/pages/SEODashboard.jsx';
 
 // Layout
 import Layout from '@/components/Layout';
@@ -90,6 +91,7 @@ const AuthenticatedApp = () => {
           <Route path="/learn" element={<Learn />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/news" element={<NewsFeedPage />} />
+          <Route path="/seo" element={<SEODashboard />} />
 
           {/* Calculators */}
           <Route path="/calc/net-investment" element={<NetInvestment />} />
