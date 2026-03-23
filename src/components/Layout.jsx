@@ -56,7 +56,7 @@ const moreNav = [
 const calcPaths = calcItems.map(c => c.path);
 
 /* ── Desktop dropdown: More ── */
-function MoreDropdown({ isMoreActive, location }) {
+function MoreDropdown({ isMoreActive, location, isAdmin }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   useEffect(() => {
@@ -80,6 +80,15 @@ function MoreDropdown({ isMoreActive, location }) {
               <Icon className="w-4 h-4 shrink-0" /> {label}
             </Link>
           ))}
+          {isAdmin && (
+            <>
+              <div className="border-t border-border my-1" />
+              <Link to="/admin" onClick={() => setOpen(false)}
+                className={`flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${location.pathname.startsWith('/admin') ? 'text-primary dark:text-accent font-medium bg-primary/5 dark:bg-accent/5' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
+                <Shield className="w-4 h-4 shrink-0" /> Admin
+              </Link>
+            </>
+          )}
         </div>
       )}
     </div>
@@ -159,13 +168,7 @@ export default function Layout() {
         </Link>
       ))}
       <CalcDropdown isCalcActive={isCalcActive} />
-      <MoreDropdown isMoreActive={moreNav.some(n => location.pathname === n.path)} location={location} />
-      {isAdmin && (
-        <Link to="/admin"
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${location.pathname.startsWith('/admin') ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
-          <Shield className="w-4 h-4" /> Admin
-        </Link>
-      )}
+      <MoreDropdown isMoreActive={moreNav.some(n => location.pathname === n.path) || (isAdmin && location.pathname.startsWith('/admin'))} location={location} isAdmin={isAdmin} />
     </nav>
   );
 
