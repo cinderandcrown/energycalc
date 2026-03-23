@@ -177,9 +177,12 @@ export default function PPMAnalysisResults({ analysis, onReset }) {
       )}
 
       {/* Disclaimer */}
-      <div className="rounded-xl bg-muted/50 border border-border p-3">
+      <div className="rounded-xl bg-muted/50 border border-border p-3 space-y-2">
         <p className="text-[10px] text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">AI-Generated Analysis — Not Legal Advice:</strong> This analysis was produced by artificial intelligence and should not be relied upon as legal, financial, or investment advice. AI can miss context, misinterpret legal language, or produce incorrect assessments. Always have offering documents reviewed by a licensed securities attorney and independent petroleum engineer before making any investment decision.
+          <strong className="text-foreground">⚠️ AI-Generated Analysis — May Contain Errors:</strong> This analysis was produced by artificial intelligence and <strong className="text-foreground">may contain hallucinations, inaccuracies, misinterpretations, or fabricated information</strong>. AI can miss critical context, misread legal language, or produce entirely incorrect risk assessments. This output is for informational and educational purposes only.
+        </p>
+        <p className="text-[10px] text-muted-foreground leading-relaxed">
+          <strong className="text-foreground">Not Legal, Financial, or Investment Advice:</strong> This is NOT a legal review, securities opinion, investment recommendation, or substitute for professional counsel. Do NOT rely on this analysis to make investment decisions. Always have offering documents reviewed by a <strong className="text-foreground">licensed securities attorney</strong> and <strong className="text-foreground">independent petroleum engineer</strong> before investing.
         </p>
       </div>
 
