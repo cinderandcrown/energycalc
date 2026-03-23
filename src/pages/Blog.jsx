@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogNav from "@/components/blog/BlogNav";
 import AdBanner from "@/components/ads/AdBanner";
-import AffiliatesSidebar from "@/components/ads/AffiliatesSidebar";
+
 
 const CATEGORIES = [
   { key: "all", label: "All Posts", icon: null },
@@ -163,13 +163,7 @@ export default function Blog() {
               <AdBanner slot="BLOG_BOTTOM" format="horizontal" className="rounded-xl" />
             </div>
 
-            {/* Sidebar */}
-            <aside className="space-y-5 hidden lg:block">
-              <div className="sticky top-20 space-y-5">
-                <AffiliatesSidebar />
-                <AdBanner slot="BLOG_SIDEBAR" format="auto" className="rounded-xl" />
-              </div>
-            </aside>
+
           </div>
         )}
 

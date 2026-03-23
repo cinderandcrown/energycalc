@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import BlogNav from "@/components/blog/BlogNav";
 import AdBanner from "@/components/ads/AdBanner";
-import AffiliatesSidebar from "@/components/ads/AffiliatesSidebar";
+
 import { categoryLabels, categoryColors } from "@/components/blog/BlogCard";
 
 const categoryIcons = {
@@ -219,13 +219,7 @@ export default function BlogPostPage() {
             </div>
           </article>
 
-          {/* Sidebar */}
-          <aside className="hidden lg:block">
-            <div className="sticky top-20 space-y-5">
-              <AffiliatesSidebar />
-              <AdBanner slot="ARTICLE_SIDEBAR" format="auto" className="rounded-xl" />
-            </div>
-          </aside>
+
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ import LandingOilSplash from "@/components/LandingOilSplash";
 import HeroBackground from "@/components/landing/HeroBackground";
 import HeroContent from "@/components/landing/HeroContent";
 import AdBanner from "@/components/ads/AdBanner";
-import AffiliatesSidebar from "@/components/ads/AffiliatesSidebar";
+
 
 const PLAN = {
   name: "EnergyCalc Pro",
@@ -249,17 +249,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ═══════ AFFILIATE PARTNERS ═══════ */}
-      <section className="border-b border-border bg-card/40">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-          <div className="text-center mb-6">
-            <h2 className="text-lg font-bold text-foreground mb-1">Trusted Partner Tools</h2>
-            <p className="text-xs text-muted-foreground">Professional-grade platforms used by commodity investors and energy traders.</p>
-          </div>
-          <AffiliatesSidebar compact />
-          <AdBanner slot="LANDING_MID_2" format="horizontal" className="rounded-xl mt-6" />
-        </div>
-      </section>
+
 
       {/* ═══════ PRICING ═══════ */}
       <section id="pricing" className="border-y border-border bg-card/30 py-16">
