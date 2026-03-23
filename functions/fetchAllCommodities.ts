@@ -101,9 +101,11 @@ CATEGORIES AND COMMODITIES TO INCLUDE:
 - Palm Oil (symbol: PALM, unit: /ton)
 
 **Livestock** (category: "Livestock"):
-- Live Cattle (symbol: LE, unit: /lb)
-- Feeder Cattle (symbol: GF, unit: /lb)
-- Lean Hogs (symbol: HE, unit: /lb)
+- Live Cattle (symbol: LE, unit: /lb) — CME futures, major U.S. beef benchmark
+- Feeder Cattle (symbol: GF, unit: /lb) — CME futures, young cattle for feedlots
+- Lean Hogs (symbol: HE, unit: /lb) — CME futures, U.S. pork benchmark
+- Class III Milk (symbol: DC, unit: /cwt) — CME futures, U.S. dairy benchmark
+- Chicken Breast (symbol: CHKN, unit: /lb) — wholesale poultry price
 
 **Softs & Lumber** (category: "Softs"):
 - Lumber (symbol: LBS, unit: /mbf)
