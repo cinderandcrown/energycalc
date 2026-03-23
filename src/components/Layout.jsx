@@ -344,11 +344,21 @@ export default function Layout() {
         <TrialBanner />
       </div>
 
-      {/* Main Content */}
+      {/* Main Content + Ad Sidebar */}
       <main className="flex-1 pb-24 sm:pb-0" style={{ overscrollBehavior: 'none' }}>
-        <OilPourTransition>
-          <Outlet />
-        </OilPourTransition>
+        <div className="flex">
+          <div className="flex-1 min-w-0">
+            <OilPourTransition>
+              <Outlet />
+            </OilPourTransition>
+          </div>
+          {/* Ad sidebar — visible on xl screens only */}
+          <aside className="hidden xl:block w-[280px] shrink-0 p-4 border-l border-border">
+            <div className="sticky top-20">
+              <DashboardAdSidebar />
+            </div>
+          </aside>
+        </div>
       </main>
 
       {/* Desktop/Tablet Legal Footer */}
