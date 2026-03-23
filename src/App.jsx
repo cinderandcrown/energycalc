@@ -41,6 +41,7 @@ import AnalyticsDashboard from '@/pages/AnalyticsDashboard.jsx';
 import Blog from '@/pages/Blog.jsx';
 import BlogPostPage from '@/pages/BlogPost.jsx';
 import BigQueryExplorer from '@/pages/BigQueryExplorer.jsx';
+import Support from '@/pages/Support.jsx';
 
 // Admin
 import AdminGuard from '@/components/admin/AdminGuard';
@@ -109,6 +110,7 @@ const AuthenticatedApp = () => {
           <Route path="/compare" element={<Compare />} />
           <Route path="/news" element={<NewsFeedPage />} />
           <Route path="/bigquery" element={<BigQueryExplorer />} />
+          <Route path="/support" element={<Support />} />
 
           {/* Calculators */}
           <Route path="/calc/net-investment" element={<NetInvestment />} />
