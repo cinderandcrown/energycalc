@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
 import PageHeader from "@/components/mobile/PageHeader";
 import AccountDeletion from "@/components/mobile/AccountDeletion";
+import PriceAlertManager from "@/components/alerts/PriceAlertManager";
 
 const PRODUCT_ID = "prod_UC1nAY3emodE1H";
 
@@ -187,6 +188,9 @@ export default function Settings() {
           {saving ? "Saving..." : "Save Profile"}
         </Button>
       </div>
+
+      {/* Price Alerts */}
+      {isProActive && <PriceAlertManager />}
 
       {/* Appearance */}
       <div className="rounded-2xl border border-border bg-card p-5">

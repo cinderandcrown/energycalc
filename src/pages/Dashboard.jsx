@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import AdBanner from "@/components/ads/AdBanner";
 import InContentAd from "@/components/ads/InContentAd";
+import PriceAlertWidget from "@/components/alerts/PriceAlertWidget";
 
 const calcCards = [
   {
@@ -318,6 +319,9 @@ export default function Dashboard() {
           })}
         </div>
       </div>
+
+      {/* Price Alert Widget */}
+      <PriceAlertWidget />
 
       {/* Hero Welcome */}
       <div>
