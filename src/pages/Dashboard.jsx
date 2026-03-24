@@ -126,7 +126,7 @@ const typePaths = {
   livestock: "/calc/livestock",
 };
 
-const ENERGY_SYMBOLS = ["WTI", "BRENT", "NG", "HO"];
+const ENERGY_SYMBOLS = ["WTI", "BRENT", "NG", "HO"]; // unified data source
 
 function derivePricesFromCommodities(commodities) {
   return ENERGY_SYMBOLS.map(sym => {
