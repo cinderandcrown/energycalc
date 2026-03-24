@@ -44,3 +44,53 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
+// ═══════ Push Notification Handlers ═══════
+
+self.addEventListener("push", (event) => {
+  let data = { title: "Commodity Investor+", body: "You have a new notification." };
+
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body || data.message || "You have a new notification.",
+    icon: "/icons/icon-192x192.png",
+    badge: "/icons/icon-72x72.png",
+    tag: data.tag || "ci-notification",
+    data: {
+      url: data.url || "/dashboard",
+    },
+    actions: data.actions || [],
+    vibrate: [100, 50, 100],
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title || "Commodity Investor+", options)
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  const targetUrl = event.notification.data?.url || "/dashboard";
+
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      // Focus existing window if available
+      for (const client of clients) {
+        if (client.url.includes(self.location.origin) && "focus" in client) {
+          client.navigate(targetUrl);
+          return client.focus();
+        }
+      }
+      // Open new window
+      return self.clients.openWindow(targetUrl);
+    })
+  );
+});

@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import PageHeader from "@/components/mobile/PageHeader";
 import AccountDeletion from "@/components/mobile/AccountDeletion";
 import PriceAlertManager from "@/components/alerts/PriceAlertManager";
+import NotificationOptIn from "@/components/growth/NotificationOptIn";
+import ReferralWidget from "@/components/growth/ReferralWidget";
 
 const PRODUCT_ID = import.meta.env.VITE_STRIPE_PRODUCT_ID || "prod_UC1nAY3emodE1H";
 
@@ -193,6 +195,12 @@ export default function Settings() {
           {saving ? "Saving..." : "Save Profile"}
         </Button>
       </div>
+
+      {/* Notifications */}
+      <NotificationOptIn />
+
+      {/* Referral Program */}
+      <ReferralWidget userId={user?.id} />
 
       {/* Price Alerts */}
       {isProActive && <PriceAlertManager />}

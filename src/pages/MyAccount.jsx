@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import useSubscription from "@/hooks/useSubscription";
 import DocumentVault from "@/components/vault/DocumentVault";
+import ReferralWidget from "@/components/growth/ReferralWidget";
 
 const typeLabels = {
   net_investment: "Net Investment",
@@ -181,6 +182,9 @@ export default function MyAccount() {
           </div>
         </div>
       </div>
+
+      {/* Referral Program */}
+      <ReferralWidget userId={user?.id} />
 
       {/* Deal Document Vault */}
       <DocumentVault />
