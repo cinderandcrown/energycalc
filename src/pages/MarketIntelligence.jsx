@@ -80,8 +80,8 @@ export default function MarketIntelligence() {
 
   const selectedCalc = calculations.find(c => c.id === selectedCalcId);
 
-  const liveOilPrice = prices.find(p => p.label === "WTI Crude")?.price ?? null;
-  const liveGasPrice = prices.find(p => p.label === "Natural Gas")?.price ?? null;
+  const liveOilPrice = prices.find(p => p.label?.includes("WTI"))?.price ?? null;
+  const liveGasPrice = prices.find(p => p.label?.includes("Natural Gas"))?.price ?? null;
 
   const enrichedCalc = selectedCalc ? {
     ...selectedCalc,
