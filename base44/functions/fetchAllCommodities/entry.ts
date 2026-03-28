@@ -187,6 +187,6 @@ CRITICAL INSTRUCTIONS:
     });
   } catch (error) {
     console.error("fetchAllCommodities error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

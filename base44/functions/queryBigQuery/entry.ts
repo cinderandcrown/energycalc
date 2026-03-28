@@ -25,7 +25,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('BigQuery listProjects error:', err);
-        return Response.json({ error: `BigQuery API error: ${res.status}` }, { status: 500 });
+        return Response.json({ error: "API request failed" }, { status: 500 });
       }
       const data = await res.json();
       return Response.json({ projects: (data.projects || []).map(p => ({ id: p.id, friendlyName: p.friendlyName || p.id })) });
@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('BigQuery listDatasets error:', err);
-        return Response.json({ error: `BigQuery API error: ${res.status}` }, { status: 500 });
+        return Response.json({ error: "API request failed" }, { status: 500 });
       }
       const data = await res.json();
       return Response.json({ datasets: (data.datasets || []).map(d => ({ id: d.datasetReference.datasetId })) });
@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('BigQuery listTables error:', err);
-        return Response.json({ error: `BigQuery API error: ${res.status}` }, { status: 500 });
+        return Response.json({ error: "API request failed" }, { status: 500 });
       }
       const data = await res.json();
       return Response.json({
@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('BigQuery getSchema error:', err);
-        return Response.json({ error: `BigQuery API error: ${res.status}` }, { status: 500 });
+        return Response.json({ error: "API request failed" }, { status: 500 });
       }
       const data = await res.json();
       const fields = (data.schema?.fields || []).map(f => ({ name: f.name, type: f.type, mode: f.mode }));
@@ -95,7 +95,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('BigQuery runQuery error:', err);
-        return Response.json({ error: `Query error: ${res.status} - ${err}` }, { status: 500 });
+        return Response.json({ error: "API request failed" }, { status: 500 });
       }
 
       const data = await res.json();
@@ -123,6 +123,6 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Invalid action. Use: listProjects, listDatasets, listTables, runQuery' }, { status: 400 });
   } catch (error) {
     console.error('queryBigQuery error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

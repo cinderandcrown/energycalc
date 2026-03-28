@@ -52,6 +52,6 @@ CRITICAL: Only return prices you can verify from real market data. Do NOT fabric
     });
   } catch (error) {
     console.error("fetchCommodityPrices error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

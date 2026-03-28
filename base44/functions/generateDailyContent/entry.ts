@@ -46,7 +46,7 @@ Deno.serve(async (req) => {
 
     // Generate the blog post via LLM
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are an expert commodity market content writer for EnergyCalc Pro. Create a comprehensive, SEO-optimized blog post for today (${today}).
+      prompt: `You are an expert commodity market content writer for Commodity Investor+. Create a comprehensive, SEO-optimized blog post for today (${today}).
 
 TARGET CATEGORY: ${targetCategory}
 RECENT MARKET PRICES: ${priceContext || 'Not available — use general market knowledge'}
@@ -57,7 +57,7 @@ Create a blog post that:
 1. Targets a specific high-volume search keyword
 2. Is 800-1500 words of valuable, educational content
 3. Includes data, statistics, and actionable insights
-4. Naturally references EnergyCalc Pro tools where relevant
+4. Naturally references Commodity Investor+ tools where relevant
 5. Ends with a soft CTA about the free trial
 6. Is written for informational purposes only — NO investment advice
 
@@ -170,6 +170,6 @@ Return a JSON object with ALL of these fields:
     });
   } catch (error) {
     console.error('[generateDailyContent] Error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

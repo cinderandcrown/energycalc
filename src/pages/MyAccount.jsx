@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import useSubscription from "@/hooks/useSubscription";
 import DocumentVault from "@/components/vault/DocumentVault";
+import ReferralWidget from "@/components/growth/ReferralWidget";
 
 const typeLabels = {
   net_investment: "Net Investment",
@@ -67,7 +68,7 @@ export default function MyAccount() {
               <span className="text-crude-gold text-xs font-semibold uppercase tracking-wide">Subscription</span>
             </div>
             <h2 className="text-white dark:text-foreground font-bold text-lg">
-              {isActive ? "EnergyCalc Pro" : isTrialing ? "Free Trial" : "No Active Plan"}
+              {isActive ? "Commodity Investor+" : isTrialing ? "Free Trial" : "No Active Plan"}
             </h2>
           </div>
           <Badge className={`font-semibold text-xs ${
@@ -181,6 +182,9 @@ export default function MyAccount() {
           </div>
         </div>
       </div>
+
+      {/* Referral Program */}
+      <ReferralWidget userId={user?.id} />
 
       {/* Deal Document Vault */}
       <DocumentVault />

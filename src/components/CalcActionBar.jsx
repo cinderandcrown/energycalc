@@ -1,21 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { Save, RotateCcw, Share2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Save, RotateCcw } from "lucide-react";
 import DownloadReportButton from "@/components/DownloadReportButton";
+import SocialShareButtons from "@/components/growth/SocialShareButtons";
+import ShareResultModal from "@/components/growth/ShareResultModal";
+
+const CALC_LABELS = {
+  "net-investment": "Net Investment",
+  "barrels-to-cash": "Barrels to Cash",
+  "natgas-to-cash": "Nat Gas to Cash",
+  "rate-of-return": "Rate of Return",
+  "tax-impact": "Tax Impact",
+  "gold-purity": "Gold Purity",
+  "ag-yield": "Ag Yield",
+  "metal-cost": "Metal Cost Basis",
+  "livestock": "Livestock",
+};
 
 export default function CalcActionBar({ onSave, onReset, calcType, inputs, results }) {
-  const { toast } = useToast();
-
-  const handleShare = () => {
-    const url = window.location.href;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(() => {
-        toast({ title: "Link copied!", description: "Share this URL to share your calculator settings." });
-      });
-    } else {
-      toast({ title: "Share", description: url });
-    }
-  };
+  const calcLabel = CALC_LABELS[calcType] || calcType || "Calculator";
+  const shareTitle = `${calcLabel} analysis on Commodity Investor+`;
+  const shareUrl = window.location.href;
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
@@ -26,10 +30,14 @@ export default function CalcActionBar({ onSave, onReset, calcType, inputs, resul
       {calcType && inputs && results && (
         <DownloadReportButton calcType={calcType} inputs={inputs} results={results} />
       )}
-      <Button onClick={handleShare} size="sm" variant="outline" className="gap-1.5">
-        <Share2 className="w-4 h-4" />
-        Share
-      </Button>
+      <SocialShareButtons
+        url={shareUrl}
+        title={shareTitle}
+        description={`I just ran a ${calcLabel} analysis on Commodity Investor+ — the commodity investment toolkit.`}
+      />
+      {calcType && results && (
+        <ShareResultModal calcType={calcType} results={results} />
+      )}
       <Button onClick={onReset} size="sm" variant="ghost" className="gap-1.5">
         <RotateCcw className="w-4 h-4" />
         Reset

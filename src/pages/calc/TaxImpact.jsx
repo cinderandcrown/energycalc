@@ -64,7 +64,7 @@ export default function TaxImpact() {
       {/* Header */}
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-xl gradient-gold flex items-center justify-center shrink-0">
-          <Calculator className="w-5 h-5 text-petroleum" />
+          <Calculator className="w-5 h-5 text-petroleum" aria-hidden="true" />
         </div>
         <div>
           <h1 className="text-lg font-bold text-foreground">Multi-Year Tax Impact Calculator</h1>
@@ -153,7 +153,7 @@ export default function TaxImpact() {
       {/* Explanation */}
       <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-2">
         <div className="flex items-start gap-2">
-          <Info className="w-4 h-4 text-primary dark:text-accent shrink-0 mt-0.5" />
+          <Info className="w-4 h-4 text-primary dark:text-accent shrink-0 mt-0.5" aria-hidden="true" />
           <div className="space-y-1.5">
             <p className="text-xs font-semibold text-foreground">How This Calculator Works</p>
             <p className="text-xs text-muted-foreground leading-relaxed">

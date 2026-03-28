@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline — Commodity Investor+</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: #0B2545;
+      color: #f3f4f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { font-size: 0.95rem; color: #9ca3af; max-width: 320px; }
+    button {
+      margin-top: 1.5rem;
+      background: #D4A843;
+      color: #0B2545;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <h1>You're Offline</h1>
+    <p>Commodity Investor+ requires an internet connection to load live data. Please check your connection and try again.</p>
+    <button onclick="location.reload()">Retry</button>
+  </main>
+</body>
+</html>

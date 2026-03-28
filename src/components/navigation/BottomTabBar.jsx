@@ -40,6 +40,7 @@ export default function BottomTabBar({ onMorePress, onTabPress, activeTab }) {
 
   return (
     <nav
+      aria-label="Main navigation"
       className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-xl border-t border-border"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >

@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import BlogNav from "@/components/blog/BlogNav";
 import AdBanner from "@/components/ads/AdBanner";
+import SocialShareButtons from "@/components/growth/SocialShareButtons";
+import InArticleCTA from "@/components/growth/InArticleCTA";
+import EmailCaptureForm from "@/components/growth/EmailCaptureForm";
+import ExitIntentPopup from "@/components/growth/ExitIntentPopup";
 
 import { categoryLabels, categoryColors } from "@/components/blog/BlogCard";
 
@@ -36,8 +40,6 @@ const categoryGradients = {
   rare_earth: "from-orange-800 via-orange-700 to-amber-600",
   how_to_guide: "from-indigo-800 via-indigo-700 to-blue-600",
 };
-
-// Removed broken Unsplash placeholders — using gradient + icon fallbacks instead
 
 function estimateReadTime(content) {
   if (!content) return 1;
@@ -167,10 +169,26 @@ export default function BlogPostPage() {
             {/* Top ad */}
             <AdBanner slot="ARTICLE_TOP" format="horizontal" className="mb-8 rounded-xl" />
 
-            {/* Article body */}
-            <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-crude-gold prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-blockquote:border-crude-gold/40 prose-blockquote:text-muted-foreground prose-img:rounded-xl">
-              <ReactMarkdown>{post.content}</ReactMarkdown>
-            </div>
+            {/* Article body — split at midpoint to inject in-article CTA */}
+            {(() => {
+              const content = post.content || "";
+              const midpoint = Math.floor(content.length / 2);
+              const breakAt = content.indexOf("\n", midpoint);
+              const splitIdx = breakAt > -1 ? breakAt : midpoint;
+              const firstHalf = content.slice(0, splitIdx);
+              const secondHalf = content.slice(splitIdx);
+              return (
+                <>
+                  <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-crude-gold prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-blockquote:border-crude-gold/40 prose-blockquote:text-muted-foreground prose-img:rounded-xl">
+                    <ReactMarkdown>{firstHalf}</ReactMarkdown>
+                  </div>
+                  <InArticleCTA category={post.category} />
+                  <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-crude-gold prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-blockquote:border-crude-gold/40 prose-blockquote:text-muted-foreground prose-img:rounded-xl">
+                    <ReactMarkdown>{secondHalf}</ReactMarkdown>
+                  </div>
+                </>
+              );
+            })()}
 
             {/* Bottom ad */}
             <AdBanner slot="ARTICLE_BOTTOM" format="horizontal" className="mt-8 rounded-xl" />
@@ -190,25 +208,17 @@ export default function BlogPostPage() {
             {/* Share */}
             <div className="flex items-center gap-4 mt-6 pt-6 border-t border-border">
               <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                <Share2 className="w-4 h-4" />
+                <Share2 className="w-4 h-4" aria-hidden="true" />
                 Share:
               </span>
-              <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1.5 rounded-full text-xs font-medium border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
-              >
-                Twitter / X
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-1.5 rounded-full text-xs font-medium border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
-              >
-                LinkedIn
-              </a>
+              <SocialShareButtons url={shareUrl} title={post.title} description={post.excerpt || post.title} />
+            </div>
+
+            {/* Email capture CTA */}
+            <div className="mt-8 pt-6 border-t border-border space-y-3 text-center">
+              <p className="text-sm font-semibold text-foreground">Enjoyed this article?</p>
+              <p className="text-xs text-muted-foreground">Get daily commodity market insights delivered free to your inbox.</p>
+              <EmailCaptureForm variant="inline" source="blog" />
             </div>
 
             {/* Disclaimer */}
@@ -222,6 +232,9 @@ export default function BlogPostPage() {
 
         </div>
       </div>
+
+      {/* Exit-intent popup */}
+      <ExitIntentPopup />
     </div>
   );
 }

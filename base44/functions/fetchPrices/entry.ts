@@ -59,6 +59,6 @@ Deno.serve(async (req) => {
     return Response.json({ prices, fetchedAt: new Date().toISOString() });
   } catch (error) {
     console.error("fetchPrices error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

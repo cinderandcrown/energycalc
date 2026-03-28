@@ -14,6 +14,7 @@ import PullToRefresh from "@/components/mobile/PullToRefresh";
 import AdBanner from "@/components/ads/AdBanner";
 import InContentAd from "@/components/ads/InContentAd";
 import PriceAlertWidget from "@/components/alerts/PriceAlertWidget";
+import OnboardingModal from "@/components/onboarding/OnboardingModal";
 
 const calcCards = [
   {
@@ -266,6 +267,9 @@ export default function Dashboard() {
   return (
     <PullToRefresh onRefresh={handlePullRefresh}>
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
+
+      {/* New user onboarding */}
+      <OnboardingModal />
 
       {/* Fraud Alert Banner */}
       <Link to="/investor-protection">

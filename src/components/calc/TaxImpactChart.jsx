@@ -35,7 +35,7 @@ export default function TaxImpactChart({ params, activeBrackets }) {
 
   return (
     <div className="rounded-xl border border-border bg-card p-4">
-      <h3 className="text-sm font-bold text-foreground mb-1">Cumulative Net Cost After Tax Benefits</h3>
+      <h2 className="text-sm font-bold text-foreground mb-1">Cumulative Net Cost After Tax Benefits</h2>
       <p className="text-xs text-muted-foreground mb-4">
         Shows how much you're truly "out of pocket" each year after IDC deductions, depletion, depreciation, and production income.
       </p>
@@ -89,6 +89,30 @@ export default function TaxImpactChart({ params, activeBrackets }) {
             )}
           </AreaChart>
         </ResponsiveContainer>
+        {/* Accessible data table for screen readers */}
+        <table className="sr-only" aria-label="Chart data: Cumulative Net Cost After Tax Benefits">
+          <caption>Cumulative Net Cost After Tax Benefits</caption>
+          <thead>
+            <tr>
+              <th scope="col">Year</th>
+              <th scope="col">Total Invested</th>
+              {allBrackets.map((b, i) =>
+                activeBrackets.includes(i) ? <th key={b.label} scope="col">Net Cost @ {b.label}</th> : null
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {chartData.map((row, i) => (
+              <tr key={i}>
+                <td>{row.year}</td>
+                <td>{fmt(row.invested)}</td>
+                {allBrackets.map((b, j) =>
+                  activeBrackets.includes(j) ? <td key={b.label}>{fmt(row[`netCost_${b.label}`])}</td> : null
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <p className="text-[10px] text-muted-foreground mt-2 text-center">

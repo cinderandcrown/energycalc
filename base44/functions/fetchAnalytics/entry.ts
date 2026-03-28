@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const errText = await res.text();
         console.error('GA Admin API error:', res.status, errText);
-        return Response.json({ error: `API error: ${res.status}`, details: errText }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
       const data = await res.json();
       const properties = [];
@@ -77,7 +77,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const errText = await res.text();
         console.error('GA Data API error:', res.status, errText);
-        return Response.json({ error: `API error: ${res.status}`, details: errText }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
 
       const data = await res.json();
@@ -103,6 +103,6 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Unknown action' }, { status: 400 });
   } catch (error) {
     console.error('fetchAnalytics error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

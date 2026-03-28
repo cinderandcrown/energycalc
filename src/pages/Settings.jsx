@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 import PageHeader from "@/components/mobile/PageHeader";
 import AccountDeletion from "@/components/mobile/AccountDeletion";
 import PriceAlertManager from "@/components/alerts/PriceAlertManager";
+import NotificationOptIn from "@/components/growth/NotificationOptIn";
+import ReferralWidget from "@/components/growth/ReferralWidget";
 
-const PRODUCT_ID = "prod_UC1nAY3emodE1H";
+const PRODUCT_ID = import.meta.env.VITE_STRIPE_PRODUCT_ID || "prod_UC1nAY3emodE1H";
 
 export default function Settings() {
   const [user, setUser] = useState(null);
@@ -102,7 +104,7 @@ export default function Settings() {
               <span className="text-crude-gold text-xs font-semibold uppercase tracking-wide">Current Plan</span>
             </div>
             <h2 className="text-white font-bold text-lg">
-              {user?.subscription_status === "active" ? "EnergyCalc Pro" : 
+              {user?.subscription_status === "active" ? "Commodity Investor+" : 
                user?.subscription_status === "trialing" ? "Free Trial" : "No Active Plan"}
             </h2>
             <p className="text-white/60 text-xs mt-1">
@@ -194,6 +196,12 @@ export default function Settings() {
         </Button>
       </div>
 
+      {/* Notifications */}
+      <NotificationOptIn />
+
+      {/* Referral Program */}
+      <ReferralWidget userId={user?.id} />
+
       {/* Price Alerts */}
       {isProActive && <PriceAlertManager />}
 
@@ -232,7 +240,7 @@ export default function Settings() {
         </Link>
         <div className="pt-3 border-t border-border mt-3">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">EnergyCalc Pro is not a registered broker-dealer, investment advisor, or FINRA member.</strong> All calculations are illustrative estimates only and do not constitute investment advice, tax advice, or a securities solicitation. Oil &amp; gas investments involve substantial risk including loss of principal. Always consult a licensed CPA, securities attorney, or registered investment advisor.
+            <strong className="text-foreground">Commodity Investor+ is not a registered broker-dealer, investment advisor, or FINRA member.</strong> All calculations are illustrative estimates only and do not constitute investment advice, tax advice, or a securities solicitation. Oil &amp; gas investments involve substantial risk including loss of principal. Always consult a licensed CPA, securities attorney, or registered investment advisor.
           </p>
         </div>
       </div>

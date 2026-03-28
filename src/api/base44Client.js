@@ -3,7 +3,7 @@ import { appParams } from '@/lib/app-params';
 
 const { appId, token, functionsVersion, appBaseUrl } = appParams;
 
-//Create a client with authentication required
+// Base44 client — requiresAuth:false allows public pages (Landing, Legal) to load without auth
 export const base44 = createClient({
   appId,
   token,

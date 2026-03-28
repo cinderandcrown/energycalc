@@ -248,6 +248,15 @@ export default function RateOfReturn() {
             <Line type="monotone" dataKey="sp500" stroke="hsl(var(--muted-foreground))" strokeWidth={1.5} dot={false} strokeDasharray="5 5" name="sp500" />
           </LineChart>
         </ResponsiveContainer>
+        <table className="sr-only" aria-label="Cumulative cash flow vs S&P 500 chart data">
+          <caption>Cumulative Cash Flow vs S&amp;P 500 Equivalent</caption>
+          <thead><tr><th scope="col">Month</th><th scope="col">Cumulative Cash Flow</th><th scope="col">S&amp;P 500 Equiv.</th></tr></thead>
+          <tbody>
+            {results.chartData.filter((_, i) => i % 12 === 0).map((d, i) => (
+              <tr key={i}><td>{d.month}</td><td>${d.cumulative.toLocaleString("en-US", { maximumFractionDigits: 0 })}</td><td>${d.sp500.toLocaleString("en-US", { maximumFractionDigits: 0 })}</td></tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <InContentAd slot="CALC_ROR_MID" />

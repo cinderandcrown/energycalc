@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('GitLab projects error:', res.status, err);
-        return Response.json({ error: `API error: ${res.status}` }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
       const projects = await res.json();
       console.log(`Found ${projects.length} projects`);
@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const err = await res.text();
         console.error('GitLab issues error:', res.status, err);
-        return Response.json({ error: `API error: ${res.status}` }, { status: res.status });
+        return Response.json({ error: "API request failed" }, { status: res.status });
       }
       const issues = await res.json();
       console.log(`Found ${issues.length} open bug issues`);
@@ -64,6 +64,6 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Unknown action' }, { status: 400 });
   } catch (error) {
     console.error('fetchGitlabIssues error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

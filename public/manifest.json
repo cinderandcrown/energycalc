@@ -1,0 +1,27 @@
+{
+  "name": "Commodity Investor+",
+  "short_name": "CI+",
+  "description": "Professional commodity investment calculators, AI-powered deal analysis, and investor protection tools.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0B2545",
+  "background_color": "#0B2545",
+  "categories": ["finance", "education"],
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://media.base44.com/images/public/69bf62b5c080418b742197f7/718e5ab07_EnergyCalc2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

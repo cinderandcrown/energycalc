@@ -105,7 +105,7 @@ export default function NetInvestment() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help" />
+                    <Info className="w-3.5 h-3.5 text-muted-foreground cursor-help" aria-hidden="true" />
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs text-xs">
                     Your marginal federal income tax rate. This determines how much tax savings you receive from deductions.
@@ -211,6 +211,15 @@ export default function NetInvestment() {
                 />
               </PieChart>
             </ResponsiveContainer>
+            <table className="sr-only" aria-label="Investment breakdown chart data">
+              <caption>Investment Breakdown</caption>
+              <thead><tr><th scope="col">Category</th><th scope="col">Amount</th></tr></thead>
+              <tbody>
+                {pieData.map((d, i) => (
+                  <tr key={i}><td>{d.name}</td><td>${fmt(d.value)}</td></tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

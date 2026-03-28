@@ -26,6 +26,6 @@ Deno.serve(async (req) => {
     return Response.json({ url: portalSession.url });
   } catch (error) {
     console.error("Billing portal error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

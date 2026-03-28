@@ -13,13 +13,16 @@ import LandingOilSplash from "@/components/LandingOilSplash";
 import HeroBackground from "@/components/landing/HeroBackground";
 import HeroContent from "@/components/landing/HeroContent";
 import AdBanner from "@/components/ads/AdBanner";
+import EmailCaptureForm from "@/components/growth/EmailCaptureForm";
+import ExitIntentPopup from "@/components/growth/ExitIntentPopup";
+import useReferral from "@/hooks/useReferral";
 
 
 const PLAN = {
   name: "Commodity Investor+",
   price: "$10",
   period: "/mo",
-  productId: "prod_UC1nAY3emodE1H",
+  productId: import.meta.env.VITE_STRIPE_PRODUCT_ID || "prod_UC1nAY3emodE1H",
   description: "Full access to every commodity calculator, AI-powered analysis tool, and investor protection feature.",
   features: [
     "All 9 investment calculators",
@@ -47,11 +50,11 @@ const FEATURES = [
 
 const CALCS = [
   { icon: Calculator, label: "Net Investment", desc: "After-tax cost with IDC & depletion" },
-  { icon: Droplets, label: "Barrels to Cash", desc: "BOPD → working interest income" },
+  { icon: Droplets, label: "Barrels to Cash", desc: "BOPD → working interest income", free: true, path: "/calc/barrels-to-cash" },
   { icon: Flame, label: "Nat Gas to Cash", desc: "MCF/day → net monthly income" },
   { icon: Percent, label: "Rate of Return", desc: "IRR, payout period & ROI" },
   { icon: TrendingUp, label: "Tax Impact", desc: "5-year cumulative tax model" },
-  { icon: Star, label: "Gold Purity", desc: "Karat, weight & spot valuation" },
+  { icon: Star, label: "Gold Purity", desc: "Karat, weight & spot valuation", free: true, path: "/calc/gold-purity" },
   { icon: Search, label: "120+ Crop Yields", desc: "Ag revenue per acre projections" },
   { icon: Lock, label: "100+ Metals", desc: "Full landed cost-basis analysis" },
   { icon: BarChart3, label: "Livestock", desc: "Cattle, hogs & poultry ROI" },
@@ -60,6 +63,9 @@ const CALCS = [
 export default function Landing() {
   const [checkoutLoading, setCheckoutLoading] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Track referral codes from URL
+  useReferral();
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -187,6 +193,9 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ═══════ EMAIL CAPTURE BANNER ═══════ */}
+      <EmailCaptureForm variant="banner" source="landing" />
+
       {/* ═══════ CALCULATORS ═══════ */}
       <section className="border-b border-border bg-card/40">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14">
@@ -197,20 +206,26 @@ export default function Landing() {
           <div className="grid grid-cols-3 gap-3">
             {CALCS.map((c, i) => {
               const Icon = c.icon;
+              const Wrapper = c.free ? Link : "div";
+              const wrapperProps = c.free ? { to: c.path } : {};
               return (
-                <motion.div
-                  key={c.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.07 }}
-                  className="rounded-2xl border border-border bg-card p-5 text-center hover:border-crude-gold/30 transition-colors"
-                >
-                  <div className="w-11 h-11 rounded-xl bg-primary/10 dark:bg-accent/10 flex items-center justify-center mx-auto mb-3">
-                    <Icon className="w-5 h-5 text-primary dark:text-accent" />
-                  </div>
-                  <p className="font-semibold text-foreground text-sm mb-1">{c.label}</p>
-                  <p className="text-xs text-muted-foreground leading-snug">{c.desc}</p>
-                </motion.div>
+                <Wrapper key={c.label} {...wrapperProps} className="block">
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + i * 0.07 }}
+                    className={`relative rounded-2xl border bg-card p-5 text-center transition-colors ${c.free ? "border-crude-gold/40 hover:border-crude-gold cursor-pointer" : "border-border hover:border-crude-gold/30"}`}
+                  >
+                    {c.free && (
+                      <span className="absolute -top-2 right-3 bg-drill-green text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Try Free</span>
+                    )}
+                    <div className="w-11 h-11 rounded-xl bg-primary/10 dark:bg-accent/10 flex items-center justify-center mx-auto mb-3">
+                      <Icon className="w-5 h-5 text-primary dark:text-accent" aria-hidden="true" />
+                    </div>
+                    <p className="font-semibold text-foreground text-sm mb-1">{c.label}</p>
+                    <p className="text-xs text-muted-foreground leading-snug">{c.desc}</p>
+                  </motion.div>
+                </Wrapper>
               );
             })}
           </div>
@@ -305,18 +320,36 @@ export default function Landing() {
 
       {/* ═══════ CTA ═══════ */}
       <section className="border-t border-border bg-gradient-to-b from-petroleum to-[#071a33]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 text-center">
-          <Star className="w-8 h-8 text-crude-gold mx-auto mb-5" />
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Already a member?</h2>
-          <p className="text-white/55 text-sm mb-7 max-w-md mx-auto">Sign in to access your dashboard, saved calculations, and live market intelligence.</p>
-          <Button
-            size="lg"
-            className="bg-crude-gold text-petroleum font-bold hover:bg-crude-gold/90 gap-2 px-10 h-12"
-            onClick={handleSignIn}
-          >
-            <Lock className="w-4 h-4" />
-            Sign In to Dashboard
-          </Button>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 text-center space-y-8">
+          <div>
+            <Star className="w-8 h-8 text-crude-gold mx-auto mb-5" aria-hidden="true" />
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Protect Your Next Investment</h2>
+            <p className="text-white/55 text-sm mb-7 max-w-md mx-auto">Try our free Gold Purity and Barrels to Cash calculators — no signup required. Or start your 3-day free trial for full access.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link to="/calc/gold-purity">
+                <Button size="lg" className="bg-crude-gold text-petroleum font-bold hover:bg-crude-gold/90 gap-2 px-8 h-12">
+                  Try Free Calculator
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/10 gap-2 px-8 h-12"
+                onClick={handleSignIn}
+              >
+                <Lock className="w-4 h-4" />
+                Sign In
+              </Button>
+            </div>
+          </div>
+
+          {/* Bottom email capture */}
+          <div className="pt-8 border-t border-white/10 space-y-3">
+            <p className="text-sm font-semibold text-white">Not ready yet? Get free market insights.</p>
+            <p className="text-xs text-white/50">Daily commodity briefing. Free forever. Unsubscribe anytime.</p>
+            <EmailCaptureForm variant="inline" source="landing_bottom" />
+          </div>
         </div>
       </section>
 
@@ -345,12 +378,15 @@ export default function Landing() {
       {/* ═══════ TRUST BAR ═══════ */}
       <div className="border-t border-border bg-background py-3 px-4">
         <div className="max-w-5xl mx-auto flex items-center justify-center gap-3">
-          <Shield className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+          <Shield className="w-3.5 h-3.5 text-muted-foreground shrink-0" aria-hidden="true" />
           <p className="text-[10px] text-muted-foreground text-center">
             Payments secured by Stripe · Apple Pay &amp; Google Pay accepted · Cancel anytime
           </p>
         </div>
       </div>
+
+      {/* Exit-intent popup for non-authenticated visitors */}
+      <ExitIntentPopup />
     </div>
   );
 }

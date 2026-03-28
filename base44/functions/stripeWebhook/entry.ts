@@ -110,9 +110,43 @@ Deno.serve(async (req) => {
       }
     }
 
+    if (event.type === "invoice.payment_failed") {
+      const invoice = event.data.object;
+      const customerId = invoice.customer;
+
+      console.log("Invoice payment failed for customer:", customerId);
+
+      const customer = await stripe.customers.retrieve(customerId);
+      const foundUser = await findUser(customer.email, customerId);
+
+      if (foundUser) {
+        await base44.asServiceRole.entities.User.update(foundUser.id, {
+          subscription_status: "past_due",
+        });
+        console.log("User marked as past_due:", foundUser.email);
+      }
+    }
+
+    if (event.type === "invoice.paid") {
+      const invoice = event.data.object;
+      const customerId = invoice.customer;
+
+      console.log("Invoice paid for customer:", customerId);
+
+      const customer = await stripe.customers.retrieve(customerId);
+      const foundUser = await findUser(customer.email, customerId);
+
+      if (foundUser && foundUser.subscription_status !== "active") {
+        await base44.asServiceRole.entities.User.update(foundUser.id, {
+          subscription_status: "active",
+        });
+        console.log("User reactivated to active:", foundUser.email);
+      }
+    }
+
     return Response.json({ received: true });
   } catch (error) {
     console.error("Webhook handler error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });

@@ -11,7 +11,7 @@ Deno.serve(async (req) => {
     const newsContext = recentNews.map(n => `- ${n.headline} (${n.category}, ${n.sentiment})`).join("\n");
 
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are an elite growth marketing strategist for EnergyCalc Pro — the #1 commodity investment analysis platform ($10/mo, 3-day free trial).
+      prompt: `You are an elite growth marketing strategist for Commodity Investor+ — the #1 commodity investment analysis platform ($10/mo, 3-day free trial).
 
 Today is ${dayOfWeek}, ${today}.
 
@@ -132,6 +132,6 @@ RULES:
     });
   } catch (error) {
     console.error("marketingAgent error:", error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 });
