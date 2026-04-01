@@ -11,6 +11,7 @@ import SiteDisclaimer from './SiteDisclaimer';
 import OilPourTransition from './OilPourTransition';
 import TrialBanner from './TrialBanner';
 import DashboardAdSidebar from './ads/DashboardAdSidebar';
+import MobileAnchorAd from './ads/MobileAnchorAd';
 import NavigationHeader from './navigation/NavigationHeader';
 import BottomTabBar from './navigation/BottomTabBar';
 import MobileDrawer from './navigation/MobileDrawer';
@@ -310,7 +311,8 @@ export default function Layout() {
         />
       </div>
 
-
+      {/* Mobile sticky ad — phone only, above bottom tab bar */}
+      <MobileAnchorAd />
     </div>
   );
 }

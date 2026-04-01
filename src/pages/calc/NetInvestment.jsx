@@ -13,6 +13,7 @@ import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import NetInvestmentExplainers from "@/components/calc/NetInvestmentExplainers";
+import UpgradeNudge from "@/components/UpgradeNudge";
 
 const TAX_BRACKETS = [10, 12, 22, 24, 32, 35, 37];
 
@@ -215,6 +216,7 @@ export default function NetInvestment() {
         </div>
       </div>
 
+      <UpgradeNudge />
       <InContentAd slot="CALC_NET_MID" />
       <GeoDueDiligence calcType="net_investment" />
       <AIWellEvaluator />

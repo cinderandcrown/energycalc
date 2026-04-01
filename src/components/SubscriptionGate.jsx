@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 
-const PRODUCT_ID = "prod_UC1nAY3emodE1H";
+const MONTHLY_PRODUCT_ID = "prod_UC1nAY3emodE1H";
+const ANNUAL_PRODUCT_ID = "prod_annual_99";
 
 export default function SubscriptionGate() {
   const { loading, hasAccess, isTrialing, trialDaysLeft, status, user } = useSubscription();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [billingCycle, setBillingCycle] = useState("annual");
 
   if (loading) {
     return (
@@ -27,18 +29,22 @@ export default function SubscriptionGate() {
   }
 
   // Paywall
-  const handleCheckout = async () => {
+  const handleCheckout = async (productId) => {
     if (window.self !== window.top) {
       alert("Checkout is only available from the published app. Please open the live URL to subscribe.");
       return;
     }
     setCheckoutLoading(true);
-    const res = await base44.functions.invoke("stripeCheckout", { productId: PRODUCT_ID });
+    const res = await base44.functions.invoke("stripeCheckout", { productId });
     if (res.data?.url) {
       window.location.href = res.data.url;
     }
     setCheckoutLoading(false);
   };
+
+  const isReturning = status === "canceled" || status === "inactive";
+  const selectedProductId = billingCycle === "annual" ? ANNUAL_PRODUCT_ID : MONTHLY_PRODUCT_ID;
+  const priceLabel = billingCycle === "annual" ? "$99/yr" : "$10/mo";
 
   return (
     <div className="max-w-lg mx-auto px-4 py-16 text-center">
@@ -50,23 +56,42 @@ export default function SubscriptionGate() {
 
         <div>
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            {status === "canceled" || status === "inactive" ? "Your subscription has ended" : "Start Your Free Trial"}
+            {isReturning ? "Your subscription has ended" : "Start Your Free Trial"}
           </h1>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto">
-            {status === "canceled" || status === "inactive"
+            {isReturning
               ? "Resubscribe to regain access to all calculators, AI tools, and market intelligence."
               : "Get full access to every calculator, AI tool, and market feed. Try free for 3 days — cancel anytime before your trial ends."}
           </p>
+        </div>
+
+        {/* Billing toggle */}
+        <div className="flex items-center justify-center gap-2">
+          <button
+            onClick={() => setBillingCycle("monthly")}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${billingCycle === "monthly" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setBillingCycle("annual")}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${billingCycle === "annual" ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            Annual
+            <span className="text-[9px] font-bold bg-drill-green text-white px-1.5 py-0.5 rounded-full">SAVE 17%</span>
+          </button>
         </div>
 
         <div className="rounded-2xl border-2 border-crude-gold/40 bg-card p-6 text-left space-y-3">
           <div className="flex items-center gap-2 mb-4">
             <Zap className="w-5 h-5 text-crude-gold" />
             <span className="font-bold text-foreground">Commodity Investor+</span>
-            <Badge className="bg-crude-gold/10 text-crude-gold border-0 text-xs ml-auto">$10/mo after trial</Badge>
+            <Badge className="bg-crude-gold/10 text-crude-gold border-0 text-xs ml-auto">
+              {billingCycle === "annual" ? "$8.25/mo billed yearly" : "$10/mo after trial"}
+            </Badge>
           </div>
           {[
-            "All 8 investment calculators",
+            "All 9 investment calculators",
             "AI PPM Document Analyzer",
             "AI Operator Screener",
             "Live commodity price feeds",
@@ -82,7 +107,7 @@ export default function SubscriptionGate() {
 
         <div className="space-y-3">
           <Button
-            onClick={handleCheckout}
+            onClick={() => handleCheckout(selectedProductId)}
             disabled={checkoutLoading}
             className="w-full h-12 bg-crude-gold text-petroleum font-bold hover:bg-crude-gold/90 gap-2 text-base"
           >
@@ -91,16 +116,16 @@ export default function SubscriptionGate() {
             ) : (
               <>
                 <Clock className="w-4 h-4" />
-                {status === "canceled" || status === "inactive" ? "Resubscribe — $10/mo" : "Start 3-Day Free Trial"}
+                {isReturning ? `Resubscribe — ${priceLabel}` : "Start 3-Day Free Trial"}
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
           </Button>
 
           <p className="text-xs text-muted-foreground">
-            {status === "canceled" || status === "inactive"
+            {isReturning
               ? "Payments secured by Stripe. Cancel anytime."
-              : "No charge for 3 days. After trial, $10/month. Cancel anytime."}
+              : `No charge for 3 days. After trial, ${priceLabel}. Cancel anytime.`}
           </p>
         </div>
 

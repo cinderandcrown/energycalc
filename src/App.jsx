@@ -101,6 +101,10 @@ const AuthenticatedApp = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/account" element={<MyAccount />} />
 
+        {/* Freemium calculators — accessible to all logged-in users (drives organic traffic + conversions) */}
+        <Route path="/calc/net-investment" element={<NetInvestment />} />
+        <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
+
         {/* Subscription-gated pages */}
         <Route element={<SubscriptionGate />}>
           <Route path="/dashboard" element={<Dashboard />} />
@@ -121,13 +125,11 @@ const AuthenticatedApp = () => {
           <Route path="/bigquery" element={<BigQueryExplorer />} />
           <Route path="/support" element={<Support />} />
 
-          {/* Calculators */}
-          <Route path="/calc/net-investment" element={<NetInvestment />} />
+          {/* Premium Calculators */}
           <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
           <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
           <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
           <Route path="/calc/tax-impact" element={<TaxImpact />} />
-          <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
           <Route path="/calc/ag-yield" element={<AgYieldCalc />} />
           <Route path="/calc/metal-cost" element={<MetalCostBasis />} />
           <Route path="/calc/livestock" element={<LivestockCalc />} />

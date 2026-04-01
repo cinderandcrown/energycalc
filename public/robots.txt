@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Allow: /blog
+Allow: /blog/*
+Allow: /legal
+Allow: /calc/net-investment
+Allow: /calc/gold-purity
+
+# Disallow authenticated-only areas from crawling
+Disallow: /dashboard
+Disallow: /markets
+Disallow: /intelligence
+Disallow: /portfolio
+Disallow: /investor-protection
+Disallow: /operator-screener
+Disallow: /settings
+Disallow: /account
+Disallow: /admin
+Disallow: /bigquery
+Disallow: /scenarios
+
+Sitemap: https://commodityinvestor.app/sitemap.xml

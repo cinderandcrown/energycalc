@@ -15,24 +15,46 @@ import HeroContent from "@/components/landing/HeroContent";
 import AdBanner from "@/components/ads/AdBanner";
 
 
-const PLAN = {
-  name: "Commodity Investor+",
-  price: "$10",
-  period: "/mo",
-  productId: "prod_UC1nAY3emodE1H",
-  description: "Full access to every commodity calculator, AI-powered analysis tool, and investor protection feature.",
-  features: [
-    "All 9 investment calculators",
-    "Unlimited saved calculations",
-    "AI PPM Document Analyzer",
-    "AI Operator Screener",
-    "Live commodity price feed",
-    "Investor Protection Center",
-    "Scenario comparison tools",
-    "Geological due diligence guides",
-    "Glossary & FAQ library",
-  ],
-};
+const PLANS = [
+  {
+    name: "Monthly",
+    price: "$10",
+    period: "/mo",
+    productId: "prod_UC1nAY3emodE1H",
+    description: "Full access to every calculator, AI tool, and investor protection feature.",
+    badge: null,
+    features: [
+      "All 9 investment calculators",
+      "Unlimited saved calculations",
+      "AI PPM Document Analyzer",
+      "AI Operator Screener",
+      "Live commodity price feed",
+      "Investor Protection Center",
+      "Scenario comparison tools",
+      "Geological due diligence guides",
+      "Glossary & FAQ library",
+    ],
+  },
+  {
+    name: "Annual",
+    price: "$99",
+    period: "/yr",
+    productId: "prod_annual_99",
+    description: "Everything in Monthly — billed once per year. Save $21.",
+    badge: "SAVE 17%",
+    features: [
+      "All 9 investment calculators",
+      "Unlimited saved calculations",
+      "AI PPM Document Analyzer",
+      "AI Operator Screener",
+      "Live commodity price feed",
+      "Investor Protection Center",
+      "Scenario comparison tools",
+      "Geological due diligence guides",
+      "Glossary & FAQ library",
+    ],
+  },
+];
 
 
 
@@ -60,6 +82,7 @@ const CALCS = [
 export default function Landing() {
   const [checkoutLoading, setCheckoutLoading] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [billingCycle, setBillingCycle] = useState("annual"); // default to annual
 
   useEffect(() => {
     document.documentElement.classList.add('dark');
@@ -257,47 +280,78 @@ export default function Landing() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Simple, Transparent Pricing</h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto">One plan. Full access. Cancel anytime. Payments processed securely via Stripe.</p>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto">Full access. Cancel anytime. Payments processed securely via Stripe.</p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="relative rounded-2xl border-2 border-crude-gold/50 bg-card shadow-lg shadow-crude-gold/5 ring-1 ring-crude-gold/20 p-8 max-w-md mx-auto"
-          >
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="bg-crude-gold text-petroleum text-[11px] font-bold px-4 py-1 rounded-full whitespace-nowrap">Full Access</span>
-            </div>
-
-            <div className="text-center mb-6">
-              <h3 className="font-bold text-foreground text-xl">{PLAN.name}</h3>
-              <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">{PLAN.description}</p>
-            </div>
-
-            <div className="flex items-baseline justify-center gap-1 mb-6">
-              <span className="font-mono font-bold text-5xl text-foreground">{PLAN.price}</span>
-              <span className="text-muted-foreground text-lg">{PLAN.period}</span>
-            </div>
-
-            <ul className="space-y-2.5 mb-8">
-              {PLAN.features.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-foreground">
-                  <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0 mt-0.5" />
-                  <span className="leading-snug">{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Button
-              onClick={() => handleCheckout(PLAN.productId)}
-              disabled={!!checkoutLoading}
-              className="w-full gap-2 font-semibold h-12 text-base bg-crude-gold text-petroleum hover:bg-crude-gold/90"
+          {/* Billing toggle */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <button
+              onClick={() => setBillingCycle("monthly")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${billingCycle === "monthly" ? "bg-foreground text-background shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
             >
-              {checkoutLoading === PLAN.productId ? "Redirecting to Checkout..." : "Start 3-Day Free Trial — Then $10/mo"}
-              {checkoutLoading !== PLAN.productId && <ArrowRight className="w-4 h-4" />}
-            </Button>
-            <p className="text-[11px] text-muted-foreground mt-2 text-center">No charge for 3 days. Cancel anytime before trial ends.</p>
-          </motion.div>
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle("annual")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${billingCycle === "annual" ? "bg-foreground text-background shadow-sm" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              Annual
+              <span className="text-[10px] font-bold bg-drill-green text-white px-2 py-0.5 rounded-full">SAVE 17%</span>
+            </button>
+          </div>
+
+          {(() => {
+            const plan = billingCycle === "annual" ? PLANS[1] : PLANS[0];
+            return (
+              <motion.div
+                key={billingCycle}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="relative rounded-2xl border-2 border-crude-gold/50 bg-card shadow-lg shadow-crude-gold/5 ring-1 ring-crude-gold/20 p-8 max-w-md mx-auto"
+              >
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="bg-crude-gold text-petroleum text-[11px] font-bold px-4 py-1 rounded-full whitespace-nowrap">
+                    {billingCycle === "annual" ? "Best Value" : "Full Access"}
+                  </span>
+                </div>
+
+                <div className="text-center mb-6">
+                  <h3 className="font-bold text-foreground text-xl">Commodity Investor+</h3>
+                  <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">{plan.description}</p>
+                </div>
+
+                <div className="flex items-baseline justify-center gap-1 mb-2">
+                  <span className="font-mono font-bold text-5xl text-foreground">{plan.price}</span>
+                  <span className="text-muted-foreground text-lg">{plan.period}</span>
+                </div>
+                {billingCycle === "annual" && (
+                  <p className="text-center text-xs text-drill-green font-semibold mb-4">$8.25/mo — save $21 vs monthly</p>
+                )}
+                {billingCycle === "monthly" && <div className="mb-4" />}
+
+                <ul className="space-y-2.5 mb-8">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm text-foreground">
+                      <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0 mt-0.5" />
+                      <span className="leading-snug">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  onClick={() => handleCheckout(plan.productId)}
+                  disabled={!!checkoutLoading}
+                  className="w-full gap-2 font-semibold h-12 text-base bg-crude-gold text-petroleum hover:bg-crude-gold/90"
+                >
+                  {checkoutLoading === plan.productId
+                    ? "Redirecting to Checkout..."
+                    : `Start 3-Day Free Trial — Then ${plan.price}${plan.period}`}
+                  {checkoutLoading !== plan.productId && <ArrowRight className="w-4 h-4" />}
+                </Button>
+                <p className="text-[11px] text-muted-foreground mt-2 text-center">No charge for 3 days. Cancel anytime before trial ends.</p>
+              </motion.div>
+            );
+          })()}
         </div>
       </section>
 
