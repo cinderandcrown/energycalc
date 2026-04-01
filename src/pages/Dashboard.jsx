@@ -14,6 +14,7 @@ import PullToRefresh from "@/components/mobile/PullToRefresh";
 import AdBanner from "@/components/ads/AdBanner";
 import InContentAd from "@/components/ads/InContentAd";
 import PriceAlertWidget from "@/components/alerts/PriceAlertWidget";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const calcCards = [
   {
@@ -186,6 +187,7 @@ const whyEnergy = [
 ];
 
 export default function Dashboard() {
+  usePageTitle("Dashboard");
   const [user, setUser] = useState(null);
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -316,6 +318,7 @@ export default function Dashboard() {
           <button
             onClick={fetchPrices}
             disabled={pricesRefreshing}
+            aria-label="Refresh commodity prices"
             className="ml-auto p-2 rounded-lg hover:bg-muted transition-colors min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 sm:p-1 flex items-center justify-center"
           >
             <RefreshCw className={`w-4 h-4 sm:w-3 sm:h-3 text-muted-foreground ${pricesRefreshing ? "animate-spin" : ""}`} />
@@ -521,6 +524,7 @@ export default function Dashboard() {
                     size="icon"
                     className="w-9 h-9 sm:w-7 sm:h-7 shrink-0"
                     onClick={() => toggleFavorite(calc)}
+                    aria-label={calc.is_favorite ? "Remove from favorites" : "Add to favorites"}
                   >
                     <Star className={`w-4 h-4 sm:w-3.5 sm:h-3.5 ${calc.is_favorite ? "text-crude-gold fill-crude-gold" : "text-muted-foreground"}`} />
                   </Button>

@@ -10,6 +10,7 @@ import useCommodityPrices from "@/hooks/useCommodityPrices";
 import MetalSelector from "@/components/calc/MetalSelector";
 import { METAL_DATABASE } from "@/lib/metalData";
 import { Badge } from "@/components/ui/badge";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const DEFAULTS = {
   metalIndex: 0,
@@ -24,6 +25,7 @@ const DEFAULTS = {
 };
 
 export default function MetalCostBasis() {
+  usePageTitle("Metal Cost Basis Calculator — Industrial Metals");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
   const { commodities, loading: priceLoading, refresh } = useCommodityPrices("industrial_metals");

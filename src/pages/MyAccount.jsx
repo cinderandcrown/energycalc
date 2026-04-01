@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import useSubscription from "@/hooks/useSubscription";
 import DocumentVault from "@/components/vault/DocumentVault";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const typeLabels = {
   net_investment: "Net Investment",
@@ -23,6 +24,7 @@ const typeLabels = {
 };
 
 export default function MyAccount() {
+  usePageTitle("My Account");
   const { user, isTrialing, isActive, trialDaysLeft, trialEndsAt, status } = useSubscription();
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);

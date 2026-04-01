@@ -8,8 +8,10 @@ import TokenizedAssetsGuide from "../components/web3/TokenizedAssetsGuide";
 import BlockchainUseCases from "../components/web3/BlockchainUseCases";
 import Web3Glossary from "../components/web3/Web3Glossary";
 import Web3Risks from "../components/web3/Web3Risks";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function Web3Energy() {
+  usePageTitle("Web3 & Blockchain in Energy");
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       {/* Hero */}

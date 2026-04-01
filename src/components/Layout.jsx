@@ -69,6 +69,8 @@ function MoreDropdown({ isMoreActive, location, isAdmin }) {
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-label="More navigation options"
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isMoreActive ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
         <Menu className="w-4 h-4" /> More
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -109,6 +111,8 @@ function CalcDropdown({ isCalcActive }) {
   return (
     <div ref={ref} className="relative">
       <button onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-label="Calculators menu"
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isCalcActive ? 'bg-primary text-primary-foreground dark:bg-accent dark:text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}>
         <Calculator className="w-4 h-4" /> Calculators
         <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />

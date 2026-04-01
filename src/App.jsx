@@ -7,6 +7,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import CookieConsent from '@/components/CookieConsent';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Lazy-loaded page imports
 const Landing = lazy(() => import('@/pages/Landing'));
@@ -87,6 +88,7 @@ const AuthenticatedApp = () => {
 
   // Render the main app
   return (
+    <ErrorBoundary>
     <Suspense fallback={PageSpinner}>
     <Routes>
       {/* Public pages */}
@@ -153,6 +155,7 @@ const AuthenticatedApp = () => {
       <Route path="*" element={<PageNotFound />} />
     </Routes>
     </Suspense>
+    </ErrorBoundary>
   );
 };
 

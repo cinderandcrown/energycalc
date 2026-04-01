@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { Send, Loader2, MessageCircle, RotateCcw } from "lucide-react";
 import SupportMessageBubble from "@/components/support/SupportMessageBubble";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const AGENT_NAME = "customer_service";
 const GREETING = "Welcome to Commodity Investor+ Support! How can I help you today?";
 const STORAGE_KEY = "ci_support_convo_v2";
 
 export default function Support() {
+  usePageTitle("Support");
   const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");

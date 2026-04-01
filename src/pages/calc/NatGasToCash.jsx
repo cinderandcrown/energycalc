@@ -11,6 +11,7 @@ import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import NatGasToCashExplainers from "@/components/calc/NatGasToCashExplainers";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const DEFAULTS = {
   workingInterest: 0.01,
@@ -29,6 +30,7 @@ const DEFAULTS = {
 const fmt = (v) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default function NatGasToCash() {
+  usePageTitle("Natural Gas to Cash Calculator");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
 

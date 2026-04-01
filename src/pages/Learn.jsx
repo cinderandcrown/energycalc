@@ -3,6 +3,7 @@ import { ChevronDown, BookOpen, HelpCircle, ExternalLink, Search, GraduationCap,
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import usePageTitle from "@/hooks/usePageTitle";
 
 // ─── GLOSSARY ────────────────────────────────────────────────────────────────
 const GLOSSARY_CATEGORIES = [
@@ -286,6 +287,7 @@ function FAQItem({ q, a }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function Learn() {
+  usePageTitle("Learn — Commodity Investment Fundamentals");
   const [activeTab, setActiveTab] = useState("glossary");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeGlossaryCat, setActiveGlossaryCat] = useState("all");

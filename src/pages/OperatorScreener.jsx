@@ -13,8 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import TrustScoreGauge from "@/components/screener/TrustScoreGauge";
 import OperatorProjectHistory from "@/components/screener/OperatorProjectHistory";
 import RegulatoryLinks from "@/components/screener/RegulatoryLinks";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function OperatorScreener() {
+  usePageTitle("AI Operator Background Screener");
   const [operatorName, setOperatorName] = useState("");
   const [state, setState] = useState("");
   const [result, setResult] = useState(null);

@@ -12,8 +12,10 @@ import TaxSavingsBreakdown from "../components/portfolio/TaxSavingsBreakdown";
 import CashFlowChart from "../components/portfolio/CashFlowChart";
 import PayoutTracker from "../components/portfolio/PayoutTracker";
 import ProjectBreakdownTable from "../components/portfolio/ProjectBreakdownTable";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function Portfolio() {
+  usePageTitle("Portfolio Tracker");
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
 

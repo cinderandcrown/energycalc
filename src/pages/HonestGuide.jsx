@@ -7,8 +7,10 @@ import HonestProsAndCons from "../components/advisor/HonestProsAndCons";
 import WhoMakesMoney from "../components/advisor/WhoMakesMoney";
 import WhenToWalkAway from "../components/advisor/WhenToWalkAway";
 import DisclaimerFooter from "../components/DisclaimerFooter";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function HonestGuide() {
+  usePageTitle("Honest Guide to Commodity Investing");
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
 

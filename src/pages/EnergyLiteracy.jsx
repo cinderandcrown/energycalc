@@ -4,8 +4,10 @@ import SupplyDemandSimulator from "@/components/literacy/SupplyDemandSimulator";
 import GuidedLessons from "@/components/literacy/GuidedLessons";
 import ConceptCards from "@/components/literacy/ConceptCards";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function EnergyLiteracy() {
+  usePageTitle("Energy Literacy");
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
       {/* Header */}

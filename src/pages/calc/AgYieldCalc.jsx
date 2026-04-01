@@ -10,6 +10,7 @@ import useCommodityPrices from "@/hooks/useCommodityPrices";
 import CropSelector from "@/components/calc/CropSelector";
 import { CROP_DATABASE } from "@/lib/cropData";
 import { Badge } from "@/components/ui/badge";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const DEFAULTS = {
   cropIndex: 0,
@@ -23,6 +24,7 @@ const DEFAULTS = {
 };
 
 export default function AgYieldCalc() {
+  usePageTitle("Agricultural Yield Calculator — Crop Revenue");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
   const { commodities, loading: priceLoading, refresh } = useCommodityPrices("agriculture");

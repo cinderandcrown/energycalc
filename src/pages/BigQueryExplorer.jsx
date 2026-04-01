@@ -8,8 +8,10 @@ import QueryRunner from "@/components/bigquery/QueryRunner";
 import ResultsTable from "@/components/bigquery/ResultsTable";
 import TrendChart from "@/components/bigquery/TrendChart";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function BigQueryExplorer() {
+  usePageTitle("BigQuery Explorer");
   const [selectedTable, setSelectedTable] = useState(null);
   const [queryResults, setQueryResults] = useState(null);
 

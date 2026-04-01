@@ -6,6 +6,7 @@ import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import LivePriceBar from "@/components/calc/LivePriceBar";
 import UpgradeNudge from "@/components/UpgradeNudge";
+import usePageTitle from "@/hooks/usePageTitle";
 import useCommodityPrices from "@/hooks/useCommodityPrices";
 import { motion } from "framer-motion";
 
@@ -24,6 +25,7 @@ const DEFAULTS = {
 };
 
 export default function GoldPurityCalc() {
+  usePageTitle("Gold Purity Calculator — Karat & Spot Value");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
   const { commodities, loading: priceLoading, refresh } = useCommodityPrices("precious_metals");

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogNav from "@/components/blog/BlogNav";
 import AdBanner from "@/components/ads/AdBanner";
+import usePageTitle from "@/hooks/usePageTitle";
 
 
 const CATEGORIES = [
@@ -23,6 +24,7 @@ const CATEGORIES = [
 ];
 
 export default function Blog() {
+  usePageTitle("Blog — Commodity Market Insights");
   const [category, setCategory] = useState("all");
   const [search, setSearch] = useState("");
 

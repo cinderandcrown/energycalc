@@ -6,8 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import ConversionMetricCards from '@/components/analytics/ConversionMetricCards';
 import ConversionChart from '@/components/analytics/ConversionChart';
 import ConversionTable from '@/components/analytics/ConversionTable';
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function AnalyticsDashboard() {
+  usePageTitle("Analytics Dashboard");
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState('');
   const [days, setDays] = useState(28);

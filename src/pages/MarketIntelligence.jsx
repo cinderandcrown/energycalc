@@ -16,6 +16,7 @@ import WeeklyOutlook from "../components/intelligence/WeeklyOutlook";
 import LatestNews from "../components/intelligence/LatestNews";
 import DisclaimerFooter from "../components/DisclaimerFooter";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const ENERGY_SYMBOLS = ["WTI", "BRENT", "NG", "HO"];
 
@@ -27,6 +28,7 @@ const defaultPrices = [
 ];
 
 export default function MarketIntelligence() {
+  usePageTitle("Market Intelligence");
   const [allCommodities, setAllCommodities] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);

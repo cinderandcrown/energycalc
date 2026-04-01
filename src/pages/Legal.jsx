@@ -3,6 +3,7 @@ import { Shield, Lock, FileText, Scale, Eye, ChevronDown, ChevronUp, ExternalLin
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const LAST_UPDATED = "March 23, 2026";
 const EFFECTIVE_DATE = "March 23, 2026";
@@ -507,6 +508,7 @@ function Section({ section }) {
 }
 
 export default function Legal() {
+  usePageTitle("Legal & Privacy");
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">

@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import PageHeader from "@/components/mobile/PageHeader";
 import CalcActionBar from "@/components/CalcActionBar";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const LIVESTOCK_TYPES = [
   { value: "feeder_cattle", label: "Feeder Cattle", unit: "lb", avgWeight: 750, defaultPrice: 2.55 },
@@ -34,6 +35,7 @@ const defaultInputs = {
 };
 
 export default function LivestockCalc() {
+  usePageTitle("Livestock Profit Calculator");
   const [inputs, setInputs] = useState(defaultInputs);
 
   const set = (key, val) => setInputs(prev => ({ ...prev, [key]: val }));

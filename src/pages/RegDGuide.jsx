@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
+import usePageTitle from "@/hooks/usePageTitle";
 
 import RegDRules from "@/components/regd/RegDRules";
 import FormDExplainer from "@/components/regd/FormDExplainer";
@@ -15,6 +16,7 @@ import RegDRedFlags from "@/components/regd/RegDRedFlags";
 import RegDResources from "@/components/regd/RegDResources";
 
 export default function RegDGuide() {
+  usePageTitle("Regulation D Guide");
   const [openSection, setOpenSection] = useState("rules");
 
   const sections = [

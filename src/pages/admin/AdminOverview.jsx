@@ -5,6 +5,7 @@ import {
   Shield, Search, BarChart3, Newspaper, Users, Megaphone,
   TrendingUp, Eye, FileText, Activity
 } from 'lucide-react';
+import usePageTitle from "@/hooks/usePageTitle";
 
 const quickLinks = [
   { path: '/admin/seo', icon: Search, label: 'SEO Keywords', desc: 'Search Console rankings & opportunities', color: 'from-blue-500 to-purple-600' },
@@ -15,6 +16,7 @@ const quickLinks = [
 ];
 
 export default function AdminOverview() {
+  usePageTitle("Admin Overview");
   const [stats, setStats] = useState({ users: 0, news: 0, marketing: 0 });
   const [loading, setLoading] = useState(true);
 

@@ -9,6 +9,7 @@ import InContentAd from "@/components/ads/InContentAd";
 import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import BarrelsToCashExplainers from "@/components/calc/BarrelsToCashExplainers";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const DEFAULTS = {
   workingInterest: 0.01,
@@ -23,6 +24,7 @@ const DEFAULTS = {
 const fmt = (v) => v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default function BarrelsToCash() {
+  usePageTitle("Barrels to Cash Calculator — Oil Production Revenue");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
 

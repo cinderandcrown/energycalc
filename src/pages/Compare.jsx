@@ -8,8 +8,10 @@ import ScenarioSelector from "../components/compare/ScenarioSelector";
 import ComparisonTable from "../components/compare/ComparisonTable";
 import ComparisonChart from "../components/compare/ComparisonChart";
 import AIInsights from "../components/compare/AIInsights";
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function Compare() {
+  usePageTitle("Compare Investments");
   const [calculations, setCalculations] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [loading, setLoading] = useState(true);

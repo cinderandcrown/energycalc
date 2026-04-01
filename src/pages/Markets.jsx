@@ -9,6 +9,7 @@ import CommodityModal from "@/components/markets/CommodityModal";
 import PageHeader from "@/components/mobile/PageHeader";
 import PullToRefresh from "@/components/mobile/PullToRefresh";
 import MobileSelect from "@/components/mobile/MobileSelect";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const CATEGORIES = [
   { key: "all", label: "All" },
@@ -21,6 +22,7 @@ const CATEGORIES = [
 ];
 
 export default function Markets() {
+  usePageTitle("Live Commodity Prices");
   const [commodities, setCommodities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fetchedAt, setFetchedAt] = useState(null);

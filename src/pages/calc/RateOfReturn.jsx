@@ -11,6 +11,7 @@ import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import RateOfReturnExplainers from "@/components/calc/RateOfReturnExplainers";
 import { motion } from "framer-motion";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const DEFAULTS = {
   netInvestment: 250000,
@@ -40,6 +41,7 @@ function calculateIRR(cashFlows, guess = 0.01) {
 }
 
 export default function RateOfReturn() {
+  usePageTitle("Rate of Return Calculator — IRR & Payout Analysis");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
 

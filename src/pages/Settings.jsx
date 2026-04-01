@@ -11,10 +11,12 @@ import { Link } from "react-router-dom";
 import PageHeader from "@/components/mobile/PageHeader";
 import AccountDeletion from "@/components/mobile/AccountDeletion";
 import PriceAlertManager from "@/components/alerts/PriceAlertManager";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const PRODUCT_ID = "prod_UC1nAY3emodE1H";
 
 export default function Settings() {
+  usePageTitle("Settings");
   const [user, setUser] = useState(null);
   const [darkMode, setDarkMode] = useState(true);
   const [fullName, setFullName] = useState("");

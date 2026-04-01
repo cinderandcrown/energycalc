@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
 import DealAnalysis from "../components/scenarios/DealAnalysis";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const typeLabels = {
   net_investment: "Net Investment",
@@ -54,6 +55,7 @@ const getHeroValue = (calc) => {
 };
 
 export default function Scenarios() {
+  usePageTitle("Saved Scenarios");
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [analyzingId, setAnalyzingId] = useState(null);

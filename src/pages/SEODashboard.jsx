@@ -11,8 +11,10 @@ import SEOOpportunities from '@/components/seo/SEOOpportunities';
 import PageHeader from '@/components/mobile/PageHeader';
 import PullToRefresh from '@/components/mobile/PullToRefresh';
 import MobileSelect from '@/components/mobile/MobileSelect';
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function SEODashboard() {
+  usePageTitle("SEO Dashboard");
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState('');
   const [days, setDays] = useState(28);

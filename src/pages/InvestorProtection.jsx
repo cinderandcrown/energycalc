@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import FraudPatternsTab from "../components/investor/FraudPatternsTab";
 import PPMUploadAnalyzer from "../components/investor/PPMUploadAnalyzer";
 import AdBanner from "@/components/ads/AdBanner";
+import usePageTitle from "@/hooks/usePageTitle";
 
 // ─── PPM Red Flag Checklist ───────────────────────────────────────────────
 const ppmRedFlags = [
@@ -486,6 +487,7 @@ const TABS = [
 ];
 
 export default function InvestorProtection() {
+  usePageTitle("Investor Protection Center");
   const [checkedItems, setCheckedItems] = useState({});
   const [activeTab, setActiveTab] = useState("upload");
 

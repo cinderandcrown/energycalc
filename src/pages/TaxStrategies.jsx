@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import usePageTitle from "@/hooks/usePageTitle";
 
 import TrustStrategies from "../components/tax/TrustStrategies";
 import LLCStrategies from "../components/tax/LLCStrategies";
@@ -22,6 +23,7 @@ const tabs = [
 ];
 
 export default function TaxStrategies() {
+  usePageTitle("Tax Strategies for Commodity Investors");
   const [activeTab, setActiveTab] = useState("energy");
 
   return (

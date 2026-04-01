@@ -14,6 +14,7 @@ import GeoDueDiligence from "@/components/calc/GeoDueDiligence";
 import AIWellEvaluator from "@/components/calc/AIWellEvaluator";
 import NetInvestmentExplainers from "@/components/calc/NetInvestmentExplainers";
 import UpgradeNudge from "@/components/UpgradeNudge";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const TAX_BRACKETS = [10, 12, 22, 24, 32, 35, 37];
 
@@ -27,6 +28,7 @@ const DEFAULTS = {
 const fmt = (v) => v.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
 export default function NetInvestment() {
+  usePageTitle("Net Investment Calculator — Oil & Gas Tax Deduction Model");
   const [inputs, setInputs] = useState(DEFAULTS);
   const [saveOpen, setSaveOpen] = useState(false);
 

@@ -11,6 +11,7 @@ import SaveCalcModal from "../../components/SaveCalcModal";
 import CalcActionBar from "../../components/CalcActionBar";
 import DisclaimerFooter from "../../components/DisclaimerFooter";
 import InContentAd from "@/components/ads/InContentAd";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const BRACKET_COLORS = ["bg-crude-gold", "bg-drill-green", "bg-blue-500", "bg-purple-500"];
 const BRACKET_RING = ["ring-crude-gold", "ring-drill-green", "ring-blue-500", "ring-purple-500"];
@@ -27,6 +28,7 @@ function fmt(v) {
 }
 
 export default function TaxImpact() {
+  usePageTitle("Tax Impact Calculator — 5-Year Model");
   const [params, setParams] = useState({ ...DEFAULTS });
   const [activeBrackets, setActiveBrackets] = useState([1, 3]); // 32% and 37% active by default
   const [selectedTable, setSelectedTable] = useState(1); // which bracket to show in table

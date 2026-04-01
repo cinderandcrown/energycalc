@@ -4,6 +4,7 @@ import { Megaphone, Plus, Loader2, Copy, Trash2, CheckCircle2 } from 'lucide-rea
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import usePageTitle from "@/hooks/usePageTitle";
 
 const statusColors = {
   draft: 'bg-muted text-muted-foreground',
@@ -13,6 +14,7 @@ const statusColors = {
 };
 
 export default function AdminMarketing() {
+  usePageTitle("Admin — Marketing");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();

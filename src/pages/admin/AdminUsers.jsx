@@ -3,8 +3,10 @@ import { base44 } from '@/api/base44Client';
 import { Users, Mail, Shield, Clock, Search, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import usePageTitle from "@/hooks/usePageTitle";
 
 export default function AdminUsers() {
+  usePageTitle("Admin — User Management");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
