@@ -5,6 +5,7 @@ import CalcActionBar from "@/components/CalcActionBar";
 import SaveCalcModal from "@/components/SaveCalcModal";
 import DisclaimerFooter from "@/components/DisclaimerFooter";
 import LivePriceBar from "@/components/calc/LivePriceBar";
+import UpgradeNudge from "@/components/UpgradeNudge";
 import useCommodityPrices from "@/hooks/useCommodityPrices";
 import { motion } from "framer-motion";
 
@@ -144,6 +145,7 @@ export default function GoldPurityCalc() {
         </div>
       </div>
 
+      <UpgradeNudge />
       <DisclaimerFooter />
       <SaveCalcModal open={saveOpen} onClose={() => setSaveOpen(false)} calcType="gold_purity" inputs={inputs} results={results} />
     </div>
