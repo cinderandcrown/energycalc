@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import useSubscription from "@/hooks/useSubscription";
 import { base44 } from "@/api/base44Client";
-import { Shield, Zap, Clock, CheckCircle2, ArrowRight, Loader2, Lock } from "lucide-react";
+import { Shield, Zap, Clock, CheckCircle2, ArrowRight, Loader2, Lock, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ const MONTHLY_PRODUCT_ID = "prod_UC1nAY3emodE1H";
 const ANNUAL_PRODUCT_ID = "prod_annual_99";
 
 export default function SubscriptionGate() {
-  const { loading, hasAccess, isTrialing, trialDaysLeft, status, user } = useSubscription();
+  const { loading, hasAccess, isTrialing, trialDaysLeft, trialExpired, status, user } = useSubscription();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [billingCycle, setBillingCycle] = useState("annual");
 
@@ -46,23 +46,40 @@ export default function SubscriptionGate() {
   const selectedProductId = billingCycle === "annual" ? ANNUAL_PRODUCT_ID : MONTHLY_PRODUCT_ID;
   const priceLabel = billingCycle === "annual" ? "$99/yr" : "$10/mo";
 
+  // Determine headline & copy based on state
+  let headline, subtitle, ctaLabel, subtext;
+  if (trialExpired) {
+    headline = "Your Free Trial Has Ended";
+    subtitle = "You had full access for 3 days. Subscribe now to keep using all 9 calculators, AI tools, and live market intelligence.";
+    ctaLabel = `Subscribe Now — ${priceLabel}`;
+    subtext = `Instant access. ${priceLabel}. Cancel anytime.`;
+  } else if (isReturning) {
+    headline = "Your Subscription Has Ended";
+    subtitle = "Resubscribe to regain access to all calculators, AI tools, and market intelligence.";
+    ctaLabel = `Resubscribe — ${priceLabel}`;
+    subtext = "Payments secured by Stripe. Cancel anytime.";
+  } else {
+    headline = "Subscribe to Get Started";
+    subtitle = "Get full access to every calculator, AI tool, and market feed. Trusted by serious commodity investors.";
+    ctaLabel = `Subscribe — ${priceLabel}`;
+    subtext = `${priceLabel}. Cancel anytime. Payments secured by Stripe.`;
+  }
+
   return (
     <div className="max-w-lg mx-auto px-4 py-16 text-center">
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
 
         <div className="w-16 h-16 rounded-2xl bg-crude-gold/10 flex items-center justify-center mx-auto">
-          <Lock className="w-8 h-8 text-crude-gold" />
+          {trialExpired ? (
+            <AlertTriangle className="w-8 h-8 text-flare-red" />
+          ) : (
+            <Lock className="w-8 h-8 text-crude-gold" />
+          )}
         </div>
 
         <div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">
-            {isReturning ? "Your subscription has ended" : "Start Your Free Trial"}
-          </h1>
-          <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto">
-            {isReturning
-              ? "Resubscribe to regain access to all calculators, AI tools, and market intelligence."
-              : "Get full access to every calculator, AI tool, and market feed. Try free for 3 days — cancel anytime before your trial ends."}
-          </p>
+          <h1 className="text-2xl font-bold text-foreground mb-2">{headline}</h1>
+          <p className="text-muted-foreground text-sm leading-relaxed max-w-sm mx-auto">{subtitle}</p>
         </div>
 
         {/* Billing toggle */}
@@ -87,7 +104,7 @@ export default function SubscriptionGate() {
             <Zap className="w-5 h-5 text-crude-gold" />
             <span className="font-bold text-foreground">Commodity Investor+</span>
             <Badge className="bg-crude-gold/10 text-crude-gold border-0 text-xs ml-auto">
-              {billingCycle === "annual" ? "$8.25/mo billed yearly" : "$10/mo after trial"}
+              {billingCycle === "annual" ? "$8.25/mo billed yearly" : "$10/mo"}
             </Badge>
           </div>
           {[
@@ -95,6 +112,7 @@ export default function SubscriptionGate() {
             "AI PPM Document Analyzer",
             "AI Operator Screener",
             "Live commodity price feeds",
+            "Investor fraud protection library",
             "Scenario comparison & portfolio tools",
             "Unlimited saved calculations",
           ].map(f => (
@@ -115,23 +133,18 @@ export default function SubscriptionGate() {
               <><Loader2 className="w-4 h-4 animate-spin" /> Redirecting...</>
             ) : (
               <>
-                <Clock className="w-4 h-4" />
-                {isReturning ? `Resubscribe — ${priceLabel}` : "Start 3-Day Free Trial"}
+                {ctaLabel}
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
           </Button>
 
-          <p className="text-xs text-muted-foreground">
-            {isReturning
-              ? "Payments secured by Stripe. Cancel anytime."
-              : `No charge for 3 days. After trial, ${priceLabel}. Cancel anytime.`}
-          </p>
+          <p className="text-xs text-muted-foreground">{subtext}</p>
         </div>
 
         <div className="flex items-center gap-2 justify-center pt-2">
           <Shield className="w-3.5 h-3.5 text-muted-foreground" />
-          <p className="text-[10px] text-muted-foreground">Payments secured by Stripe · Cancel before trial ends to avoid charges</p>
+          <p className="text-[10px] text-muted-foreground">Payments secured by Stripe · Apple Pay & Google Pay accepted</p>
         </div>
       </motion.div>
     </div>

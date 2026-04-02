@@ -194,9 +194,9 @@ export default function Landing() {
               <ShieldAlert className="w-6 h-6 text-flare-red" />
             </div>
             <div>
-              <h2 className="font-bold text-foreground text-lg mb-2">Our Mission: Protect Commodity Investors</h2>
+              <h2 className="font-bold text-foreground text-lg mb-2">Built to Protect Real Investors — Not to Take Their Money</h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                The FBI estimates <strong className="text-foreground">billions</strong> are lost annually to commodity investment fraud — across oil & gas, precious metals, agriculture, and more. From promissory note schemes to cost-stuffing operators, predatory promoters hide behind complex documents. <strong className="text-foreground">We built Commodity Investor+ to arm investors with the tools to fight back across every commodity sector.</strong>
+                The FBI estimates <strong className="text-foreground">billions</strong> are lost annually to commodity investment fraud — across oil & gas, precious metals, agriculture, and more. Predatory promoters and bad-faith operators hide behind complex documents and polished sales pitches. <strong className="text-foreground">Commodity Investor+ was built by Cinder & Crown to arm real investors with transparent, trustworthy tools — not to separate them from their money.</strong>
               </p>
               <div className="flex flex-wrap gap-2">
                 <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">AI Operator Vetting</Badge>
@@ -204,6 +204,7 @@ export default function Landing() {
                 <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">Fraud Pattern Library</Badge>
                 <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">Due Diligence Checklists</Badge>
                 <Badge className="bg-flare-red/10 text-flare-red border-0 text-xs font-semibold">SEC/FINRA Reporting Guide</Badge>
+                <Badge className="bg-drill-green/10 text-drill-green border-0 text-xs font-semibold">3-Day Free Trial — No Credit Card</Badge>
               </div>
             </div>
           </div>
@@ -279,8 +280,55 @@ export default function Landing() {
       <section id="pricing" className="border-y border-border bg-card/30 py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Simple, Transparent Pricing</h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto">Full access. Cancel anytime. Payments processed securely via Stripe.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Try Everything Free for 3 Days</h2>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto">No credit card required. Full access to every tool, every calculator, every feature. After your trial, pick the plan that works for you.</p>
+          </div>
+
+          {/* Free trial CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative rounded-2xl border-2 border-drill-green/50 bg-card shadow-lg shadow-drill-green/5 ring-1 ring-drill-green/20 p-8 max-w-md mx-auto mb-10"
+          >
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="bg-drill-green text-white text-[11px] font-bold px-4 py-1 rounded-full whitespace-nowrap">
+                No Credit Card Required
+              </span>
+            </div>
+            <div className="text-center mb-5">
+              <h3 className="font-bold text-foreground text-xl">3-Day Free Trial</h3>
+              <p className="text-muted-foreground text-sm mt-1.5 leading-relaxed">Sign up and get instant access to everything. No payment info needed.</p>
+            </div>
+            <ul className="space-y-2.5 mb-6">
+              {[
+                "All 9 investment calculators",
+                "AI PPM Document Analyzer",
+                "AI Operator Screener",
+                "Live commodity price feeds",
+                "Investor fraud protection library",
+                "Scenario comparison & portfolio tools",
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2.5 text-sm text-foreground">
+                  <CheckCircle2 className="w-4 h-4 text-drill-green shrink-0 mt-0.5" />
+                  <span className="leading-snug">{f}</span>
+                </li>
+              ))}
+            </ul>
+            <Button
+              onClick={handleSignIn}
+              className="w-full gap-2 font-semibold h-12 text-base bg-crude-gold text-petroleum hover:bg-crude-gold/90"
+            >
+              <Zap className="w-4 h-4" />
+              Sign Up Free — Start Your Trial
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+            <p className="text-[11px] text-muted-foreground mt-2 text-center">No credit card. No commitment. Full access for 3 days.</p>
+          </motion.div>
+
+          {/* After trial pricing */}
+          <div className="text-center mb-8">
+            <h3 className="text-lg font-bold text-foreground mb-2">After Your Trial</h3>
+            <p className="text-muted-foreground text-xs">Pick a plan to keep full access. Cancel anytime.</p>
           </div>
 
           {/* Billing toggle */}
@@ -345,10 +393,10 @@ export default function Landing() {
                 >
                   {checkoutLoading === plan.productId
                     ? "Redirecting to Checkout..."
-                    : `Start 3-Day Free Trial — Then ${plan.price}${plan.period}`}
+                    : `Subscribe — ${plan.price}${plan.period}`}
                   {checkoutLoading !== plan.productId && <ArrowRight className="w-4 h-4" />}
                 </Button>
-                <p className="text-[11px] text-muted-foreground mt-2 text-center">No charge for 3 days. Cancel anytime before trial ends.</p>
+                <p className="text-[11px] text-muted-foreground mt-2 text-center">Payments secured by Stripe. Cancel anytime.</p>
               </motion.div>
             );
           })()}

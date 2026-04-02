@@ -101,10 +101,10 @@ export default function HeroContent({ scrollToPricing, handleSignIn }) {
         <Button
           size="lg"
           className="bg-crude-gold text-petroleum font-bold hover:bg-crude-gold/90 gap-2 px-8 h-13 text-base shadow-lg shadow-crude-gold/20 hover:shadow-crude-gold/30 transition-all"
-          onClick={scrollToPricing}
+          onClick={handleSignIn}
         >
           <Zap className="w-5 h-5" />
-          Start Free Trial
+          Try Free for 3 Days
         </Button>
         <Button
           size="lg"

@@ -60,10 +60,10 @@ Deno.serve(async (req) => {
       sessionParams.customer_email = user.email;
     }
 
-    // Add 3-day free trial for subscriptions
+    // No Stripe trial — trial is handled at signup (3 days free, no credit card).
+    // When user subscribes, they pay immediately.
     if (isSubscription) {
       sessionParams.subscription_data = {
-        trial_period_days: 3,
         metadata: {
           base44_app_id: Deno.env.get("BASE44_APP_ID"),
           user_id: user.id,
@@ -74,7 +74,7 @@ Deno.serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create(sessionParams);
 
-    console.log("Checkout session created:", session.id, "for user:", user.email, "trial: 3 days");
+    console.log("Checkout session created:", session.id, "for user:", user.email);
     return Response.json({ url: session.url });
   } catch (error) {
     console.error("Stripe checkout error:", error.message);

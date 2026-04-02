@@ -101,11 +101,7 @@ const AuthenticatedApp = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/account" element={<MyAccount />} />
 
-        {/* Freemium calculators — accessible to all logged-in users (drives organic traffic + conversions) */}
-        <Route path="/calc/net-investment" element={<NetInvestment />} />
-        <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
-
-        {/* Subscription-gated pages */}
+        {/* All features gated — 3-day free trial then subscribe */}
         <Route element={<SubscriptionGate />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/markets" element={<Markets />} />
@@ -125,7 +121,9 @@ const AuthenticatedApp = () => {
           <Route path="/bigquery" element={<BigQueryExplorer />} />
           <Route path="/support" element={<Support />} />
 
-          {/* Premium Calculators */}
+          {/* All Calculators */}
+          <Route path="/calc/net-investment" element={<NetInvestment />} />
+          <Route path="/calc/gold-purity" element={<GoldPurityCalc />} />
           <Route path="/calc/barrels-to-cash" element={<BarrelsToCash />} />
           <Route path="/calc/natgas-to-cash" element={<NatGasToCash />} />
           <Route path="/calc/rate-of-return" element={<RateOfReturn />} />
